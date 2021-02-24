@@ -32,7 +32,7 @@ namespace AstroGame.Api.Controllers
         {
             var solarSystem = _solarSystemGenerator.Generate(null);
 
-            //await _solarSystemRepository.AddAsync(solarSystem);
+            await _solarSystemRepository.AddAsync(solarSystem);
 
             return Ok(solarSystem);
         }

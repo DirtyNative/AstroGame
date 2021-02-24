@@ -9,7 +9,7 @@ namespace AstroGame.Shared.Models.StellarObjects
         {
         }
 
-        public Star(StellarSystem parent) : base(parent)
+        public Star(SingleObjectSystem parentSystem) : base(parentSystem)
         {
         }
 

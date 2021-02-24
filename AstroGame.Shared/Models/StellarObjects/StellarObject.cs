@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using AstroGame.Shared.Models.StellarSystems;
+﻿using AstroGame.Shared.Models.StellarSystems;
 
 namespace AstroGame.Shared.Models.StellarObjects
 {
@@ -12,11 +11,12 @@ namespace AstroGame.Shared.Models.StellarObjects
         {
         }
 
-        protected StellarObject(StellarSystem parent) : base(parent)
+        protected StellarObject(SingleObjectSystem parentSystem)
         {
+            ParentSystem = parentSystem;
         }
 
-        [JsonIgnore] public virtual SingleObjectSystem Parent { get; set; }
+        public SingleObjectSystem ParentSystem { get; set; }
 
         /// <summary>
         /// The name of Unity's Prefab which can be rendered

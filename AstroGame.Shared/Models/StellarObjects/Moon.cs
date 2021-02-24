@@ -8,7 +8,7 @@ namespace AstroGame.Shared.Models.StellarObjects
         {
         }
 
-        public Moon(StellarSystem parent) : base(parent)
+        public Moon(SingleObjectSystem parentSystem) : base(parentSystem)
         {
         }
 

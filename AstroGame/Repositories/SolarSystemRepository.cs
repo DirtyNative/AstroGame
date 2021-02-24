@@ -16,7 +16,14 @@ namespace AstroGame.Api.Repositories
 
         public async Task<SolarSystem> GetFirstAsync()
         {
-            return await _context.SolarSystems.FirstOrDefaultAsync();
+            var solarSystem = await _context.SolarSystems
+                .Include(e => e.CenterSystems)
+                .ThenInclude(e => e.Satellites)
+                .Include(e => e.Satellites)
+                .ThenInclude(e => e.Satellites)
+                .FirstOrDefaultAsync();
+
+            return solarSystem;
         }
 
         public async Task AddAsync(SolarSystem solarSystem)

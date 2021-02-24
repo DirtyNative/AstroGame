@@ -103,7 +103,7 @@ namespace AstroGame.Shared.Generators.ObjectGenerators
                 PlanetType = planetType,
                 HasAtmosphere = hasAtmosphere,
                 HasRings = hasRings,
-                Parent = parent,
+                ParentSystem = parent,
                 PrefabName = prefabName,
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,

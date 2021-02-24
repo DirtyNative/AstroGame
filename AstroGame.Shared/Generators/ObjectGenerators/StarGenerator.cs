@@ -51,7 +51,7 @@ namespace AstroGame.Shared.Generators.ObjectGenerators
                 (StarType.WhiteStar, 7000, 11000),
             };
 
-        public Star Generate(StellarSystem parent, int position)
+        public Star Generate(SingleObjectSystem parent, int position)
         {
             var type = GenerateType();
             var prefab = SelectPrefab(type);

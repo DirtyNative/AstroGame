@@ -30,7 +30,7 @@ namespace AstroGame.Api.Databases
                 .HasValue<Planet>("Planet")
                 .HasValue<Star>("Star");
 
-            modelBuilder.Entity<StellarObject>().HasOne(e => e.Parent).WithOne(e => e.CenterObject)
+            modelBuilder.Entity<StellarObject>().HasOne(e => e.ParentSystem).WithOne(e => e.CenterObject)
                 .HasForeignKey<SingleObjectSystem>(e => e.ParentId);
 
             // Stellar System

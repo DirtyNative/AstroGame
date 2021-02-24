@@ -25,7 +25,7 @@ namespace AstroGame.Shared.Generators.SystemGenerators
             return system;
         }
 
-        private Moon GenerateCenter(StellarSystem parent, int position)
+        private Moon GenerateCenter(SingleObjectSystem parent, int position)
         {
             return _moonGenerator.Generate(parent, position);
         }

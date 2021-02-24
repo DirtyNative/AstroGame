@@ -182,7 +182,7 @@ namespace AstroGame.Api.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.SingleObjectSystem", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.StellarObjects.StellarObject", "CenterObject")
-                        .WithOne("Parent")
+                        .WithOne("ParentSystem")
                         .HasForeignKey("AstroGame.Shared.Models.StellarSystems.SingleObjectSystem", "ParentId");
 
                     b.Navigation("CenterObject");
@@ -190,7 +190,7 @@ namespace AstroGame.Api.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.StellarObject", b =>
                 {
-                    b.Navigation("Parent");
+                    b.Navigation("ParentSystem");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.StellarSystem", b =>

@@ -14,7 +14,7 @@ namespace AstroGame.Shared.Generators.ObjectGenerators
             ("Prefab_RockPlanet2"),
         };
 
-        public Moon Generate(StellarSystem parent, int position)
+        public Moon Generate(SingleObjectSystem parent, int position)
         {
             var prefab = GeneratePrefab();
             var scale = GenerateScale();

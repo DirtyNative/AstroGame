@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace AstroGame.Shared.Models.StellarSystems
 {
@@ -12,11 +11,12 @@ namespace AstroGame.Shared.Models.StellarSystems
         {
         }
 
-        protected StellarSystem(StellarSystem parent) : base(parent)
+        protected StellarSystem(StellarSystem parent)
         {
+            Parent = parent;
         }
 
-        [JsonIgnore] public virtual StellarSystem Parent { get; set; }
+        public StellarSystem Parent { get; set; }
 
         public override string Name => Parent?.Name;
 
