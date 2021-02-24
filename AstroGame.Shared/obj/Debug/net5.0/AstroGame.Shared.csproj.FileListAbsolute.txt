@@ -1,0 +1,15 @@
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\net5.0\AstroGame.Shared.deps.json
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\net5.0\AstroGame.Shared.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\net5.0\ref\AstroGame.Shared.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\net5.0\AstroGame.Shared.pdb
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\net5.0\AstroGame.Core.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\net5.0\AstroGame.Core.pdb
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.csprojAssemblyReference.cache
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.AssemblyInfoInputs.cache
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.AssemblyInfo.cs
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.csproj.CopyComplete
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\ref\AstroGame.Shared.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\net5.0\AstroGame.Shared.pdb

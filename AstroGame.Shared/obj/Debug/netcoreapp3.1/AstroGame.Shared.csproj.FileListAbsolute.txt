@@ -1,0 +1,9 @@
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\netcoreapp3.1\AstroGame.Shared.deps.json
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\netcoreapp3.1\AstroGame.Shared.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\bin\Debug\netcoreapp3.1\AstroGame.Shared.pdb
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\netcoreapp3.1\AstroGame.Shared.csprojAssemblyReference.cache
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\netcoreapp3.1\AstroGame.Shared.AssemblyInfoInputs.cache
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\netcoreapp3.1\AstroGame.Shared.AssemblyInfo.cs
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\netcoreapp3.1\AstroGame.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\netcoreapp3.1\AstroGame.Shared.dll
+C:\Users\Danie\Documents\Dev\Projects\AstroGame\AstroGame.Shared\obj\Debug\netcoreapp3.1\AstroGame.Shared.pdb

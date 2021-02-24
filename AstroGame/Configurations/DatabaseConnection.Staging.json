@@ -1,0 +1,8 @@
+{
+  "DatabaseConnection": {
+    "DatabaseConnectionString": "server=mssql2012.db4.domainxyz.de,10433;database={0};connection timeout=30;User Id={1};Password={2};MultipleActiveResultSets=True;",
+    "DatabaseName": "Stage.AstroGame",
+    "DatabaseAccount": "Stage_AstroGame",
+    "DatabasePassword": "xgzQzoXgt9RoSw3wovjVJ18jpIBNlTgR"
+  }
+}
