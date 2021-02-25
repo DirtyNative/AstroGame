@@ -4,9 +4,11 @@ using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
 using System.Linq;
+using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
+    [ScopedService]
     public class PlanetGenerator
     {
         private static readonly List<(List<PlanetType> Types, uint MinDistance, uint MaxDistance)> Distances =

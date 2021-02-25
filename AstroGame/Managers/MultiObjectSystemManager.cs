@@ -1,4 +1,5 @@
-﻿using AstroGame.Api.Repositories;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Api.Repositories;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace AstroGame.Api.Managers
 {
+    [ScopedService]
     public class MultiObjectSystemManager : ManagerBase<MultiObjectSystem>
     {
         private readonly MultiObjectSystemRepository _multiObjectSystemRepository;

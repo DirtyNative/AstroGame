@@ -3,9 +3,11 @@ using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Api.Managers
 {
+    [ScopedService]
     public class SingleObjectSystemManager
     {
         private readonly SingleObjectSystemRepository _singleObjectSystemRepository;

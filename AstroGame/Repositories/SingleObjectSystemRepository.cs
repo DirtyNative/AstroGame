@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Api.Repositories
 {
-    public class SingleObjectSystemRepository
+    [ScopedService]
+    public class SingleObjectSystemRepository : IRepository<SingleObjectSystem>
     {
         private readonly AstroGameDataContext _context;
 
@@ -23,6 +25,17 @@ namespace AstroGame.Api.Repositories
                 .Include(e => e.CenterObject)
                 .Include(e => e.Satellites)
                 .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<List<SingleObjectSystem>> GetAsync()
+        {
+            return await _context.SingleObjectSystems.ToListAsync();
+        }
+
+        public async Task DeleteAsync(SingleObjectSystem entity)
+        {
+            _context.SingleObjectSystems.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<SingleObjectSystem>> GetByParentAsync(Guid parentId)

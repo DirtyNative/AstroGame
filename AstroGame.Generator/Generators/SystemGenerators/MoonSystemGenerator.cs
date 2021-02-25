@@ -1,10 +1,12 @@
-﻿using AstroGame.Generator.Generators.ObjectGenerators;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
+    [ScopedService]
     public class MoonSystemGenerator
     {
         private readonly MoonGenerator _moonGenerator;

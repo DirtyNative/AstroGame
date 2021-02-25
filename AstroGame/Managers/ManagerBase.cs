@@ -70,37 +70,90 @@ namespace AstroGame.Api.Managers
             return entity;
         }
 
-        protected virtual async Task<StellarSystem> GetRecursiveAsync(StellarSystem thing)
+        protected virtual async Task<StellarSystem> GetRecursiveAsync(StellarSystem system)
         {
-            if (thing is MultiObjectSystem multiObjectSystem)
+            return system switch
             {
-                return await GetRecursiveAsync(multiObjectSystem);
-            }
-
-            if (thing is SingleObjectSystem singleObjectSystem)
-            {
-                return await GetRecursiveAsync(singleObjectSystem);
-            }
-
-
-            throw new NotImplementedException($"{thing.GetType()} is not implemented");
+                MultiObjectSystem multiObjectSystem => await GetRecursiveAsync(multiObjectSystem),
+                SingleObjectSystem singleObjectSystem => await GetRecursiveAsync(singleObjectSystem),
+                _ => throw new NotImplementedException($"{system.GetType()} is not implemented")
+            };
         }
 
         protected virtual async Task<StellarObject> GetRecursiveAsync(StellarObject stellarObject)
         {
-            if (stellarObject is Star star)
+            return stellarObject switch
             {
-                return await _starRepository.GetAsync(star.Id);
+                Star star => await _starRepository.GetAsync(star.Id),
+                Planet planet => await _planetRepository.GetAsync(planet.Id),
+                Moon moon => await _moonRepository.GetAsync(moon.Id),
+                _ => throw new NotImplementedException($"{stellarObject.GetType()} is not implemented")
+            };
+        }
+
+        protected virtual async Task DeleteRecursiveAsync(MultiObjectSystem multiObjectSystem)
+        {
+            var entity = await _multiObjectSystemRepository.GetAsync(multiObjectSystem.Id);
+
+            // Delete the center objects
+            for (var i = entity.CenterSystems.Count - 1; i >= 0; i--)
+            {
+                await DeleteRecursiveAsync(entity.CenterSystems[i]);
             }
 
-            else if (stellarObject is Planet planet)
+            // Delete the satellites
+            for (var i = entity.Satellites.Count - 1; i >= 0; i--)
             {
-                return await _planetRepository.GetAsync(planet.Id);
+                await DeleteRecursiveAsync(entity.Satellites[i]);
             }
 
-            else if (stellarObject is Moon moon)
+            await _multiObjectSystemRepository.DeleteAsync(entity);
+        }
+
+        protected virtual async Task DeleteRecursiveAsync(SingleObjectSystem singleObjectSystem)
+        {
+            var entity = await _singleObjectSystemRepository.GetAsync(singleObjectSystem.Id);
+
+            // Delete the center
+            await DeleteRecursiveAsync(entity.CenterObject);
+
+            // Delete the satellites
+            for (var i = entity.Satellites.Count - 1; i >= 0; i--)
             {
-                return await _moonRepository.GetAsync(moon.Id);
+                await DeleteRecursiveAsync(entity.Satellites[i]);
+            }
+
+            await _singleObjectSystemRepository.DeleteAsync(entity);
+        }
+
+        protected virtual async Task DeleteRecursiveAsync(StellarSystem system)
+        {
+            switch (system)
+            {
+                case MultiObjectSystem multiObjectSystem:
+                    await DeleteRecursiveAsync(multiObjectSystem);
+                    return;
+                case SingleObjectSystem singleObjectSystem:
+                    await DeleteRecursiveAsync(singleObjectSystem);
+                    return;
+            }
+
+            throw new NotImplementedException($"{system.GetType()} is not implemented");
+        }
+
+        protected virtual async Task DeleteRecursiveAsync(StellarObject stellarObject)
+        {
+            switch (stellarObject)
+            {
+                case Star star:
+                    await _starRepository.DeleteAsync(star);
+                    return;
+                case Planet planet:
+                    await _planetRepository.DeleteAsync(planet);
+                    return;
+                case Moon moon:
+                    await _moonRepository.DeleteAsync(moon);
+                    return;
             }
 
             throw new NotImplementedException($"{stellarObject.GetType()} is not implemented");

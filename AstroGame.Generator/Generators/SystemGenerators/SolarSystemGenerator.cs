@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Core.Helpers;
 using AstroGame.Generator.Generators.NameGenerators;
 using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
+using System.Collections.Generic;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
+    [ScopedService]
     public class SolarSystemGenerator
     {
         private readonly SolarSystemNameGenerator _solarSystemNameGenerator;

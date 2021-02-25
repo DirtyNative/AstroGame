@@ -1,5 +1,4 @@
 ﻿using AstroGame.Api.Managers;
-using AstroGame.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,29 +10,38 @@ namespace AstroGame.Api.Controllers
     [ApiController]
     public class SolarSystemController : Controller
     {
-        // TODO: Remove repository
-        private readonly SolarSystemRepository _solarSystemRepository;
         private readonly SolarSystemManager _solarSystemManager;
 
-        public SolarSystemController(SolarSystemRepository solarSystemRepository, SolarSystemManager solarSystemManager)
+        public SolarSystemController(SolarSystemManager solarSystemManager)
         {
-            _solarSystemRepository = solarSystemRepository;
             _solarSystemManager = solarSystemManager;
         }
 
-        [HttpGet]
+        [HttpGet("recursive/{id}")]
         public async Task<IActionResult> GetRecursiveAsync(Guid id)
         {
-            var entity = await _solarSystemManager.GetRecursiveAsync(id);
-
-            return Ok(entity);
+            var result = await _solarSystemManager.GetRecursiveAsync(id);
+            return Ok(result);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAllAsync()
+        [HttpGet("recursive")]
+        public async Task<IActionResult> GetRecursiveAsync()
         {
-            await _solarSystemRepository.DeleteAllAsync();
+            var result = await _solarSystemManager.GetRecursiveAsync();
+            return Ok(result);
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
+        {
+            var result = await _solarSystemManager.GetAsync();
+            return Ok(result);
+        }
+
+        [HttpDelete("recursive/{id}")]
+        public async Task<IActionResult> DeleteRecursiveAsync(Guid id)
+        {
+            await _solarSystemManager.DeleteRecursiveAsync(id);
             return Ok();
         }
     }

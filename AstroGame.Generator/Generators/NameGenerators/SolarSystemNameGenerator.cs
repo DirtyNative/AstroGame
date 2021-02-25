@@ -1,7 +1,9 @@
-﻿using RandomNameGeneratorLibrary;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using RandomNameGeneratorLibrary;
 
 namespace AstroGame.Generator.Generators.NameGenerators
 {
+    [ScopedService]
     public class SolarSystemNameGenerator
     {
         private readonly PlaceNameGenerator _placeNameGenerator;

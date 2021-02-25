@@ -1,12 +1,9 @@
-﻿using AstroGame.Api.Databases;
-using AstroGame.Api.Managers;
-using AstroGame.Api.Repositories;
-using AstroGame.Generator.Generators.NameGenerators;
-using AstroGame.Generator.Generators.ObjectGenerators;
-using AstroGame.Generator.Generators.SystemGenerators;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Api.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace AstroGame.Api.Extensions
 {
@@ -14,7 +11,7 @@ namespace AstroGame.Api.Extensions
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<MoonSystemGenerator>();
+            /*services.AddScoped<MoonSystemGenerator>();
             services.AddScoped<PlanetSystemGenerator>();
             services.AddScoped<SolarSystemGenerator>();
 
@@ -36,7 +33,13 @@ namespace AstroGame.Api.Extensions
             services.AddScoped<SolarSystemManager>();
             services.AddScoped<StarManager>();
             services.AddScoped<PlanetRepository>();
-            services.AddScoped<MoonRepository>();
+            services.AddScoped<MoonRepository>(); */
+
+            var assembliesToBeScanned = new[] {"AstroGame"};
+            services.AddServicesOfType<IScopedService>(assembliesToBeScanned);
+            services.AddServicesWithAttributeOfType<ScopedServiceAttribute>(assembliesToBeScanned);
+
+            //services.AddServicesOfType<IScopedService>();
 
             return services;
         }

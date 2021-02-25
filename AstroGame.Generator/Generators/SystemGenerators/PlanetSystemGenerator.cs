@@ -4,12 +4,14 @@ using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
+using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
     /// <summary>
     /// A solar system that consists of ONE planet und multiple satellites
     /// </summary>
+    [ScopedService]
     public class PlanetSystemGenerator
     {
         private readonly PlanetGenerator _planetGenerator;

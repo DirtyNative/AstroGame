@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Api.Repositories
 {
-    public class SolarSystemRepository
+    [ScopedService]
+    public class SolarSystemRepository : IRepository<SolarSystem>
     {
         private readonly AstroGameDataContext _context;
 
@@ -54,7 +56,7 @@ namespace AstroGame.Api.Repositories
             return solarSystem;
         }
 
-        public async Task<List<SolarSystem>> GetAllAsync()
+        public async Task<List<SolarSystem>> GetAsync()
         {
             return await _context.SolarSystems
                 .Include(e => e.CenterSystems)
@@ -70,9 +72,16 @@ namespace AstroGame.Api.Repositories
 
         public async Task DeleteAllAsync()
         {
-            var solarSystems = await GetAllAsync();
+            var solarSystems = await GetAsync();
 
             _context.RemoveRange(solarSystems);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(SolarSystem solarSystem)
+        {
+            _context.Remove(solarSystem);
 
             await _context.SaveChangesAsync();
         }
