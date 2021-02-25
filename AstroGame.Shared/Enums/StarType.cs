@@ -8,7 +8,5 @@
         WhiteStar,
         RedGiant,
         BlueGiants,
-        NeutronStar,
-        Pulsar
     }
 }

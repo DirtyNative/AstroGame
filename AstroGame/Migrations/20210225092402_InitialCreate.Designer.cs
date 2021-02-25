@@ -4,14 +4,16 @@ using AstroGame.Api.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Api.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210225092402_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,23 +21,23 @@ namespace AstroGame.Api.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.StellarObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<double?>("AverageDistanceToCenter")
-                        .HasColumnType("float");
-
-                    b.Property<int>("AverageTemperature")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PrefabName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("RotationSpeed")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Scale")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -43,7 +45,7 @@ namespace AstroGame.Api.Migrations
                     b.ToTable("StellarObject");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.StellarSystem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,30 +78,30 @@ namespace AstroGame.Api.Migrations
                     b.ToTable("StellarSystem");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.Moon", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
+                    b.HasBaseType("AstroGame.Shared.Models.StellarObjects.StellarObject");
 
-                    b.Property<double>("AxialTilt")
+                    b.Property<int>("AverageTemperate")
+                        .HasColumnType("int");
+
+                    b.Property<double>("DistanceToCenter")
                         .HasColumnType("float");
 
                     b.Property<bool>("HasRings")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PrefabName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Scale")
-                        .HasColumnType("float");
-
                     b.ToTable("Moons");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.Planet", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
+                    b.HasBaseType("AstroGame.Shared.Models.StellarObjects.StellarObject");
 
-                    b.Property<double>("AxialTilt")
+                    b.Property<int>("AverageTemperature")
+                        .HasColumnType("int");
+
+                    b.Property<double>("DistanceToCenter")
                         .HasColumnType("float");
 
                     b.Property<bool>("HasAtmosphere")
@@ -111,27 +113,15 @@ namespace AstroGame.Api.Migrations
                     b.Property<int>("PlanetType")
                         .HasColumnType("int");
 
-                    b.Property<string>("PrefabName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Scale")
-                        .HasColumnType("float");
-
                     b.ToTable("Planets");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Star", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.Star", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
+                    b.HasBaseType("AstroGame.Shared.Models.StellarObjects.StellarObject");
 
-                    b.Property<double>("AxialTilt")
-                        .HasColumnType("float");
-
-                    b.Property<string>("PrefabName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Scale")
-                        .HasColumnType("float");
+                    b.Property<int>("AverageTemperature")
+                        .HasColumnType("int");
 
                     b.Property<int>("StarType")
                         .HasColumnType("int");
@@ -139,16 +129,16 @@ namespace AstroGame.Api.Migrations
                     b.ToTable("Stars");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem");
+                    b.HasBaseType("AstroGame.Shared.Models.StellarSystems.StellarSystem");
 
                     b.ToTable("MultiObjectSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.SingleObjectSystem", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem");
+                    b.HasBaseType("AstroGame.Shared.Models.StellarSystems.StellarSystem");
 
                     b.Property<Guid>("CenterObjectId")
                         .HasColumnType("uniqueidentifier");
@@ -160,103 +150,103 @@ namespace AstroGame.Api.Migrations
                     b.ToTable("SingleObjectSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.SolarSystem", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem");
+                    b.HasBaseType("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem");
 
                     b.ToTable("SolarSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.StellarSystem", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem", null)
                         .WithMany("CenterSystems")
                         .HasForeignKey("MultiObjectSystemId");
 
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "Parent")
+                    b.HasOne("AstroGame.Shared.Models.StellarSystems.StellarSystem", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarSystems.StellarSystem", null)
                         .WithMany("Satellites")
                         .HasForeignKey("StellarSystemId");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.Moon", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarObjects.StellarObject", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarObjects.Moon", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.Planet", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarObjects.StellarObject", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarObjects.Planet", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Star", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.Star", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarObjects.StellarObject", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Star", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarObjects.Star", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarSystems.StellarSystem", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.SingleObjectSystem", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "CenterObject")
+                    b.HasOne("AstroGame.Shared.Models.StellarObjects.StellarObject", "CenterObject")
                         .WithOne("ParentSystem")
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "CenterObjectId")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarSystems.SingleObjectSystem", "CenterObjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarSystems.StellarSystem", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarSystems.SingleObjectSystem", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("CenterObject");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.SolarSystem", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.StellarSystems.SolarSystem", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarObjects.StellarObject", b =>
                 {
                     b.Navigation("ParentSystem");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.StellarSystem", b =>
                 {
                     b.Navigation("Satellites");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.StellarSystems.MultiObjectSystem", b =>
                 {
                     b.Navigation("CenterSystems");
                 });

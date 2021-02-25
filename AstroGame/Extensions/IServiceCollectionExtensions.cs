@@ -1,11 +1,11 @@
 ﻿using AstroGame.Api.Databases;
 using AstroGame.Api.Repositories;
-using AstroGame.Shared.Generators.NameGenerators;
-using AstroGame.Shared.Generators.ObjectGenerators;
-using AstroGame.Shared.Generators.SystemGenerators;
+using AstroGame.Generator.Generators.NameGenerators;
+using AstroGame.Generator.Generators.ObjectGenerators;
+using AstroGame.Generator.Generators.SystemGenerators;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 
 namespace AstroGame.Api.Extensions
 {

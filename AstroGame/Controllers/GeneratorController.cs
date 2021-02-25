@@ -1,11 +1,12 @@
 ﻿using AstroGame.Api.Repositories;
-using AstroGame.Shared.Generators.SystemGenerators;
+using AstroGame.Generator.Generators.SystemGenerators;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers
 {
     [Produces("application/json")]
+    [Route("api/v1/generator")]
     [ApiController]
     public class GeneratorController : Controller
     {
@@ -27,10 +28,18 @@ namespace AstroGame.Api.Controllers
             return Ok(solarSystem);
         }
 
+        [HttpGet("last")]
+        public async Task<IActionResult> GetLastAsync()
+        {
+            var solarSystem = await _solarSystemRepository.GetLastAsync();
+
+            return Ok(solarSystem);
+        }
+
         [HttpGet("generate/solar-system")]
         public async Task<IActionResult> GenerateSolarSystem()
         {
-            var solarSystem = _solarSystemGenerator.Generate(null);
+            var solarSystem = _solarSystemGenerator.GenerateRecursive(null);
 
             await _solarSystemRepository.AddAsync(solarSystem);
 

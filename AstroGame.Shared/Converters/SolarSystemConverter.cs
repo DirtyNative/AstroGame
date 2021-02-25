@@ -1,6 +1,6 @@
-﻿using AstroGame.Shared.Models.StellarSystems;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Shared.Converters
 {
