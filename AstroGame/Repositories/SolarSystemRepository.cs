@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using AstroGame.Api.Databases;
-using System.Threading.Tasks;
+﻿using AstroGame.Api.Databases;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace AstroGame.Api.Repositories
 {
@@ -15,16 +17,28 @@ namespace AstroGame.Api.Repositories
             _context = context;
         }
 
+        public async Task<SolarSystem> GetAsync(Guid id)
+        {
+            return await _context.SolarSystems
+                .Include(e => e.CenterSystems)
+                .Include(e => e.Satellites)
+                .FirstOrDefaultAsync(ss => ss.Id == id);
+        }
+
+        public async Task<List<SolarSystem>> GetByParentAsync(Guid parentId)
+        {
+            return await _context.SolarSystems
+                .Include(e => e.CenterSystems)
+                .Include(e => e.Satellites)
+                .Where(e => e.ParentId == parentId)
+                .ToListAsync();
+        }
+
         public async Task<SolarSystem> GetFirstAsync()
         {
             var solarSystem = await _context.SolarSystems
                 .Include(e => e.CenterSystems)
-                .ThenInclude(e => (e as SingleObjectSystem).CenterObject)
-                /*.Include(e => e.CenterSystems)
-                .ThenInclude(e => (e as MultiObjectSystem).CenterSystems)
-                .ThenInclude(e => e.Satellites)*/
                 .Include(e => e.Satellites)
-                .ThenInclude(e => e.Satellites)
                 .FirstOrDefaultAsync();
 
             return solarSystem;
@@ -34,9 +48,7 @@ namespace AstroGame.Api.Repositories
         {
             var solarSystem = await _context.SolarSystems
                 .Include(e => e.CenterSystems)
-                //.ThenInclude(e => (e as SingleObjectSystem).CenterObject)
                 .Include(e => e.Satellites)
-                .ThenInclude(e => e.Satellites)
                 .LastOrDefaultAsync();
 
             return solarSystem;
@@ -44,7 +56,10 @@ namespace AstroGame.Api.Repositories
 
         public async Task<List<SolarSystem>> GetAllAsync()
         {
-            return await _context.SolarSystems.ToListAsync();
+            return await _context.SolarSystems
+                .Include(e => e.CenterSystems)
+                .Include(e => e.Satellites)
+                .ToListAsync();
         }
 
         public async Task AddAsync(SolarSystem solarSystem)

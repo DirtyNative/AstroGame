@@ -14,6 +14,9 @@ namespace AstroGame.Api.Databases
             builder.HasBaseType<StellarSystem>();
             builder.HasOne(e => e.Parent)
                 .WithMany().HasForeignKey(e => e.ParentId);
+
+            builder.HasOne(e => e.CenterObject).WithOne(e => e.ParentSystem)
+                .HasForeignKey<StellarObject>(e => e.ParentSystemId);
         }
     }
 }

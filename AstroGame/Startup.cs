@@ -1,6 +1,5 @@
 using AstroGame.Api.Databases;
 using AstroGame.Api.Extensions;
-using AstroGame.Shared.Converters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

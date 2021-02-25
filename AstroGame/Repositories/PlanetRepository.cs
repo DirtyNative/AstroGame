@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace AstroGame.Api.Repositories
 {
-    public class StarRepository
+    public class PlanetRepository
     {
         private readonly AstroGameDataContext _context;
 
-        public StarRepository(AstroGameDataContext context)
+        public PlanetRepository(AstroGameDataContext context)
         {
             _context = context;
         }
 
-        public async Task<Star> GetAsync(Guid id)
+        public async Task<Planet> GetAsync(Guid id)
         {
-            return await _context.Stars.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Planets.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<List<Star>> GetByParentAsync(Guid parentId)
+        public async Task<List<Planet>> GetByParentAsync(Guid parentId)
         {
-            return await _context.Stars.Where(e => e.ParentSystemId == parentId).ToListAsync();
+            return await _context.Planets.Where(e => e.ParentSystemId == parentId).ToListAsync();
         }
     }
 }

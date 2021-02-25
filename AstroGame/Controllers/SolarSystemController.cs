@@ -1,5 +1,7 @@
-﻿using AstroGame.Api.Repositories;
+﻿using AstroGame.Api.Managers;
+using AstroGame.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers
@@ -9,11 +11,22 @@ namespace AstroGame.Api.Controllers
     [ApiController]
     public class SolarSystemController : Controller
     {
+        // TODO: Remove repository
         private readonly SolarSystemRepository _solarSystemRepository;
+        private readonly SolarSystemManager _solarSystemManager;
 
-        public SolarSystemController(SolarSystemRepository solarSystemRepository)
+        public SolarSystemController(SolarSystemRepository solarSystemRepository, SolarSystemManager solarSystemManager)
         {
             _solarSystemRepository = solarSystemRepository;
+            _solarSystemManager = solarSystemManager;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRecursiveAsync(Guid id)
+        {
+            var entity = await _solarSystemManager.GetRecursiveAsync(id);
+
+            return Ok(entity);
         }
 
         [HttpDelete]

@@ -1,4 +1,5 @@
 ﻿using AstroGame.Api.Databases;
+using AstroGame.Api.Managers;
 using AstroGame.Api.Repositories;
 using AstroGame.Generator.Generators.NameGenerators;
 using AstroGame.Generator.Generators.ObjectGenerators;
@@ -23,7 +24,19 @@ namespace AstroGame.Api.Extensions
 
             services.AddScoped<SolarSystemNameGenerator>();
 
+            services.AddScoped<MultiObjectSystemRepository>();
+            services.AddScoped<SingleObjectSystemRepository>();
             services.AddScoped<SolarSystemRepository>();
+            services.AddScoped<StarRepository>();
+            services.AddScoped<PlanetRepository>();
+            services.AddScoped<MoonRepository>();
+
+            services.AddScoped<MultiObjectSystemManager>();
+            services.AddScoped<SingleObjectSystemManager>();
+            services.AddScoped<SolarSystemManager>();
+            services.AddScoped<StarManager>();
+            services.AddScoped<PlanetRepository>();
+            services.AddScoped<MoonRepository>();
 
             return services;
         }

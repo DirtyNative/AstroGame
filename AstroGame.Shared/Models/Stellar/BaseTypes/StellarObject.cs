@@ -1,4 +1,5 @@
 ﻿using AstroGame.Shared.Models.Stellar.StellarSystems;
+using System;
 
 namespace AstroGame.Shared.Models.Stellar.BaseTypes
 {
@@ -14,9 +15,11 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
         protected StellarObject(SingleObjectSystem parentSystem)
         {
             ParentSystem = parentSystem;
+            ParentSystemId = parentSystem.Id;
         }
 
         public SingleObjectSystem ParentSystem { get; set; }
+        public Guid ParentSystemId { get; set; }
 
         /// <summary>
         /// The average distance from this object to the center it rotates around
