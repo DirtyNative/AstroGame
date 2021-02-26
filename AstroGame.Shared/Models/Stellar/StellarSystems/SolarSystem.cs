@@ -1,4 +1,5 @@
 ﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
+using UnityEngine;
 
 namespace AstroGame.Shared.Models.Stellar.StellarSystems
 {
