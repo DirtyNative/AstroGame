@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
     [ScopedService]
-    public class SolarSystemGenerator
+    public class SolarSystemGenerator : IGenerator
     {
         private readonly SolarSystemNameGenerator _solarSystemNameGenerator;
 

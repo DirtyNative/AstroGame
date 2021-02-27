@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
     [ScopedService]
-    public class MoonGenerator
+    public class MoonGenerator : IGenerator
     {
         private readonly List<string> _prefabs = new List<string>
         {
@@ -25,7 +25,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             var moon = new Moon(parent)
             {
                 Id = Guid.NewGuid(),
-                PrefabName = prefab,
+                //PrefabName = prefab,
                 Scale = scale,
                 AverageDistanceToCenter = distance,
             };

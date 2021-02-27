@@ -12,7 +12,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
     /// A solar system that consists of ONE planet und multiple satellites
     /// </summary>
     [ScopedService]
-    public class PlanetSystemGenerator
+    public class PlanetSystemGenerator : IGenerator
     {
         private readonly PlanetGenerator _planetGenerator;
         private readonly MoonSystemGenerator _moonSystemGenerator;

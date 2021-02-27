@@ -3,7 +3,6 @@
     public enum StarType
     {
         BrownDwarf,
-        RedDwarf,
         YellowDwarf,
         WhiteStar,
         RedGiant,

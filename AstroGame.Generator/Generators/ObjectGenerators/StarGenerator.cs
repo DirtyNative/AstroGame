@@ -1,6 +1,6 @@
-﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Core.Helpers;
+﻿using AstroGame.Core.Helpers;
 using AstroGame.Shared.Enums;
+using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
@@ -8,30 +8,13 @@ using System.Linq;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
-    [ScopedService]
-    public class StarGenerator
+    /// <summary>
+    /// <para>A generator for the stars</para>
+    /// <para>This class is not registered for DI, because it gets instantiated within GeneratorFactory</para>
+    /// </summary>
+    public class StarGenerator : IGenerator
     {
-        private readonly List<(string PrefabName, StarType Type)> _prefabs =
-            new List<(string PrefabName, StarType Type)>()
-            {
-                // Brown Dwarfs
-                ("Prefab_BrownDwarf1", StarType.BrownDwarf),
-
-                // Red Dwarfs
-                ("Prefab_RedDwarf1", StarType.RedDwarf),
-
-                // Yellow Dwarfs
-                ("Prefab_YellowDwarf1", StarType.YellowDwarf),
-
-                // White stars
-                ("Prefab_WhiteStar1", StarType.WhiteStar),
-
-                // Blue Giants
-                ("Prefab_BlueGiant1", StarType.BlueGiants),
-
-                // Red Giants
-                ("Prefab_RedGiant1", StarType.RedGiant),
-            };
+        private readonly List<StarPrefab> _prefabs;
 
         private readonly List<(StarType Type, int MinTemperature, int MaxTemperature)> _temperatures =
             new List<(StarType Type, int MinTemperature, int MaxTemperatures)>()
@@ -39,10 +22,14 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 (StarType.BlueGiants, 20000, 60000),
                 (StarType.BrownDwarf, 700, 1300),
                 (StarType.YellowDwarf, 4000, 6000),
-                (StarType.RedDwarf, 3000, 4000),
                 (StarType.RedGiant, 4000, 5000),
                 (StarType.WhiteStar, 7000, 11000),
             };
+
+        public StarGenerator(List<StarPrefab> prefabs)
+        {
+            _prefabs = prefabs;
+        }
 
         public Star Generate(SingleObjectSystem parent, int position)
         {
@@ -55,7 +42,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             var star = new Star(parent)
             {
                 StarType = type,
-                PrefabName = prefab,
+                Prefab = prefab,
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,
                 Scale = scale
@@ -70,7 +57,6 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             {
                 new KeyValuePair<StarType, uint>(StarType.BlueGiants, 1),
                 new KeyValuePair<StarType, uint>(StarType.BrownDwarf, 1),
-                new KeyValuePair<StarType, uint>(StarType.RedDwarf, 1),
                 new KeyValuePair<StarType, uint>(StarType.RedGiant, 1),
                 new KeyValuePair<StarType, uint>(StarType.WhiteStar, 1),
                 new KeyValuePair<StarType, uint>(StarType.YellowDwarf, 1),
@@ -79,19 +65,34 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             return RandomCalculator.SelectByWeight(weights);
         }
 
-        private string SelectPrefab(StarType type)
+        /* private string SelectPrefab(StarType type)
+         {
+             var availableStars = _prefabs.Where(prefab => prefab.Type == type).ToList();
+ 
+             if (availableStars.Count == 0)
+                 availableStars = _prefabs.Where(prefab => prefab.Type == type).ToList();
+ 
+             if (availableStars.Count == 0)
+                 availableStars = _prefabs;
+ 
+             var selectedStar = availableStars[RandomCalculator.Random.Next(0, availableStars.Count)];
+ 
+             return selectedStar.PrefabName;
+         }*/
+
+        private StarPrefab SelectPrefab(StarType type)
         {
-            var availableStars = _prefabs.Where(prefab => prefab.Type == type).ToList();
+            var availablePrefabs = _prefabs.Where(prefab => prefab.StarType == type).ToList();
 
-            if (availableStars.Count == 0)
-                availableStars = _prefabs.Where(prefab => prefab.Type == type).ToList();
+            if (availablePrefabs.Count == 0)
+                availablePrefabs = _prefabs.Where(prefab => prefab.StarType == type).ToList();
 
-            if (availableStars.Count == 0)
-                availableStars = _prefabs;
+            if (availablePrefabs.Count == 0)
+                availablePrefabs = _prefabs;
 
-            var selectedStar = availableStars[RandomCalculator.Random.Next(0, availableStars.Count)];
+            var selectedPrefab = availablePrefabs[RandomCalculator.Random.Next(0, availablePrefabs.Count)];
 
-            return selectedStar.PrefabName;
+            return selectedPrefab;
         }
 
         private int GenerateTemperature(StarType type)

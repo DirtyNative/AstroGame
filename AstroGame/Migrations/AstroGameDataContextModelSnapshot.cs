@@ -19,6 +19,33 @@ namespace AstroGame.Api.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.Prefab", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Offset")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rotation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Scale")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Prefabs");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -42,9 +69,6 @@ namespace AstroGame.Api.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentSystemId")
-                        .IsUnique();
 
                     b.ToTable("StellarObject");
                 });
@@ -82,6 +106,333 @@ namespace AstroGame.Api.Migrations
                     b.ToTable("StellarSystem");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.CloudsPrefab", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
+
+                    b.ToTable("CloudsPrefabs");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.MoonPrefab", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
+
+                    b.ToTable("MoonPrefabs");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.PlanetAtmospherePrefab", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
+
+                    b.Property<string>("PlanetTypes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("PlanetAtmospherePrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0b8890de-871e-4311-aece-2f21753729e1"),
+                            Name = "PlanetAtmosphere_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetTypes = "Volcano;Desert"
+                        },
+                        new
+                        {
+                            Id = new Guid("79acdded-e2a6-4d69-9d59-cd08ee35c011"),
+                            Name = "PlanetAtmosphere_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetTypes = "Volcano;Desert"
+                        },
+                        new
+                        {
+                            Id = new Guid("e41f15ec-441c-4c2b-8cd2-bb8e6acecde7"),
+                            Name = "PlanetAtmosphere_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetTypes = "Continental;Rock"
+                        },
+                        new
+                        {
+                            Id = new Guid("e12a9841-e36d-4436-b60d-868abf86c95c"),
+                            Name = "PlanetAtmosphere_4",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetTypes = "Gaia;Gas"
+                        },
+                        new
+                        {
+                            Id = new Guid("6735c3b7-86ed-45d6-909a-ed825f9dfda6"),
+                            Name = "PlanetAtmosphere_5",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetTypes = "Ocean;Ice"
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.PlanetPrefab", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
+
+                    b.Property<int>("PlanetType")
+                        .HasColumnType("int");
+
+                    b.ToTable("PlanetPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("45a16db0-05a1-4ea9-bcaa-0c5b59b09213"),
+                            Name = "Planet_Volcano_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("fd0f193d-7a61-478b-85d7-a6e0f3475452"),
+                            Name = "Planet_Volcano_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("9c29d7f1-2849-4f75-88f1-a52781ef7f74"),
+                            Name = "Planet_Volcano_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("952b27f4-5973-47ea-bbf5-9ebe4ba6be4b"),
+                            Name = "Planet_Desert_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("91ce3322-93eb-4de9-99c2-d64d966297e5"),
+                            Name = "Planet_Desert_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d86f58a5-a331-46ca-945f-009fbef3a340"),
+                            Name = "Planet_Desert_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("ad491dc6-8110-48e3-b88b-c049ce075156"),
+                            Name = "Planet_Continental_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("6eefab37-6adf-4426-ac6b-56ac863d1f5d"),
+                            Name = "Planet_Continental_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("d765f76b-4077-497c-89b4-34ddad873836"),
+                            Name = "Planet_Continental_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("04c70207-f837-4b5e-b084-6a2e4a75e995"),
+                            Name = "Planet_Rock_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("2f200a89-e250-4b8d-9a7f-8524e3e1c543"),
+                            Name = "Planet_Rock_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("7624981b-256b-450a-ac9c-0f9f1478515f"),
+                            Name = "Planet_Rock_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("a291133c-382b-4f39-a6f0-2e6f169c0e83"),
+                            Name = "Planet_Gaia_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("56104a60-24a2-425c-ad30-bd2ae0ba090e"),
+                            Name = "Planet_Gaia_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("6fa22d3a-0f7a-4393-b018-77fecb105d85"),
+                            Name = "Planet_Gaia_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("6fa513cb-805d-45ae-a160-c5fa44665927"),
+                            Name = "Planet_Gas_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("57148810-014d-443b-8527-71d6cec2fe03"),
+                            Name = "Planet_Gas_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("fc5a8037-2d52-40a2-9826-1596a6a4e082"),
+                            Name = "Planet_Gas_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("1670f160-8a03-4f8d-b27d-80eb6e0ecba1"),
+                            Name = "Planet_Ocean_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("e09a7f0c-257c-48b3-be44-2d4c2afce354"),
+                            Name = "Planet_Ocean_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("c2acb104-da0c-478c-9f3a-2d3a57a515f3"),
+                            Name = "Planet_Ocean_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("354bbd15-0c08-4aea-80b9-209ab83e927b"),
+                            Name = "Planet_Ice_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("09922780-2cc3-488f-9c13-4af2d22d33ff"),
+                            Name = "Planet_Ice_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("3e982d58-019c-4f97-9dd7-9fa20068573d"),
+                            Name = "Planet_Ice_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 6
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.RingsPrefab", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
+
+                    b.ToTable("RingsPrefabs");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.StarPrefab", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
+
+                    b.Property<int>("StarType")
+                        .HasColumnType("int");
+
+                    b.ToTable("StarPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ca86d224-4247-428f-a7dd-d5088ef0f634"),
+                            Name = "Test_Prefab",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            StarType = 0
+                        });
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
@@ -89,14 +440,21 @@ namespace AstroGame.Api.Migrations
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
 
-                    b.Property<bool>("HasRings")
-                        .HasColumnType("bit");
+                    b.Property<Guid>("PrefabId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("PrefabName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("RingPrefabId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RingsPrefabId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");
+
+                    b.HasIndex("PrefabId");
+
+                    b.HasIndex("RingsPrefabId");
 
                     b.ToTable("Moons");
                 });
@@ -105,23 +463,34 @@ namespace AstroGame.Api.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
 
+                    b.Property<Guid?>("AtmospherePrefabId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
 
-                    b.Property<bool>("HasAtmosphere")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasRings")
-                        .HasColumnType("bit");
+                    b.Property<Guid?>("CloudsPrefabId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PlanetType")
                         .HasColumnType("int");
 
-                    b.Property<string>("PrefabName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("PrefabId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RingPrefabId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");
+
+                    b.HasIndex("AtmospherePrefabId");
+
+                    b.HasIndex("CloudsPrefabId");
+
+                    b.HasIndex("PrefabId");
+
+                    b.HasIndex("RingPrefabId");
 
                     b.ToTable("Planets");
                 });
@@ -133,14 +502,16 @@ namespace AstroGame.Api.Migrations
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
 
-                    b.Property<string>("PrefabName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("PrefabId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");
 
                     b.Property<int>("StarType")
                         .HasColumnType("int");
+
+                    b.HasIndex("PrefabId");
 
                     b.ToTable("Stars");
                 });
@@ -159,6 +530,10 @@ namespace AstroGame.Api.Migrations
                     b.Property<Guid>("CenterObjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.HasIndex("CenterObjectId")
+                        .IsUnique()
+                        .HasFilter("[CenterObjectId] IS NOT NULL");
+
                     b.ToTable("SingleObjectSystems");
                 });
 
@@ -167,17 +542,6 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem");
 
                     b.ToTable("SolarSystems");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "ParentSystem")
-                        .WithOne("CenterObject")
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "ParentSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParentSystem");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
@@ -197,6 +561,60 @@ namespace AstroGame.Api.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.CloudsPrefab", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.Prefab", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Prefabs.CloudsPrefab", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.MoonPrefab", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.Prefab", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Prefabs.MoonPrefab", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.PlanetAtmospherePrefab", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.Prefab", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Prefabs.PlanetAtmospherePrefab", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.PlanetPrefab", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.Prefab", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Prefabs.PlanetPrefab", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.RingsPrefab", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.Prefab", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Prefabs.RingsPrefab", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.StarPrefab", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.Prefab", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Prefabs.StarPrefab", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", null)
@@ -204,15 +622,55 @@ namespace AstroGame.Api.Migrations
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.MoonPrefab", "Prefab")
+                        .WithMany()
+                        .HasForeignKey("PrefabId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.RingsPrefab", "RingsPrefab")
+                        .WithMany()
+                        .HasForeignKey("RingsPrefabId");
+
+                    b.Navigation("Prefab");
+
+                    b.Navigation("RingsPrefab");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.PlanetAtmospherePrefab", "AtmospherePrefab")
+                        .WithMany()
+                        .HasForeignKey("AtmospherePrefabId");
+
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.CloudsPrefab", "CloudsPrefab")
+                        .WithMany()
+                        .HasForeignKey("CloudsPrefabId");
+
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.PlanetPrefab", "Prefab")
+                        .WithMany()
+                        .HasForeignKey("PrefabId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.RingsPrefab", "RingsPrefab")
+                        .WithMany()
+                        .HasForeignKey("RingPrefabId");
+
+                    b.Navigation("AtmospherePrefab");
+
+                    b.Navigation("CloudsPrefab");
+
+                    b.Navigation("Prefab");
+
+                    b.Navigation("RingsPrefab");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Star", b =>
@@ -222,6 +680,14 @@ namespace AstroGame.Api.Migrations
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Star", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Prefabs.StarPrefab", "Prefab")
+                        .WithMany()
+                        .HasForeignKey("PrefabId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Prefab");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
@@ -235,11 +701,19 @@ namespace AstroGame.Api.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "CenterObject")
+                        .WithOne("ParentSystem")
+                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "CenterObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("CenterObject");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", b =>
@@ -251,6 +725,11 @@ namespace AstroGame.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
+                {
+                    b.Navigation("ParentSystem");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
                 {
                     b.Navigation("Satellites");
@@ -259,11 +738,6 @@ namespace AstroGame.Api.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
                 {
                     b.Navigation("CenterSystems");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
-                {
-                    b.Navigation("CenterObject");
                 });
 #pragma warning restore 612, 618
         }

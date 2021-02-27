@@ -1,15 +1,14 @@
-﻿namespace AstroGame.Shared.Models.Stellar.Interfaces
+﻿using System;
+using AstroGame.Shared.Models.Prefabs;
+
+namespace AstroGame.Shared.Models.Stellar.Interfaces
 {
     /// <summary>
     /// Defines an object which can be rendered within Unity
     /// </summary>
-    public interface IRenderable
+    public interface IRenderable<T> where T : Prefab
     {
-        /// <summary>
-        /// The name of Unity's Prefab which can be rendered
-        /// </summary>
-        string PrefabName { get; set; }
-
-        public double Scale { get; set; }
+        Guid PrefabId { get; set; }
+        T Prefab { get; set; }
     }
 }

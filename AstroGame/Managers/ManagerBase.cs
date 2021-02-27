@@ -35,6 +35,9 @@ namespace AstroGame.Api.Managers
 
         public abstract Task<List<T>> GetByParentAsync(Guid parentId);
 
+
+
+
         protected virtual async Task<MultiObjectSystem> GetRecursiveAsync(MultiObjectSystem multiObjectSystem)
         {
             var entity = await _multiObjectSystemRepository.GetAsync(multiObjectSystem.Id);
@@ -90,6 +93,12 @@ namespace AstroGame.Api.Managers
                 _ => throw new NotImplementedException($"{stellarObject.GetType()} is not implemented")
             };
         }
+
+
+
+
+
+
 
         protected virtual async Task DeleteRecursiveAsync(MultiObjectSystem multiObjectSystem)
         {

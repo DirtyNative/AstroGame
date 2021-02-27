@@ -1,7 +1,11 @@
-﻿namespace AstroGame.Shared.Models.Stellar.Interfaces
+﻿using System;
+using AstroGame.Shared.Models.Prefabs;
+
+namespace AstroGame.Shared.Models.Stellar.Interfaces
 {
     public interface IHasRings
     {
-        bool HasRings { get; set; }
+        Guid? RingPrefabId { get; set; }
+        RingsPrefab RingsPrefab { get; set; }
     }
 }

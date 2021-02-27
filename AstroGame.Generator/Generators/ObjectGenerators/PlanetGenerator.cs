@@ -1,16 +1,19 @@
 ﻿using AstroGame.Core.Helpers;
 using AstroGame.Shared.Enums;
+using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
-    [ScopedService]
-    public class PlanetGenerator
+    public class PlanetGenerator : IGenerator
     {
+        private readonly List<PlanetPrefab> _prefabs;
+        private readonly List<PlanetAtmospherePrefab> _atmospherePrefabs;
+
         private static readonly List<(List<PlanetType> Types, uint MinDistance, uint MaxDistance)> Distances =
             new List<(List<PlanetType>, uint, uint)>()
             {
@@ -27,6 +30,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 (new List<PlanetType>() {PlanetType.Ice}, 1510, 2350)
             };
 
+        // TODO: Remove predefined Prefabs
         private static readonly List<(string PrefabName, bool HasAtmosphere, PlanetType Type, bool HasRings)> Prefabs =
             new List<(string PrefabName, bool HasAtmosphere, PlanetType Type, bool HasRings)>()
             {
@@ -69,6 +73,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 new KeyValuePair<PlanetType, uint>(PlanetType.Volcano, 1),
                 new KeyValuePair<PlanetType, uint>(PlanetType.Desert, 1),
                 new KeyValuePair<PlanetType, uint>(PlanetType.Continental, 1),
+                new KeyValuePair<PlanetType, uint>(PlanetType.Gaia, 1),
                 new KeyValuePair<PlanetType, uint>(PlanetType.Ocean, 1),
                 new KeyValuePair<PlanetType, uint>(PlanetType.Rock, 1),
                 new KeyValuePair<PlanetType, uint>(PlanetType.Gas, 1),
@@ -88,12 +93,18 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                     (PlanetType.Volcano, 1000, 1500)
                 };
 
+        public PlanetGenerator(List<PlanetPrefab> prefabs, List<PlanetAtmospherePrefab> atmospherePrefabs)
+        {
+            _prefabs = prefabs;
+            _atmospherePrefabs = atmospherePrefabs;
+        }
+
         public Planet Generate(SingleObjectSystem parent, int order)
         {
             var planetType = GenerateSurface();
-            var hasAtmosphere = GenerateAtmosphere();
+            var atmosphere = SelectAtmosphere(planetType);
             var hasRings = GenerateRings();
-            var prefabName = GeneratePrefab(planetType, hasAtmosphere, hasRings);
+            var prefab = SelectPrefab(planetType);
             var averageTemperature = GenerateTemperature(planetType);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale(planetType);
@@ -102,10 +113,14 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             {
                 Name = $"{parent.Name}-{order}",
                 PlanetType = planetType,
-                HasAtmosphere = hasAtmosphere,
-                HasRings = hasRings,
                 ParentSystem = parent,
-                PrefabName = prefabName,
+
+                PrefabId = prefab.Id,
+                Prefab = prefab,
+
+                AtmospherePrefabId = atmosphere.Id,
+                AtmospherePrefab = atmosphere,
+
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,
                 Scale = scale,
@@ -125,17 +140,6 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 TemperatureOccurrences.FirstOrDefault(t => t.Surface == planetType);
 
             return RandomCalculator.Random.Next(minTemperature, maxTemperature + 1);
-        }
-
-        private static bool GenerateAtmosphere()
-        {
-            var weights = new List<KeyValuePair<bool, uint>>()
-            {
-                new KeyValuePair<bool, uint>(false, 1),
-                new KeyValuePair<bool, uint>(true, 1)
-            };
-
-            return RandomCalculator.SelectByWeight(weights);
         }
 
         private static bool GenerateRings()
@@ -169,23 +173,32 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             };
         }
 
-        private static string GeneratePrefab(PlanetType planetType, bool hasAtmosphere, bool hasRings)
+        private PlanetPrefab SelectPrefab(PlanetType planetType)
         {
-            // TODO: Atmosphere should not be included inside Prefab, else it should be added dynamically if there is one present.
+            var availablePrefabs = _prefabs.Where(p => p.PlanetType == planetType).ToList();
 
-            var availablePlanets = Prefabs.Where(prefab => prefab.Type == planetType
-                                                           && prefab.HasAtmosphere == hasAtmosphere
-                                                           && prefab.HasRings == hasRings).ToList();
-
-            // There must be at least one planet to select
-            if (availablePlanets.Count == 0)
+            if (availablePrefabs.Count == 0)
             {
-                availablePlanets = Prefabs.Where(prefab => prefab.Type == planetType).ToList();
+                throw new NotImplementedException($"Planet prefab for type {planetType} is not seeded");
             }
 
-            var (prefabName, _, _, _) = availablePlanets[RandomCalculator.Random.Next(0, availablePlanets.Count)];
+            var prefab = availablePrefabs[RandomCalculator.Random.Next(0, availablePrefabs.Count)];
 
-            return prefabName;
+            return prefab;
+        }
+
+        private PlanetAtmospherePrefab SelectAtmosphere(PlanetType planetType)
+        {
+            var availablePrefabs = _atmospherePrefabs.Where(p => p.PlanetTypes.Contains(planetType)).ToList();
+
+            if (availablePrefabs.Count == 0)
+            {
+                throw new NotImplementedException($"Planet atmosphere prefab for type {planetType} is not seeded");
+            }
+
+            var prefab = availablePrefabs[RandomCalculator.Random.Next(0, availablePrefabs.Count)];
+
+            return prefab;
         }
     }
 }

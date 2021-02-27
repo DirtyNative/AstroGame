@@ -21,12 +21,16 @@ namespace AstroGame.Api.Repositories
 
         public async Task<Star> GetAsync(Guid id)
         {
-            return await _context.Stars.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Stars
+                .Include(e => e.Prefab)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<List<Star>> GetAsync()
         {
-            return await _context.Stars.ToListAsync();
+            return await _context.Stars
+                .Include(e => e.Prefab)
+                .ToListAsync();
         }
 
         public async Task DeleteAsync(Star entity)
@@ -37,7 +41,9 @@ namespace AstroGame.Api.Repositories
 
         public async Task<List<Star>> GetByParentAsync(Guid parentId)
         {
-            return await _context.Stars.Where(e => e.ParentSystemId == parentId).ToListAsync();
+            return await _context.Stars
+                .Include(e => e.Prefab)
+                .Where(e => e.ParentSystemId == parentId).ToListAsync();
         }
     }
 }
