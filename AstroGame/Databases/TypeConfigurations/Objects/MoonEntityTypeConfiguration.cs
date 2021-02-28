@@ -13,6 +13,7 @@ namespace AstroGame.Api.Databases.TypeConfigurations.Objects
             builder.ToTable("Moons");
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
             builder.HasBaseType<StellarObject>();
+
             builder.HasOne(e => e.ParentSystem)
                 .WithOne(e => e.CenterObject as Moon).HasForeignKey<SingleObjectSystem>(e => e.CenterObjectId);
         }

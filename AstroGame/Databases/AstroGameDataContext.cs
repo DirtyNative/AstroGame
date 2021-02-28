@@ -1,8 +1,11 @@
 ﻿using AstroGame.Api.Databases.TypeConfigurations.Objects;
+using AstroGame.Api.Extensions;
 using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using UnityEngine;
 
 namespace AstroGame.Api.Databases
 {
@@ -35,6 +38,11 @@ namespace AstroGame.Api.Databases
         {
             var assembly = typeof(MoonEntityTypeConfiguration).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
+
+            var vector3Converter =
+                new ValueConverter<Vector3, string>(vector3 => vector3.ToString(), s => s.ToVector3());
+
+            modelBuilder.UseValueConverterForType<Vector3>(vector3Converter);
 
             base.OnModelCreating(modelBuilder);
         }

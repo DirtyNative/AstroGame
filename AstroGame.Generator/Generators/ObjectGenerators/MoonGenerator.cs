@@ -1,5 +1,5 @@
-﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Core.Helpers;
+﻿using AstroGame.Core.Helpers;
+using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
@@ -7,37 +7,41 @@ using System.Collections.Generic;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
-    [ScopedService]
     public class MoonGenerator : IGenerator
     {
-        private readonly List<string> _prefabs = new List<string>
+        private readonly List<MoonPrefab> _prefabs;
+
+        public MoonGenerator(List<MoonPrefab> prefabs)
         {
-            ("Prefab_RockPlanet1"),
-            ("Prefab_RockPlanet2"),
-        };
+            _prefabs = prefabs;
+        }
 
         public Moon Generate(SingleObjectSystem parent, int position)
         {
-            var prefab = GeneratePrefab();
+            var prefab = SelectPrefab();
             var scale = GenerateScale();
             var distance = GenerateDistance();
 
             var moon = new Moon(parent)
             {
-                Id = Guid.NewGuid(),
-                //PrefabName = prefab,
+                ParentSystem = parent,
+                //ParentSystemId = parent.Id,
+
+                Prefab = prefab,
+                PrefabId = prefab.Id,
+
                 Scale = scale,
                 AverageDistanceToCenter = distance,
             };
 
             return moon;
         }
-        
-        private string GeneratePrefab()
-        {
-            var prefabName = _prefabs[RandomCalculator.Random.Next(0, _prefabs.Count)];
 
-            return prefabName;
+        private MoonPrefab SelectPrefab()
+        {
+            var prefab = _prefabs[RandomCalculator.Random.Next(0, _prefabs.Count)];
+
+            return prefab;
         }
 
         private double GenerateScale()

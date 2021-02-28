@@ -41,6 +41,9 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
             var star = new Star(parent)
             {
+                ParentSystem = parent,
+                //ParentSystemId = parent.Id,
+
                 StarType = type,
                 Prefab = prefab,
                 AverageTemperature = averageTemperature,

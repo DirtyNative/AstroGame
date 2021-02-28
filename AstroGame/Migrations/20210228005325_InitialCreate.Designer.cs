@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AstroGame.Api.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    [Migration("20210227031142_FlagFixes_2")]
-    partial class FlagFixes_2
+    [Migration("20210228005325_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,7 @@ namespace AstroGame.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prefabs");
+                    b.ToTable("Prefab");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
@@ -113,6 +113,16 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
                     b.ToTable("CloudsPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-1111-0000-0000-000000000001"),
+                            Name = "Clouds_1",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.MoonPrefab", b =>
@@ -120,62 +130,88 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
                     b.ToTable("MoonPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-2222-0000-0000-000000000001"),
+                            Name = "Moon_1",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-2222-0000-0000-000000000002"),
+                            Name = "Moon_2",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-2222-0000-0000-000000000003"),
+                            Name = "Moon_3",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.PlanetAtmospherePrefab", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
-                    b.Property<int>("PlanetTypes")
-                        .HasColumnType("int");
+                    b.Property<string>("PlanetTypes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable("PlanetAtmospherePrefabs");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7b9e5331-c0e7-40bd-9986-9c758bcddaad"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000001"),
                             Name = "PlanetAtmosphere_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
                             Scale = "(0.0, 0.0, 0.0)",
-                            PlanetTypes = 1
+                            PlanetTypes = "Volcano;Desert"
                         },
                         new
                         {
-                            Id = new Guid("3e4b70c5-9faa-405c-81ca-ca97af39e13b"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000002"),
                             Name = "PlanetAtmosphere_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
                             Scale = "(0.0, 0.0, 0.0)",
-                            PlanetTypes = 1
+                            PlanetTypes = "Volcano;Desert"
                         },
                         new
                         {
-                            Id = new Guid("e61b1aab-3424-4389-a795-6011e90f09ca"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000003"),
                             Name = "PlanetAtmosphere_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
                             Scale = "(0.0, 0.0, 0.0)",
-                            PlanetTypes = 6
+                            PlanetTypes = "Continental;Rock"
                         },
                         new
                         {
-                            Id = new Guid("eb045083-2034-4534-a840-2cfb0a1a5ba5"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000004"),
                             Name = "PlanetAtmosphere_4",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
                             Scale = "(0.0, 0.0, 0.0)",
-                            PlanetTypes = 7
+                            PlanetTypes = "Gaia;Gas"
                         },
                         new
                         {
-                            Id = new Guid("5a8f946c-c61b-4e9b-bedf-e3fc507bc4ea"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000005"),
                             Name = "PlanetAtmosphere_5",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
                             Scale = "(0.0, 0.0, 0.0)",
-                            PlanetTypes = 7
+                            PlanetTypes = "Ocean;Ice"
                         });
                 });
 
@@ -191,7 +227,7 @@ namespace AstroGame.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b00728b7-156b-4e3a-9e64-291745f3022b"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Volcano_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -200,7 +236,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("15e9687f-5f29-4683-b970-4a9ab62b2ba5"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Volcano_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -209,12 +245,201 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("afe7414a-e21b-47ee-8a28-cf9bdc484e35"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Volcano_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
                             Scale = "(0.0, 0.0, 0.0)",
                             PlanetType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Desert_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Desert_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Desert_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Continental_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Continental_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Continental_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Rock_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Rock_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Rock_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Gaia_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Gaia_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Gaia_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Gas_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Gas_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Gas_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Ocean_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Ocean_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Ocean_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000001"),
+                            Name = "Planet_Ice_1",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000002"),
+                            Name = "Planet_Ice_2",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000003"),
+                            Name = "Planet_Ice_3",
+                            Offset = "(0.0, 0.0, 0.0)",
+                            Rotation = "(0.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)",
+                            PlanetType = 6
                         });
                 });
 
@@ -223,6 +448,16 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
                     b.ToTable("RingsPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-4444-0000-0000-000000000001"),
+                            Name = "Rings_1",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.StarPrefab", b =>
@@ -237,7 +472,7 @@ namespace AstroGame.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e3394273-83e7-4eb4-b400-205abf8a581c"),
+                            Id = new Guid("00000000-5555-0000-0000-000000000001"),
                             Name = "Test_Prefab",
                             Offset = "(0.0, 0.0, -1.0)",
                             Rotation = "(-1.0, 0.0, 0.0)",

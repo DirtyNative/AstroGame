@@ -43,7 +43,7 @@ namespace AstroGame.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prefabs");
+                    b.ToTable("Prefab");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
@@ -111,6 +111,16 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
                     b.ToTable("CloudsPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-1111-0000-0000-000000000001"),
+                            Name = "Clouds_1",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.MoonPrefab", b =>
@@ -118,6 +128,32 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
                     b.ToTable("MoonPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-2222-0000-0000-000000000001"),
+                            Name = "Moon_1",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-2222-0000-0000-000000000002"),
+                            Name = "Moon_2",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-2222-0000-0000-000000000003"),
+                            Name = "Moon_3",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.PlanetAtmospherePrefab", b =>
@@ -132,7 +168,7 @@ namespace AstroGame.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0b8890de-871e-4311-aece-2f21753729e1"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000001"),
                             Name = "PlanetAtmosphere_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -141,7 +177,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("79acdded-e2a6-4d69-9d59-cd08ee35c011"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000002"),
                             Name = "PlanetAtmosphere_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -150,7 +186,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e41f15ec-441c-4c2b-8cd2-bb8e6acecde7"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000003"),
                             Name = "PlanetAtmosphere_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -159,7 +195,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e12a9841-e36d-4436-b60d-868abf86c95c"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000004"),
                             Name = "PlanetAtmosphere_4",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -168,7 +204,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6735c3b7-86ed-45d6-909a-ed825f9dfda6"),
+                            Id = new Guid("00000000-3333-0000-0000-000000000005"),
                             Name = "PlanetAtmosphere_5",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -189,7 +225,7 @@ namespace AstroGame.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("45a16db0-05a1-4ea9-bcaa-0c5b59b09213"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Volcano_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -198,7 +234,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fd0f193d-7a61-478b-85d7-a6e0f3475452"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Volcano_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -207,7 +243,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9c29d7f1-2849-4f75-88f1-a52781ef7f74"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Volcano_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -216,7 +252,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("952b27f4-5973-47ea-bbf5-9ebe4ba6be4b"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Desert_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -225,7 +261,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("91ce3322-93eb-4de9-99c2-d64d966297e5"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Desert_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -234,7 +270,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d86f58a5-a331-46ca-945f-009fbef3a340"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Desert_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -243,7 +279,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ad491dc6-8110-48e3-b88b-c049ce075156"),
+                            Id = new Guid("20000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Continental_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -252,7 +288,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6eefab37-6adf-4426-ac6b-56ac863d1f5d"),
+                            Id = new Guid("20000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Continental_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -261,7 +297,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d765f76b-4077-497c-89b4-34ddad873836"),
+                            Id = new Guid("20000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Continental_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -270,7 +306,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("04c70207-f837-4b5e-b084-6a2e4a75e995"),
+                            Id = new Guid("30000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Rock_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -279,7 +315,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2f200a89-e250-4b8d-9a7f-8524e3e1c543"),
+                            Id = new Guid("30000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Rock_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -288,7 +324,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7624981b-256b-450a-ac9c-0f9f1478515f"),
+                            Id = new Guid("30000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Rock_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -297,7 +333,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a291133c-382b-4f39-a6f0-2e6f169c0e83"),
+                            Id = new Guid("40000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Gaia_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -306,7 +342,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("56104a60-24a2-425c-ad30-bd2ae0ba090e"),
+                            Id = new Guid("40000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Gaia_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -315,7 +351,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6fa22d3a-0f7a-4393-b018-77fecb105d85"),
+                            Id = new Guid("40000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Gaia_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -324,7 +360,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6fa513cb-805d-45ae-a160-c5fa44665927"),
+                            Id = new Guid("50000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Gas_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -333,7 +369,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("57148810-014d-443b-8527-71d6cec2fe03"),
+                            Id = new Guid("50000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Gas_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -342,7 +378,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fc5a8037-2d52-40a2-9826-1596a6a4e082"),
+                            Id = new Guid("50000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Gas_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -351,7 +387,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1670f160-8a03-4f8d-b27d-80eb6e0ecba1"),
+                            Id = new Guid("60000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Ocean_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -360,7 +396,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e09a7f0c-257c-48b3-be44-2d4c2afce354"),
+                            Id = new Guid("60000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Ocean_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -369,7 +405,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c2acb104-da0c-478c-9f3a-2d3a57a515f3"),
+                            Id = new Guid("60000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Ocean_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -378,7 +414,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("354bbd15-0c08-4aea-80b9-209ab83e927b"),
+                            Id = new Guid("70000000-0000-0000-0000-000000000001"),
                             Name = "Planet_Ice_1",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -387,7 +423,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("09922780-2cc3-488f-9c13-4af2d22d33ff"),
+                            Id = new Guid("70000000-0000-0000-0000-000000000002"),
                             Name = "Planet_Ice_2",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -396,7 +432,7 @@ namespace AstroGame.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3e982d58-019c-4f97-9dd7-9fa20068573d"),
+                            Id = new Guid("70000000-0000-0000-0000-000000000003"),
                             Name = "Planet_Ice_3",
                             Offset = "(0.0, 0.0, 0.0)",
                             Rotation = "(0.0, 0.0, 0.0)",
@@ -410,6 +446,16 @@ namespace AstroGame.Api.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Prefabs.Prefab");
 
                     b.ToTable("RingsPrefabs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-4444-0000-0000-000000000001"),
+                            Name = "Rings_1",
+                            Offset = "(0.0, 0.0, -1.0)",
+                            Rotation = "(-1.0, 0.0, 0.0)",
+                            Scale = "(0.0, 0.0, 0.0)"
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.StarPrefab", b =>
@@ -424,7 +470,7 @@ namespace AstroGame.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ca86d224-4247-428f-a7dd-d5088ef0f634"),
+                            Id = new Guid("00000000-5555-0000-0000-000000000001"),
                             Name = "Test_Prefab",
                             Offset = "(0.0, 0.0, -1.0)",
                             Rotation = "(-1.0, 0.0, 0.0)",

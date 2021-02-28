@@ -13,6 +13,8 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
     {
         private readonly List<PlanetPrefab> _prefabs;
         private readonly List<PlanetAtmospherePrefab> _atmospherePrefabs;
+        private readonly List<RingsPrefab> _ringsPrefabs;
+        private readonly List<CloudsPrefab> _cloudsPrefabs;
 
         private static readonly List<(List<PlanetType> Types, uint MinDistance, uint MaxDistance)> Distances =
             new List<(List<PlanetType>, uint, uint)>()
@@ -28,43 +30,6 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
                 // Cold planets
                 (new List<PlanetType>() {PlanetType.Ice}, 1510, 2350)
-            };
-
-        // TODO: Remove predefined Prefabs
-        private static readonly List<(string PrefabName, bool HasAtmosphere, PlanetType Type, bool HasRings)> Prefabs =
-            new List<(string PrefabName, bool HasAtmosphere, PlanetType Type, bool HasRings)>()
-            {
-                // Volcano
-                ("Prefab_Planet_Volcano_1", true, PlanetType.Volcano, false),
-                ("Prefab_Planet_Volcano_2", true, PlanetType.Volcano, false),
-                ("Prefab_Planet_Volcano_3", true, PlanetType.Volcano, false),
-                ("Prefab_Planet_Volcano_4", true, PlanetType.Volcano, false),
-
-                // Desert
-                ("Prefab_DesertPlanet1", true, PlanetType.Desert, false),
-
-                // Continental
-                ("Prefab_ContinentalPlanet1", false, PlanetType.Continental, false),
-                ("Prefab_ContinentalPlanet2", true, PlanetType.Continental, false),
-
-                // Ocean
-                ("Prefab_OceanPlanet1", false, PlanetType.Ocean, false),
-
-                // Rock
-                ("Prefab_RockPlanet1", false, PlanetType.Rock, false),
-                ("Prefab_RockPlanet2", false, PlanetType.Rock, false),
-                ("Prefab_RockPlanet3", true, PlanetType.Rock, false),
-                ("Prefab_RockPlanet4", true, PlanetType.Rock, false),
-
-                // Gas
-                ("Prefab_GasPlanet1", false, PlanetType.Gas, false),
-                ("Prefab_GasPlanet2", false, PlanetType.Gas, false),
-                ("Prefab_GasPlanet3", true, PlanetType.Gas, false),
-                ("Prefab_GasPlanet4", true, PlanetType.Gas, false),
-
-                // Ice
-                ("Prefab_IcePlanet1", false, PlanetType.Ice, false),
-                ("Prefab_IcePlanet2", true, PlanetType.Ice, false),
             };
 
         private static readonly List<KeyValuePair<PlanetType, uint>> SurfaceOccurrences =
@@ -93,17 +58,21 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                     (PlanetType.Volcano, 1000, 1500)
                 };
 
-        public PlanetGenerator(List<PlanetPrefab> prefabs, List<PlanetAtmospherePrefab> atmospherePrefabs)
+        public PlanetGenerator(List<PlanetPrefab> prefabs, List<PlanetAtmospherePrefab> atmospherePrefabs,
+            List<RingsPrefab> ringsPrefabs, List<CloudsPrefab> cloudsPrefabs)
         {
             _prefabs = prefabs;
             _atmospherePrefabs = atmospherePrefabs;
+            _ringsPrefabs = ringsPrefabs;
+            _cloudsPrefabs = cloudsPrefabs;
         }
 
         public Planet Generate(SingleObjectSystem parent, int order)
         {
-            var planetType = GenerateSurface();
+            var planetType = GeneratePlanetType();
             var atmosphere = SelectAtmosphere(planetType);
-            var hasRings = GenerateRings();
+            var rings = GenerateRings();
+            var clouds = GenerateClouds();
             var prefab = SelectPrefab(planetType);
             var averageTemperature = GenerateTemperature(planetType);
             var rotationSpeed = GenerateRotationSpeed();
@@ -114,12 +83,19 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 Name = $"{parent.Name}-{order}",
                 PlanetType = planetType,
                 ParentSystem = parent,
+                //ParentSystemId = parent.Id,
 
                 PrefabId = prefab.Id,
                 Prefab = prefab,
 
-                AtmospherePrefabId = atmosphere.Id,
+                AtmospherePrefabId = atmosphere?.Id,
                 AtmospherePrefab = atmosphere,
+
+                RingsPrefab = rings,
+                RingPrefabId = rings?.Id,
+
+                CloudsPrefab = clouds,
+                CloudsPrefabId = clouds?.Id,
 
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,
@@ -129,7 +105,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             return planet;
         }
 
-        private static PlanetType GenerateSurface()
+        private static PlanetType GeneratePlanetType()
         {
             return RandomCalculator.SelectByWeight(SurfaceOccurrences);
         }
@@ -142,15 +118,14 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             return RandomCalculator.Random.Next(minTemperature, maxTemperature + 1);
         }
 
-        private static bool GenerateRings()
+        private RingsPrefab GenerateRings()
         {
-            var weights = new List<KeyValuePair<bool, uint>>()
-            {
-                new KeyValuePair<bool, uint>(false, 1),
-                new KeyValuePair<bool, uint>(true, 1)
-            };
+            return _ringsPrefabs[RandomCalculator.Random.Next(0, _ringsPrefabs.Count)];
+        }
 
-            return RandomCalculator.SelectByWeight(weights);
+        private CloudsPrefab GenerateClouds()
+        {
+            return _cloudsPrefabs[RandomCalculator.Random.Next(0, _cloudsPrefabs.Count)];
         }
 
         private static float GenerateRotationSpeed()

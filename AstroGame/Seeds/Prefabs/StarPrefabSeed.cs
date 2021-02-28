@@ -1,8 +1,8 @@
-﻿using System;
-using AstroGame.Shared.Enums;
+﻿using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Prefabs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using UnityEngine;
 
 namespace AstroGame.Api.Seeds.Prefabs
@@ -13,7 +13,7 @@ namespace AstroGame.Api.Seeds.Prefabs
         {
             builder.HasData(new StarPrefab()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("00000000-5555-0000-0000-000000000001"),
                 Name = "Test_Prefab",
                 StarType = StarType.BrownDwarf,
                 Scale = Vector3.zero,

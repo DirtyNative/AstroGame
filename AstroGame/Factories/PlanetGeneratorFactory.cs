@@ -9,13 +9,18 @@ namespace AstroGame.Api.Factories
         private readonly IServiceProvider _serviceProvider;
         private readonly PlanetPrefabRepository _planetPrefabRepository;
         private readonly PlanetAtmospherePrefabRepository _planetAtmospherePrefabRepository;
+        private readonly RingsPrefabRepository _ringsPrefabRepository;
+        private readonly CloudsPrefabRepository _cloudsPrefabRepository;
 
         public PlanetGeneratorFactory(IServiceProvider serviceProvider, PlanetPrefabRepository planetPrefabRepository,
-            PlanetAtmospherePrefabRepository planetAtmospherePrefabRepository)
+            PlanetAtmospherePrefabRepository planetAtmospherePrefabRepository,
+            RingsPrefabRepository ringsPrefabRepository, CloudsPrefabRepository cloudsPrefabRepository)
         {
             _serviceProvider = serviceProvider;
             _planetPrefabRepository = planetPrefabRepository;
             _planetAtmospherePrefabRepository = planetAtmospherePrefabRepository;
+            _ringsPrefabRepository = ringsPrefabRepository;
+            _cloudsPrefabRepository = cloudsPrefabRepository;
         }
 
         public PlanetGenerator Create()
@@ -23,8 +28,10 @@ namespace AstroGame.Api.Factories
             // Load the prefabs
             var prefabs = _planetPrefabRepository.Get();
             var atmospherePrefabs = _planetAtmospherePrefabRepository.Get();
+            var rings = _ringsPrefabRepository.Get();
+            var clouds = _cloudsPrefabRepository.Get();
 
-            return new PlanetGenerator(prefabs, atmospherePrefabs);
+            return new PlanetGenerator(prefabs, atmospherePrefabs, rings, clouds);
         }
     }
 }
