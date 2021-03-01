@@ -4,14 +4,16 @@ using AstroGame.Api.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Api.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210301003927_AddedResouces")]
+    partial class AddedResouces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -832,7 +834,6 @@ namespace AstroGame.Api.Migrations
                             Id = new Guid("00000000-0000-1111-0000-000000000001"),
                             Name = "Water",
                             NaturalOccurrenceWeight = 1.0,
-                            ManufactionId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Type = 1
                         },
                         new

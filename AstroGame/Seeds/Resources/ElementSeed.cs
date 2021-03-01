@@ -1,311 +1,249 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using AstroGame.Shared.Models.Resources;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using AstroGame.Shared.Models.Resources.Elements;
 
-namespace AstroGame.Api.Seeds
+namespace AstroGame.Api.Seeds.Resources
 {
-    /*
     public class ElementSeed : IEntityTypeConfiguration<Element>
     {
         public void Configure(EntityTypeBuilder<Element> builder)
         {
             builder.HasData(
+                // Basic Elements
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000001"),
                     Name = "Hydrogen",
                     Symbol = "H",
                     Type = ElementType.Gases,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000002"),
                     Name = "Helium",
                     Symbol = "He",
                     Type = ElementType.Gases,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000003"),
                     Name = "Lithium",
                     Symbol = "Li",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000004"),
                     Name = "Beryllium",
                     Symbol = "Be",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000005"),
                     Name = "Boron",
                     Symbol = "B",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000006"),
                     Name = "Carbon",
                     Symbol = "C",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000007"),
                     Name = "Nitrogen",
                     Symbol = "N",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000008"),
                     Name = "Oxygen",
                     Symbol = "O",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
+                    Type = ElementType.Gases,
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Fluorine",
-                    Symbol = "F",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Neon",
-                    Symbol = "Ne",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Sodium",
-                    Symbol = "Na",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000009"),
                     Name = "Magnesium",
                     Symbol = "Mg",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000010"),
                     Name = "Aluminium",
                     Symbol = "Al",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000011"),
                     Name = "Silicon",
                     Symbol = "Si",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000012"),
                     Name = "Phosphorus",
                     Symbol = "P",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000013"),
                     Name = "Sulfur",
                     Symbol = "S",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000014"),
                     Name = "Chlorine",
                     Symbol = "Cl",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Argon",
-                    Symbol = "Ar",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Potassium",
-                    Symbol = "K",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Calcium",
-                    Symbol = "Ca",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Scandium",
-                    Symbol = "Sc",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000015"),
                     Name = "Titanium",
                     Symbol = "Ti",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Vanadium",
-                    Symbol = "V",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Chromium",
-                    Symbol = "Cr",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Manganese",
-                    Symbol = "Mn",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000016"),
                     Name = "Iron",
                     Symbol = "Fe",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000017"),
                     Name = "Cobalt",
                     Symbol = "Co",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000018"),
                     Name = "Nickel",
                     Symbol = "Ni",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000019"),
                     Name = "Copper",
                     Symbol = "Cu",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000020"),
                     Name = "Zinc",
                     Symbol = "Zn",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000021"),
                     Name = "Gallium",
                     Symbol = "Ga",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000022"),
                     Name = "Germanium",
                     Symbol = "Ge",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Arsenic",
-                    Symbol = "As",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000023"),
+                    Name = "Palladium",
+                    Symbol = "Pd",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Selenium",
-                    Symbol = "Se",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000024"),
+                    Name = "Silver",
+                    Symbol = "Ag",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Bromine",
-                    Symbol = "Br",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000025"),
+                    Name = "Tin",
+                    Symbol = "Sn",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Krypton",
-                    Symbol = "Kr",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000026"),
+                    Name = "Iridium",
+                    Symbol = "Ir",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Rubidium",
-                    Symbol = "Rb",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000027"),
+                    Name = "Platinum",
+                    Symbol = "Pt",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Strontium",
-                    Symbol = "Sr",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000028"),
+                    Name = "Gold",
+                    Symbol = "Au",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 },
                 new Element()
                 {
-                    Name = "Yttrium",
-                    Symbol = "Y",
+                    Id = Guid.Parse("00000000-1111-0000-0000-000000000029"),
+                    Name = "Plutonium",
+                    Symbol = "Pu",
                     Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Zirconium",
-                    Symbol = "Zr",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Niobium",
-                    Symbol = "Nb",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
-                },
-                new Element()
-                {
-                    Name = "Molybdenum",
-                    Symbol = "Mo",
-                    Type = ElementType.Metals,
-                    IsRadioactive = false
+                    NaturalOccurrenceWeight = 1
                 }
             );
         }
-    } */
+    }
 }
