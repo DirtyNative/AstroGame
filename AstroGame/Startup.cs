@@ -33,6 +33,8 @@ namespace AstroGame.Api
                 options.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
             });
 
+            services.AddSignalR();
+
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "AstroGame", Version = "v1"}); });
         }
 
