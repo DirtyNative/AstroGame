@@ -21,6 +21,11 @@ namespace AstroGame.Api.Databases.TypeConfigurations.Objects
             builder.HasOne(e => e.AtmospherePrefab).WithMany().HasForeignKey(e => e.AtmospherePrefabId);
             builder.HasOne(e => e.CloudsPrefab).WithMany().HasForeignKey(e => e.CloudsPrefabId);
             builder.HasOne(e => e.RingsPrefab).WithMany().HasForeignKey(e => e.RingPrefabId);
+
+            /*builder.HasMany(e => e.Resources).WithOne(e => e.StellarObject as Planet)
+                .HasForeignKey(e => e.StellarObjectId); */
+
+            //builder.HasMany(e => e.Resources).WithOne().HasForeignKey(e => e.StellarObjectId);
         }
     }
 }

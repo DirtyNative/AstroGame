@@ -1,6 +1,7 @@
-﻿using System;
-using AstroGame.Shared.Models.Stellar.BaseTypes;
+﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace AstroGame.Shared.Models.Stellar.StellarSystems
 {
@@ -10,9 +11,25 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
         {
         }
 
-        public SingleObjectSystem(StellarSystem parent) : base(parent)
+        public SingleObjectSystem(StellarSystem parent)
         {
+            Parent = parent;
         }
+
+        [JsonProperty(Order = -6)] public Guid ParentId { get; set; }
+
+        [JsonIgnore] public StellarSystem Parent { get; set; }
+
+        /// <summary>
+        /// The position relative to the parent.
+        /// 1: first sub object
+        /// 2: second sub object
+        /// ...
+        /// </summary>
+        [JsonProperty(Order = -5)]
+        public int Order { get; set; }
+
+        [JsonProperty(Order = 10)] public List<StellarSystem> Satellites { get; set; }
 
         [JsonProperty(Order = 8)] public StellarObject CenterObject { get; set; }
 

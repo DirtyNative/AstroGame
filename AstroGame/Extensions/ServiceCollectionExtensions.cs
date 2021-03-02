@@ -2,6 +2,9 @@
 using AstroGame.Api.Databases;
 using AstroGame.Api.Factories;
 using AstroGame.Api.Repositories;
+using AstroGame.Api.Repositories.Resources;
+using AstroGame.Api.Repositories.Stellar;
+using AstroGame.Generator.Generators.ResourceGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,13 +25,17 @@ namespace AstroGame.Api.Extensions
                         planetPrefabRepository: provider.GetService<PlanetPrefabRepository>(),
                         planetAtmospherePrefabRepository: provider.GetService<PlanetAtmospherePrefabRepository>(),
                         ringsPrefabRepository: provider.GetService<RingsPrefabRepository>(),
-                        cloudsPrefabRepository: provider.GetService<CloudsPrefabRepository>())
+                        cloudsPrefabRepository: provider.GetService<CloudsPrefabRepository>(),
+                        resourceGenerator: provider.GetService<ResourceGenerator>())
                     .Create());
 
             services.AddScoped(
                 (provider) => new MoonGeneratorFactory(provider,
                         provider.GetService<MoonPrefabRepository>())
                     .Create());
+
+            services.AddScoped<ResourceGenerator>((provider) =>
+                new ResourceGeneratorFactory(resourceRepository: provider.GetService<ResourceRepository>()).Create());
 
             var assembliesToBeScanned = new[] {"AstroGame"};
             services.AddServicesWithAttributeOfType<ScopedServiceAttribute>(assembliesToBeScanned);

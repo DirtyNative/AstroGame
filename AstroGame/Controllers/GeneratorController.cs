@@ -1,7 +1,8 @@
-﻿using AstroGame.Api.Repositories;
+﻿using AstroGame.Api.Repositories.Stellar;
 using AstroGame.Generator.Generators.SystemGenerators;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace AstroGame.Api.Controllers
 {
@@ -12,12 +13,17 @@ namespace AstroGame.Api.Controllers
     {
         private readonly SolarSystemGenerator _solarSystemGenerator;
         private readonly SolarSystemRepository _solarSystemRepository;
+        private readonly GalaxyRepository _galaxyRepository;
+        private readonly GalaxyGenerator _galaxyGenerator;
 
         public GeneratorController(SolarSystemGenerator solarSystemGenerator,
-            SolarSystemRepository solarSystemRepository)
+            SolarSystemRepository solarSystemRepository, GalaxyRepository galaxyRepository,
+            GalaxyGenerator galaxyGenerator)
         {
             _solarSystemGenerator = solarSystemGenerator;
             _solarSystemRepository = solarSystemRepository;
+            _galaxyRepository = galaxyRepository;
+            _galaxyGenerator = galaxyGenerator;
         }
 
         [HttpGet("first")]
@@ -39,11 +45,21 @@ namespace AstroGame.Api.Controllers
         [HttpGet("generate/solar-system")]
         public async Task<IActionResult> GenerateSolarSystem()
         {
-            var solarSystem = _solarSystemGenerator.GenerateRecursive(null);
+            var solarSystem = _solarSystemGenerator.GenerateRecursive(null, Vector3.zero);
 
             await _solarSystemRepository.AddAsync(solarSystem);
 
             return Ok(solarSystem);
+        }
+
+        [HttpGet("generate/galaxy")]
+        public async Task<IActionResult> GenerateGalaxyAsync()
+        {
+            var galaxy = _galaxyGenerator.Generate();
+
+            await _galaxyRepository.AddAsync(galaxy);
+
+            return Ok(galaxy);
         }
     }
 }

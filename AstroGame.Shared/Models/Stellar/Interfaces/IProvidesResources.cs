@@ -1,7 +1,10 @@
-﻿namespace AstroGame.Shared.Models.Stellar.Interfaces
+﻿using AstroGame.Shared.Models.Resources;
+using System.Collections.Generic;
+
+namespace AstroGame.Shared.Models.Stellar.Interfaces
 {
     public interface IProvidesResources
     {
-        //List<Resource> Resources { get; set; }
+        List<StellarObjectResource> Resources { get; set; }
     }
 }

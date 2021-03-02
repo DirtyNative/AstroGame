@@ -1,9 +1,10 @@
-﻿namespace AstroGame.Shared.Models.Stellar.StellarSystems
+﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
+using System.Collections.Generic;
+
+namespace AstroGame.Shared.Models.Stellar.StellarSystems
 {
-    /*public class Galaxy : StellarSystem
+    public class Galaxy : StellarSystem
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public List<StellarThing> Children { get; set; }
-    } */
+        public List<StellarSystem> Systems { get; set; }
+    }
 }

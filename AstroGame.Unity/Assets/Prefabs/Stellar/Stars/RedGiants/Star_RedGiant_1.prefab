@@ -31,6 +31,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2897640671931277891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7979749506607027788}
+  - component: {fileID: 3313178966348163876}
+  m_Layer: 0
+  m_Name: Prominence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7979749506607027788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897640671931277891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4108166581227390813}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3313178966348163876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897640671931277891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5886ad4a9bc0d0a4a87d730cc7e003ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainTex: {fileID: 2800000, guid: 06ffbb6cc7db4744d9f1d0c444418087, type: 3}
+  color: {r: 0.9056604, g: 0.5254539, b: 0.5254539, a: 1}
+  brightness: 0.3
+  renderQueue:
+    Group: 3000
+    Offset: 0
+  seed: 13
+  planeCount: 9
+  planeDetail: 10
+  radiusMin: 1
+  radiusMax: 2
+  fadeEdge: 0
+  fadePower: 2
+  clipNear: 1
+  clipPower: 2
+  cameraOffset: 0
+  distort: 1
+  distortTex: {fileID: 2800000, guid: 4cc954d0ac2f02d46bb53e2caf728817, type: 3}
+  distortScaleX: 0.1
+  distortScaleY: 1
+  distortStrength: 0.1
+  distortOffset: {x: 0, y: 0}
+  distortSpeed: {x: 0.1, y: 0}
+  detail: 1
+  detailTex: {fileID: 2800000, guid: b20403387ea956e4a97b7b93e6df71e0, type: 3}
+  detailScaleX: 0.1
+  detailScaleY: 1
+  detailStrength: 1
+  detailOffset: {x: 0.5, y: 0.5}
+  detailSpeed: {x: 0.1, y: 0}
 --- !u!1 &4469883791666774677
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2813161732562417269}
+  - {fileID: 7979749506607027788}
   m_Father: {fileID: 7602847886876830113}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8022097992706685408}
   - component: {fileID: 8022097992706685410}
   m_Layer: 0
-  m_Name: Ring
+  m_Name: Rings_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   near: 1
   nearTex: {fileID: 0}
   nearDistance: 4
-  scattering: 1
+  scattering: 0
   scatteringMie: 4.5
   scatteringStrength: 18.01
   lit: 1

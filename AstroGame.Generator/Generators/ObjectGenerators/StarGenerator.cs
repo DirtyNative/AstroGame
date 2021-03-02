@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
@@ -50,6 +51,8 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 RotationSpeed = rotationSpeed,
                 Scale = scale
             };
+
+            Debug.WriteLine("Star generated");
 
             return star;
         }

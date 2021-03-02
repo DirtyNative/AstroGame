@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -33,6 +34,8 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 Scale = scale,
                 AverageDistanceToCenter = distance,
             };
+
+            Debug.WriteLine("Moon generated");
 
             return moon;
         }

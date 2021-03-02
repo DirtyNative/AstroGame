@@ -1,5 +1,5 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Api.Repositories;
+using AstroGame.Api.Repositories.Stellar;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;

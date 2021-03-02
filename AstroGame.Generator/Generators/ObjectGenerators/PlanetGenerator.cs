@@ -1,20 +1,29 @@
 ﻿using AstroGame.Core.Helpers;
 using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Prefabs;
+using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using AstroGame.Generator.Generators.ResourceGenerators;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
     public class PlanetGenerator : IGenerator
     {
+        private const int MinResources = 10;
+        private const int MaxResources = 18;
+
         private readonly List<PlanetPrefab> _prefabs;
         private readonly List<PlanetAtmospherePrefab> _atmospherePrefabs;
         private readonly List<RingsPrefab> _ringsPrefabs;
         private readonly List<CloudsPrefab> _cloudsPrefabs;
+
+        private readonly ResourceGenerator _resourceGenerator;
 
         private static readonly List<(List<PlanetType> Types, uint MinDistance, uint MaxDistance)> Distances =
             new List<(List<PlanetType>, uint, uint)>()
@@ -59,12 +68,13 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 };
 
         public PlanetGenerator(List<PlanetPrefab> prefabs, List<PlanetAtmospherePrefab> atmospherePrefabs,
-            List<RingsPrefab> ringsPrefabs, List<CloudsPrefab> cloudsPrefabs)
+            List<RingsPrefab> ringsPrefabs, List<CloudsPrefab> cloudsPrefabs, ResourceGenerator resourceGenerator)
         {
             _prefabs = prefabs;
             _atmospherePrefabs = atmospherePrefabs;
             _ringsPrefabs = ringsPrefabs;
             _cloudsPrefabs = cloudsPrefabs;
+            _resourceGenerator = resourceGenerator;
         }
 
         public Planet Generate(SingleObjectSystem parent, int order)
@@ -101,6 +111,12 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 RotationSpeed = rotationSpeed,
                 Scale = scale,
             };
+
+            var resources = GenerateResource(planet);
+
+            planet.Resources = resources;
+
+            Debug.WriteLine("Planet generated");
 
             return planet;
         }
@@ -174,6 +190,11 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             var prefab = availablePrefabs[RandomCalculator.Random.Next(0, availablePrefabs.Count)];
 
             return prefab;
+        }
+
+        private List<StellarObjectResource> GenerateResource(StellarObject planet)
+        {
+            return _resourceGenerator.Generate(planet, MinResources, MaxResources);
         }
     }
 }

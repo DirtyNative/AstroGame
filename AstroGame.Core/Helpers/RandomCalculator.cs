@@ -6,9 +6,9 @@ namespace AstroGame.Core.Helpers
 {
     public static class RandomCalculator
     {
-        public static Random Random = new Random();
+        public static readonly Random Random = new Random();
 
-        public static T SelectByWeight<T>(List<KeyValuePair<T, double>> weights)
+        /*public static T SelectByWeight<T>(List<KeyValuePair<T, double>> weights)
         {
             var diceRoll = Random.NextDouble();
 
@@ -24,7 +24,7 @@ namespace AstroGame.Core.Helpers
             }
 
             return default(T);
-        }
+        } */
 
         public static T SelectByWeight<T>(List<KeyValuePair<T, uint>> weights)
         {

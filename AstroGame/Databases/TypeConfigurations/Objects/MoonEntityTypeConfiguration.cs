@@ -16,6 +16,11 @@ namespace AstroGame.Api.Databases.TypeConfigurations.Objects
 
             builder.HasOne(e => e.ParentSystem)
                 .WithOne(e => e.CenterObject as Moon).HasForeignKey<SingleObjectSystem>(e => e.CenterObjectId);
+
+            /*builder.HasMany(e => e.Resources).WithOne(e => e.StellarObject as Moon)
+                .HasForeignKey(e => e.StellarObjectId); */
+
+            //builder.HasMany(e => e.Resources).WithOne().HasForeignKey(e => e.StellarObjectId);
         }
     }
 }

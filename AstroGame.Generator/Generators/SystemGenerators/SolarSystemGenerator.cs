@@ -5,6 +5,7 @@ using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
@@ -69,12 +70,21 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             new KeyValuePair<uint, uint>(8, 1),
         };
 
-        public SolarSystem GenerateRecursive(StellarSystem parent)
+        public SolarSystem Generate(StellarSystem parent, Vector3 position)
         {
             var name = _solarSystemNameGenerator.Generate();
+            var solarSystem = new SolarSystem(parent)
+            {
+                Name = name,
+                Position = position
+            };
 
-            var solarSystem = new SolarSystem(parent) {Name = name};
+            return solarSystem;
+        }
 
+        public SolarSystem GenerateRecursive(StellarSystem parent, Vector3 position)
+        {
+            var solarSystem = Generate(parent, position);
 
             solarSystem.CenterSystems = GenerateCenter(solarSystem, 0);
             solarSystem.Satellites = GenerateSatellites(solarSystem, 1);

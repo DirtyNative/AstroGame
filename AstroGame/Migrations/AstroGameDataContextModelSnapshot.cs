@@ -97,8 +97,8 @@ namespace AstroGame.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("NaturalOccurrenceWeight")
-                        .HasColumnType("float");
+                    b.Property<long>("NaturalOccurrenceWeight")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -132,6 +132,43 @@ namespace AstroGame.Api.Migrations
                             OutputMaterialId = new Guid("00000000-0000-1111-0000-000000000001"),
                             OutputValue = 1.0
                         });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Resources.StellarObjectResource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid?>("MoonId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PlanetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StellarObjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MoonId");
+
+                    b.HasIndex("PlanetId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasIndex("StarId");
+
+                    b.HasIndex("StellarObjectId");
+
+                    b.ToTable("StellarObjectResources");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
@@ -168,30 +205,42 @@ namespace AstroGame.Api.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<Guid?>("GalaxyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("MultiObjectSystemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("MultiObjectSystemId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ParentId")
+                    b.Property<Guid?>("SingleObjectSystemId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("StellarSystemId")
+                    b.Property<Guid?>("SolarSystemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SolarSystemId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GalaxyId");
+
                     b.HasIndex("MultiObjectSystemId");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("MultiObjectSystemId1");
 
-                    b.HasIndex("StellarSystemId");
+                    b.HasIndex("SingleObjectSystemId");
 
-                    b.ToTable("StellarSystem");
+                    b.HasIndex("SolarSystemId");
+
+                    b.HasIndex("SolarSystemId1");
+
+                    b.ToTable("StellarSystems");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.CloudsPrefab", b =>
@@ -584,7 +633,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000001"),
                             Name = "Hydrogen",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "H",
                             Type = 0
                         },
@@ -592,7 +641,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000002"),
                             Name = "Helium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "He",
                             Type = 0
                         },
@@ -600,7 +649,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000003"),
                             Name = "Lithium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Li",
                             Type = 1
                         },
@@ -608,7 +657,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000004"),
                             Name = "Beryllium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Be",
                             Type = 1
                         },
@@ -616,7 +665,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000005"),
                             Name = "Boron",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "B",
                             Type = 1
                         },
@@ -624,7 +673,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000006"),
                             Name = "Carbon",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "C",
                             Type = 1
                         },
@@ -632,7 +681,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000007"),
                             Name = "Nitrogen",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "N",
                             Type = 1
                         },
@@ -640,7 +689,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000008"),
                             Name = "Oxygen",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "O",
                             Type = 0
                         },
@@ -648,7 +697,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000009"),
                             Name = "Magnesium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Mg",
                             Type = 1
                         },
@@ -656,7 +705,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000010"),
                             Name = "Aluminium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Al",
                             Type = 1
                         },
@@ -664,7 +713,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000011"),
                             Name = "Silicon",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Si",
                             Type = 1
                         },
@@ -672,7 +721,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000012"),
                             Name = "Phosphorus",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "P",
                             Type = 1
                         },
@@ -680,7 +729,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000013"),
                             Name = "Sulfur",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "S",
                             Type = 1
                         },
@@ -688,7 +737,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000014"),
                             Name = "Chlorine",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Cl",
                             Type = 1
                         },
@@ -696,7 +745,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000015"),
                             Name = "Titanium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Ti",
                             Type = 1
                         },
@@ -704,7 +753,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000016"),
                             Name = "Iron",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Fe",
                             Type = 1
                         },
@@ -712,7 +761,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000017"),
                             Name = "Cobalt",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Co",
                             Type = 1
                         },
@@ -720,7 +769,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000018"),
                             Name = "Nickel",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Ni",
                             Type = 1
                         },
@@ -728,7 +777,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000019"),
                             Name = "Copper",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Cu",
                             Type = 1
                         },
@@ -736,7 +785,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000020"),
                             Name = "Zinc",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Zn",
                             Type = 1
                         },
@@ -744,7 +793,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000021"),
                             Name = "Gallium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Ga",
                             Type = 1
                         },
@@ -752,7 +801,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000022"),
                             Name = "Germanium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Ge",
                             Type = 1
                         },
@@ -760,7 +809,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000023"),
                             Name = "Palladium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Pd",
                             Type = 1
                         },
@@ -768,7 +817,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000024"),
                             Name = "Silver",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Ag",
                             Type = 1
                         },
@@ -776,7 +825,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000025"),
                             Name = "Tin",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Sn",
                             Type = 1
                         },
@@ -784,7 +833,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000026"),
                             Name = "Iridium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Ir",
                             Type = 1
                         },
@@ -792,7 +841,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000027"),
                             Name = "Platinum",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Pt",
                             Type = 1
                         },
@@ -800,7 +849,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000028"),
                             Name = "Gold",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Au",
                             Type = 1
                         },
@@ -808,7 +857,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-1111-0000-0000-000000000029"),
                             Name = "Plutonium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Symbol = "Pu",
                             Type = 1
                         });
@@ -831,7 +880,7 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-0000-1111-0000-000000000001"),
                             Name = "Water",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             ManufactionId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Type = 1
                         },
@@ -839,91 +888,91 @@ namespace AstroGame.Api.Migrations
                         {
                             Id = new Guid("00000000-0000-1111-0000-000000000002"),
                             Name = "Food",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 1
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-1111-0000-000000000003"),
                             Name = "Luxury Goods",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 1
                         },
                         new
                         {
                             Id = new Guid("00000000-1111-1111-0000-000000000001"),
                             Name = "Conductive Components",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 2
                         },
                         new
                         {
                             Id = new Guid("00000000-1111-1111-0000-000000000002"),
                             Name = "Conductive Components",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 2
                         },
                         new
                         {
                             Id = new Guid("00000000-1111-1111-0000-000000000003"),
                             Name = "Supra conductors",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 2
                         },
                         new
                         {
                             Id = new Guid("00000000-2222-1111-0000-000000000001"),
                             Name = "Deuterium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 4
                         },
                         new
                         {
                             Id = new Guid("00000000-2222-1111-0000-000000000002"),
                             Name = "Tritium",
-                            NaturalOccurrenceWeight = 1.0,
+                            NaturalOccurrenceWeight = 1L,
                             Type = 4
                         },
                         new
                         {
                             Id = new Guid("00000000-3333-1111-0000-000000000001"),
                             Name = "Hardened Iron",
-                            NaturalOccurrenceWeight = 0.0,
+                            NaturalOccurrenceWeight = 0L,
                             Type = 0
                         },
                         new
                         {
                             Id = new Guid("00000000-3333-1111-0000-000000000002"),
                             Name = "Steel",
-                            NaturalOccurrenceWeight = 0.0,
+                            NaturalOccurrenceWeight = 0L,
                             Type = 0
                         },
                         new
                         {
                             Id = new Guid("00000000-3333-1111-0000-000000000003"),
                             Name = "Nanites",
-                            NaturalOccurrenceWeight = 0.0,
+                            NaturalOccurrenceWeight = 0L,
                             Type = 0
                         },
                         new
                         {
                             Id = new Guid("00000000-4444-1111-0000-000000000001"),
                             Name = "Reactive alloys",
-                            NaturalOccurrenceWeight = 0.0,
+                            NaturalOccurrenceWeight = 0L,
                             Type = 3
                         },
                         new
                         {
                             Id = new Guid("00000000-4444-1111-0000-000000000002"),
                             Name = "Nano alloys",
-                            NaturalOccurrenceWeight = 0.0,
+                            NaturalOccurrenceWeight = 0L,
                             Type = 3
                         },
                         new
                         {
                             Id = new Guid("00000000-5555-1111-0000-000000000001"),
                             Name = "Dark matter",
-                            NaturalOccurrenceWeight = 0.0,
+                            NaturalOccurrenceWeight = 0L,
                             Type = 0
                         });
                 });
@@ -1011,9 +1060,24 @@ namespace AstroGame.Api.Migrations
                     b.ToTable("Stars");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.Galaxy", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem");
+
+                    b.ToTable("Galaxies");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("MultiObjectSystems");
                 });
@@ -1025,16 +1089,33 @@ namespace AstroGame.Api.Migrations
                     b.Property<Guid>("CenterObjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasIndex("CenterObjectId")
                         .IsUnique()
                         .HasFilter("[CenterObjectId] IS NOT NULL");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("SingleObjectSystems");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem");
+                    b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("SolarSystems");
                 });
@@ -1069,21 +1150,62 @@ namespace AstroGame.Api.Migrations
                     b.Navigation("OutputMaterial");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Resources.StellarObjectResource", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", null)
+                        .WithMany("Resources")
+                        .HasForeignKey("MoonId");
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", null)
+                        .WithMany("Resources")
+                        .HasForeignKey("PlanetId");
+
+                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
+                        .WithMany("StellarObjectResources")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarObjects.Star", null)
+                        .WithMany("Resources")
+                        .HasForeignKey("StarId");
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "StellarObject")
+                        .WithMany()
+                        .HasForeignKey("StellarObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Resource");
+
+                    b.Navigation("StellarObject");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.Galaxy", null)
+                        .WithMany("Systems")
+                        .HasForeignKey("GalaxyId");
+
                     b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", null)
                         .WithMany("CenterSystems")
                         .HasForeignKey("MultiObjectSystemId");
 
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", null)
                         .WithMany("Satellites")
-                        .HasForeignKey("StellarSystemId");
+                        .HasForeignKey("MultiObjectSystemId1");
 
-                    b.Navigation("Parent");
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", null)
+                        .WithMany("Satellites")
+                        .HasForeignKey("SingleObjectSystemId");
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", null)
+                        .WithMany("CenterSystems")
+                        .HasForeignKey("SolarSystemId");
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", null)
+                        .WithMany("Satellites")
+                        .HasForeignKey("SolarSystemId1");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Prefabs.CloudsPrefab", b =>
@@ -1233,6 +1355,15 @@ namespace AstroGame.Api.Migrations
                     b.Navigation("Prefab");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.Galaxy", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.Galaxy", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
@@ -1240,6 +1371,14 @@ namespace AstroGame.Api.Migrations
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
@@ -1256,16 +1395,37 @@ namespace AstroGame.Api.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CenterObject");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", null)
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Resources.Resource", b =>
+                {
+                    b.Navigation("StellarObjectResources");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.ResourceManufaction", b =>
@@ -1278,19 +1438,48 @@ namespace AstroGame.Api.Migrations
                     b.Navigation("ParentSystem");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
-                {
-                    b.Navigation("Satellites");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Material", b =>
                 {
                     b.Navigation("Manufaction");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Moon", b =>
+                {
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
+                {
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Star", b =>
+                {
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.Galaxy", b =>
+                {
+                    b.Navigation("Systems");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.MultiObjectSystem", b =>
                 {
                     b.Navigation("CenterSystems");
+
+                    b.Navigation("Satellites");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
+                {
+                    b.Navigation("Satellites");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SolarSystem", b =>
+                {
+                    b.Navigation("CenterSystems");
+
+                    b.Navigation("Satellites");
                 });
 #pragma warning restore 612, 618
         }

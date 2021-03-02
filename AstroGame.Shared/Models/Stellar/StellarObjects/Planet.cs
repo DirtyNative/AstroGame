@@ -1,9 +1,11 @@
 ﻿using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Prefabs;
+using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
+using System.Collections.Generic;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
@@ -30,5 +32,6 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         public RingsPrefab RingsPrefab { get; set; }
         public Guid? CloudsPrefabId { get; set; }
         public CloudsPrefab CloudsPrefab { get; set; }
+        public List<StellarObjectResource> Resources { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Prefabs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AstroGame.Api.Repositories.Stellar;
 
 namespace AstroGame.Api.Managers
 {

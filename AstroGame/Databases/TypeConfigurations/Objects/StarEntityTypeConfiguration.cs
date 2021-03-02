@@ -17,6 +17,11 @@ namespace AstroGame.Api.Databases.TypeConfigurations.Objects
                 .WithOne(e => e.CenterObject as Star).HasForeignKey<SingleObjectSystem>(e => e.CenterObjectId);
 
             builder.HasOne(e => e.Prefab).WithMany().HasForeignKey(e => e.PrefabId);
+
+            /*builder.HasMany(e => e.Resources).WithOne(e => e.StellarObject as Star)
+                .HasForeignKey(e => e.StellarObjectId);*/
+
+            //builder.HasMany(e => e.Resources).WithOne().HasForeignKey(e => e.StellarObjectId);
         }
     }
 }

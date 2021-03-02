@@ -4,6 +4,8 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
+using System.Collections.Generic;
+using AstroGame.Shared.Models.Resources;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
@@ -22,5 +24,6 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         public StarPrefab Prefab { get; set; }
         public double Scale { get; set; }
         public double AxialTilt { get; set; }
+        public List<StellarObjectResource> Resources { get; set; }
     }
 }

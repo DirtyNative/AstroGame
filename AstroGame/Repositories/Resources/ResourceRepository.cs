@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Repositories.Resources
@@ -34,6 +35,15 @@ namespace AstroGame.Api.Repositories.Resources
                 .ThenInclude(e => e.InputResources)
                 .ThenInclude(e => e.Input)
                 .ToListAsync();
+        }
+
+        public List<Resource> Get()
+        {
+            return _context.Resources
+                .Include(e => (e as Material).Manufaction)
+                .ThenInclude(e => e.InputResources)
+                .ThenInclude(e => e.Input)
+                .ToList();
         }
 
         public async Task DeleteAsync(Resource entity)

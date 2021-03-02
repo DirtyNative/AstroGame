@@ -2,6 +2,7 @@
 using AstroGame.Generator.Generators;
 using AstroGame.Generator.Generators.ObjectGenerators;
 using System;
+using AstroGame.Api.Repositories.Stellar;
 
 namespace AstroGame.Api.Factories
 {

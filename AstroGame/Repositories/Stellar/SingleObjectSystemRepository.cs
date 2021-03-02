@@ -1,13 +1,13 @@
-﻿using AstroGame.Api.Databases;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Api.Databases;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
+using Microsoft.EntityFrameworkCore;
 
-namespace AstroGame.Api.Repositories
+namespace AstroGame.Api.Repositories.Stellar
 {
     [ScopedService]
     public class SingleObjectSystemRepository : IRepository<SingleObjectSystem>

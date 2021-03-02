@@ -23,6 +23,8 @@ namespace AstroGame.Api.Databases
         public DbSet<Moon> Moons { get; set; }
         public DbSet<Planet> Planets { get; set; }
         public DbSet<Star> Stars { get; set; }
+
+        public DbSet<Galaxy> Galaxies { get; set; }
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<MultiObjectSystem> MultiObjectSystems { get; set; }
         public DbSet<SingleObjectSystem> SingleObjectSystems { get; set; }
@@ -38,6 +40,7 @@ namespace AstroGame.Api.Databases
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Shared.Models.Resources.Material> Materials { get; set; }
         public DbSet<Element> Elements { get; set; }
+        public DbSet<StellarObjectResource> StellarObjectResources { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
