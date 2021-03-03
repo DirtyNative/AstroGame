@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "apps",
+		},
+		{
+			"path": "modules"
+		},
+		{
+			"path": "frameworks"
+		}
+	],
+	"settings": {
+		
+	}
+}
