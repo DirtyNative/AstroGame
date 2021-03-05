@@ -15,6 +15,8 @@ namespace AstroGame.Shared.Models.Resources
 
         public Guid ResourceId { get; set; }
 
+        public double Multiplier { get; set; }
+
         [JsonIgnore] public virtual StellarObject StellarObject { get; set; }
 
         public virtual Resource Resource { get; set; }

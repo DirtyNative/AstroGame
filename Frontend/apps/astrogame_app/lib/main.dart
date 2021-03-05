@@ -1,7 +1,11 @@
+import 'package:astrogame_app/themes/dark_theme.dart';
+import 'package:astrogame_app/views/planet/planet_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
-void main() {
+Future main() async {
+  await ThemeManager.initialise();
   runApp(MyApp());
 }
 
@@ -9,13 +13,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ThemeBuilder(
+      themes: [
+        darkTheme,
+        darkTheme,
+      ],
+      builder: (context, regularTheme, darkTheme, themeMode) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: regularTheme,
+        darkTheme: darkTheme,
+        themeMode: themeMode,
+        home: PlanetView(),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -63,9 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            UnityWidget(
-              onUnityCreated: onUnityCreated,
-              fullscreen: true,
+            SizedBox(
+              height: 200,
+              child: UnityWidget(
+                onUnityCreated: onUnityCreated,
+                fullscreen: false,
+              ),
             ),
           ],
         ),

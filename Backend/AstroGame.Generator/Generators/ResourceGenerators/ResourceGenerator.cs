@@ -9,6 +9,9 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
 {
     public class ResourceGenerator : IGenerator
     {
+        private const double MinValue = 0.20;
+        private const double MaxValue = 2;
+
         private readonly List<Resource> _resources;
 
         public ResourceGenerator(List<Resource> resources)
@@ -29,11 +32,13 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             for (var i = 0; i < countResources; i++)
             {
                 var resource = RandomCalculator.SelectByWeight(weights);
+                var multiplier = GenerateMultiplier();
 
                 var stellarObjectResource = new StellarObjectResource()
                 {
                     StellarObject = parent,
                     Resource = resource,
+                    Multiplier = multiplier,
                 };
 
                 // Remove the resource from the pool, so it does not occur twice
@@ -45,6 +50,18 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             Debug.WriteLine("Resources generated");
 
             return list;
+        }
+
+        private static double GenerateMultiplier()
+        {
+            var multiplier = RandomCalculator.Random.NextDouble() + MinValue;
+
+            if (multiplier > MaxValue)
+            {
+                multiplier = MaxValue;
+            }
+
+            return multiplier;
         }
     }
 }
