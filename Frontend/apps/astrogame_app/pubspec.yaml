@@ -14,17 +14,44 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_unity_widget: ^4.0.0-alpha.4
+  flutter_unity_widget: ^3.0.3
+  #flutter_unity_widget: ^4.0.0-alpha.4
   cupertino_icons:
 
+  # Used for dependency injection
+  get_it: 
+  injectable:
+
+  # MVVM pattern
   stacked:
   stacked_themes:
+  stacked_services:
+
+  # Used for easier Api writing
+  retrofit:
+  dio: ^3.0.10
+
+  # Used to get the devices information like manufacturer, version, or if it a physical device
+  device_info: 
+
+  # Used to send events between ViewModels
+  event_bus:
+
   google_fonts:
   expandable:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  injectable_generator:
+  build_runner:
+
+  # Used to generate the Apis
+  retrofit_generator:
+
+  # This dev dependency needs to be added to automatically generate json objects
+  json_serializable:
 
 flutter:
   uses-material-design: true

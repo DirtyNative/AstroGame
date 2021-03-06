@@ -1,24 +1,23 @@
+import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/views/planet/planet_viewmodel.dart';
 import 'package:astrogame_app/widgets/glass_container.dart';
+import 'package:astrogame_app/widgets/unity_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:stacked/stacked.dart';
 
 class PlanetView extends StatelessWidget {
+  UnityWidgetController _unityController;
+
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder<PlanetViewModel>.reactive(
       builder: (context, model, _) => Scaffold(
         body: Stack(
           children: [
-            Container(
-              child: Image.asset(
-                "assets/planet_1.png",
-                fit: BoxFit.cover,
-              ),
-              height: double.infinity,
-            ),
-            SingleChildScrollView(
+            _unityWidget(context, model),
+            /*SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24.0),
                 child: Column(
@@ -34,11 +33,12 @@ class PlanetView extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+            ), */
           ],
         ),
       ),
-      viewModelBuilder: () => new PlanetViewModel(),
+      viewModelBuilder: () => getIt.get(),
+      onModelReady: (model) => model.instantiate(),
     );
   }
 
@@ -214,6 +214,16 @@ class PlanetView extends StatelessWidget {
         sigmaX: 5,
         sigmaY: 5,
       ),
+    );
+  }
+
+  Widget _unityWidget(BuildContext context, PlanetViewModel model) {
+    //return UnityContainer(getIt.get(), getIt.get());
+
+    return UnityWidget(
+      onUnityCreated: (controller) => _unityController = controller,
+      fullscreen: false,
+      onUnitySceneLoaded: (val) => model.instantiate(),
     );
   }
 }
