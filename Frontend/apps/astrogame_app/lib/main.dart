@@ -23,7 +23,9 @@ class MyApp extends StatelessWidget {
         theme: regularTheme,
         darkTheme: darkTheme,
         themeMode: themeMode,
-        home: PlanetView(),
+        home: MyHomePage(
+          title: 'Test',
+        ),
       ),
     );
   }
@@ -73,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline4,
             ),
             SizedBox(
-              height: 200,
+              height: MediaQuery.of(context).size.height,
               child: UnityWidget(
                 onUnityCreated: onUnityCreated,
                 fullscreen: false,
