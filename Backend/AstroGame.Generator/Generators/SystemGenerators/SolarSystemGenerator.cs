@@ -123,6 +123,8 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             var star = _starGenerator.Generate(system, position);
 
             system.CenterObject = star;
+            system.CenterObjectId = star.Id;
+
             return system;
         }
 

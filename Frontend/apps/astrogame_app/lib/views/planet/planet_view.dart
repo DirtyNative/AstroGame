@@ -1,30 +1,40 @@
 import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/views/planet/planet_viewmodel.dart';
 import 'package:astrogame_app/widgets/glass_container.dart';
-import 'package:astrogame_app/widgets/unity_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:stacked/stacked.dart';
+import 'package:video_player/video_player.dart';
 
 class PlanetView extends StatelessWidget {
-  UnityWidgetController _unityController;
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PlanetViewModel>.reactive(
       builder: (context, model, _) => Scaffold(
         body: Stack(
           children: [
-            _unityWidget(context, model),
-            /*SingleChildScrollView(
+            model.controller.value.isInitialized
+                ? SizedBox.expand(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: model.controller.value.size?.width ?? 0,
+                        height: model.controller.value.size?.height ?? 0,
+                        child: VideoPlayer(model.controller),
+                      ),
+                    ),
+                  )
+                : Container(
+                    color: Colors.black,
+                  ),
+            SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _headerWidget(context),
+                    _headerWidget(context, model),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 300,
                     ),
@@ -33,16 +43,16 @@ class PlanetView extends StatelessWidget {
                   ],
                 ),
               ),
-            ), */
+            ),
           ],
         ),
       ),
       viewModelBuilder: () => getIt.get(),
-      onModelReady: (model) => model.instantiate(),
+      onModelReady: (model) => model.play(),
     );
   }
 
-  Widget _headerWidget(BuildContext context) {
+  Widget _headerWidget(BuildContext context, PlanetViewModel model) {
     return Padding(
       padding: EdgeInsets.only(top: 24),
       child: Column(
@@ -65,6 +75,10 @@ class PlanetView extends StatelessWidget {
             style: Theme.of(context).textTheme.headline1,
             textAlign: TextAlign.center,
           ),
+          ElevatedButton(
+            onPressed: model.play,
+            child: Text('Play'),
+          )
         ],
       ),
     );
@@ -214,16 +228,6 @@ class PlanetView extends StatelessWidget {
         sigmaX: 5,
         sigmaY: 5,
       ),
-    );
-  }
-
-  Widget _unityWidget(BuildContext context, PlanetViewModel model) {
-    //return UnityContainer(getIt.get(), getIt.get());
-
-    return UnityWidget(
-      onUnityCreated: (controller) => _unityController = controller,
-      fullscreen: false,
-      onUnitySceneLoaded: (val) => model.instantiate(),
     );
   }
 }

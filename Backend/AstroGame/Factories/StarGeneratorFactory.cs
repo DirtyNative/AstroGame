@@ -1,8 +1,6 @@
-﻿using AstroGame.Api.Repositories;
+﻿using AstroGame.Generator.Assets;
 using AstroGame.Generator.Generators.ObjectGenerators;
-using AstroGame.Shared.Models.Prefabs;
 using System;
-using AstroGame.Api.Repositories.Stellar;
 
 namespace AstroGame.Api.Factories
 {
@@ -13,20 +11,15 @@ namespace AstroGame.Api.Factories
     public class StarGeneratorFactory
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly StarPrefabRepository _starPrefabRepository;
 
-        public StarGeneratorFactory(IServiceProvider serviceProvider, StarPrefabRepository starPrefabRepository)
+        public StarGeneratorFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _starPrefabRepository = starPrefabRepository;
         }
 
         public StarGenerator Create()
         {
-            // Load the Prefabs
-            var prefabs = _starPrefabRepository.Get();
-
-            return new StarGenerator(prefabs);
+            return new StarGenerator(Assets.StarAssets);
         }
     }
 }

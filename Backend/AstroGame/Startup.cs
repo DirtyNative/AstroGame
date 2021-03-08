@@ -24,7 +24,7 @@ namespace AstroGame.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.RegisterServices();
+            services.RegisterServices(Configuration);
             services.ConfigureDatabase(Configuration);
 
             services.AddMvc().AddNewtonsoftJson(options =>

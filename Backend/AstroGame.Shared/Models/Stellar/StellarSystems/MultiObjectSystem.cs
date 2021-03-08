@@ -12,11 +12,14 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
     {
         public MultiObjectSystem()
         {
+            Satellites = new List<StellarSystem>();
+            CenterSystems = new List<StellarSystem>();
         }
 
-        public MultiObjectSystem(StellarSystem parent)
+        public MultiObjectSystem(StellarSystem parent) : this()
         {
             Parent = parent;
+            ParentId = parent.Id;
         }
 
         [JsonProperty(Order = -6)] public Guid ParentId { get; set; }

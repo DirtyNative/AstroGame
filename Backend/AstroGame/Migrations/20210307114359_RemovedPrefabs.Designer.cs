@@ -4,14 +4,16 @@ using AstroGame.Api.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Api.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210307114359_RemovedPrefabs")]
+    partial class RemovedPrefabs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,9 +172,6 @@ namespace AstroGame.Api.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentSystemId")
-                        .IsUnique();
 
                     b.ToTable("StellarObjects");
                 });
@@ -684,6 +683,10 @@ namespace AstroGame.Api.Migrations
                     b.Property<Guid>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.HasIndex("CenterObjectId")
+                        .IsUnique()
+                        .HasFilter("[CenterObjectId] IS NOT NULL");
+
                     b.HasIndex("ParentId");
 
                     b.ToTable("SingleObjectSystems");
@@ -764,17 +767,6 @@ namespace AstroGame.Api.Migrations
                     b.Navigation("Resource");
 
                     b.Navigation("StellarObject");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "ParentSystem")
-                        .WithOne("CenterObject")
-                        .HasForeignKey("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "ParentSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParentSystem");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", b =>
@@ -877,6 +869,12 @@ namespace AstroGame.Api.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "CenterObject")
+                        .WithOne("ParentSystem")
+                        .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "CenterObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", "Id")
@@ -888,6 +886,8 @@ namespace AstroGame.Api.Migrations
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CenterObject");
 
                     b.Navigation("Parent");
                 });
@@ -917,6 +917,11 @@ namespace AstroGame.Api.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.ResourceManufaction", b =>
                 {
                     b.Navigation("InputResources");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
+                {
+                    b.Navigation("ParentSystem");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Material", b =>
@@ -953,8 +958,6 @@ namespace AstroGame.Api.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.SingleObjectSystem", b =>
                 {
-                    b.Navigation("CenterObject");
-
                     b.Navigation("Satellites");
                 });
 

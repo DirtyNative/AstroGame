@@ -12,7 +12,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
     [ScopedService]
     public class GalaxyGenerator : IGenerator
     {
-        private const int StarsCount = 1000;
+        private const int StarsCount = 10;
         private const int ArmsCount = 4;
 
         private const double MinY = -5;
@@ -58,7 +58,8 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
         private SolarSystem GenerateSolarSystem(StellarSystem parent, Vector3 position)
         {
-            return _solarSystemGenerator.Generate(parent, position);
+            //return _solarSystemGenerator.Generate(parent, position);
+            return _solarSystemGenerator.GenerateRecursive(parent, position);
         }
 
         private IEnumerable<Vector3> GenerateArm(int numOfStars, float rotation, float spin, double armSpread,

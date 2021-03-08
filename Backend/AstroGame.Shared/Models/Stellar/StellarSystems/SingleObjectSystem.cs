@@ -14,6 +14,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
         public SingleObjectSystem(StellarSystem parent)
         {
             Parent = parent;
+            ParentId = parent.Id;
         }
 
         [JsonProperty(Order = -6)] public Guid ParentId { get; set; }

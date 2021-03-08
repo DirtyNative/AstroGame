@@ -1,15 +1,13 @@
 ﻿using AstroGame.Shared.Enums;
-using AstroGame.Shared.Models.Prefabs;
+using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
-using System;
 using System.Collections.Generic;
-using AstroGame.Shared.Models.Resources;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
-    public class Star : StellarObject, IProvidesResources, IRenderable<StarPrefab>, ISphereObject
+    public class Star : StellarObject, IProvidesResources, IRenderable
     {
         public Star()
         {
@@ -20,10 +18,9 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         }
 
         public StarType StarType { get; set; }
-        public Guid PrefabId { get; set; }
-        public StarPrefab Prefab { get; set; }
         public double Scale { get; set; }
         public double AxialTilt { get; set; }
         public List<StellarObjectResource> Resources { get; set; }
+        public string AssetName { get; set; }
     }
 }

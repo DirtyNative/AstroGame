@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 /// Provides information about the Device which is executing the app
-@preResolve
+//@preResolve
 @singleton
 class DeviceInfo {
   bool isPhysicalDevice;

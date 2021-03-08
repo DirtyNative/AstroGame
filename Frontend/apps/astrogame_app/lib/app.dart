@@ -1,7 +1,6 @@
 import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/themes/dark_theme.dart';
 import 'package:astrogame_app/views/planet/planet_view.dart';
-import 'package:astrogame_app/widgets/unity_container.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
@@ -25,11 +24,9 @@ class AstroGameApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.unityContainer}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-
-  final UnityContainer unityContainer;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -68,9 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: UnityContainer(getIt.get(), getIt.get())),
           ],
         ),
       ),

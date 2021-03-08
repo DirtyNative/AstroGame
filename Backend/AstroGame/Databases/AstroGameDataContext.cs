@@ -1,7 +1,7 @@
 ﻿using AstroGame.Api.Databases.TypeConfigurations.Objects;
 using AstroGame.Api.Extensions;
-using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Resources;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +20,7 @@ namespace AstroGame.Api.Databases
         {
         }
 
+        public DbSet<StellarObject> StellarObjects { get; set; }
         public DbSet<Moon> Moons { get; set; }
         public DbSet<Planet> Planets { get; set; }
         public DbSet<Star> Stars { get; set; }
@@ -28,15 +29,7 @@ namespace AstroGame.Api.Databases
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<MultiObjectSystem> MultiObjectSystems { get; set; }
         public DbSet<SingleObjectSystem> SingleObjectSystems { get; set; }
-
-        public DbSet<MoonPrefab> MoonPrefabs { get; set; }
-        public DbSet<PlanetPrefab> PlanetPrefabs { get; set; }
-        public DbSet<StarPrefab> StarPrefabs { get; set; }
-
-        public DbSet<PlanetAtmospherePrefab> PlanetAtmospherePrefabs { get; set; }
-        public DbSet<RingsPrefab> RingsPrefabs { get; set; }
-        public DbSet<CloudsPrefab> CloudsPrefabs { get; set; }
-
+        
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Shared.Models.Resources.Material> Materials { get; set; }
         public DbSet<Element> Elements { get; set; }

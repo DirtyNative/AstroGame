@@ -1,50 +1,49 @@
 ﻿using AstroGame.Core.Helpers;
-using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
     public class MoonGenerator : IGenerator
     {
-        private readonly List<MoonPrefab> _prefabs;
+        private readonly List<string> _assets;
 
-        public MoonGenerator(List<MoonPrefab> prefabs)
+        private const double RingChance = 0.25;
+
+        public MoonGenerator(List<string> assets)
         {
-            _prefabs = prefabs;
+            _assets = assets;
         }
 
         public Moon Generate(SingleObjectSystem parent, int position)
         {
-            var prefab = SelectPrefab();
+            var asset = SelectAsset();
             var scale = GenerateScale();
             var distance = GenerateDistance();
 
             var moon = new Moon(parent)
             {
                 ParentSystem = parent,
-                //ParentSystemId = parent.Id,
-
-                Prefab = prefab,
-                PrefabId = prefab.Id,
-
+                ParentSystemId = parent.Id,
+                AssetName = asset,
                 Scale = scale,
                 AverageDistanceToCenter = distance,
             };
 
-            Debug.WriteLine("Moon generated");
-
             return moon;
         }
 
-        private MoonPrefab SelectPrefab()
+        private bool GenerateHasRings()
         {
-            var prefab = _prefabs[RandomCalculator.Random.Next(0, _prefabs.Count)];
+            return RandomCalculator.Random.NextDouble() <= RingChance;
+        }
 
-            return prefab;
+        private string SelectAsset()
+        {
+            var asset = _assets[RandomCalculator.Random.Next(0, _assets.Count)];
+            
+            return asset;
         }
 
         private double GenerateScale()

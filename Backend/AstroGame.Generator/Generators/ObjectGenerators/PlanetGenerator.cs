@@ -1,15 +1,12 @@
 ﻿using AstroGame.Core.Helpers;
+using AstroGame.Generator.Generators.ResourceGenerators;
 using AstroGame.Shared.Enums;
-using AstroGame.Shared.Models.Prefabs;
 using AstroGame.Shared.Models.Resources;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using AstroGame.Generator.Generators.ResourceGenerators;
-using AstroGame.Shared.Models.Stellar.BaseTypes;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -18,10 +15,9 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
         private const int MinResources = 10;
         private const int MaxResources = 18;
 
-        private readonly List<PlanetPrefab> _prefabs;
-        private readonly List<PlanetAtmospherePrefab> _atmospherePrefabs;
-        private readonly List<RingsPrefab> _ringsPrefabs;
-        private readonly List<CloudsPrefab> _cloudsPrefabs;
+        private readonly Dictionary<PlanetType, List<string>> _assets;
+
+        private const double AtmosphereChance = 0.05;
 
         private readonly ResourceGenerator _resourceGenerator;
 
@@ -67,23 +63,19 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                     (PlanetType.Volcano, 1000, 1500)
                 };
 
-        public PlanetGenerator(List<PlanetPrefab> prefabs, List<PlanetAtmospherePrefab> atmospherePrefabs,
-            List<RingsPrefab> ringsPrefabs, List<CloudsPrefab> cloudsPrefabs, ResourceGenerator resourceGenerator)
+        public PlanetGenerator(Dictionary<PlanetType, List<string>> assets, ResourceGenerator resourceGenerator)
         {
-            _prefabs = prefabs;
-            _atmospherePrefabs = atmospherePrefabs;
-            _ringsPrefabs = ringsPrefabs;
-            _cloudsPrefabs = cloudsPrefabs;
+            _assets = assets;
             _resourceGenerator = resourceGenerator;
         }
 
         public Planet Generate(SingleObjectSystem parent, int order)
         {
             var planetType = GeneratePlanetType();
-            var atmosphere = SelectAtmosphere(planetType);
-            var rings = GenerateRings();
-            var clouds = GenerateClouds();
-            var prefab = SelectPrefab(planetType);
+            var atmosphere = GenerateHasHabitableAtmosphere();
+            //var rings = GenerateHasRings();
+            //var clouds = GenerateHasClouds();
+            var assetName = SelectAsset(planetType);
             var averageTemperature = GenerateTemperature(planetType);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale(planetType);
@@ -93,19 +85,12 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 Name = $"{parent.Name}-{order}",
                 PlanetType = planetType,
                 ParentSystem = parent,
-                //ParentSystemId = parent.Id,
+                ParentSystemId = parent.Id,
 
-                PrefabId = prefab.Id,
-                Prefab = prefab,
-
-                AtmospherePrefabId = atmosphere?.Id,
-                AtmospherePrefab = atmosphere,
-
-                RingsPrefab = rings,
-                RingPrefabId = rings?.Id,
-
-                CloudsPrefab = clouds,
-                CloudsPrefabId = clouds?.Id,
+                //HasRings = rings,
+                HasHabitableAtmosphere = atmosphere,
+                //HasClouds = clouds,
+                AssetName = assetName,
 
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,
@@ -115,9 +100,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             var resources = GenerateResource(planet);
 
             planet.Resources = resources;
-
-            Debug.WriteLine("Planet generated");
-
+            
             return planet;
         }
 
@@ -134,14 +117,9 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             return RandomCalculator.Random.Next(minTemperature, maxTemperature + 1);
         }
 
-        private RingsPrefab GenerateRings()
+        private bool GenerateHasHabitableAtmosphere()
         {
-            return _ringsPrefabs[RandomCalculator.Random.Next(0, _ringsPrefabs.Count)];
-        }
-
-        private CloudsPrefab GenerateClouds()
-        {
-            return _cloudsPrefabs[RandomCalculator.Random.Next(0, _cloudsPrefabs.Count)];
+            return RandomCalculator.Random.NextDouble() <= AtmosphereChance;
         }
 
         private static float GenerateRotationSpeed()
@@ -164,32 +142,11 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             };
         }
 
-        private PlanetPrefab SelectPrefab(PlanetType planetType)
+        private string SelectAsset(PlanetType planetType)
         {
-            var availablePrefabs = _prefabs.Where(p => p.PlanetType == planetType).ToList();
-
-            if (availablePrefabs.Count == 0)
-            {
-                throw new NotImplementedException($"Planet prefab for type {planetType} is not seeded");
-            }
-
-            var prefab = availablePrefabs[RandomCalculator.Random.Next(0, availablePrefabs.Count)];
-
-            return prefab;
-        }
-
-        private PlanetAtmospherePrefab SelectAtmosphere(PlanetType planetType)
-        {
-            var availablePrefabs = _atmospherePrefabs.Where(p => p.PlanetTypes.Contains(planetType)).ToList();
-
-            if (availablePrefabs.Count == 0)
-            {
-                throw new NotImplementedException($"Planet atmosphere prefab for type {planetType} is not seeded");
-            }
-
-            var prefab = availablePrefabs[RandomCalculator.Random.Next(0, availablePrefabs.Count)];
-
-            return prefab;
+            var type = RandomCalculator.Random.Next(0, _assets[planetType].Count);
+            var asset = _assets[planetType][type];
+            return asset;
         }
 
         private List<StellarObjectResource> GenerateResource(StellarObject planet)

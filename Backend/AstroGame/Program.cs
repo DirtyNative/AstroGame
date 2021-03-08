@@ -17,6 +17,7 @@ namespace AstroGame.Api
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentalJsonFile("Configurations/AppSettings.json")
                 .AddEnvironmentalJsonFile("Configurations/DatabaseConnection.json")
+                .AddEnvironmentalJsonFile("Configurations/StorageSettings.json")
                 .Build();
 
             return WebHost.CreateDefaultBuilder(args)
