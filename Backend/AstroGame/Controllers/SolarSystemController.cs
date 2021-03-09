@@ -24,6 +24,13 @@ namespace AstroGame.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("system-number/{systemNumber}/recursive")]
+        public async Task<IActionResult> GetBySystemNumberRecursiveAsync(uint systemNumber)
+        {
+            var result = await _solarSystemManager.GetBySystemNumberRecursiveAsync(systemNumber);
+            return Ok(result);
+        }
+
         [HttpGet("recursive")]
         public async Task<IActionResult> GetRecursiveAsync()
         {

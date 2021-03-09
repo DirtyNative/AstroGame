@@ -27,6 +27,15 @@ namespace AstroGame.Api.Repositories.Stellar
                 .FirstOrDefaultAsync(ss => ss.Id == id);
         }
 
+        public async Task<SolarSystem> GetBySystemNumberAsync(uint systemNumber)
+        {
+            return await _context.SolarSystems
+                .Include(e => e.CenterSystems)
+                .Include(e => e.Satellites)
+                .FirstOrDefaultAsync(e => e.SystemNumber == systemNumber);
+
+        }
+
         public async Task<List<SolarSystem>> GetByParentAsync(Guid parentId)
         {
             return await _context.SolarSystems
@@ -69,7 +78,7 @@ namespace AstroGame.Api.Repositories.Stellar
             await _context.SolarSystems.AddAsync(solarSystem);
             await _context.SaveChangesAsync();
         }
-
+        
         public async Task DeleteAllAsync()
         {
             var solarSystems = await GetAsync();

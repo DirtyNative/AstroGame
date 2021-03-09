@@ -44,32 +44,32 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 new KeyValuePair<uint, uint>(3, 10),
             };
 
-        public StellarSystem Generate(StellarSystem parent, int position)
+        public StellarSystem Generate(StellarSystem parent, uint position)
         {
             var system = new SingleObjectSystem(parent);
 
             system.CenterObject = GenerateCenter(system, position);
-            system.Satellites = GenerateSatellites(system, position);
+            system.Satellites = GenerateSatellites(system);
 
             return system;
         }
 
-        private Planet GenerateCenter(SingleObjectSystem parent, int position)
+        private Planet GenerateCenter(SingleObjectSystem parent, uint position)
         {
             return _planetGenerator.Generate(parent, position);
         }
 
-        private List<StellarSystem> GenerateSatellites(StellarSystem parent, int position)
+        private List<StellarSystem> GenerateSatellites(StellarSystem parent)
         {
             var satelliteSystems = new List<StellarSystem>();
 
             var countSatellites = RandomCalculator.SelectByWeight(_satelliteOccurrences);
 
-            for (var i = position; i <= countSatellites; i++)
+            for (uint i = 1; i < countSatellites; i++)
             {
                 var multiSatelliteCount = RandomCalculator.SelectByWeight(_multiSatelliteCountOccurrences);
 
-                var satelliteSystem = GenerateSatelliteSystem(parent, position, multiSatelliteCount);
+                var satelliteSystem = GenerateSatelliteSystem(parent, i, multiSatelliteCount);
 
                 satelliteSystems.Add(satelliteSystem);
             }
@@ -77,20 +77,20 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             return satelliteSystems;
         }
 
-        private StellarSystem GenerateSatelliteSystem(StellarSystem parent, int position, uint countObjects)
+        private StellarSystem GenerateSatelliteSystem(StellarSystem parent, uint position, uint countObjects)
         {
             return countObjects == 1
                 ? GenerateSingleSatelliteSystem(parent, position)
-                : GenerateMultiSatelliteSystem(parent, position, countObjects);
+                : GenerateMultiSatelliteSystem(parent, ref position, countObjects);
         }
 
-        private StellarSystem GenerateSingleSatelliteSystem(StellarSystem parent, int position)
+        private StellarSystem GenerateSingleSatelliteSystem(StellarSystem parent, uint position)
         {
             // TODO: Implement different satellites
             return _moonSystemGenerator.Generate(parent, position);
         }
 
-        private StellarSystem GenerateMultiSatelliteSystem(StellarSystem parent, int position, uint countObjects)
+        private StellarSystem GenerateMultiSatelliteSystem(StellarSystem parent, ref uint position, uint countObjects)
         {
             var system = new MultiObjectSystem(parent);
 

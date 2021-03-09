@@ -1,5 +1,7 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Api.Databases;
 using AstroGame.Api.Repositories.Stellar;
+using AstroGame.Generator.Generators.SystemGenerators;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
@@ -11,22 +13,48 @@ namespace AstroGame.Api.Managers
     public class SolarSystemManager : ManagerBase<SolarSystem>
     {
         private readonly SolarSystemRepository _solarSystemRepository;
+        private readonly SolarSystemGenerator _solarSystemGenerator;
+
+        private readonly AstroGameDataContext _context;
 
         public SolarSystemManager(SolarSystemRepository solarSystemRepository,
             MultiObjectSystemRepository multiObjectSystemRepository,
             SingleObjectSystemRepository singleObjectSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
-            MoonRepository moonRepository
-        ) : base(multiObjectSystemRepository, singleObjectSystemRepository, starRepository, planetRepository,
-            moonRepository)
+            MoonRepository moonRepository, SolarSystemGenerator solarSystemGenerator,
+            AstroGameDataContext context) : base(
+            multiObjectSystemRepository, singleObjectSystemRepository, starRepository, planetRepository,
+            moonRepository, solarSystemRepository)
         {
             _solarSystemRepository = solarSystemRepository;
+            _solarSystemGenerator = solarSystemGenerator;
+            _context = context;
         }
 
         public async Task<SolarSystem> GetRecursiveAsync(Guid solarSystemId)
         {
             var solarSystem = await GetAsync(solarSystemId);
+
+            if (solarSystem.IsGenerated == false)
+            {
+                solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem);
+                await _context.SaveChangesAsync();
+            }
+
+            // Get the center systems
+            return await GetRecursiveAsync(solarSystem) as SolarSystem;
+        }
+
+        public async Task<SolarSystem> GetBySystemNumberRecursiveAsync(uint systemNumber)
+        {
+            var solarSystem = await _solarSystemRepository.GetBySystemNumberAsync(systemNumber);
+
+            if (solarSystem.IsGenerated == false)
+            {
+                solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem);
+                await _context.SaveChangesAsync();
+            }
 
             // Get the center systems
             return await GetRecursiveAsync(solarSystem) as SolarSystem;
@@ -38,7 +66,18 @@ namespace AstroGame.Api.Managers
 
             for (var i = 0; i < solarSystems.Count; i++)
             {
-                solarSystems[i] = await GetRecursiveAsync(solarSystems[i]) as SolarSystem;
+                var solarSystem = await GetRecursiveAsync(solarSystems[i]) as SolarSystem;
+
+                // Should not happen but better catch
+                if (solarSystem == null) continue;
+
+                if (solarSystem.IsGenerated == false)
+                {
+                    solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem);
+                    await _context.SaveChangesAsync();
+                }
+
+                solarSystems[i] = solarSystem;
             }
 
             return solarSystems;

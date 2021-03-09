@@ -70,65 +70,91 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             new KeyValuePair<uint, uint>(8, 1),
         };
 
-        public SolarSystem Generate(StellarSystem parent, Vector3 position)
+        /// <summary>
+        /// Generates the system without its children
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="position"></param>
+        /// <param name="systemNumber"></param>
+        /// <returns></returns>
+        public SolarSystem Generate(StellarSystem parent, Vector3 position, uint systemNumber)
         {
             var name = _solarSystemNameGenerator.Generate();
             var solarSystem = new SolarSystem(parent)
             {
                 Name = name,
-                Position = position
+                Position = position,
+                SystemNumber = systemNumber
             };
 
             return solarSystem;
         }
 
-        public SolarSystem GenerateRecursive(StellarSystem parent, Vector3 position)
+        public SolarSystem GenerateRecursive(StellarSystem parent, Vector3 position, uint systemNumber)
         {
-            var solarSystem = Generate(parent, position);
+            var solarSystem = Generate(parent, position, systemNumber);
 
-            solarSystem.CenterSystems = GenerateCenter(solarSystem, 0);
-            solarSystem.Satellites = GenerateSatellites(solarSystem, 1);
+            uint order = 1;
+
+            solarSystem.CenterSystems = GenerateCenter(solarSystem, ref order);
+            solarSystem.Satellites = GenerateSatellites(solarSystem, ref order);
+
+            solarSystem.IsGenerated = true;
 
             return solarSystem;
         }
 
-        private List<StellarSystem> GenerateCenter(StellarSystem parent, int position)
+        /// <summary>
+        /// Generates the children and marks it as generated
+        /// </summary>
+        /// <param name="solarSystem"></param>
+        /// <returns></returns>
+        public SolarSystem GenerateChildren(SolarSystem solarSystem)
+        {
+            uint order = 1;
+
+            solarSystem.CenterSystems = GenerateCenter(solarSystem, ref order);
+            solarSystem.Satellites = GenerateSatellites(solarSystem, ref order);
+
+            solarSystem.IsGenerated = true;
+
+            return solarSystem;
+        }
+
+        private List<StellarSystem> GenerateCenter(StellarSystem parent, ref uint position)
         {
             var center = new List<StellarSystem>();
 
-            var starsToCreate = RandomCalculator.SelectByWeight(_starOccurrences);
+            var isMultiSystem = RandomCalculator.SelectByWeight(_multiStarOccurrences);
 
-            for (var i = 0; i < starsToCreate; i++)
-            {
-                var isMultiSystem = RandomCalculator.SelectByWeight(_multiStarOccurrences);
-
-                var system = GenerateCenter(parent, position, isMultiSystem);
-                center.Add(system);
-            }
+            var system = GenerateCenter(parent, ref position, isMultiSystem);
+            center.Add(system);
 
             return center;
         }
 
-        private StellarSystem GenerateCenter(StellarSystem parent, int position, bool isMultiSystem)
+        private StellarSystem GenerateCenter(StellarSystem parent, ref uint position, bool isMultiSystem)
         {
             return isMultiSystem == false
-                ? GenerateSingleStarSystem(parent, position)
-                : GenerateMultiStarSystem(parent, position);
+                ? GenerateSingleStarSystem(parent, ref position)
+                : GenerateMultiStarSystem(parent, ref position);
         }
 
-        private StellarSystem GenerateSingleStarSystem(StellarSystem parent, int position)
+        private StellarSystem GenerateSingleStarSystem(StellarSystem parent, ref uint order)
         {
             var system = new SingleObjectSystem(parent);
 
-            var star = _starGenerator.Generate(system, position);
+            var star = _starGenerator.Generate(system, order);
 
             system.CenterObject = star;
             system.CenterObjectId = star.Id;
 
+            order++;
+
             return system;
         }
 
-        private StellarSystem GenerateMultiStarSystem(StellarSystem parent, int position)
+        private StellarSystem GenerateMultiStarSystem(StellarSystem parent, ref uint order)
         {
             var countStars = RandomCalculator.SelectByWeight(_multiStarCountOccurrences);
 
@@ -136,7 +162,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             for (var i = 0; i < countStars; i++)
             {
-                var starSystem = GenerateSingleStarSystem(system, position);
+                var starSystem = GenerateSingleStarSystem(system, ref order);
 
                 system.CenterSystems.Add(starSystem);
             }
@@ -144,38 +170,40 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             return system;
         }
 
-        private List<StellarSystem> GenerateSatellites(StellarSystem parent, int position)
+        private List<StellarSystem> GenerateSatellites(StellarSystem parent, ref uint position)
         {
             var satelliteSystems = new List<StellarSystem>();
 
             var countSatellites = RandomCalculator.SelectByWeight(_satelliteOccurrences);
 
-            for (var i = position; i <= countSatellites; i++)
+            for (uint i = 0; i < countSatellites; i++)
             {
                 var multiSatelliteCount = RandomCalculator.SelectByWeight(_multiSatelliteCountOccurrences);
 
-                var satelliteSystem = GenerateSatelliteSystem(parent, position, multiSatelliteCount);
+                var satelliteSystem = GenerateSatelliteSystem(parent, i + position, multiSatelliteCount);
 
                 satelliteSystems.Add(satelliteSystem);
+
+                position++;
             }
 
             return satelliteSystems;
         }
 
-        private StellarSystem GenerateSatelliteSystem(StellarSystem parent, int position, uint countObjects)
+        private StellarSystem GenerateSatelliteSystem(StellarSystem parent, uint position, uint countObjects)
         {
             return countObjects == 1
                 ? GenerateSingleSatelliteSystem(parent, position)
-                : GenerateMultiSatelliteSystem(parent, position, countObjects);
+                : GenerateMultiSatelliteSystem(parent, ref position, countObjects);
         }
 
-        private StellarSystem GenerateSingleSatelliteSystem(StellarSystem parent, int position)
+        private StellarSystem GenerateSingleSatelliteSystem(StellarSystem parent, uint position)
         {
             // TODO: Implement different satellites
             return _planetSystemGenerator.Generate(parent, position);
         }
 
-        private StellarSystem GenerateMultiSatelliteSystem(StellarSystem parent, int position, uint countObjects)
+        private StellarSystem GenerateMultiSatelliteSystem(StellarSystem parent, ref uint position, uint countObjects)
         {
             var system = new MultiObjectSystem(parent);
 
@@ -184,6 +212,8 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 var starSystem = GenerateSingleSatelliteSystem(system, position);
 
                 system.CenterSystems.Add(starSystem);
+
+                position++;
             }
 
             return system;

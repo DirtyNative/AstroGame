@@ -16,7 +16,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Moon Generate(SingleObjectSystem parent, int position)
+        public Moon Generate(SingleObjectSystem parent, uint position)
         {
             var asset = SelectAsset();
             var scale = GenerateScale();
@@ -24,6 +24,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
             var moon = new Moon(parent)
             {
+                Order = position,
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
                 AssetName = asset,

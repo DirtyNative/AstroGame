@@ -45,21 +45,11 @@ namespace AstroGame.Api.Controllers
         [HttpGet("generate/solar-system")]
         public async Task<IActionResult> GenerateSolarSystem()
         {
-            var solarSystem = _solarSystemGenerator.GenerateRecursive(null, Vector3.zero);
+            var solarSystem = _solarSystemGenerator.GenerateRecursive(null, Vector3.zero, 1);
 
             await _solarSystemRepository.AddAsync(solarSystem);
 
             return Ok(solarSystem);
-        }
-
-        [HttpGet("generate/galaxy")]
-        public async Task<IActionResult> GenerateGalaxyAsync()
-        {
-            var galaxy = _galaxyGenerator.Generate();
-
-            await _galaxyRepository.AddAsync(galaxy);
-
-            return Ok(galaxy);
         }
     }
 }

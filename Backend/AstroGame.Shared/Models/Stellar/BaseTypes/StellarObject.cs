@@ -36,5 +36,7 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
         /// The average temperature in Celsius
         /// </summary>
         public int AverageTemperature { get; set; }
+
+        public string AssetName { get; set; }
     }
 }

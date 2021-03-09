@@ -16,7 +16,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             _moonGenerator = moonGenerator;
         }
 
-        public StellarSystem Generate(StellarSystem parent, int position)
+        public StellarSystem Generate(StellarSystem parent, uint position)
         {
             var system = new SingleObjectSystem(parent);
 
@@ -28,7 +28,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             return system;
         }
 
-        private Moon GenerateCenter(SingleObjectSystem parent, int position)
+        private Moon GenerateCenter(SingleObjectSystem parent, uint position)
         {
             return _moonGenerator.Generate(parent, position);
         }

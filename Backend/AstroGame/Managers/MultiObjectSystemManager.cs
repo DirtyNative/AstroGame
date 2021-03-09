@@ -1,10 +1,9 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Api.Repositories;
+using AstroGame.Api.Repositories.Stellar;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AstroGame.Api.Repositories.Stellar;
 
 namespace AstroGame.Api.Managers
 {
@@ -18,9 +17,10 @@ namespace AstroGame.Api.Managers
             SingleObjectSystemRepository singleObjectSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
-            MoonRepository moonRepository
+            MoonRepository moonRepository,
+            SolarSystemRepository solarSystemRepository
         ) : base(multiObjectSystemRepository, singleObjectSystemRepository, starRepository, planetRepository,
-            moonRepository)
+            moonRepository, solarSystemRepository)
         {
             _multiObjectSystemRepository = multiObjectSystemRepository;
         }

@@ -69,12 +69,10 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _resourceGenerator = resourceGenerator;
         }
 
-        public Planet Generate(SingleObjectSystem parent, int order)
+        public Planet Generate(SingleObjectSystem parent, uint order)
         {
             var planetType = GeneratePlanetType();
             var atmosphere = GenerateHasHabitableAtmosphere();
-            //var rings = GenerateHasRings();
-            //var clouds = GenerateHasClouds();
             var assetName = SelectAsset(planetType);
             var averageTemperature = GenerateTemperature(planetType);
             var rotationSpeed = GenerateRotationSpeed();
@@ -83,13 +81,13 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             var planet = new Planet(parent)
             {
                 Name = $"{parent.Name}-{order}",
+                Order = order,
+
                 PlanetType = planetType,
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
 
-                //HasRings = rings,
                 HasHabitableAtmosphere = atmosphere,
-                //HasClouds = clouds,
                 AssetName = assetName,
 
                 AverageTemperature = averageTemperature,

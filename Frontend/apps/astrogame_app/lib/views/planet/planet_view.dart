@@ -4,7 +4,6 @@ import 'package:astrogame_app/widgets/glass_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:video_player/video_player.dart';
 
 class PlanetView extends StatelessWidget {
   @override
@@ -13,20 +12,10 @@ class PlanetView extends StatelessWidget {
       builder: (context, model, _) => Scaffold(
         body: Stack(
           children: [
-            model.controller.value.isInitialized
-                ? SizedBox.expand(
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: SizedBox(
-                        width: model.controller.value.size?.width ?? 0,
-                        height: model.controller.value.size?.height ?? 0,
-                        child: VideoPlayer(model.controller),
-                      ),
-                    ),
-                  )
-                : Container(
-                    color: Colors.black,
-                  ),
+            /*Image.network(
+              model.imageUrl,
+              fit: BoxFit.cover,
+            ),*/
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24.0),
@@ -48,7 +37,6 @@ class PlanetView extends StatelessWidget {
         ),
       ),
       viewModelBuilder: () => getIt.get(),
-      onModelReady: (model) => model.play(),
     );
   }
 
@@ -75,10 +63,6 @@ class PlanetView extends StatelessWidget {
             style: Theme.of(context).textTheme.headline1,
             textAlign: TextAlign.center,
           ),
-          ElevatedButton(
-            onPressed: model.play,
-            child: Text('Play'),
-          )
         ],
       ),
     );

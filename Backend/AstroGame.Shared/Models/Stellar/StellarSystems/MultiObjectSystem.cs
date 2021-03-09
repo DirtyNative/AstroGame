@@ -26,6 +26,8 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
 
         [JsonIgnore] public StellarSystem Parent { get; set; }
 
+        public override string Name => Parent.Name;
+
         /// <summary>
         /// The position relative to the parent.
         /// 1: first sub object

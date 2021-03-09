@@ -39,24 +39,28 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Star Generate(SingleObjectSystem parent, int position)
+        public Star Generate(SingleObjectSystem parent, uint position)
         {
             var type = GenerateType();
             var asset = SelectAsset(type);
             var averageTemperature = GenerateTemperature(type);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale();
+            var name = $"{parent.Name}-{(char)(position + 64)}";
 
             var star = new Star(parent)
             {
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
 
+                Name = name,
+
                 StarType = type,
                 AssetName = asset,
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,
                 Scale = scale,
+                Order = position,
             };
 
             // TODO: Generate resources

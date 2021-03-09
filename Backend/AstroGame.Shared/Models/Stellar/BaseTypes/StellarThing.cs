@@ -10,6 +10,6 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
     {
         [JsonProperty(Order = -10)] public Guid Id { get; set; }
 
-        [JsonProperty(Order = -9)] public string Name { get; set; }
+        [JsonProperty(Order = -9)] public virtual string Name { get; set; }
     }
 }

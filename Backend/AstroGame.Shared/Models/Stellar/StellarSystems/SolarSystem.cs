@@ -21,7 +21,21 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
 
         [JsonIgnore] public StellarSystem Parent { get; set; }
 
+        /// <summary>
+        /// The systems number
+        /// </summary>
+        public uint SystemNumber { get; set; }
+
+        /// <summary>
+        /// The position in 3D space
+        /// </summary>
         public Vector3 Position { get; set; }
+
+        /// <summary>
+        /// <para>Indicates if this system is generated</para>
+        /// <para>Because the galaxy is not generated recursively, the solar systems need to be generated on demand</para>
+        /// </summary>
+        public bool IsGenerated { get; set; }
 
         public List<StellarSystem> CenterSystems { get; set; }
 

@@ -154,6 +154,9 @@ namespace AstroGame.Api.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<string>("AssetName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double?>("AverageDistanceToCenter")
                         .HasColumnType("float");
 
@@ -587,14 +590,11 @@ namespace AstroGame.Api.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
 
-                    b.Property<string>("AssetName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
 
-                    b.Property<bool>("HasRings")
-                        .HasColumnType("bit");
+                    b.Property<long>("Order")
+                        .HasColumnType("bigint");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");
@@ -606,20 +606,14 @@ namespace AstroGame.Api.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
 
-                    b.Property<string>("AssetName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
 
-                    b.Property<bool>("HasAtmosphere")
+                    b.Property<bool>("HasHabitableAtmosphere")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HasClouds")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasRings")
-                        .HasColumnType("bit");
+                    b.Property<long>("Order")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("PlanetType")
                         .HasColumnType("int");
@@ -634,11 +628,11 @@ namespace AstroGame.Api.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject");
 
-                    b.Property<string>("AssetName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
+
+                    b.Property<long>("Order")
+                        .HasColumnType("bigint");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");
@@ -693,12 +687,18 @@ namespace AstroGame.Api.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem");
 
+                    b.Property<bool>("IsGenerated")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("SystemNumber")
+                        .HasColumnType("bigint");
 
                     b.HasIndex("ParentId");
 
