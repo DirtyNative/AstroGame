@@ -1,4 +1,6 @@
 import 'package:astrogame_app/converters/guid_converter.dart';
+import 'package:astrogame_app/converters/stellar_object_converter.dart';
+import 'package:astrogame_app/converters/stellar_system_converter.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:flutter_guid/flutter_guid.dart';
@@ -6,6 +8,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'single_object_system.g.dart';
 
+@StellarObjectConverter()
+@StellarSystemConverter()
 @GuidConverter()
 @JsonSerializable()
 class SingleObjectSystem extends StellarSystem {
@@ -31,10 +35,10 @@ class SingleObjectSystem extends StellarSystem {
     Guid id,
     String name,
     this.parentId,
-    this.parent,
+    //this.parent,
     this.order,
-    this.satellites,
-    this.centerObject,
+    //this.satellites,
+    //this.centerObject,
     this.centerObjectId,
   ) : super(id, name);
 

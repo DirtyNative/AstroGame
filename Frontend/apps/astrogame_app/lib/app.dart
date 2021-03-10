@@ -1,6 +1,7 @@
 import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/themes/dark_theme.dart';
 import 'package:astrogame_app/views/planet/planet_view.dart';
+import 'package:astrogame_app/views/start/start_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
@@ -17,7 +18,7 @@ class AstroGameApp extends StatelessWidget {
         theme: regularTheme,
         darkTheme: darkTheme,
         themeMode: themeMode,
-        home: PlanetView(),
+        home: StartView(),
       ),
     );
   }

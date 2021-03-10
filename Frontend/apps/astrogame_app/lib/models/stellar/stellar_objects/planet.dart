@@ -32,7 +32,7 @@ class Planet extends StellarObject {
   Planet(
     Guid id,
     String name,
-    StellarSystem parentSystem,
+    //StellarSystem parentSystem,
     Guid parentSystemId,
     double averageDistanceToCenter,
     double rotationSpeed,
@@ -47,7 +47,7 @@ class Planet extends StellarObject {
   ) : super(
           id,
           name,
-          parentSystem,
+          //parentSystem,
           parentSystemId,
           averageDistanceToCenter,
           rotationSpeed,

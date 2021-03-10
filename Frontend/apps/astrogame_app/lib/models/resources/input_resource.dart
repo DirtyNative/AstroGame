@@ -21,14 +21,20 @@ class InputResource {
   @JsonKey()
   double inputValue;
 
-  @JsonKey()
-  Resource input;
+  //@JsonKey()
+  //Resource input;
 
   @JsonKey()
   ResourceManufaction output;
 
-  InputResource(this.id, this.resourceId, this.outputMaterialId,
-      this.inputValue, this.input, this.output);
+  InputResource(
+    this.id,
+    this.resourceId,
+    this.outputMaterialId,
+    this.inputValue,
+    //this.input,
+    this.output,
+  );
 
   factory InputResource.fromJson(Map<String, dynamic> json) =>
       _$InputResourceFromJson(json);

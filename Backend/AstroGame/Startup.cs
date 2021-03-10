@@ -1,5 +1,10 @@
+using System;
+using System.Collections.Generic;
+using AstroGame.Api.Converters;
 using AstroGame.Api.Databases;
 using AstroGame.Api.Extensions;
+using AstroGame.Shared.Models.Stellar.StellarObjects;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +35,21 @@ namespace AstroGame.Api
             services.AddMvc().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
+                options.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
+                options.SerializerSettings.SerializationBinder = new KnownTypesBinder()
+                {
+                    KnownTypes = new List<Type>
+                    {
+                        typeof(Star),
+                        typeof(Planet),
+                        typeof(Moon),
+
+                        typeof(MultiObjectSystem),
+                        typeof(SingleObjectSystem),
+                        typeof(SolarSystem),
+                        typeof(Galaxy)
+                    }
+                };
             });
 
             services.AddSignalR();

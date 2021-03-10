@@ -21,19 +21,19 @@ class StellarObjectResource {
   @JsonKey()
   double multiplier;
 
-  @JsonKey()
-  StellarObject stellarObject;
+  //@JsonKey()
+  //StellarObject stellarObject;
 
-  @JsonKey()
-  Resource resource;
+  //@JsonKey()
+  //Resource resource;
 
   StellarObjectResource(
     this.id,
     this.stellarObjectId,
     this.resourceId,
     this.multiplier,
-    this.stellarObject,
-    this.resource,
+    //this.stellarObject,
+    //this.resource,
   );
 
   factory StellarObjectResource.fromJson(Map<String, dynamic> json) =>

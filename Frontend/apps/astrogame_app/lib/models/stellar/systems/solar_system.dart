@@ -4,12 +4,12 @@ import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'multi_object_system.g.dart';
+part 'solar_system.g.dart';
 
-@StellarSystemConverter()
 @GuidConverter()
+@StellarSystemConverter()
 @JsonSerializable()
-class MultiObjectSystem extends StellarSystem {
+class SolarSystem extends StellarSystem {
   @JsonKey()
   Guid parentId;
 
@@ -17,25 +17,29 @@ class MultiObjectSystem extends StellarSystem {
   StellarSystem parent;
 
   @JsonKey()
-  int order;
+  int systemNumber;
 
   @JsonKey()
-  List<StellarSystem> satellites;
+  bool isGenerated;
 
   @JsonKey()
   List<StellarSystem> centerSystems;
 
-  MultiObjectSystem(
+  @JsonKey()
+  List<StellarSystem> satellites;
+
+  SolarSystem(
     Guid id,
     String name,
     this.parentId,
     //this.parent,
-    this.order,
-    //this.satellites,
+    this.systemNumber,
+    this.isGenerated,
     //this.centerSystems,
+    //this.satellites,
   ) : super(id, name);
 
-  factory MultiObjectSystem.fromJson(Map<String, dynamic> json) =>
-      _$MultiObjectSystemFromJson(json);
-  Map<String, dynamic> toJson() => _$MultiObjectSystemToJson(this);
+  factory SolarSystem.fromJson(Map<String, dynamic> json) =>
+      _$SolarSystemFromJson(json);
+  Map<String, dynamic> toJson() => _$SolarSystemToJson(this);
 }

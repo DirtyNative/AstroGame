@@ -6,8 +6,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 @GuidConverter()
 abstract class StellarObject extends StellarThing {
-  @JsonKey()
-  SingleObjectSystem parentSystem;
+  // @JsonKey()
+  //SingleObjectSystem parentSystem;
 
   @JsonKey()
   Guid parentSystemId;
@@ -27,7 +27,7 @@ abstract class StellarObject extends StellarThing {
   StellarObject(
     Guid id,
     String name,
-    this.parentSystem,
+    //this.parentSystem,
     this.parentSystemId,
     this.averageDistanceToCenter,
     this.rotationSpeed,

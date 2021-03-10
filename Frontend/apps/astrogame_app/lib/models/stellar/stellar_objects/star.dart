@@ -29,7 +29,7 @@ class Star extends StellarObject {
   Star(
     Guid id,
     String name,
-    StellarSystem parentSystem,
+    //StellarSystem parentSystem,
     Guid parentSystemId,
     double averageDistanceToCenter,
     double rotationSpeed,
@@ -43,7 +43,7 @@ class Star extends StellarObject {
   ) : super(
           id,
           name,
-          parentSystem,
+          // parentSystem,
           parentSystemId,
           averageDistanceToCenter,
           rotationSpeed,

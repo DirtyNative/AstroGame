@@ -25,7 +25,7 @@ class Moon extends StellarObject {
   Moon(
     Guid id,
     String name,
-    StellarSystem parentSystem,
+    //StellarSystem parentSystem,
     Guid parentSystemId,
     double averageDistanceToCenter,
     double rotationSpeed,
@@ -38,7 +38,7 @@ class Moon extends StellarObject {
   ) : super(
           id,
           name,
-          parentSystem,
+          //parentSystem,
           parentSystemId,
           averageDistanceToCenter,
           rotationSpeed,
