@@ -1,5 +1,4 @@
-﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
+﻿using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +10,7 @@ namespace AstroGame.Api.Databases.TypeConfigurations.Systems
         {
             builder.ToTable("SolarSystems");
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
-            builder.HasBaseType<StellarSystem>();
+            builder.HasBaseType<MultiObjectSystem>();
         }
     }
 }

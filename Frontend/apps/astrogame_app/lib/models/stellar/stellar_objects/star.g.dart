@@ -7,24 +7,25 @@ part of 'star.dart';
 // **************************************************************************
 
 Star _$StarFromJson(Map<String, dynamic> json) {
-  return Star(
-    const GuidConverter().fromJson(json['id'] as String),
-    json['name'] as String,
-    const GuidConverter().fromJson(json['parentSystemId'] as String),
-    (json['averageDistanceToCenter'] as num)?.toDouble(),
-    (json['rotationSpeed'] as num)?.toDouble(),
-    json['averageTemperature'] as int,
-    json['assetName'] as String,
-    _$enumDecodeNullable(_$StarTypeEnumMap, json['starType']),
-    (json['scale'] as num)?.toDouble(),
-    (json['axialTilt'] as num)?.toDouble(),
-    (json['resources'] as List)
+  return Star()
+    ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..parentSystemId =
+        const GuidConverter().fromJson(json['parentSystemId'] as String)
+    ..averageDistanceToCenter =
+        (json['averageDistanceToCenter'] as num)?.toDouble()
+    ..rotationSpeed = (json['rotationSpeed'] as num)?.toDouble()
+    ..averageTemperature = json['averageTemperature'] as int
+    ..assetName = json['assetName'] as String
+    ..starType = _$enumDecodeNullable(_$StarTypeEnumMap, json['starType'])
+    ..scale = (json['scale'] as num)?.toDouble()
+    ..axialTilt = (json['axialTilt'] as num)?.toDouble()
+    ..resources = (json['resources'] as List)
         ?.map((e) => e == null
             ? null
             : StellarObjectResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['order'] as int,
-  );
+        ?.toList()
+    ..order = json['order'] as int;
 }
 
 Map<String, dynamic> _$StarToJson(Star instance) => <String, dynamic>{

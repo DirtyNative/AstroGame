@@ -9,6 +9,4 @@ abstract class StellarThing {
 
   @JsonKey()
   String name;
-
-  StellarThing(this.id, this.name);
 }

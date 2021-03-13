@@ -2,8 +2,8 @@
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
@@ -13,7 +13,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         {
         }
 
-        public Star(SingleObjectSystem parentSystem) : base(parentSystem)
+        public Star(MultiObjectSystem parentSystem) : base(parentSystem)
         {
         }
 

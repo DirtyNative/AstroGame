@@ -1,12 +1,12 @@
 ﻿using AstroGame.Api.Databases.TypeConfigurations.Objects;
 using AstroGame.Api.Extensions;
+using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UnityEngine;
 
 namespace AstroGame.Api.Databases
 {
@@ -28,7 +28,6 @@ namespace AstroGame.Api.Databases
         public DbSet<Galaxy> Galaxies { get; set; }
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<MultiObjectSystem> MultiObjectSystems { get; set; }
-        public DbSet<SingleObjectSystem> SingleObjectSystems { get; set; }
         
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Shared.Models.Resources.Material> Materials { get; set; }

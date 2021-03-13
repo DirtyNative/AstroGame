@@ -1,17 +1,16 @@
 ﻿using AstroGame.Api.Extensions;
-using JetBrains.Annotations;
+using AstroGame.Core.Structs;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Linq.Expressions;
-using UnityEngine;
 
 namespace AstroGame.Api.Converters
 {
     public class Vector3ToStringConverter : ValueConverter<Vector3, string>
     {
-        public Vector3ToStringConverter([NotNull] Expression<Func<Vector3, string>> convertToProviderExpression,
-            [NotNull] Expression<Func<string, Vector3>> convertFromProviderExpression,
-            [CanBeNull] ConverterMappingHints mappingHints = null) : base(convertToProviderExpression,
+        public Vector3ToStringConverter(Expression<Func<Vector3, string>> convertToProviderExpression,
+            Expression<Func<string, Vector3>> convertFromProviderExpression,
+            ConverterMappingHints mappingHints = null) : base(convertToProviderExpression,
             convertFromProviderExpression, mappingHints)
         {
         }

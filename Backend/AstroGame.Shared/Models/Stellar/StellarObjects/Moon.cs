@@ -12,7 +12,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         {
         }
 
-        public Moon(SingleObjectSystem parentSystem) : base(parentSystem)
+        public Moon(MultiObjectSystem parentSystem) : base(parentSystem)
         {
         }
 

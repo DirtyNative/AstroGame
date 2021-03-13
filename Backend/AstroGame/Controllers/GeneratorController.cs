@@ -2,7 +2,7 @@
 using AstroGame.Generator.Generators.SystemGenerators;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UnityEngine;
+using AstroGame.Core.Structs;
 
 namespace AstroGame.Api.Controllers
 {
@@ -45,7 +45,7 @@ namespace AstroGame.Api.Controllers
         [HttpGet("generate/solar-system")]
         public async Task<IActionResult> GenerateSolarSystem()
         {
-            var solarSystem = _solarSystemGenerator.GenerateRecursive(null, Vector3.zero, 1);
+            var solarSystem = _solarSystemGenerator.GenerateRecursive(null, Vector3.Zero, 1);
 
             await _solarSystemRepository.AddAsync(solarSystem);
 

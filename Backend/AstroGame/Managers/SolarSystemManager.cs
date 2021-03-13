@@ -19,12 +19,11 @@ namespace AstroGame.Api.Managers
 
         public SolarSystemManager(SolarSystemRepository solarSystemRepository,
             MultiObjectSystemRepository multiObjectSystemRepository,
-            SingleObjectSystemRepository singleObjectSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
             MoonRepository moonRepository, SolarSystemGenerator solarSystemGenerator,
             AstroGameDataContext context) : base(
-            multiObjectSystemRepository, singleObjectSystemRepository, starRepository, planetRepository,
+            multiObjectSystemRepository, starRepository, planetRepository,
             moonRepository, solarSystemRepository)
         {
             _solarSystemRepository = solarSystemRepository;

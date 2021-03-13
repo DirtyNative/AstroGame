@@ -1,6 +1,5 @@
 import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:astrogame_app/models/stellar/systems/multi_object_system.dart';
-import 'package:astrogame_app/models/stellar/systems/single_object_system.dart';
 import 'package:astrogame_app/models/stellar/systems/solar_system.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,9 +15,7 @@ class StellarSystemConverter
 
     var type = json.entries.firstWhere((element) => element.key == '\$type');
 
-    if (type.value == 'SingleObjectSystem') {
-      return SingleObjectSystem.fromJson(json);
-    } else if (type.value == 'MultiObjectSystem') {
+    if (type.value == 'MultiObjectSystem') {
       return MultiObjectSystem.fromJson(json);
     } else if (type.value == 'SolarSystem') {
       return SolarSystem.fromJson(json);

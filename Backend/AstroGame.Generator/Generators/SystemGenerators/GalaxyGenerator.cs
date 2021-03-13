@@ -4,7 +4,7 @@ using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using AstroGame.Core.Structs;
 using Random = System.Random;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
@@ -29,14 +29,34 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
         public Galaxy Generate(int countSystems, int countArms)
         {
-            var starsPerArm = countSystems / countArms;
-            var positions = new List<Vector3>();
-
             var galaxy = new Galaxy()
             {
                 Id = Guid.NewGuid(),
                 Systems = new List<StellarSystem>()
             };
+
+            var positions = GenerateSpiral(countSystems, countArms).ToList();
+
+            for (var i = 0; i < positions.Count(); i++)
+            {
+                var solarSystem = GenerateSolarSystem(galaxy, positions[i], i);
+                galaxy.Systems.Add(solarSystem);
+            }
+
+            return galaxy;
+        }
+
+        private SolarSystem GenerateSolarSystem(StellarSystem parent, Vector3 position, int systemNumber)
+        {
+            return _solarSystemGenerator.Generate(parent, position, systemNumber);
+            //return _solarSystemGenerator.GenerateRecursive(parent, position, systemNumber);
+        }
+
+        private IEnumerable<Vector3> GenerateSpiral(int countSystems, int countArms)
+        {
+            var starsPerArm = countSystems / countArms;
+
+            var positions = new List<Vector3>();
 
             for (var i = 0; i < countArms; i++)
             {
@@ -45,28 +65,13 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 positions.AddRange(arm);
             }
 
-            uint systemNumber = 1;
-
-            foreach (var solarSystem in positions.Select(pos => GenerateSolarSystem(galaxy, pos, systemNumber)))
-            {
-                galaxy.Systems.Add(solarSystem);
-                systemNumber++;
-            }
-
-            return galaxy;
-        }
-
-        private SolarSystem GenerateSolarSystem(StellarSystem parent, Vector3 position, uint systemNumber)
-        {
-            return _solarSystemGenerator.Generate(parent, position, systemNumber);
-            //return _solarSystemGenerator.GenerateRecursive(parent, position, systemNumber);
+            return positions;
         }
 
         private IEnumerable<Vector3> GenerateArm(int numOfStars, float rotation, float spin, double armSpread,
             double starsAtCenterRatio)
         {
             var result = new Vector3[numOfStars];
-
 
             for (var i = 0; i < numOfStars; i++)
             {

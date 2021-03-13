@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Managers
@@ -11,7 +12,6 @@ namespace AstroGame.Api.Managers
     public abstract class ManagerBase<T>
     {
         private readonly MultiObjectSystemRepository _multiObjectSystemRepository;
-        private readonly SingleObjectSystemRepository _singleObjectSystemRepository;
         private readonly SolarSystemRepository _solarSystemRepository;
 
         private readonly StarRepository _starRepository;
@@ -20,13 +20,11 @@ namespace AstroGame.Api.Managers
 
 
         protected ManagerBase(MultiObjectSystemRepository multiObjectSystemRepository,
-            SingleObjectSystemRepository singleObjectSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
             MoonRepository moonRepository, SolarSystemRepository solarSystemRepository)
         {
             _multiObjectSystemRepository = multiObjectSystemRepository;
-            _singleObjectSystemRepository = singleObjectSystemRepository;
             _starRepository = starRepository;
             _planetRepository = planetRepository;
             _moonRepository = moonRepository;
@@ -43,9 +41,9 @@ namespace AstroGame.Api.Managers
             var entity = await _multiObjectSystemRepository.GetAsync(multiObjectSystem.Id);
 
             // Get center objects
-            for (var i = 0; i < entity.CenterSystems.Count; i++)
+            for (var i = 0; i < entity.CenterObjects.Count; i++)
             {
-                entity.CenterSystems[i] = await GetRecursiveAsync(entity.CenterSystems[i]);
+                entity.CenterObjects[i] = await GetRecursiveAsync(entity.CenterObjects[i]);
             }
 
             // Get satellite systems
@@ -55,41 +53,6 @@ namespace AstroGame.Api.Managers
             }
 
             return entity;
-        }
-
-        protected virtual async Task<SingleObjectSystem> GetRecursiveAsync(SingleObjectSystem singleObjectSystem)
-        {
-            var entity = await _singleObjectSystemRepository.GetAsync(singleObjectSystem.Id);
-
-            // Get center object
-            entity.CenterObject = await GetRecursiveAsync(entity.CenterObject);
-
-            // Get satellites
-            for (var i = 0; i < entity.Satellites.Count; i++)
-            {
-                entity.Satellites[i] = await GetRecursiveAsync(entity.Satellites[i]);
-            }
-
-            return entity;
-        }
-
-        protected virtual async Task<SolarSystem> GetRecursiveAsync(SolarSystem solarSystem)
-        {
-            var entity = await _solarSystemRepository.GetAsync(solarSystem.Id);
-
-            // Get center objects
-            for (var i = 0; i < entity.CenterSystems.Count; i++)
-            {
-                entity.CenterSystems[i] = await GetRecursiveAsync(entity.CenterSystems[i]);
-            }
-
-            // Get satellite systems
-            for (var i = 0; i < entity.Satellites.Count; i++)
-            {
-                entity.Satellites[i] = await GetRecursiveAsync(entity.Satellites[i]);
-            }
-
-            return solarSystem;
         }
 
         protected virtual async Task<StellarSystem> GetRecursiveAsync(StellarSystem system)
@@ -97,8 +60,6 @@ namespace AstroGame.Api.Managers
             return system switch
             {
                 MultiObjectSystem multiObjectSystem => await GetRecursiveAsync(multiObjectSystem),
-                SingleObjectSystem singleObjectSystem => await GetRecursiveAsync(singleObjectSystem),
-                SolarSystem solarSystem => await GetRecursiveAsync(solarSystem),
                 _ => throw new NotImplementedException($"{system.GetType()} is not implemented")
             };
         }
@@ -120,9 +81,9 @@ namespace AstroGame.Api.Managers
             var entity = await _multiObjectSystemRepository.GetAsync(multiObjectSystem.Id);
 
             // Delete the center objects
-            for (var i = entity.CenterSystems.Count - 1; i >= 0; i--)
+            for (var i = entity.CenterObjects.Count - 1; i >= 0; i--)
             {
-                await DeleteRecursiveAsync(entity.CenterSystems[i]);
+                await DeleteRecursiveAsync(entity.CenterObjects[i]);
             }
 
             // Delete the satellites
@@ -134,31 +95,12 @@ namespace AstroGame.Api.Managers
             await _multiObjectSystemRepository.DeleteAsync(entity);
         }
 
-        protected virtual async Task DeleteRecursiveAsync(SingleObjectSystem singleObjectSystem)
-        {
-            var entity = await _singleObjectSystemRepository.GetAsync(singleObjectSystem.Id);
-
-            // Delete the center
-            await DeleteRecursiveAsync(entity.CenterObject);
-
-            // Delete the satellites
-            for (var i = entity.Satellites.Count - 1; i >= 0; i--)
-            {
-                await DeleteRecursiveAsync(entity.Satellites[i]);
-            }
-
-            await _singleObjectSystemRepository.DeleteAsync(entity);
-        }
-
         protected virtual async Task DeleteRecursiveAsync(StellarSystem system)
         {
             switch (system)
             {
                 case MultiObjectSystem multiObjectSystem:
                     await DeleteRecursiveAsync(multiObjectSystem);
-                    return;
-                case SingleObjectSystem singleObjectSystem:
-                    await DeleteRecursiveAsync(singleObjectSystem);
                     return;
             }
 

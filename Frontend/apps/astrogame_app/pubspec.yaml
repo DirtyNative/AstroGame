@@ -40,6 +40,8 @@ dependencies:
 
   flutter_guid:
 
+  flutter_svg:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -56,4 +58,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/images/

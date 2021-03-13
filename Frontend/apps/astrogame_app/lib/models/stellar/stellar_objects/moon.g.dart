@@ -7,23 +7,24 @@ part of 'moon.dart';
 // **************************************************************************
 
 Moon _$MoonFromJson(Map<String, dynamic> json) {
-  return Moon(
-    const GuidConverter().fromJson(json['id'] as String),
-    json['name'] as String,
-    const GuidConverter().fromJson(json['parentSystemId'] as String),
-    (json['averageDistanceToCenter'] as num)?.toDouble(),
-    (json['rotationSpeed'] as num)?.toDouble(),
-    json['averageTemperature'] as int,
-    json['assetName'] as String,
-    (json['scale'] as num)?.toDouble(),
-    (json['axialTilt'] as num)?.toDouble(),
-    (json['resources'] as List)
+  return Moon()
+    ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..parentSystemId =
+        const GuidConverter().fromJson(json['parentSystemId'] as String)
+    ..averageDistanceToCenter =
+        (json['averageDistanceToCenter'] as num)?.toDouble()
+    ..rotationSpeed = (json['rotationSpeed'] as num)?.toDouble()
+    ..averageTemperature = json['averageTemperature'] as int
+    ..assetName = json['assetName'] as String
+    ..scale = (json['scale'] as num)?.toDouble()
+    ..axialTilt = (json['axialTilt'] as num)?.toDouble()
+    ..resources = (json['resources'] as List)
         ?.map((e) => e == null
             ? null
             : StellarObjectResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['order'] as int,
-  );
+        ?.toList()
+    ..order = json['order'] as int;
 }
 
 Map<String, dynamic> _$MoonToJson(Moon instance) => <String, dynamic>{

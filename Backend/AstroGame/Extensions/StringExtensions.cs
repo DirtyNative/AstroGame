@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using UnityEngine;
+﻿using AstroGame.Core.Structs;
+using System.Globalization;
 
 namespace AstroGame.Api.Extensions
 {

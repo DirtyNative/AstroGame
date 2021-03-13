@@ -14,12 +14,11 @@ namespace AstroGame.Api.Managers
 
         public MultiObjectSystemManager(
             MultiObjectSystemRepository multiObjectSystemRepository,
-            SingleObjectSystemRepository singleObjectSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
             MoonRepository moonRepository,
             SolarSystemRepository solarSystemRepository
-        ) : base(multiObjectSystemRepository, singleObjectSystemRepository, starRepository, planetRepository,
+        ) : base(multiObjectSystemRepository, starRepository, planetRepository,
             moonRepository, solarSystemRepository)
         {
             _multiObjectSystemRepository = multiObjectSystemRepository;

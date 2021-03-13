@@ -22,24 +22,23 @@ namespace AstroGame.Api.Repositories.Stellar
         public async Task<SolarSystem> GetAsync(Guid id)
         {
             return await _context.SolarSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .FirstOrDefaultAsync(ss => ss.Id == id);
         }
 
-        public async Task<SolarSystem> GetBySystemNumberAsync(uint systemNumber)
+        public async Task<SolarSystem> GetBySystemNumberAsync(uint order)
         {
             return await _context.SolarSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
-                .FirstOrDefaultAsync(e => e.SystemNumber == systemNumber);
-
+                .FirstOrDefaultAsync(e => e.Order == order);
         }
 
         public async Task<List<SolarSystem>> GetByParentAsync(Guid parentId)
         {
             return await _context.SolarSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .Where(e => e.ParentId == parentId)
                 .ToListAsync();
@@ -48,7 +47,7 @@ namespace AstroGame.Api.Repositories.Stellar
         public async Task<SolarSystem> GetFirstAsync()
         {
             var solarSystem = await _context.SolarSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .FirstOrDefaultAsync();
 
@@ -58,7 +57,7 @@ namespace AstroGame.Api.Repositories.Stellar
         public async Task<SolarSystem> GetLastAsync()
         {
             var solarSystem = await _context.SolarSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .LastOrDefaultAsync();
 
@@ -68,7 +67,7 @@ namespace AstroGame.Api.Repositories.Stellar
         public async Task<List<SolarSystem>> GetAsync()
         {
             return await _context.SolarSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .ToListAsync();
         }
@@ -78,7 +77,7 @@ namespace AstroGame.Api.Repositories.Stellar
             await _context.SolarSystems.AddAsync(solarSystem);
             await _context.SaveChangesAsync();
         }
-        
+
         public async Task DeleteAllAsync()
         {
             var solarSystems = await GetAsync();

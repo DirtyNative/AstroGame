@@ -2,9 +2,9 @@
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
@@ -15,7 +15,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         {
         }
 
-        public Planet(SingleObjectSystem parentSystem) : base(parentSystem)
+        public Planet(MultiObjectSystem parentSystem) : base(parentSystem)
         {
         }
 

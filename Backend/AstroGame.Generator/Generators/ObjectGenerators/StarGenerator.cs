@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
 using System.Linq;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -39,14 +40,14 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Star Generate(SingleObjectSystem parent, uint position)
+        public Star Generate(MultiObjectSystem parent, uint order)
         {
             var type = GenerateType();
             var asset = SelectAsset(type);
             var averageTemperature = GenerateTemperature(type);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale();
-            var name = $"{parent.Name}-{(char)(position + 64)}";
+            var name = $"{parent.Name}-{(char)(order + 64)}";
 
             var star = new Star(parent)
             {
@@ -60,7 +61,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 AverageTemperature = averageTemperature,
                 RotationSpeed = rotationSpeed,
                 Scale = scale,
-                Order = position,
+                Order = order,
             };
 
             // TODO: Generate resources

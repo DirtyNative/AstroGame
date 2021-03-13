@@ -16,7 +16,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Moon Generate(SingleObjectSystem parent, uint position)
+        public Moon Generate(MultiObjectSystem parent, uint order)
         {
             var asset = SelectAsset();
             var scale = GenerateScale();
@@ -24,7 +24,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
             var moon = new Moon(parent)
             {
-                Order = position,
+                Order = order,
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
                 AssetName = asset,
@@ -57,7 +57,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             // Generate the base distance
             var baseDistance = RandomCalculator.Random.Next(50, 700);
 
-            // Add an offset to the position
+            // Add an offset to the order
             var distanceOffset = RandomCalculator.Random.Next(-250, 250) / 100d;
 
             return baseDistance + distanceOffset;

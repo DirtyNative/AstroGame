@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
+using AstroGame.Shared.Models.Stellar.StellarObjects;
 using Newtonsoft.Json;
 
 namespace AstroGame.Shared.Models.Stellar.StellarSystems
@@ -12,8 +13,6 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
     {
         public MultiObjectSystem()
         {
-            Satellites = new List<StellarSystem>();
-            CenterSystems = new List<StellarSystem>();
         }
 
         public MultiObjectSystem(StellarSystem parent) : this()
@@ -26,7 +25,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
 
         [JsonIgnore] public StellarSystem Parent { get; set; }
 
-        public override string Name => Parent.Name;
+        public override string Name => Parent?.Name;
 
         /// <summary>
         /// The position relative to the parent.
@@ -37,8 +36,8 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
         [JsonProperty(Order = -5)]
         public int Order { get; set; }
 
-        [JsonProperty(Order = 10)] public List<StellarSystem> Satellites { get; set; }
+        [JsonProperty(Order = 9)] public List<StellarObject> CenterObjects { get; set; }
 
-        [JsonProperty(Order = 9)] public List<StellarSystem> CenterSystems { get; set; }
+        [JsonProperty(Order = 10)] public List<StellarSystem> Satellites { get; set; }
     }
 }

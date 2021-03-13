@@ -4,9 +4,9 @@ using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
 using System.Linq;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -69,7 +69,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _resourceGenerator = resourceGenerator;
         }
 
-        public Planet Generate(SingleObjectSystem parent, uint order)
+        public Planet Generate(MultiObjectSystem parent, uint order)
         {
             var planetType = GeneratePlanetType();
             var atmosphere = GenerateHasHabitableAtmosphere();

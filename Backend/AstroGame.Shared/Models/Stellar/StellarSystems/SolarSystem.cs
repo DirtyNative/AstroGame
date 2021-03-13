@@ -1,12 +1,10 @@
-﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
+﻿using AstroGame.Core.Structs;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace AstroGame.Shared.Models.Stellar.StellarSystems
 {
-    public class SolarSystem : StellarSystem
+    public class SolarSystem : MultiObjectSystem
     {
         public SolarSystem()
         {
@@ -17,14 +15,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
             Parent = parent;
         }
 
-        [JsonProperty(Order = -6)] public Guid ParentId { get; set; }
-
-        [JsonIgnore] public StellarSystem Parent { get; set; }
-
-        /// <summary>
-        /// The systems number
-        /// </summary>
-        public uint SystemNumber { get; set; }
+        public override string Name { get; set; }
 
         /// <summary>
         /// The position in 3D space
@@ -36,9 +27,5 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
         /// <para>Because the galaxy is not generated recursively, the solar systems need to be generated on demand</para>
         /// </summary>
         public bool IsGenerated { get; set; }
-
-        public List<StellarSystem> CenterSystems { get; set; }
-
-        public List<StellarSystem> Satellites { get; set; }
     }
 }

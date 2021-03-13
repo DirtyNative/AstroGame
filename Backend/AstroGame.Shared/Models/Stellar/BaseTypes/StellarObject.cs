@@ -1,5 +1,5 @@
-﻿using AstroGame.Shared.Models.Stellar.StellarSystems;
-using System;
+﻿using System;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Shared.Models.Stellar.BaseTypes
 {
@@ -12,13 +12,13 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
         {
         }
 
-        protected StellarObject(SingleObjectSystem parentSystem)
+        protected StellarObject(MultiObjectSystem parentSystem)
         {
             ParentSystem = parentSystem;
             ParentSystemId = parentSystem.Id;
         }
 
-        public SingleObjectSystem ParentSystem { get; set; }
+        public MultiObjectSystem ParentSystem { get; set; }
         public Guid ParentSystemId { get; set; }
 
         /// <summary>

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using AstroGame.Api.Converters;
 using AstroGame.Api.Databases;
 using AstroGame.Api.Extensions;
@@ -31,24 +33,14 @@ namespace AstroGame.Api
             services.AddControllers();
             services.RegisterServices(Configuration);
             services.ConfigureDatabase(Configuration);
-
+            
             services.AddMvc().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
                 options.SerializerSettings.SerializationBinder = new KnownTypesBinder()
                 {
-                    KnownTypes = new List<Type>
-                    {
-                        typeof(Star),
-                        typeof(Planet),
-                        typeof(Moon),
-
-                        typeof(MultiObjectSystem),
-                        typeof(SingleObjectSystem),
-                        typeof(SolarSystem),
-                        typeof(Galaxy)
-                    }
+                    KnownTypes = typeof(Planet).Assembly.GetTypes()
                 };
             });
 
@@ -56,7 +48,7 @@ namespace AstroGame.Api
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "AstroGame", Version = "v1"}); });
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AstroGameDataContext dataContext)
         {

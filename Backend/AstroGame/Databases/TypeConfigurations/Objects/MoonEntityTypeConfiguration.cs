@@ -1,6 +1,6 @@
-﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
+﻿using System.Collections.Generic;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +15,7 @@ namespace AstroGame.Api.Databases.TypeConfigurations.Objects
             builder.HasBaseType<StellarObject>();
 
             builder.HasOne(e => e.ParentSystem)
-                .WithOne(e => e.CenterObject as Moon).HasForeignKey<SingleObjectSystem>(e => e.CenterObjectId);
+                .WithMany(e => (IEnumerable<Moon>) e.CenterObjects);
 
             /*builder.HasMany(e => e.Resources).WithOne(e => e.StellarObject as Moon)
                 .HasForeignKey(e => e.StellarObjectId); */

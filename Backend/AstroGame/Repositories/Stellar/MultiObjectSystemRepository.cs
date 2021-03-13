@@ -22,7 +22,7 @@ namespace AstroGame.Api.Repositories.Stellar
         public async Task<MultiObjectSystem> GetAsync(Guid id)
         {
             return await _context.MultiObjectSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
@@ -42,7 +42,7 @@ namespace AstroGame.Api.Repositories.Stellar
         public async Task<List<MultiObjectSystem>> GetByParentAsync(Guid parentId)
         {
             return await _context.MultiObjectSystems
-                .Include(e => e.CenterSystems)
+                .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
                 .Where(e => e.ParentId == parentId)
                 .ToListAsync();

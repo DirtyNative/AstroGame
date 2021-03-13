@@ -7,19 +7,18 @@ part of 'multi_object_system.dart';
 // **************************************************************************
 
 MultiObjectSystem _$MultiObjectSystemFromJson(Map<String, dynamic> json) {
-  return MultiObjectSystem(
-    const GuidConverter().fromJson(json['id'] as String),
-    json['name'] as String,
-    const GuidConverter().fromJson(json['parentId'] as String),
-    json['order'] as int,
-  )
+  return MultiObjectSystem()
+    ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..parentId = const GuidConverter().fromJson(json['parentId'] as String)
     ..parent = const StellarSystemConverter()
         .fromJson(json['parent'] as Map<String, dynamic>)
-    ..satellites = (json['satellites'] as List)
+    ..order = json['order'] as int
+    ..centerObjects = (json['centerObjects'] as List)
         ?.map((e) =>
-            const StellarSystemConverter().fromJson(e as Map<String, dynamic>))
+            const StellarObjectConverter().fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..centerSystems = (json['centerSystems'] as List)
+    ..satellites = (json['satellites'] as List)
         ?.map((e) =>
             const StellarSystemConverter().fromJson(e as Map<String, dynamic>))
         ?.toList();
@@ -32,10 +31,10 @@ Map<String, dynamic> _$MultiObjectSystemToJson(MultiObjectSystem instance) =>
       'parentId': const GuidConverter().toJson(instance.parentId),
       'parent': const StellarSystemConverter().toJson(instance.parent),
       'order': instance.order,
-      'satellites': instance.satellites
-          ?.map(const StellarSystemConverter().toJson)
+      'centerObjects': instance.centerObjects
+          ?.map(const StellarObjectConverter().toJson)
           ?.toList(),
-      'centerSystems': instance.centerSystems
+      'satellites': instance.satellites
           ?.map(const StellarSystemConverter().toJson)
           ?.toList(),
     };
