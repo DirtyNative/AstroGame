@@ -3,7 +3,6 @@ using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
 using System.Collections.Generic;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
@@ -13,7 +12,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         {
         }
 
-        public Star(MultiObjectSystem parentSystem) : base(parentSystem)
+        public Star(StellarSystem parentSystem) : base(parentSystem)
         {
         }
 
@@ -21,10 +20,5 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         public double Scale { get; set; }
         public double AxialTilt { get; set; }
         public List<StellarObjectResource> Resources { get; set; }
-
-        /// <summary>
-        /// This objects position inside the system
-        /// </summary>
-        public uint Order { get; set; }
     }
 }

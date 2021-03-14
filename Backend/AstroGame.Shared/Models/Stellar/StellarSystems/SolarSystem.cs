@@ -1,10 +1,11 @@
 ﻿using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using Newtonsoft.Json;
+using System;
 
 namespace AstroGame.Shared.Models.Stellar.StellarSystems
 {
-    public class SolarSystem : MultiObjectSystem
+    public class SolarSystem : StellarSystem
     {
         public SolarSystem()
         {
@@ -15,12 +16,18 @@ namespace AstroGame.Shared.Models.Stellar.StellarSystems
             Parent = parent;
         }
 
-        public override string Name { get; set; }
+        [JsonProperty(Order = -6)] public Guid ParentId { get; set; }
+
+        [JsonIgnore] public StellarSystem Parent { get; set; }
+
+        [JsonProperty(Order = -9)] public string Name { get; set; }
 
         /// <summary>
         /// The position in 3D space
         /// </summary>
         public Vector3 Position { get; set; }
+
+        public Coordinates Coordinates { get; set; }
 
         /// <summary>
         /// <para>Indicates if this system is generated</para>

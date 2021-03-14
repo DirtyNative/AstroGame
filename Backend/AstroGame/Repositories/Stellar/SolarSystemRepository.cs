@@ -27,12 +27,18 @@ namespace AstroGame.Api.Repositories.Stellar
                 .FirstOrDefaultAsync(ss => ss.Id == id);
         }
 
-        public async Task<SolarSystem> GetBySystemNumberAsync(uint order)
+        public async Task<SolarSystem> GetBySystemNumberAsync(uint systemNumber)
         {
+            var systems = await _context.SolarSystems
+                .Include(e => e.CenterObjects)
+                .Include(e => e.Satellites).ToListAsync();
+
+            return systems.FirstOrDefault(e => e.Coordinates.InterStellar == systemNumber);
+
             return await _context.SolarSystems
                 .Include(e => e.CenterObjects)
                 .Include(e => e.Satellites)
-                .FirstOrDefaultAsync(e => e.Order == order);
+                .FirstOrDefaultAsync(e => e.Coordinates.InterStellar == (int)systemNumber);
         }
 
         public async Task<List<SolarSystem>> GetByParentAsync(Guid parentId)

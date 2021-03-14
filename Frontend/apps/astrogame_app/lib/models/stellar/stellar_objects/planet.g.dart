@@ -17,6 +17,9 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) {
     ..rotationSpeed = (json['rotationSpeed'] as num)?.toDouble()
     ..averageTemperature = json['averageTemperature'] as int
     ..assetName = json['assetName'] as String
+    ..coordinates = json['coordinates'] == null
+        ? null
+        : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
     ..planetType = _$enumDecodeNullable(_$PlanetTypeEnumMap, json['planetType'])
     ..scale = (json['scale'] as num)?.toDouble()
     ..axialTilt = (json['axialTilt'] as num)?.toDouble()
@@ -37,6 +40,7 @@ Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
       'rotationSpeed': instance.rotationSpeed,
       'averageTemperature': instance.averageTemperature,
       'assetName': instance.assetName,
+      'coordinates': instance.coordinates,
       'planetType': _$PlanetTypeEnumMap[instance.planetType],
       'scale': instance.scale,
       'axialTilt': instance.axialTilt,

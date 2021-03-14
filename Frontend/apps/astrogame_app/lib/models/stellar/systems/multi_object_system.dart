@@ -22,12 +22,6 @@ class MultiObjectSystem extends StellarSystem {
   @JsonKey()
   int order;
 
-  @JsonKey()
-  List<StellarObject> centerObjects;
-
-  @JsonKey()
-  List<StellarSystem> satellites;
-
   MultiObjectSystem();
 
   factory MultiObjectSystem.fromJson(Map<String, dynamic> json) =>

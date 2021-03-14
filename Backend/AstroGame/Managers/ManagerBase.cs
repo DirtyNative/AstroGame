@@ -1,34 +1,32 @@
 ﻿using AstroGame.Api.Repositories.Stellar;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Managers
 {
     public abstract class ManagerBase<T>
     {
-        private readonly MultiObjectSystemRepository _multiObjectSystemRepository;
-        private readonly SolarSystemRepository _solarSystemRepository;
+        private readonly StellarSystemRepository _stellarSystemRepository;
 
         private readonly StarRepository _starRepository;
         private readonly PlanetRepository _planetRepository;
         private readonly MoonRepository _moonRepository;
 
 
-        protected ManagerBase(MultiObjectSystemRepository multiObjectSystemRepository,
+        protected ManagerBase(StellarSystemRepository stellarSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
-            MoonRepository moonRepository, SolarSystemRepository solarSystemRepository)
+            MoonRepository moonRepository
+        )
         {
-            _multiObjectSystemRepository = multiObjectSystemRepository;
+            _stellarSystemRepository = stellarSystemRepository;
+
             _starRepository = starRepository;
             _planetRepository = planetRepository;
             _moonRepository = moonRepository;
-            _solarSystemRepository = solarSystemRepository;
         }
 
         public abstract Task<T> GetAsync(Guid id);
@@ -36,9 +34,9 @@ namespace AstroGame.Api.Managers
         public abstract Task<List<T>> GetByParentAsync(Guid parentId);
 
 
-        protected virtual async Task<MultiObjectSystem> GetRecursiveAsync(MultiObjectSystem multiObjectSystem)
+        protected virtual async Task<StellarSystem> GetRecursiveAsync(StellarSystem stellarSystem)
         {
-            var entity = await _multiObjectSystemRepository.GetAsync(multiObjectSystem.Id);
+            var entity = await _stellarSystemRepository.GetAsync(stellarSystem.Id);
 
             // Get center objects
             for (var i = 0; i < entity.CenterObjects.Count; i++)
@@ -55,14 +53,15 @@ namespace AstroGame.Api.Managers
             return entity;
         }
 
-        protected virtual async Task<StellarSystem> GetRecursiveAsync(StellarSystem system)
+        /*protected virtual async Task<StellarSystem> GetRecursiveAsync(StellarSystem system)
         {
             return system switch
             {
                 MultiObjectSystem multiObjectSystem => await GetRecursiveAsync(multiObjectSystem),
+                SolarSystem solarSystem => await GetRecursiveAsync(solarSystem),
                 _ => throw new NotImplementedException($"{system.GetType()} is not implemented")
             };
-        }
+        }*/
 
         protected virtual async Task<StellarObject> GetRecursiveAsync(StellarObject stellarObject)
         {
@@ -76,9 +75,9 @@ namespace AstroGame.Api.Managers
         }
 
 
-        protected virtual async Task DeleteRecursiveAsync(MultiObjectSystem multiObjectSystem)
+        protected virtual async Task DeleteRecursiveAsync(StellarSystem stellarSystem)
         {
-            var entity = await _multiObjectSystemRepository.GetAsync(multiObjectSystem.Id);
+            var entity = await _stellarSystemRepository.GetAsync(stellarSystem.Id);
 
             // Delete the center objects
             for (var i = entity.CenterObjects.Count - 1; i >= 0; i--)
@@ -92,10 +91,10 @@ namespace AstroGame.Api.Managers
                 await DeleteRecursiveAsync(entity.Satellites[i]);
             }
 
-            await _multiObjectSystemRepository.DeleteAsync(entity);
+            await _stellarSystemRepository.DeleteAsync(entity);
         }
 
-        protected virtual async Task DeleteRecursiveAsync(StellarSystem system)
+       /* protected virtual async Task DeleteRecursiveAsync(StellarSystem system)
         {
             switch (system)
             {
@@ -105,7 +104,7 @@ namespace AstroGame.Api.Managers
             }
 
             throw new NotImplementedException($"{system.GetType()} is not implemented");
-        }
+        } */
 
         protected virtual async Task DeleteRecursiveAsync(StellarObject stellarObject)
         {

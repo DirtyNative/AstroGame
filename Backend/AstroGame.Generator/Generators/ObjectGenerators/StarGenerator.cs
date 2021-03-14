@@ -1,10 +1,10 @@
 ﻿using AstroGame.Core.Helpers;
 using AstroGame.Shared.Enums;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
 using System.Linq;
-using AstroGame.Shared.Models.Stellar.BaseTypes;
+using AstroGame.Core.Structs;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -40,21 +40,21 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Star Generate(MultiObjectSystem parent, uint order)
+        /*public Star Generate(StellarSystem parent, uint order)
         {
             var type = GenerateType();
             var asset = SelectAsset(type);
             var averageTemperature = GenerateTemperature(type);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale();
-            var name = $"{parent.Name}-{(char)(order + 64)}";
+            //var name = $"{parent.Name}-{(char)(order + 64)}";
 
             var star = new Star(parent)
             {
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
 
-                Name = name,
+                //Name = name,
 
                 StarType = type,
                 AssetName = asset,
@@ -62,6 +62,35 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 RotationSpeed = rotationSpeed,
                 Scale = scale,
                 Order = order,
+            };
+
+            // TODO: Generate resources
+
+            return star;
+        } */
+
+        public Star Generate(StellarSystem parent, Coordinates coordinates)
+        {
+            var type = GenerateType();
+            var asset = SelectAsset(type);
+            var averageTemperature = GenerateTemperature(type);
+            var rotationSpeed = GenerateRotationSpeed();
+            var scale = GenerateScale();
+            //var name = $"{parent.Name}-{(char)(order + 64)}";
+
+            var star = new Star(parent)
+            {
+                ParentSystem = parent,
+                ParentSystemId = parent.Id,
+
+                //Name = name,
+
+                StarType = type,
+                AssetName = asset,
+                AverageTemperature = averageTemperature,
+                RotationSpeed = rotationSpeed,
+                Scale = scale,
+                Coordinates = coordinates
             };
 
             // TODO: Generate resources

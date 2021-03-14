@@ -17,6 +17,9 @@ Moon _$MoonFromJson(Map<String, dynamic> json) {
     ..rotationSpeed = (json['rotationSpeed'] as num)?.toDouble()
     ..averageTemperature = json['averageTemperature'] as int
     ..assetName = json['assetName'] as String
+    ..coordinates = json['coordinates'] == null
+        ? null
+        : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
     ..scale = (json['scale'] as num)?.toDouble()
     ..axialTilt = (json['axialTilt'] as num)?.toDouble()
     ..resources = (json['resources'] as List)
@@ -35,6 +38,7 @@ Map<String, dynamic> _$MoonToJson(Moon instance) => <String, dynamic>{
       'rotationSpeed': instance.rotationSpeed,
       'averageTemperature': instance.averageTemperature,
       'assetName': instance.assetName,
+      'coordinates': instance.coordinates,
       'scale': instance.scale,
       'axialTilt': instance.axialTilt,
       'resources': instance.resources,

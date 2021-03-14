@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Serialization;
 
-namespace AstroGame.Api.Converters
+namespace AstroGame.Api.Helpers
 {
     public class KnownTypesBinder : ISerializationBinder
     {

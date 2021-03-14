@@ -1,5 +1,4 @@
 ﻿using AstroGame.Core.Helpers;
-using AstroGame.Generator.Enums;
 using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
@@ -7,6 +6,9 @@ using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AstroGame.Core.Enums;
+using AstroGame.Core.Structs;
+using AstroGame.Core.Extensions;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
@@ -16,16 +18,17 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         private readonly PlanetGenerator _planetGenerator;
         private readonly MoonGenerator _moonGenerator;
 
-        protected GeneratorBase(StarGenerator starGenerator, PlanetGenerator planetGenerator, MoonGenerator moonGenerator)
+        protected GeneratorBase(StarGenerator starGenerator, PlanetGenerator planetGenerator,
+            MoonGenerator moonGenerator)
         {
             _starGenerator = starGenerator;
             _planetGenerator = planetGenerator;
             _moonGenerator = moonGenerator;
         }
 
-        public StellarSystem GenerateSystem(StellarSystem parent, SystemSize parentSize,
+        public StellarSystem GenerateSystem(StellarSystem parent, SystemSize size,
             List<KeyValuePair<Type, uint>> objectWeights,
-            uint countObjects)
+            uint countObjects, Coordinates parentCoordinates)
         {
             // If there is an invalid count provided, just return nothing
             if (countObjects < 1 || objectWeights.Count < 1)
@@ -35,15 +38,16 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             var system = new MultiObjectSystem(parent);
 
-            system.CenterObjects = GenerateCenterObjects(system, objectWeights, countObjects);
-            system.Satellites = GenerateSatelliteSystems(system, parentSize);
+            system.CenterObjects =
+                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates);
+            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates);
 
             return system;
         }
 
         public T GenerateChildren<T>(T system, SystemSize size,
             List<KeyValuePair<Type, uint>> objectWeights,
-            uint countObjects) where T : MultiObjectSystem
+            uint countObjects, Coordinates parentCoordinates) where T : StellarSystem
         {
             // If there is an invalid count provided, just return nothing
             if (countObjects < 1)
@@ -51,14 +55,16 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 return null;
             }
 
-            system.CenterObjects = GenerateCenterObjects(system, objectWeights, countObjects);
-            system.Satellites = GenerateSatelliteSystems(system, size);
+            system.CenterObjects =
+                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates);
+            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates.Increment(size, 1));
 
             return system;
         }
 
-        private StellarObject GenerateObject(MultiObjectSystem parentSystem, List<KeyValuePair<Type, uint>> objectWeights,
-            uint order)
+        /*private StellarObject GenerateObject(StellarSystem parentSystem,
+            List<KeyValuePair<Type, uint>> objectWeights,
+            uint order, Coordinates coordinates)
         {
             if (objectWeights.Count == 0)
             {
@@ -69,7 +75,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             if (objectType == typeof(Star))
             {
-                return _starGenerator.Generate(parentSystem, order);
+                return _starGenerator.Generate(parentSystem, coordinates);
             }
 
             if (objectType == typeof(Planet))
@@ -83,40 +89,87 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             }
 
             throw new NotImplementedException($"Type {objectType} is not implemented yet");
+        } */
+
+        private StellarObject GenerateObject(StellarSystem parentSystem,
+            List<KeyValuePair<Type, uint>> objectWeights,
+            Coordinates coordinates)
+        {
+            if (objectWeights.Count == 0)
+            {
+                Debug.WriteLine("");
+            }
+
+            var objectType = RandomCalculator.SelectByWeight(objectWeights);
+
+            if (objectType == typeof(Star))
+            {
+                return _starGenerator.Generate(parentSystem, coordinates);
+            }
+
+            if (objectType == typeof(Planet))
+            {
+                return _planetGenerator.Generate(parentSystem, coordinates);
+            }
+
+            if (objectType == typeof(Moon))
+            {
+                return _moonGenerator.Generate(parentSystem, coordinates);
+            }
+
+            throw new NotImplementedException($"Type {objectType} is not implemented yet");
         }
 
-        private List<StellarObject> GenerateCenterObjects(MultiObjectSystem parentSystem,
+        /*private List<StellarObject> GenerateCenterObjects(StellarSystem parentSystem,
             List<KeyValuePair<Type, uint>> objectWeights, uint countObjects)
         {
             var list = new List<StellarObject>();
 
             for (uint i = 0; i < countObjects; i++)
             {
-                var stellarObject = GenerateObject(parentSystem, objectWeights, i +1);
+                var stellarObject = GenerateObject(parentSystem, objectWeights, i + 1);
+                list.Add(stellarObject);
+            }
+
+            return list;
+        } */
+
+        private List<StellarObject> GenerateCenterObjects(StellarSystem parentSystem,
+            List<KeyValuePair<Type, uint>> objectWeights, uint countObjects, SystemSize size,
+            Coordinates parentCoordinates)
+        {
+            var list = new List<StellarObject>();
+
+            for (var i = 0; i < countObjects; i++)
+            {
+                var stellarObject =
+                    GenerateObject(parentSystem, objectWeights, parentCoordinates.Increment(size, i));
                 list.Add(stellarObject);
             }
 
             return list;
         }
 
-        private List<StellarSystem> GenerateSatelliteSystems(StellarSystem parentSystem, SystemSize parentSize)
+        private List<StellarSystem> GenerateSatelliteSystems(StellarSystem parentSystem, SystemSize size,
+            Coordinates parentCoordinates)
         {
             var list = new List<StellarSystem>();
 
             // Determines how many satellite systems (not the objects) will be generated
-            var countSatelliteWeights = GenerateSatelliteCountWeightBySize(parentSize);
+            var countSatelliteWeights = GenerateSatelliteCountWeightBySize(size);
             var countSatellites = RandomCalculator.SelectByWeight(countSatelliteWeights);
 
             // The objects appearance possibilities
-            var objectWeights = GenerateStellarObjectWeightsBySize(parentSize);
+            var objectWeights = GenerateStellarObjectWeightsBySize(size);
 
             // Defines how many center objects will be generated
-            var objectCountWeights = GenerateCenterObjectCountWeights(parentSize);
+            var objectCountWeights = GenerateCenterObjectCountWeights(size);
             var countObjects = RandomCalculator.SelectByWeight(objectCountWeights);
 
             for (uint i = 0; i < countSatellites; i++)
             {
-                var system = GenerateSystem(parentSystem, parentSize + 1, objectWeights, countObjects);
+                var system = GenerateSystem(parentSystem, size, objectWeights, countObjects,
+                    parentCoordinates.Increment(size, 1));
 
                 if (system == null)
                 {
@@ -131,9 +184,9 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             return list;
         }
 
-        protected List<KeyValuePair<Type, uint>> GenerateStellarObjectWeightsBySize(SystemSize parentSize)
+        protected List<KeyValuePair<Type, uint>> GenerateStellarObjectWeightsBySize(SystemSize size)
         {
-            if (parentSize == SystemSize.Interstellar)
+            if (size == SystemSize.Solar)
             {
                 return new List<KeyValuePair<Type, uint>>()
                 {
@@ -141,7 +194,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 };
             }
 
-            if (parentSize == SystemSize.Solar)
+            if (size == SystemSize.InterPlanetar)
             {
                 return new List<KeyValuePair<Type, uint>>()
                 {
@@ -149,7 +202,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 };
             }
 
-            if (parentSize == SystemSize.Planetary)
+            if (size == SystemSize.InterLunar)
             {
                 return new List<KeyValuePair<Type, uint>>()
                 {
@@ -157,16 +210,15 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 };
             }
 
-            if (parentSize == SystemSize.Lunar)
+            if (size == SystemSize.Lunar)
             {
                 // TODO: Define moons satellite types
                 return new List<KeyValuePair<Type, uint>>()
                 {
-
                 };
             }
 
-            throw new NotImplementedException($"System size {parentSize} is not implemented yet");
+            throw new NotImplementedException($"System size {size} is not implemented yet");
         }
 
         /// <summary>
@@ -177,7 +229,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         private List<KeyValuePair<uint, uint>> GenerateSatelliteCountWeightBySize(SystemSize parentSize)
         {
             // How many sub systems (stars, black holes, etc) a solar system has
-            if (parentSize == SystemSize.Interstellar)
+            if (parentSize == SystemSize.Solar)
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {
@@ -186,7 +238,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             }
 
             // How many sub systems (planets) a star has
-            if (parentSize == SystemSize.Solar)
+            if (parentSize == SystemSize.InterPlanetar)
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {
@@ -202,7 +254,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             }
 
             // How many sub systems (moons) a planet has
-            if (parentSize == SystemSize.Planetary)
+            if (parentSize == SystemSize.InterLunar)
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {
@@ -232,7 +284,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
         private List<KeyValuePair<uint, uint>> GenerateCenterObjectCountWeights(SystemSize parentSize)
         {
-            if (parentSize == SystemSize.Interstellar)
+            if (parentSize == SystemSize.Solar)
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {
@@ -242,7 +294,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 };
             }
 
-            if (parentSize == SystemSize.Solar)
+            if (parentSize == SystemSize.InterPlanetar)
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {
@@ -252,7 +304,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
                 };
             }
 
-            if (parentSize == SystemSize.Planetary)
+            if (parentSize == SystemSize.InterLunar)
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {

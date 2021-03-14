@@ -1,6 +1,7 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Core.Enums;
+using AstroGame.Core.Extensions;
 using AstroGame.Core.Structs;
-using AstroGame.Generator.Enums;
 using AstroGame.Generator.Generators.NameGenerators;
 using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
@@ -34,7 +35,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             {
                 Name = name,
                 Position = position,
-                Order = systemNumber
+                Coordinates = Coordinates.System(systemNumber)
             };
 
             return solarSystem;
@@ -44,7 +45,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         {
             var solarSystem = Generate(parent, position, systemNumber);
 
-            solarSystem = GenerateChildren(solarSystem);
+            solarSystem = GenerateChildren(solarSystem, Coordinates.System(systemNumber));
 
             return solarSystem;
         }
@@ -54,12 +55,14 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         /// </summary>
         /// <param name="solarSystem"></param>
         /// <returns></returns>
-        public SolarSystem GenerateChildren(SolarSystem solarSystem)
+        public SolarSystem GenerateChildren(SolarSystem solarSystem, Coordinates parentCoordinates)
         {
-            var weights = GenerateStellarObjectWeightsBySize(SystemSize.Interstellar);
+            var size = SystemSize.Solar;
+
+            var weights = GenerateStellarObjectWeightsBySize(size);
 
             // TODO: make countObjects dynamic
-            solarSystem = GenerateChildren(solarSystem, SystemSize.Solar, weights, 3);
+            solarSystem = GenerateChildren(solarSystem, size, weights, 3, parentCoordinates.Increment(size, 1));
 
             solarSystem.IsGenerated = true;
 

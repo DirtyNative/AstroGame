@@ -24,7 +24,7 @@ class PlanetCardView extends StatelessWidget {
               height: 50,
             ),
             SizedBox(width: 16),
-            Text(model.planet.name),
+            Text(model.planet.name ?? ''),
             SizedBox(width: 16),
             Text('Any other info')
           ],

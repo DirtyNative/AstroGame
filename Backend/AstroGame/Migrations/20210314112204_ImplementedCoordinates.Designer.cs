@@ -4,14 +4,16 @@ using AstroGame.Api.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Api.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210314112204_ImplementedCoordinates")]
+    partial class ImplementedCoordinates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -572,6 +574,9 @@ namespace AstroGame.Api.Migrations
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
 
+                    b.Property<long>("Order")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("Scale")
                         .HasColumnType("float");
 
@@ -588,6 +593,9 @@ namespace AstroGame.Api.Migrations
                     b.Property<bool>("HasHabitableAtmosphere")
                         .HasColumnType("bit");
 
+                    b.Property<long>("Order")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("PlanetType")
                         .HasColumnType("int");
 
@@ -603,6 +611,9 @@ namespace AstroGame.Api.Migrations
 
                     b.Property<double>("AxialTilt")
                         .HasColumnType("float");
+
+                    b.Property<long>("Order")
+                        .HasColumnType("bigint");
 
                     b.Property<double>("Scale")
                         .HasColumnType("float");

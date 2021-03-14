@@ -4,7 +4,6 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
@@ -15,7 +14,7 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         {
         }
 
-        public Planet(MultiObjectSystem parentSystem) : base(parentSystem)
+        public Planet(StellarSystem parentSystem) : base(parentSystem)
         {
         }
 
@@ -24,10 +23,5 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         public double AxialTilt { get; set; }
         [JsonProperty(Order = 100)] public List<StellarObjectResource> Resources { get; set; }
         public bool HasHabitableAtmosphere { get; set; }
-
-        /// <summary>
-        /// This objects position inside the system
-        /// </summary>
-        public uint Order { get; set; }
     }
 }

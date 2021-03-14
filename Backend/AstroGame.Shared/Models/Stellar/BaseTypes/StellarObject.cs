@@ -1,5 +1,6 @@
-﻿using System;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
+﻿using AstroGame.Core.Structs;
+using Newtonsoft.Json;
+using System;
 
 namespace AstroGame.Shared.Models.Stellar.BaseTypes
 {
@@ -12,13 +13,13 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
         {
         }
 
-        protected StellarObject(MultiObjectSystem parentSystem)
+        protected StellarObject(StellarSystem parentSystem)
         {
             ParentSystem = parentSystem;
             ParentSystemId = parentSystem.Id;
         }
 
-        public MultiObjectSystem ParentSystem { get; set; }
+        public StellarSystem ParentSystem { get; set; }
         public Guid ParentSystemId { get; set; }
 
         /// <summary>
@@ -38,5 +39,9 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
         public int AverageTemperature { get; set; }
 
         public string AssetName { get; set; }
+
+        [JsonProperty(Order = -9)] public virtual string Name { get; set; }
+
+        public Coordinates Coordinates { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
+import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/moon.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/star.dart';
@@ -38,14 +39,13 @@ class SolarSystemView extends StatelessWidget {
     );
   }
 
-  Widget _generateSubWidget(
-      MultiObjectSystem multiObjectSystem, bool vertical) {
-    if (multiObjectSystem == null) {
+  Widget _generateSubWidget(StellarSystem stellarSystem, bool vertical) {
+    if (stellarSystem == null) {
       return SizedBox.shrink();
     }
 
-    if (multiObjectSystem.centerObjects == null ||
-        multiObjectSystem.centerObjects.length < 1) {
+    if (stellarSystem.centerObjects == null ||
+        stellarSystem.centerObjects.length < 1) {
       return SizedBox.shrink();
     }
 
@@ -63,7 +63,7 @@ class SolarSystemView extends StatelessWidget {
 
     List<Widget> subSystemWidgets = <Widget>[];
 
-    for (int i = 0; i < multiObjectSystem.satellites.length; i++) {
+    for (int i = 0; i < stellarSystem.satellites.length; i++) {
       if (vertical) {
         subSystemWidgets.add(
           CustomPaint(
@@ -80,8 +80,7 @@ class SolarSystemView extends StatelessWidget {
         );
       }
 
-      var widget =
-          _generateSubWidget(multiObjectSystem.satellites[i], !vertical);
+      var widget = _generateSubWidget(stellarSystem.satellites[i], !vertical);
       subSystemWidgets.add(widget);
     }
 
@@ -90,7 +89,7 @@ class SolarSystemView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _multiObjectSystemWidget(multiObjectSystem),
+          _stellarSystemWidget(stellarSystem),
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -103,7 +102,7 @@ class SolarSystemView extends StatelessWidget {
     } else {
       return Column(
         children: [
-          _multiObjectSystemWidget(multiObjectSystem),
+          _stellarSystemWidget(stellarSystem),
           Column(
             children: subSystemWidgets,
           ),
@@ -112,11 +111,10 @@ class SolarSystemView extends StatelessWidget {
     }
   }
 
-  Widget _multiObjectSystemWidget(MultiObjectSystem multiObjectSystem) {
+  Widget _stellarSystemWidget(StellarSystem stellarSystem) {
     List<Widget> stellarObjects = List<Widget>.generate(
-        multiObjectSystem.centerObjects.length,
-        (index) =>
-            _stellarObjectWidget(multiObjectSystem.centerObjects[index]));
+        stellarSystem.centerObjects.length,
+        (index) => _stellarObjectWidget(stellarSystem.centerObjects[index]));
 
     return GlassContainer(
         padding: EdgeInsets.all(16),

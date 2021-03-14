@@ -18,13 +18,13 @@ namespace AstroGame.Api.Managers
         private readonly AstroGameDataContext _context;
 
         public SolarSystemManager(SolarSystemRepository solarSystemRepository,
-            MultiObjectSystemRepository multiObjectSystemRepository,
+            StellarSystemRepository stellarSystemRepository,
             StarRepository starRepository,
             PlanetRepository planetRepository,
             MoonRepository moonRepository, SolarSystemGenerator solarSystemGenerator,
-            AstroGameDataContext context) : base(
-            multiObjectSystemRepository, starRepository, planetRepository,
-            moonRepository, solarSystemRepository)
+            AstroGameDataContext context) : base(stellarSystemRepository,
+            starRepository, planetRepository,
+            moonRepository)
         {
             _solarSystemRepository = solarSystemRepository;
             _solarSystemGenerator = solarSystemGenerator;
@@ -37,7 +37,7 @@ namespace AstroGame.Api.Managers
 
             if (solarSystem.IsGenerated == false)
             {
-                solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem);
+                solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem, solarSystem.Coordinates);
                 await _context.SaveChangesAsync();
             }
 
@@ -51,7 +51,7 @@ namespace AstroGame.Api.Managers
 
             if (solarSystem.IsGenerated == false)
             {
-                solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem);
+                solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem, solarSystem.Coordinates);
                 await _context.SaveChangesAsync();
             }
 
@@ -72,7 +72,7 @@ namespace AstroGame.Api.Managers
 
                 if (solarSystem.IsGenerated == false)
                 {
-                    solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem);
+                    solarSystem = _solarSystemGenerator.GenerateChildren(solarSystem, solarSystem.Coordinates);
                     await _context.SaveChangesAsync();
                 }
 

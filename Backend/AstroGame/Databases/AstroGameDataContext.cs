@@ -1,4 +1,5 @@
-﻿using AstroGame.Api.Databases.TypeConfigurations.Objects;
+﻿using AstroGame.Api.Converters;
+using AstroGame.Api.Databases.TypeConfigurations.Objects;
 using AstroGame.Api.Extensions;
 using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Resources;
@@ -28,9 +29,10 @@ namespace AstroGame.Api.Databases
         public DbSet<Galaxy> Galaxies { get; set; }
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<MultiObjectSystem> MultiObjectSystems { get; set; }
+        public DbSet<StellarSystem> StellarSystems { get; set; }
         
         public DbSet<Resource> Resources { get; set; }
-        public DbSet<Shared.Models.Resources.Material> Materials { get; set; }
+        public DbSet<Material> Materials { get; set; }
         public DbSet<Element> Elements { get; set; }
         public DbSet<StellarObjectResource> StellarObjectResources { get; set; }
 
@@ -43,6 +45,7 @@ namespace AstroGame.Api.Databases
                 new ValueConverter<Vector3, string>(vector3 => vector3.ToString(), s => s.ToVector3());
 
             modelBuilder.UseValueConverterForType<Vector3>(vector3Converter);
+            modelBuilder.UseValueConverterForType<Coordinates>(new CoordinateStringConverter());
 
             base.OnModelCreating(modelBuilder);
         }

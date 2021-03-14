@@ -1,7 +1,8 @@
 ﻿using AstroGame.Core.Helpers;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System.Collections.Generic;
+using AstroGame.Core.Structs;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -16,7 +17,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Moon Generate(MultiObjectSystem parent, uint order)
+        public Moon Generate(StellarSystem parent, Coordinates coordinates)
         {
             var asset = SelectAsset();
             var scale = GenerateScale();
@@ -24,7 +25,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
             var moon = new Moon(parent)
             {
-                Order = order,
+                Coordinates = coordinates,
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
                 AssetName = asset,
@@ -43,7 +44,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
         private string SelectAsset()
         {
             var asset = _assets[RandomCalculator.Random.Next(0, _assets.Count)];
-            
+
             return asset;
         }
 

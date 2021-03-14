@@ -1,7 +1,8 @@
 import 'package:astrogame_app/converters/guid_converter.dart';
 import 'package:astrogame_app/converters/stellar_object_converter.dart';
 import 'package:astrogame_app/converters/stellar_system_converter.dart';
-import 'package:astrogame_app/models/stellar/systems/multi_object_system.dart';
+import 'package:astrogame_app/models/common/coordinates.dart';
+import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'solar_system.g.dart';
@@ -10,7 +11,13 @@ part 'solar_system.g.dart';
 @StellarObjectConverter()
 @StellarSystemConverter()
 @JsonSerializable()
-class SolarSystem extends MultiObjectSystem {
+class SolarSystem extends StellarSystem {
+  @JsonKey()
+  String name;
+
+  @JsonKey()
+  Coordinates coordinates;
+
   @JsonKey()
   bool isGenerated;
 

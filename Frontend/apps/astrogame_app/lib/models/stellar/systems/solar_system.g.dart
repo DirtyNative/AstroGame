@@ -9,11 +9,6 @@ part of 'solar_system.dart';
 SolarSystem _$SolarSystemFromJson(Map<String, dynamic> json) {
   return SolarSystem()
     ..id = const GuidConverter().fromJson(json['id'] as String)
-    ..name = json['name'] as String
-    ..parentId = const GuidConverter().fromJson(json['parentId'] as String)
-    ..parent = const StellarSystemConverter()
-        .fromJson(json['parent'] as Map<String, dynamic>)
-    ..order = json['order'] as int
     ..centerObjects = (json['centerObjects'] as List)
         ?.map((e) =>
             const StellarObjectConverter().fromJson(e as Map<String, dynamic>))
@@ -22,21 +17,23 @@ SolarSystem _$SolarSystemFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             const StellarSystemConverter().fromJson(e as Map<String, dynamic>))
         ?.toList()
+    ..name = json['name'] as String
+    ..coordinates = json['coordinates'] == null
+        ? null
+        : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
     ..isGenerated = json['isGenerated'] as bool;
 }
 
 Map<String, dynamic> _$SolarSystemToJson(SolarSystem instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
-      'name': instance.name,
-      'parentId': const GuidConverter().toJson(instance.parentId),
-      'parent': const StellarSystemConverter().toJson(instance.parent),
-      'order': instance.order,
       'centerObjects': instance.centerObjects
           ?.map(const StellarObjectConverter().toJson)
           ?.toList(),
       'satellites': instance.satellites
           ?.map(const StellarSystemConverter().toJson)
           ?.toList(),
+      'name': instance.name,
+      'coordinates': instance.coordinates,
       'isGenerated': instance.isGenerated,
     };
