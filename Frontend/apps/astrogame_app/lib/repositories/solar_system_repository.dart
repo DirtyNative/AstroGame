@@ -13,7 +13,9 @@ class SolarSystemRepository {
 
   Future<SolarSystem> getBySystemNumberRecursiveAsync(
       int solarSystemNumber) async {
-    return await _solarSystemApi.getBySystemNumberRecursiveAsync(
+    var solarSystem = await _solarSystemApi.getBySystemNumberRecursiveAsync(
         systemNumber: solarSystemNumber);
+
+    return solarSystem;
   }
 }

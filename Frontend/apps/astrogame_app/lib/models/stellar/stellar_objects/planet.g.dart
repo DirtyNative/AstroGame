@@ -28,8 +28,7 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) {
             ? null
             : StellarObjectResource.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..hasHabitableAtmosphere = json['hasHabitableAtmosphere'] as bool
-    ..order = json['order'] as int;
+    ..hasHabitableAtmosphere = json['hasHabitableAtmosphere'] as bool;
 }
 
 Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
@@ -46,7 +45,6 @@ Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
       'axialTilt': instance.axialTilt,
       'resources': instance.resources,
       'hasHabitableAtmosphere': instance.hasHabitableAtmosphere,
-      'order': instance.order,
     };
 
 T _$enumDecode<T>(

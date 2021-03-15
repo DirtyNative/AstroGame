@@ -1,42 +1,67 @@
 import 'package:astrogame_app/configurations/service_container.dart';
+import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
 import 'package:astrogame_app/views/planet/planet_viewmodel.dart';
 import 'package:astrogame_app/widgets/glass_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class PlanetView extends StatelessWidget {
+  final Planet _planet;
+
+  PlanetView(this._planet);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PlanetViewModel>.reactive(
       builder: (context, model, _) => Scaffold(
-        body: Stack(
-          children: [
-            /*Image.network(
-              model.imageUrl,
-              fit: BoxFit.cover,
-            ),*/
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _headerWidget(context, model),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height - 300,
-                    ),
-                    _detailsView(context),
-                    _resourcesView(context),
-                  ],
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/background_2.png'),
+                fit: BoxFit.cover),
+          ),
+          /* decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(model.imageUrl), fit: BoxFit.cover),
+          ),*/
+          child: Stack(
+            children: [
+              Center(
+                /*child: Image.asset(
+                  'assets/images/screen_1.png',
+                  width: MediaQuery.of(context).size.height,
+                ), */
+
+                child: Image.network(
+                  model.imageUrl,
+                  height: MediaQuery.of(context).size.height,
                 ),
               ),
-            ),
-          ],
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _headerWidget(context, model),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - 300,
+                      ),
+                      _detailsView(context),
+                      _resourcesView(context),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      viewModelBuilder: () => getIt.get(),
+      viewModelBuilder: () =>
+          new PlanetViewModel(getIt.get<NavigationService>(), _planet),
     );
   }
 
@@ -54,7 +79,7 @@ class PlanetView extends StatelessWidget {
                   Icons.arrow_back,
                   size: 20,
                 ),
-                onTap: () => {},
+                onTap: model.goBack,
               ),
             ),
           ),

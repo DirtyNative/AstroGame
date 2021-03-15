@@ -3,6 +3,7 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using System.Collections.Generic;
 using AstroGame.Core.Structs;
+using AstroGame.Generator.Generators.NameGenerators;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -17,11 +18,12 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _assets = assets;
         }
 
-        public Moon Generate(StellarSystem parent, Coordinates coordinates)
+        public Moon Generate(StellarSystem parent, Coordinates coordinates, string systemName)
         {
             var asset = SelectAsset();
             var scale = GenerateScale();
             var distance = GenerateDistance();
+            var name = StellarObjectNameGenerator.Generate(systemName, coordinates, GetType());
 
             var moon = new Moon(parent)
             {
@@ -31,6 +33,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                 AssetName = asset,
                 Scale = scale,
                 AverageDistanceToCenter = distance,
+                Name = name,
             };
 
             return moon;

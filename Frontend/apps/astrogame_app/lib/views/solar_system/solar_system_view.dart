@@ -4,7 +4,6 @@ import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/moon.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/star.dart';
-import 'package:astrogame_app/models/stellar/systems/multi_object_system.dart';
 import 'package:astrogame_app/models/stellar/systems/solar_system.dart';
 import 'package:astrogame_app/views/solar_system/cards/moon_card_view.dart';
 import 'package:astrogame_app/views/solar_system/cards/planet_card_view.dart';
@@ -14,32 +13,36 @@ import 'package:astrogame_app/widgets/glass_container.dart';
 import 'package:astrogame_app/widgets/horizontal_line.dart';
 import 'package:astrogame_app/widgets/vertical_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 
-class SolarSystemView extends StatelessWidget {
-  SolarSystemView();
+class SolarSystemView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _State();
+}
 
+class _State extends State<SolarSystemView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SolarSystemViewModel>.reactive(
       builder: (context, model, _) =>
-          generateSolarSystemWidget(model.solarSystem),
+          generateSolarSystemWidget(model, model.solarSystem),
       viewModelBuilder: () => getIt.get(),
     );
   }
 
-  Widget generateSolarSystemWidget(SolarSystem solarSystem) {
+  Widget generateSolarSystemWidget(
+      SolarSystemViewModel model, SolarSystem solarSystem) {
     if (solarSystem == null) {
       return SizedBox.shrink();
     }
 
     return Container(
-      child: _generateSubWidget(solarSystem, true),
+      child: _generateSubWidget(model, solarSystem, true),
     );
   }
 
-  Widget _generateSubWidget(StellarSystem stellarSystem, bool vertical) {
+  Widget _generateSubWidget(
+      SolarSystemViewModel model, StellarSystem stellarSystem, bool vertical) {
     if (stellarSystem == null) {
       return SizedBox.shrink();
     }
@@ -80,7 +83,8 @@ class SolarSystemView extends StatelessWidget {
         );
       }
 
-      var widget = _generateSubWidget(stellarSystem.satellites[i], !vertical);
+      var widget =
+          _generateSubWidget(model, stellarSystem.satellites[i], !vertical);
       subSystemWidgets.add(widget);
     }
 
@@ -89,7 +93,7 @@ class SolarSystemView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _stellarSystemWidget(stellarSystem),
+          _stellarSystemWidget(model, stellarSystem),
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -102,7 +106,7 @@ class SolarSystemView extends StatelessWidget {
     } else {
       return Column(
         children: [
-          _stellarSystemWidget(stellarSystem),
+          _stellarSystemWidget(model, stellarSystem),
           Column(
             children: subSystemWidgets,
           ),
@@ -111,10 +115,12 @@ class SolarSystemView extends StatelessWidget {
     }
   }
 
-  Widget _stellarSystemWidget(StellarSystem stellarSystem) {
+  Widget _stellarSystemWidget(
+      SolarSystemViewModel model, StellarSystem stellarSystem) {
     List<Widget> stellarObjects = List<Widget>.generate(
         stellarSystem.centerObjects.length,
-        (index) => _stellarObjectWidget(stellarSystem.centerObjects[index]));
+        (index) =>
+            _stellarObjectWidget(model, stellarSystem.centerObjects[index]));
 
     return GlassContainer(
         padding: EdgeInsets.all(16),
@@ -133,13 +139,15 @@ class SolarSystemView extends StatelessWidget {
         ));
   }
 
-  Widget _stellarObjectWidget(StellarObject stellarObject) {
+  Widget _stellarObjectWidget(
+      SolarSystemViewModel model, StellarObject stellarObject) {
     if (stellarObject is Star) {
       return StarCardView(stellarObject);
     }
 
     if (stellarObject is Planet) {
-      return new PlanetCardView(stellarObject);
+      return new PlanetCardView(
+          stellarObject, () => model.showPlanetView(stellarObject));
     }
 
     if (stellarObject is Moon) {

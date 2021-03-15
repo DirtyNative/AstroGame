@@ -13,6 +13,11 @@ class Coordinates {
   Coordinates(this.interStellar, this.solar, this.interPlanetar,
       this.interLunar, this.lunar);
 
+  @override
+  String toString() {
+    return '($interStellar.$solar.$interPlanetar.$interLunar.$lunar)';
+  }
+
   factory Coordinates.fromJson(Map<String, dynamic> json) =>
       _$CoordinatesFromJson(json);
   Map<String, dynamic> toJson() => _$CoordinatesToJson(this);

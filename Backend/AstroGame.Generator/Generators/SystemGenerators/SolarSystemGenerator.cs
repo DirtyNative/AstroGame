@@ -54,15 +54,17 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         /// Generates the children and marks it as generated
         /// </summary>
         /// <param name="solarSystem"></param>
+        /// <param name="parentCoordinates"></param>
         /// <returns></returns>
         public SolarSystem GenerateChildren(SolarSystem solarSystem, Coordinates parentCoordinates)
         {
-            var size = SystemSize.Solar;
+            const SystemSize size = SystemSize.Solar;
 
             var weights = GenerateStellarObjectWeightsBySize(size);
 
             // TODO: make countObjects dynamic
-            solarSystem = GenerateChildren(solarSystem, size, weights, 3, parentCoordinates.Increment(size, 1));
+            solarSystem = GenerateChildren(solarSystem, size, weights, 3, parentCoordinates.Increment(size, 1),
+                solarSystem.Name);
 
             solarSystem.IsGenerated = true;
 

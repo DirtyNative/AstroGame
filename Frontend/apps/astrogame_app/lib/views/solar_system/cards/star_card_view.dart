@@ -28,9 +28,9 @@ class StarCardView extends StatelessWidget {
               size: 50,
             ),*/
             SizedBox(width: 16),
-            Text('Planet name'),
+            Text('${model.star.name}'),
             SizedBox(width: 16),
-            Text('Any other info')
+            Text(model.star.coordinates.toString()),
           ],
         ),
       ),

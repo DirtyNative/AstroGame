@@ -7,6 +7,7 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using System.Collections.Generic;
 using System.Linq;
+using AstroGame.Generator.Generators.NameGenerators;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -69,7 +70,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             _resourceGenerator = resourceGenerator;
         }
 
-        public Planet Generate(StellarSystem parent, Coordinates coordinates)
+        public Planet Generate(StellarSystem parent, Coordinates coordinates, string systemName)
         {
             var planetType = GeneratePlanetType();
             var atmosphere = GenerateHasHabitableAtmosphere();
@@ -77,10 +78,11 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             var averageTemperature = GenerateTemperature(planetType);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale(planetType);
+            var name = StellarObjectNameGenerator.Generate(systemName, coordinates, GetType());
 
             var planet = new Planet(parent)
             {
-                //Name = $"{parent.Name}-{order}",
+                Name = name,
                 Coordinates = coordinates,
 
                 PlanetType = planetType,

@@ -16,6 +16,11 @@ namespace AstroGame.Generator.Assets
             "Planet_Volcano_1",
             "Planet_Volcano_2",
             "Planet_Volcano_3",
+            "Planet_Volcano_4",
+            "Planet_Volcano_5",
+            "Planet_Volcano_6",
+            "Planet_Volcano_7",
+            "Planet_Volcano_8",
         };
 
         public static List<string> DesertPlanetAssets = new List<string>()
@@ -23,6 +28,12 @@ namespace AstroGame.Generator.Assets
             "Planet_Desert_1",
             "Planet_Desert_2",
             "Planet_Desert_3",
+            "Planet_Desert_4",
+            "Planet_Desert_5",
+            "Planet_Desert_6",
+            "Planet_Desert_7",
+            "Planet_Desert_8",
+            "Planet_Desert_9",
         };
 
         public static List<string> ContinentalPlanetAssets = new List<string>()
@@ -37,6 +48,9 @@ namespace AstroGame.Generator.Assets
             "Planet_Ocean_1",
             "Planet_Ocean_2",
             "Planet_Ocean_3",
+            "Planet_Ocean_4",
+            "Planet_Ocean_5",
+            "Planet_Ocean_6",
         };
 
         public static List<string> RockPlanetAssets = new List<string>()
@@ -50,7 +64,6 @@ namespace AstroGame.Generator.Assets
         {
             "Planet_Gas_1",
             "Planet_Gas_2",
-            "Planet_Gas_3",
         };
 
         public static List<string> IcePlanetAssets = new List<string>()

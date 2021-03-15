@@ -30,9 +30,9 @@ class MoonCardView extends StatelessWidget {
               size: 50,
             ), */
             SizedBox(width: 16),
-            Text('Planet name'),
+            Text('${model.moon.name}'),
             SizedBox(width: 16),
-            Text('Any other info')
+            Text(model.moon.coordinates.toString())
           ],
         ),
       ),

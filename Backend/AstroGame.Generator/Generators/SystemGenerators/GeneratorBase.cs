@@ -28,7 +28,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
         public StellarSystem GenerateSystem(StellarSystem parent, SystemSize size,
             List<KeyValuePair<Type, uint>> objectWeights,
-            uint countObjects, Coordinates parentCoordinates)
+            uint countObjects, Coordinates parentCoordinates, string systemName)
         {
             // If there is an invalid count provided, just return nothing
             if (countObjects < 1 || objectWeights.Count < 1)
@@ -39,15 +39,15 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             var system = new MultiObjectSystem(parent);
 
             system.CenterObjects =
-                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates);
-            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates);
+                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates, systemName);
+            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates, systemName);
 
             return system;
         }
 
         public T GenerateChildren<T>(T system, SystemSize size,
             List<KeyValuePair<Type, uint>> objectWeights,
-            uint countObjects, Coordinates parentCoordinates) where T : StellarSystem
+            uint countObjects, Coordinates parentCoordinates, string systemName) where T : StellarSystem
         {
             // If there is an invalid count provided, just return nothing
             if (countObjects < 1)
@@ -56,8 +56,8 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             }
 
             system.CenterObjects =
-                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates);
-            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates.Increment(size, 1));
+                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates, systemName);
+            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates, systemName);
 
             return system;
         }
@@ -93,7 +93,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
         private StellarObject GenerateObject(StellarSystem parentSystem,
             List<KeyValuePair<Type, uint>> objectWeights,
-            Coordinates coordinates)
+            Coordinates coordinates, string systemName)
         {
             if (objectWeights.Count == 0)
             {
@@ -104,17 +104,17 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             if (objectType == typeof(Star))
             {
-                return _starGenerator.Generate(parentSystem, coordinates);
+                return _starGenerator.Generate(parentSystem, coordinates, systemName);
             }
 
             if (objectType == typeof(Planet))
             {
-                return _planetGenerator.Generate(parentSystem, coordinates);
+                return _planetGenerator.Generate(parentSystem, coordinates, systemName);
             }
 
             if (objectType == typeof(Moon))
             {
-                return _moonGenerator.Generate(parentSystem, coordinates);
+                return _moonGenerator.Generate(parentSystem, coordinates, systemName);
             }
 
             throw new NotImplementedException($"Type {objectType} is not implemented yet");
@@ -136,14 +136,14 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
         private List<StellarObject> GenerateCenterObjects(StellarSystem parentSystem,
             List<KeyValuePair<Type, uint>> objectWeights, uint countObjects, SystemSize size,
-            Coordinates parentCoordinates)
+            Coordinates parentCoordinates, string systemName)
         {
             var list = new List<StellarObject>();
 
             for (var i = 0; i < countObjects; i++)
             {
                 var stellarObject =
-                    GenerateObject(parentSystem, objectWeights, parentCoordinates.Increment(size, i));
+                    GenerateObject(parentSystem, objectWeights, parentCoordinates.Increment(size, i), systemName);
                 list.Add(stellarObject);
             }
 
@@ -151,7 +151,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         }
 
         private List<StellarSystem> GenerateSatelliteSystems(StellarSystem parentSystem, SystemSize size,
-            Coordinates parentCoordinates)
+            Coordinates parentCoordinates, string systemName)
         {
             var list = new List<StellarSystem>();
 
@@ -168,8 +168,10 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             for (uint i = 0; i < countSatellites; i++)
             {
+                parentCoordinates = parentCoordinates.Increment(size, 1);
+
                 var system = GenerateSystem(parentSystem, size, objectWeights, countObjects,
-                    parentCoordinates.Increment(size, 1));
+                    parentCoordinates, systemName);
 
                 if (system == null)
                 {

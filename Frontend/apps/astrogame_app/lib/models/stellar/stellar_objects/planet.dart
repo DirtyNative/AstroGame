@@ -25,9 +25,6 @@ class Planet extends StellarObject {
   @JsonKey()
   bool hasHabitableAtmosphere;
 
-  @JsonKey()
-  int order;
-
   Planet();
 
   factory Planet.fromJson(Map<String, dynamic> json) => _$PlanetFromJson(json);

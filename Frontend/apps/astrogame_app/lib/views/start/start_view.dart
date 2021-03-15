@@ -13,7 +13,7 @@ class StartView extends StatelessWidget {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/background_1.png'),
+                image: AssetImage('assets/images/background_2.png'),
                 fit: BoxFit.cover),
           ),
           child: Container(

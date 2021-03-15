@@ -5,6 +5,7 @@ using AstroGame.Shared.Models.Stellar.StellarObjects;
 using System.Collections.Generic;
 using System.Linq;
 using AstroGame.Core.Structs;
+using AstroGame.Generator.Generators.NameGenerators;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
@@ -69,21 +70,21 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
             return star;
         } */
 
-        public Star Generate(StellarSystem parent, Coordinates coordinates)
+        public Star Generate(StellarSystem parent, Coordinates coordinates, string systemName)
         {
             var type = GenerateType();
             var asset = SelectAsset(type);
             var averageTemperature = GenerateTemperature(type);
             var rotationSpeed = GenerateRotationSpeed();
             var scale = GenerateScale();
-            //var name = $"{parent.Name}-{(char)(order + 64)}";
+            var name = StellarObjectNameGenerator.Generate(systemName, coordinates, typeof(Star));
 
             var star = new Star(parent)
             {
                 ParentSystem = parent,
                 ParentSystemId = parent.Id,
 
-                //Name = name,
+                Name = name,
 
                 StarType = type,
                 AssetName = asset,

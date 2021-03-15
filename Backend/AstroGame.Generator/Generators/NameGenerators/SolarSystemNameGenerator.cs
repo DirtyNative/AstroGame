@@ -1,4 +1,5 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Core.Helpers;
 using RandomNameGeneratorLibrary;
 
 namespace AstroGame.Generator.Generators.NameGenerators
@@ -15,7 +16,10 @@ namespace AstroGame.Generator.Generators.NameGenerators
 
         public string Generate()
         {
-            return _placeNameGenerator.GenerateRandomPlaceName();
+            var name = _placeNameGenerator.GenerateRandomPlaceName();
+            var number = RandomCalculator.Random.Next(1, 10000);
+
+            return $"{number} {name}";
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AstroGame.Api.Repositories.Stellar
 
         public async Task<Stream> GetAsync(string fileName)
         {
-            return await _fileClient.GetFile(StoreName, fileName);
+            return await _fileClient.GetFile(StoreName, fileName + ".png");
         }
     }
 }

@@ -15,9 +15,9 @@ namespace AstroGame.Api.Controllers
             _imageManager = imageManager;
         }
 
-        [HttpGet("stellar-object")]
+        [HttpGet("stellar-object/{stellarObjectId}")]
         [Produces("image/png")]
-        public async Task<FileResult> GetByStellarObjectAsync(Guid stellarObjectId)
+        public async Task<FileResult> GetByStellarObjectAsync([FromRoute]Guid stellarObjectId)
         {
             var file = await _imageManager.GetByStellarObjectAsync(stellarObjectId);
 

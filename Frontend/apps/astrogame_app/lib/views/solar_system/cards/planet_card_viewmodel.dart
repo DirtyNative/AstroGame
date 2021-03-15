@@ -1,3 +1,4 @@
+import 'package:astrogame_app/bags/show_planet_view_bag.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
 import 'package:stacked/stacked.dart';
 
