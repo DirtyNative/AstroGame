@@ -5,6 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 import 'helpers/route_paths.dart';
+import 'views/start/start_view.dart';
 
 class AstroGameApp extends StatelessWidget {
   @override

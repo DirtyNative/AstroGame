@@ -1,9 +1,7 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Api.Databases;
 using AstroGame.Api.Factories;
-using AstroGame.Api.Repositories;
 using AstroGame.Api.Repositories.Resources;
-using AstroGame.Api.Repositories.Stellar;
 using AstroGame.Core.Storage;
 using AstroGame.Generator.Generators.ResourceGenerators;
 using Microsoft.EntityFrameworkCore;
@@ -69,6 +67,7 @@ namespace AstroGame.Api.Extensions
             {
                 options.UseSqlServer(connectionString);
                 options.EnableSensitiveDataLogging();
+                options.UseSqlServer(builder => { builder.EnableRetryOnFailure(); });
             });
 
             return services;

@@ -12,6 +12,9 @@ class PlanetView extends StatelessWidget {
 
   PlanetView(this._planet);
 
+  String get imageUrl =>
+      'https://localhost:7555/api/v1/image/stellar-object/${_planet.id}';
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PlanetViewModel>.reactive(
@@ -22,21 +25,15 @@ class PlanetView extends StatelessWidget {
                 image: AssetImage('assets/images/background_2.png'),
                 fit: BoxFit.cover),
           ),
-          /* decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(model.imageUrl), fit: BoxFit.cover),
-          ),*/
           child: Stack(
             children: [
               Center(
-                /*child: Image.asset(
-                  'assets/images/screen_1.png',
-                  width: MediaQuery.of(context).size.height,
-                ), */
-
-                child: Image.network(
-                  model.imageUrl,
-                  height: MediaQuery.of(context).size.height,
+                child: Hero(
+                  tag: 'planet_image',
+                  child: Image.network(
+                    model.imageUrl,
+                    height: MediaQuery.of(context).size.height,
+                  ),
                 ),
               ),
               SingleChildScrollView(
@@ -56,6 +53,7 @@ class PlanetView extends StatelessWidget {
                   ),
                 ),
               ),
+              _backButton(context, model),
             ],
           ),
         ),
@@ -65,30 +63,38 @@ class PlanetView extends StatelessWidget {
     );
   }
 
+  Widget _backButton(BuildContext context, PlanetViewModel model) {
+    return Padding(
+      padding: EdgeInsets.only(left: 24, top: 24),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: InkWell(
+          child: Icon(
+            Icons.arrow_back,
+            size: 20,
+          ),
+          onTap: model.goBack,
+        ),
+      ),
+    );
+  }
+
   Widget _headerWidget(BuildContext context, PlanetViewModel model) {
     return Padding(
       padding: EdgeInsets.only(top: 24),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 24.0),
-              child: InkWell(
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 20,
-                ),
-                onTap: model.goBack,
-              ),
+      child: Center(
+        child: Column(
+          children: [
+            Text(
+              model.planet.name,
+              style: Theme.of(context).textTheme.headline1,
             ),
-          ),
-          Text(
-            'NEPTUNE',
-            style: Theme.of(context).textTheme.headline1,
-            textAlign: TextAlign.center,
-          ),
-        ],
+            Text(
+              model.planet.coordinates.toString(),
+              style: Theme.of(context).textTheme.headline2,
+            ),
+          ],
+        ),
       ),
     );
   }

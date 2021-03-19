@@ -22,6 +22,7 @@ class SolarSystemViewModel extends BaseViewModel {
 
   SolarSystemViewModel(this._eventService, this._navigationService) {
     _eventService.on<SolarSystemLoadedEvent>().listen((event) {
+      solarSystem = null;
       solarSystem = event.solarSystem;
     });
   }

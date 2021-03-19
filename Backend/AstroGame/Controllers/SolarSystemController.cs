@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using AstroGame.Api.Services;
 
 namespace AstroGame.Api.Controllers
 {
@@ -11,10 +12,13 @@ namespace AstroGame.Api.Controllers
     public class SolarSystemController : Controller
     {
         private readonly SolarSystemManager _solarSystemManager;
+        private readonly SolarSystemGeneratorQueryService _solarSystemGeneratorQueryService;
 
-        public SolarSystemController(SolarSystemManager solarSystemManager)
+        public SolarSystemController(SolarSystemManager solarSystemManager,
+            SolarSystemGeneratorQueryService solarSystemGeneratorQueryService)
         {
             _solarSystemManager = solarSystemManager;
+            _solarSystemGeneratorQueryService = solarSystemGeneratorQueryService;
         }
 
         [HttpGet("recursive/{id}")]
@@ -27,7 +31,8 @@ namespace AstroGame.Api.Controllers
         [HttpGet("system-number/{systemNumber}/recursive")]
         public async Task<IActionResult> GetBySystemNumberRecursiveAsync(uint systemNumber)
         {
-            var result = await _solarSystemManager.GetBySystemNumberRecursiveAsync(systemNumber);
+            //var result = await _solarSystemManager.GetBySystemNumberRecursiveAsync(systemNumber);
+            var result = await _solarSystemGeneratorQueryService.TryExecute(systemNumber);
             return Ok(result);
         }
 

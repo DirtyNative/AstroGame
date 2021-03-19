@@ -1,7 +1,6 @@
 import 'package:astrogame_app/converters/guid_converter.dart';
 import 'package:astrogame_app/converters/stellar_object_converter.dart';
 import 'package:astrogame_app/converters/stellar_system_converter.dart';
-import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';

@@ -260,15 +260,15 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             {
                 return new List<KeyValuePair<uint, uint>>()
                 {
-                    new KeyValuePair<uint, uint>(0, 1),
+                    new KeyValuePair<uint, uint>(0, 3),
                     new KeyValuePair<uint, uint>(1, 2),
-                    new KeyValuePair<uint, uint>(2, 4),
-                    new KeyValuePair<uint, uint>(3, 6),
-                    new KeyValuePair<uint, uint>(4, 6),
-                    new KeyValuePair<uint, uint>(5, 5),
-                    new KeyValuePair<uint, uint>(6, 4),
-                    new KeyValuePair<uint, uint>(7, 2),
-                    new KeyValuePair<uint, uint>(8, 1),
+                    new KeyValuePair<uint, uint>(2, 3),
+                    new KeyValuePair<uint, uint>(3, 2),
+                    new KeyValuePair<uint, uint>(4, 1),
+                    //new KeyValuePair<uint, uint>(5, 5),
+                    //new KeyValuePair<uint, uint>(6, 4),
+                    //new KeyValuePair<uint, uint>(7, 2),
+                    //new KeyValuePair<uint, uint>(8, 1),
                 };
             }
 

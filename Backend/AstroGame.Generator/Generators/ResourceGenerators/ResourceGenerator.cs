@@ -47,8 +47,6 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                 list.Add(stellarObjectResource);
             }
 
-            Debug.WriteLine("Resources generated");
-
             return list;
         }
 

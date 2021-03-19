@@ -1,3 +1,4 @@
+import 'package:astrogame_app/models/stellar/systems/solar_system.dart';
 import 'package:astrogame_app/repositories/solar_system_repository.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:astrogame_app/views/solar_system/events/solar_system_loaded_event.dart';
@@ -17,10 +18,13 @@ class StartViewModel extends BaseViewModel {
   }
 
   Future loadSolarSystemAsync() async {
-    var solarSystem =
-        await _solarSystemRepository.getBySystemNumberRecursiveAsync(
-            int.parse(solarSystemNumberController.text));
+    var solarSystem = await runBusyFuture(_fetchSolarSystem());
 
     _eventService.fire(new SolarSystemLoadedEvent(solarSystem));
+  }
+
+  Future<SolarSystem> _fetchSolarSystem() {
+    return _solarSystemRepository.getBySystemNumberRecursiveAsync(
+        int.parse(solarSystemNumberController.text));
   }
 }

@@ -41,6 +41,13 @@ dependencies:
   flutter_guid:
 
   flutter_svg:
+      
+  desktop_window:
+
+  flutter_inner_drawer:
+  responsive_builder:
+
+  gradient_widgets:
 
 dev_dependencies:
   flutter_test:

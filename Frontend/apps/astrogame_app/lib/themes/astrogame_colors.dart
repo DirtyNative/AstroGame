@@ -64,4 +64,52 @@ class AstroGameColors {
       900: const Color(0xE6868686),
     },
   );
+
+  static const MaterialColor darkGrey = const MaterialColor(
+    0xFF1A1A1A,
+    const <int, Color>{
+      50: const Color(0x0D1A1A1A),
+      100: const Color(0x1A1A1A1A),
+      200: const Color(0x331A1A1A),
+      300: const Color(0x4D1A1A1A),
+      400: const Color(0x661A1A1A),
+      500: const Color(0x801A1A1A),
+      600: const Color(0x991A1A1A),
+      700: const Color(0xB31A1A1A),
+      800: const Color(0xCC1A1A1A),
+      900: const Color(0xE61A1A1A),
+    },
+  );
+
+  static const MaterialColor purple = const MaterialColor(
+    0xFFAD88EA,
+    const <int, Color>{
+      50: const Color(0x0DAD88EA),
+      100: const Color(0x1AAD88EA),
+      200: const Color(0x33AD88EA),
+      300: const Color(0x4DAD88EA),
+      400: const Color(0x66AD88EA),
+      500: const Color(0x80AD88EA),
+      600: const Color(0x99AD88EA),
+      700: const Color(0xB3AD88EA),
+      800: const Color(0xCCAD88EA),
+      900: const Color(0xE6AD88EA),
+    },
+  );
+
+  static const MaterialColor torque = const MaterialColor(
+    0xFF65CDEC,
+    const <int, Color>{
+      50: const Color(0x0D65CDEC),
+      100: const Color(0x1A65CDEC),
+      200: const Color(0x3365CDEC),
+      300: const Color(0x4D65CDEC),
+      400: const Color(0x6665CDEC),
+      500: const Color(0x8065CDEC),
+      600: const Color(0x9965CDEC),
+      700: const Color(0xB365CDEC),
+      800: const Color(0xCC65CDEC),
+      900: const Color(0xE665CDEC),
+    },
+  );
 }

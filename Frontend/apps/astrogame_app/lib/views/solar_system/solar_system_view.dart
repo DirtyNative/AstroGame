@@ -24,6 +24,7 @@ class _State extends State<SolarSystemView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SolarSystemViewModel>.reactive(
+      createNewModelOnInsert: true,
       builder: (context, model, _) =>
           generateSolarSystemWidget(model, model.solarSystem),
       viewModelBuilder: () => getIt.get(),
@@ -51,18 +52,6 @@ class _State extends State<SolarSystemView> {
         stellarSystem.centerObjects.length < 1) {
       return SizedBox.shrink();
     }
-
-    /*List<Widget> subSystemWidgets = List<Widget>.generate(
-        multiObjectSystem.satellites.length,
-        (index) =>
-            _generateSubWidget(multiObjectSystem.satellites[index], !vertical)); */
-
-    /*List<Widget> subSystemWidgets = List<Widget>.filled(
-        multiObjectSystem.satellites.length,
-        CustomPaint(
-          painter: VerticalLinePainter(),
-        ),
-        growable: true);*/
 
     List<Widget> subSystemWidgets = <Widget>[];
 
@@ -126,12 +115,6 @@ class _State extends State<SolarSystemView> {
         padding: EdgeInsets.all(16),
         child: Row(
           children: [
-            /*SvgPicture.asset(
-              'assets/images/system.svg',
-              color: Colors.white,
-              semanticsLabel: 'A red up arrow',
-              height: 25,
-            ), */
             Column(
               children: stellarObjects,
             ),

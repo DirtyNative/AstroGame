@@ -30,7 +30,7 @@ namespace AstroGame.Api.Databases
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<MultiObjectSystem> MultiObjectSystems { get; set; }
         public DbSet<StellarSystem> StellarSystems { get; set; }
-        
+
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Element> Elements { get; set; }

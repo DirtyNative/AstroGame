@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-using AstroGame.Api.Converters;
 using AstroGame.Api.Databases;
 using AstroGame.Api.Extensions;
 using AstroGame.Api.Helpers;
+using AstroGame.Api.Services;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
-using AstroGame.Shared.Models.Stellar.StellarSystems;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +29,9 @@ namespace AstroGame.Api
             services.AddControllers();
             services.RegisterServices(Configuration);
             services.ConfigureDatabase(Configuration);
-            
+
+            //services.AddHostedService<SolarSystemGeneratorService>();
+
             services.AddMvc().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

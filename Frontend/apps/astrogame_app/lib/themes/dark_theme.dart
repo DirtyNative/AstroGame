@@ -50,7 +50,7 @@ ThemeData darkTheme = new ThemeData(
       fontFamily: 'Roboto',
       fontSize: 14,
       fontWeight: FontWeight.w400,
-      color: AstroGameColors.primary,
+      color: Colors.white,
     ),
     subtitle1: TextStyle(
       fontFamily: 'Roboto',
