@@ -1,29 +1,27 @@
-﻿using AstroGame.Core.Helpers;
-using AstroGame.Generator.Generators.ObjectGenerators;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Core.Enums;
+using AstroGame.Core.Extensions;
+using AstroGame.Core.Helpers;
+using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using AstroGame.Core.Enums;
-using AstroGame.Core.Structs;
-using AstroGame.Core.Extensions;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
-    public abstract class GeneratorBase
+    [ScopedService]
+    public class GeneratorBase
     {
-        private readonly StarGenerator _starGenerator;
-        private readonly PlanetGenerator _planetGenerator;
-        private readonly MoonGenerator _moonGenerator;
+        private readonly IServiceProvider _services;
 
-        protected GeneratorBase(StarGenerator starGenerator, PlanetGenerator planetGenerator,
-            MoonGenerator moonGenerator)
+
+        public GeneratorBase(IServiceProvider services)
         {
-            _starGenerator = starGenerator;
-            _planetGenerator = planetGenerator;
-            _moonGenerator = moonGenerator;
+            _services = services;
         }
 
         public StellarSystem GenerateSystem(StellarSystem parent, SystemSize size,
@@ -39,8 +37,8 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             var system = new MultiObjectSystem(parent);
 
             system.CenterObjects =
-                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates, systemName);
-            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates, systemName);
+                GenerateCenterObjects(system, objectWeights, countObjects, size, parentCoordinates.Increment(size, 1), systemName);
+            system.Satellites = GenerateSatelliteSystems(system, size + 1, parentCoordinates.Increment(size, 1), systemName);
 
             return system;
         }
@@ -102,37 +100,33 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             var objectType = RandomCalculator.SelectByWeight(objectWeights);
 
+            //_services.GetService(typeof(IStellarObjectGenerator<objectType>));
+            //var generator = _services.GetService<IStellarObjectGenerator<Star>>();
+
+            //return generator.Generate(parentSystem, coordinates, systemName);
+            
             if (objectType == typeof(Star))
             {
-                return _starGenerator.Generate(parentSystem, coordinates, systemName);
+                return _services.GetService<IStellarObjectGenerator<Star>>().Generate(parentSystem, coordinates, systemName);
             }
 
             if (objectType == typeof(Planet))
             {
-                return _planetGenerator.Generate(parentSystem, coordinates, systemName);
+                return _services.GetService<IStellarObjectGenerator<Planet>>().Generate(parentSystem, coordinates, systemName);
             }
 
             if (objectType == typeof(Moon))
             {
-                return _moonGenerator.Generate(parentSystem, coordinates, systemName);
+                return _services.GetService<IStellarObjectGenerator<Moon>>().Generate(parentSystem, coordinates, systemName);
+            }
+
+            if (objectType == typeof(BlackHole))
+            {
+                return _services.GetService<IStellarObjectGenerator<BlackHole>>().Generate(parentSystem, coordinates, systemName);
             }
 
             throw new NotImplementedException($"Type {objectType} is not implemented yet");
         }
-
-        /*private List<StellarObject> GenerateCenterObjects(StellarSystem parentSystem,
-            List<KeyValuePair<Type, uint>> objectWeights, uint countObjects)
-        {
-            var list = new List<StellarObject>();
-
-            for (uint i = 0; i < countObjects; i++)
-            {
-                var stellarObject = GenerateObject(parentSystem, objectWeights, i + 1);
-                list.Add(stellarObject);
-            }
-
-            return list;
-        } */
 
         private List<StellarObject> GenerateCenterObjects(StellarSystem parentSystem,
             List<KeyValuePair<Type, uint>> objectWeights, uint countObjects, SystemSize size,
@@ -168,10 +162,10 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             for (uint i = 0; i < countSatellites; i++)
             {
-                parentCoordinates = parentCoordinates.Increment(size, 1);
-
                 var system = GenerateSystem(parentSystem, size, objectWeights, countObjects,
                     parentCoordinates, systemName);
+
+                parentCoordinates = parentCoordinates.Increment(size, (int)countObjects);
 
                 if (system == null)
                 {
@@ -186,13 +180,14 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             return list;
         }
 
-        protected List<KeyValuePair<Type, uint>> GenerateStellarObjectWeightsBySize(SystemSize size)
+        public List<KeyValuePair<Type, uint>> GenerateStellarObjectWeightsBySize(SystemSize size)
         {
             if (size == SystemSize.Solar)
             {
                 return new List<KeyValuePair<Type, uint>>()
                 {
                     new KeyValuePair<Type, uint>(typeof(Star), 10),
+                    new KeyValuePair<Type, uint>(typeof(BlackHole), 10),
                 };
             }
 
@@ -284,7 +279,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
             throw new NotImplementedException($"System size {parentSize} is not implemented yet");
         }
 
-        private List<KeyValuePair<uint, uint>> GenerateCenterObjectCountWeights(SystemSize parentSize)
+        public List<KeyValuePair<uint, uint>> GenerateCenterObjectCountWeights(SystemSize parentSize)
         {
             if (parentSize == SystemSize.Solar)
             {

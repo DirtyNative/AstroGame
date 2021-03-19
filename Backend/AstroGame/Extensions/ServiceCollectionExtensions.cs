@@ -3,7 +3,9 @@ using AstroGame.Api.Databases;
 using AstroGame.Api.Factories;
 using AstroGame.Api.Repositories.Resources;
 using AstroGame.Core.Storage;
+using AstroGame.Generator.Generators;
 using AstroGame.Generator.Generators.ResourceGenerators;
+using AstroGame.Shared.Models.Stellar.StellarObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,21 +22,24 @@ namespace AstroGame.Api.Extensions
             var fileStorage = new FileStorage();
             configuration.GetSection("FileStorage").Bind(fileStorage);
 
-            services.AddScoped(
+            services.AddScoped<IStellarObjectGenerator<Star>>(
                 (provider) => new StarGeneratorFactory(provider)
                     .Create());
 
-            services.AddScoped(
+            services.AddScoped<IStellarObjectGenerator<Planet>>(
                 (provider) => new PlanetGeneratorFactory(provider,
-                        resourceGenerator: provider.GetService<ResourceGenerator>())
+                        provider.GetService<ResourceStellarObjectGenerator>())
                     .Create());
 
-            services.AddScoped(
+            services.AddScoped<IStellarObjectGenerator<Moon>>(
                 (provider) => new MoonGeneratorFactory(provider)
                     .Create());
 
-            services.AddScoped<ResourceGenerator>((provider) =>
-                new ResourceGeneratorFactory(resourceRepository: provider.GetService<ResourceRepository>()).Create());
+            services.AddScoped<IStellarObjectGenerator<BlackHole>>((provider) =>
+                new BlackHoleGeneratorFactory(provider).Create());
+
+            services.AddScoped((provider) =>
+                new ResourceGeneratorFactory(provider.GetService<ResourceRepository>()).Create());
 
             // The file client which provides us a location to store files
             services.AddScoped<IFileClient, LocalFileClient>(client =>

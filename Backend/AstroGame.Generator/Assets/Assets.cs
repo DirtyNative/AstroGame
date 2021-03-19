@@ -135,5 +135,11 @@ namespace AstroGame.Generator.Assets
             {StarType.RedGiant, RedGiantStarAssets},
             {StarType.BlueGiants, BlueGiantStarAssets},
         };
+
+        public static List<string> BlackHoleAssets = new List<string>()
+        {
+            "BlackHole_1",
+            "BlackHole_2",
+        };
     }
 }

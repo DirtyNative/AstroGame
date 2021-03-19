@@ -12,11 +12,11 @@ namespace AstroGame.Api.Factories
             _resourceRepository = resourceRepository;
         }
 
-        public ResourceGenerator Create()
+        public ResourceStellarObjectGenerator Create()
         {
             var resources = _resourceRepository.Get();
 
-            return new ResourceGenerator(resources);
+            return new ResourceStellarObjectGenerator(resources);
         }
     }
 }

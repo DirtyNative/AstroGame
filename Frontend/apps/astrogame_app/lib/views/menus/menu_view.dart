@@ -13,7 +13,7 @@ class MenuView extends StatelessWidget {
         color: AstroGameColors.darkGrey,
         child: Column(
           children: [
-            _header(),
+            _header(context),
             _content(context, model),
             _footer(),
           ],
@@ -23,10 +23,13 @@ class MenuView extends StatelessWidget {
     );
   }
 
-  Widget _header() {
+  Widget _header(BuildContext context) {
     return Container(
       height: 128,
       color: Colors.red,
+      child: Center(
+        child: Text('Profile', style: Theme.of(context).textTheme.headline1),
+      ),
     );
   }
 

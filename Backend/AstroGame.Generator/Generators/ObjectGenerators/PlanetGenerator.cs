@@ -7,11 +7,12 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using System.Collections.Generic;
 using System.Linq;
+using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Generator.Generators.NameGenerators;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
-    public class PlanetGenerator : IGenerator
+    public class PlanetGenerator : IStellarObjectGenerator<Planet>
     {
         private const int MinResources = 10;
         private const int MaxResources = 18;
@@ -20,7 +21,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
         private const double AtmosphereChance = 0.05;
 
-        private readonly ResourceGenerator _resourceGenerator;
+        private readonly ResourceStellarObjectGenerator _resourceStellarObjectGenerator;
 
         private static readonly List<(List<PlanetType> Types, uint MinDistance, uint MaxDistance)> Distances =
             new List<(List<PlanetType>, uint, uint)>()
@@ -64,10 +65,11 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
                     (PlanetType.Volcano, 1000, 1500)
                 };
 
-        public PlanetGenerator(Dictionary<PlanetType, List<string>> assets, ResourceGenerator resourceGenerator)
+        public PlanetGenerator(Dictionary<PlanetType, List<string>> assets,
+            ResourceStellarObjectGenerator resourceStellarObjectGenerator)
         {
             _assets = assets;
-            _resourceGenerator = resourceGenerator;
+            _resourceStellarObjectGenerator = resourceStellarObjectGenerator;
         }
 
         public Planet Generate(StellarSystem parent, Coordinates coordinates, string systemName)
@@ -151,7 +153,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
         private List<StellarObjectResource> GenerateResource(StellarObject planet)
         {
-            return _resourceGenerator.Generate(planet, MinResources, MaxResources);
+            return _resourceStellarObjectGenerator.Generate(planet, MinResources, MaxResources);
         }
     }
 }

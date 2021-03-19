@@ -14,21 +14,19 @@ namespace AstroGame.Api.Managers
     {
         private readonly SolarSystemRepository _solarSystemRepository;
         private readonly SolarSystemGenerator _solarSystemGenerator;
+        private readonly RecursiveBuilder _recursiveBuilder;
 
         private readonly AstroGameDataContext _context;
 
         public SolarSystemManager(SolarSystemRepository solarSystemRepository,
-            StellarSystemRepository stellarSystemRepository,
-            StarRepository starRepository,
-            PlanetRepository planetRepository,
-            MoonRepository moonRepository, SolarSystemGenerator solarSystemGenerator,
-            AstroGameDataContext context) : base(stellarSystemRepository,
-            starRepository, planetRepository,
-            moonRepository)
+            SolarSystemGenerator solarSystemGenerator,
+            AstroGameDataContext context,
+            RecursiveBuilder recursiveBuilder)
         {
             _solarSystemRepository = solarSystemRepository;
             _solarSystemGenerator = solarSystemGenerator;
             _context = context;
+            _recursiveBuilder = recursiveBuilder;
         }
 
         public async Task<SolarSystem> GetRecursiveAsync(Guid solarSystemId)
@@ -42,7 +40,7 @@ namespace AstroGame.Api.Managers
             }
 
             // Get the center systems
-            return await GetRecursiveAsync(solarSystem) as SolarSystem;
+            return await _recursiveBuilder.GetRecursiveAsync(solarSystem) as SolarSystem;
         }
 
         public async Task<SolarSystem> GetBySystemNumberRecursiveAsync(uint systemNumber)
@@ -56,7 +54,7 @@ namespace AstroGame.Api.Managers
             }
 
             // Get the center systems
-            return await GetRecursiveAsync(solarSystem) as SolarSystem;
+            return await _recursiveBuilder.GetRecursiveAsync(solarSystem) as SolarSystem;
         }
 
         public async Task<List<SolarSystem>> GetRecursiveAsync()
@@ -65,7 +63,7 @@ namespace AstroGame.Api.Managers
 
             for (var i = 0; i < solarSystems.Count; i++)
             {
-                var solarSystem = await GetRecursiveAsync(solarSystems[i]) as SolarSystem;
+                var solarSystem = await _recursiveBuilder.GetRecursiveAsync(solarSystems[i]) as SolarSystem;
 
                 // Should not happen but better catch
                 if (solarSystem == null) continue;
@@ -101,7 +99,7 @@ namespace AstroGame.Api.Managers
         {
             var solarSystem = await GetRecursiveAsync(id);
 
-            await DeleteRecursiveAsync(solarSystem);
+            await _recursiveBuilder.DeleteRecursiveAsync(solarSystem);
         }
     }
 }

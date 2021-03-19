@@ -4,6 +4,7 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using System.Collections.Generic;
 using System.Linq;
+using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Core.Structs;
 using AstroGame.Generator.Generators.NameGenerators;
 
@@ -13,7 +14,7 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
     /// <para>A generator for the stars</para>
     /// <para>This class is not registered for DI, because it gets instantiated within GeneratorFactory</para>
     /// </summary>
-    public class StarGenerator : IGenerator
+    public class StarGenerator : IStellarObjectGenerator<Star>
     {
         private readonly Dictionary<StarType, List<string>> _assets;
 
@@ -81,8 +82,8 @@ namespace AstroGame.Generator.Generators.ObjectGenerators
 
             var star = new Star(parent)
             {
-                ParentSystem = parent,
-                ParentSystemId = parent.Id,
+                //ParentSystem = parent,
+                //ParentSystemId = parent.Id,
 
                 Name = name,
 

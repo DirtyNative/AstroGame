@@ -8,18 +8,18 @@ namespace AstroGame.Api.Factories
     public class PlanetGeneratorFactory
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ResourceGenerator _resourceGenerator;
+        private readonly ResourceStellarObjectGenerator _resourceStellarObjectGenerator;
 
         public PlanetGeneratorFactory(IServiceProvider serviceProvider,
-            ResourceGenerator resourceGenerator)
+            ResourceStellarObjectGenerator resourceStellarObjectGenerator)
         {
             _serviceProvider = serviceProvider;
-            _resourceGenerator = resourceGenerator;
+            _resourceStellarObjectGenerator = resourceStellarObjectGenerator;
         }
 
         public PlanetGenerator Create()
         {
-            return new PlanetGenerator(Assets.PlanetAssets, _resourceGenerator);
+            return new PlanetGenerator(Assets.PlanetAssets, _resourceStellarObjectGenerator);
         }
     }
 }

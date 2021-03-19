@@ -2,12 +2,13 @@
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using System.Collections.Generic;
+using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Core.Structs;
 using AstroGame.Generator.Generators.NameGenerators;
 
 namespace AstroGame.Generator.Generators.ObjectGenerators
 {
-    public class MoonGenerator : IGenerator
+    public class MoonGenerator : IStellarObjectGenerator<Moon>
     {
         private readonly List<string> _assets;
 

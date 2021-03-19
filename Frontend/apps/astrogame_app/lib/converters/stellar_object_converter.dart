@@ -1,4 +1,5 @@
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
+import 'package:astrogame_app/models/stellar/stellar_objects/black_hole.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/moon.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/star.dart';
@@ -18,6 +19,8 @@ class StellarObjectConverter
       return Planet.fromJson(json);
     } else if (type.value == 'Moon') {
       return Moon.fromJson(json);
+    } else if (type.value == 'BlackHole') {
+      return BlackHole.fromJson(json);
     }
 
     return null;

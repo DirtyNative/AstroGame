@@ -1,4 +1,7 @@
+import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/widgets/adaptive_menu.dart';
+import 'package:astrogame_app/widgets/app_header.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -20,13 +23,19 @@ class _State extends State<ScaffoldBase> {
         body: GestureDetector(
           child: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
+              color: AstroGameColors.mediumGrey,
+              /*image: DecorationImage(
                   image: AssetImage('assets/images/background_2.png'),
-                  fit: BoxFit.cover),
+                  fit: BoxFit.cover), */
             ),
             child: Stack(
               children: [
-                widget.body,
+                Column(
+                  children: [
+                    AppHeader(),
+                    Expanded(child: widget.body),
+                  ],
+                ),
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: widget.viewModel.isBusy ? 1 : 0,

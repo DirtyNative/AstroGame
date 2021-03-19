@@ -25,6 +25,7 @@ namespace AstroGame.Api.Databases
         public DbSet<Moon> Moons { get; set; }
         public DbSet<Planet> Planets { get; set; }
         public DbSet<Star> Stars { get; set; }
+        public DbSet<BlackHole> BlackHoles { get; set; }
 
         public DbSet<Galaxy> Galaxies { get; set; }
         public DbSet<SolarSystem> SolarSystems { get; set; }

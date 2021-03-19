@@ -13,13 +13,8 @@ namespace AstroGame.Api.Managers
         private readonly MultiObjectSystemRepository _multiObjectSystemRepository;
 
         public MultiObjectSystemManager(
-            MultiObjectSystemRepository multiObjectSystemRepository,
-            StellarSystemRepository stellarSystemRepository,
-            StarRepository starRepository,
-            PlanetRepository planetRepository,
-            MoonRepository moonRepository
-        ) : base(stellarSystemRepository, starRepository, planetRepository,
-            moonRepository)
+            MultiObjectSystemRepository multiObjectSystemRepository
+        )
         {
             _multiObjectSystemRepository = multiObjectSystemRepository;
         }

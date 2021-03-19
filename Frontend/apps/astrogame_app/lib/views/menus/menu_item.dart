@@ -26,27 +26,40 @@ class MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 8, bottom: 8),
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          decoration: BoxDecoration(
+      child: AnimatedContainer(
+        height: 60,
+        duration: Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: (isSelected) ? _gradient : _transparentGradient,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            hoverColor: AstroGameColors.purple[100],
             borderRadius: BorderRadius.circular(16),
-            gradient: (isSelected) ? _gradient : _transparentGradient,
-          ),
-          padding: EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                size: 24,
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 8,
+                top: 4,
+                bottom: 4,
               ),
-              SizedBox(width: 16),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.subtitle1,
+              child: Row(
+                children: [
+                  Icon(
+                    icon,
+                    size: 24,
+                  ),
+                  SizedBox(width: 16),
+                  Text(
+                    label,
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

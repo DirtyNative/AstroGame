@@ -1,16 +1,16 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AstroGame.Core.Structs;
 using Random = System.Random;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
     [ScopedService]
-    public class GalaxyGenerator : IGenerator
+    public class GalaxyStellarObjectGenerator
     {
         private const double MinY = -5;
         private const double MaxY = 5;
@@ -22,7 +22,7 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         private readonly SolarSystemGenerator _solarSystemGenerator;
         private readonly Random _random = new Random();
 
-        public GalaxyGenerator(SolarSystemGenerator solarSystemGenerator)
+        public GalaxyStellarObjectGenerator(SolarSystemGenerator solarSystemGenerator)
         {
             _solarSystemGenerator = solarSystemGenerator;
         }

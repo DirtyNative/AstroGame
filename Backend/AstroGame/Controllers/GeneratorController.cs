@@ -14,16 +14,16 @@ namespace AstroGame.Api.Controllers
         private readonly SolarSystemGenerator _solarSystemGenerator;
         private readonly SolarSystemRepository _solarSystemRepository;
         private readonly GalaxyRepository _galaxyRepository;
-        private readonly GalaxyGenerator _galaxyGenerator;
+        private readonly GalaxyStellarObjectGenerator _galaxyStellarObjectGenerator;
 
         public GeneratorController(SolarSystemGenerator solarSystemGenerator,
             SolarSystemRepository solarSystemRepository, GalaxyRepository galaxyRepository,
-            GalaxyGenerator galaxyGenerator)
+            GalaxyStellarObjectGenerator galaxyStellarObjectGenerator)
         {
             _solarSystemGenerator = solarSystemGenerator;
             _solarSystemRepository = solarSystemRepository;
             _galaxyRepository = galaxyRepository;
-            _galaxyGenerator = galaxyGenerator;
+            _galaxyStellarObjectGenerator = galaxyStellarObjectGenerator;
         }
 
         [HttpGet("first")]

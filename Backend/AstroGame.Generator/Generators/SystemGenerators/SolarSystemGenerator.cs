@@ -1,24 +1,27 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Core.Enums;
 using AstroGame.Core.Extensions;
+using AstroGame.Core.Helpers;
 using AstroGame.Core.Structs;
 using AstroGame.Generator.Generators.NameGenerators;
-using AstroGame.Generator.Generators.ObjectGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 
 namespace AstroGame.Generator.Generators.SystemGenerators
 {
     [ScopedService]
-    public class SolarSystemGenerator : GeneratorBase
+    public class SolarSystemGenerator
     {
         private readonly SolarSystemNameGenerator _solarSystemNameGenerator;
 
-        public SolarSystemGenerator(StarGenerator starGenerator,
-            SolarSystemNameGenerator solarSystemNameGenerator, PlanetGenerator planetGenerator,
-            MoonGenerator moonGenerator) : base(starGenerator, planetGenerator, moonGenerator)
+        private readonly GeneratorBase _generatorBase;
+
+        public SolarSystemGenerator(
+            SolarSystemNameGenerator solarSystemNameGenerator, GeneratorBase generatorBase)
         {
             _solarSystemNameGenerator = solarSystemNameGenerator;
+
+            _generatorBase = generatorBase;
         }
 
         /// <summary>
@@ -60,10 +63,14 @@ namespace AstroGame.Generator.Generators.SystemGenerators
         {
             const SystemSize size = SystemSize.Solar;
 
-            var weights = GenerateStellarObjectWeightsBySize(size);
+            var countWeight = _generatorBase.GenerateCenterObjectCountWeights(size);
+            var count = RandomCalculator.SelectByWeight(countWeight);
+
+            var weights = _generatorBase.GenerateStellarObjectWeightsBySize(size);
 
             // TODO: make countObjects dynamic
-            solarSystem = GenerateChildren(solarSystem, size, weights, 3, parentCoordinates.Increment(size, 1),
+            solarSystem = _generatorBase.GenerateChildren(solarSystem, size, weights, count,
+                parentCoordinates.Increment(size, 1),
                 solarSystem.Name);
 
             solarSystem.IsGenerated = true;

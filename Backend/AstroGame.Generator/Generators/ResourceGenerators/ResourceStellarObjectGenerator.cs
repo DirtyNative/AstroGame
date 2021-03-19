@@ -2,19 +2,18 @@
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace AstroGame.Generator.Generators.ResourceGenerators
 {
-    public class ResourceGenerator : IGenerator
+    public class ResourceStellarObjectGenerator
     {
         private const double MinValue = 0.20;
         private const double MaxValue = 2;
 
         private readonly List<Resource> _resources;
 
-        public ResourceGenerator(List<Resource> resources)
+        public ResourceStellarObjectGenerator(List<Resource> resources)
         {
             _resources = resources;
         }

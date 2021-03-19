@@ -1,10 +1,12 @@
 import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
+import 'package:astrogame_app/models/stellar/stellar_objects/black_hole.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/moon.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/star.dart';
 import 'package:astrogame_app/models/stellar/systems/solar_system.dart';
+import 'package:astrogame_app/views/solar_system/cards/black_hole_card_view.dart';
 import 'package:astrogame_app/views/solar_system/cards/moon_card_view.dart';
 import 'package:astrogame_app/views/solar_system/cards/planet_card_view.dart';
 import 'package:astrogame_app/views/solar_system/cards/star_card_view.dart';
@@ -25,8 +27,10 @@ class _State extends State<SolarSystemView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<SolarSystemViewModel>.reactive(
       createNewModelOnInsert: true,
-      builder: (context, model, _) =>
-          generateSolarSystemWidget(model, model.solarSystem),
+      builder: (context, model, _) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: generateSolarSystemWidget(model, model.solarSystem),
+      ),
       viewModelBuilder: () => getIt.get(),
     );
   }
@@ -137,6 +141,10 @@ class _State extends State<SolarSystemView> {
       return MoonCardView(stellarObject);
     }
 
-    return SizedBox.shrink();
+    if (stellarObject is BlackHole) {
+      return BlackHoleCardView(stellarObject);
+    }
+
+    throw new Exception('Type ${stellarObject.runtimeType} not found');
   }
 }
