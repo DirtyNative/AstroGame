@@ -158,10 +158,12 @@ namespace AstroGame.Generator.Generators.SystemGenerators
 
             // Defines how many center objects will be generated
             var objectCountWeights = GenerateCenterObjectCountWeights(size);
-            var countObjects = RandomCalculator.SelectByWeight(objectCountWeights);
-
+            
             for (uint i = 0; i < countSatellites; i++)
             {
+                // Determines how many objects are created inside this system
+                var countObjects = RandomCalculator.SelectByWeight(objectCountWeights);
+
                 var system = GenerateSystem(parentSystem, size, objectWeights, countObjects,
                     parentCoordinates, systemName);
 

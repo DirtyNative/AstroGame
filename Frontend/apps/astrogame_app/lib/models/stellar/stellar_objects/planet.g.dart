@@ -20,6 +20,12 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) {
     ..coordinates = json['coordinates'] == null
         ? null
         : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
+    ..colonizedStellarObjectId = const GuidConverter()
+        .fromJson(json['colonizedStellarObjectId'] as String)
+    ..colonizedStellarObject = json['colonizedStellarObject'] == null
+        ? null
+        : ColonizedStellarObject.fromJson(
+            json['colonizedStellarObject'] as Map<String, dynamic>)
     ..planetType = _$enumDecodeNullable(_$PlanetTypeEnumMap, json['planetType'])
     ..scale = (json['scale'] as num)?.toDouble()
     ..axialTilt = (json['axialTilt'] as num)?.toDouble()
@@ -40,6 +46,9 @@ Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
       'averageTemperature': instance.averageTemperature,
       'assetName': instance.assetName,
       'coordinates': instance.coordinates,
+      'colonizedStellarObjectId':
+          const GuidConverter().toJson(instance.colonizedStellarObjectId),
+      'colonizedStellarObject': instance.colonizedStellarObject,
       'planetType': _$PlanetTypeEnumMap[instance.planetType],
       'scale': instance.scale,
       'axialTilt': instance.axialTilt,

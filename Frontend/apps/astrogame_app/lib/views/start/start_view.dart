@@ -20,6 +20,10 @@ class StartView extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  TextButton(
+                    onPressed: model.decrement,
+                    child: Text('-'),
+                  ),
                   Container(
                     //height: 50,
                     width: 200,
@@ -34,6 +38,10 @@ class StartView extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                  TextButton(
+                    onPressed: model.increment,
+                    child: Text('+'),
                   ),
                   SizedBox(width: 16),
                   AstroGameGradientButton(

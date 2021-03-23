@@ -1,0 +1,7 @@
+{
+  "ApiConnections": {
+   
+      "AuthorizationApi" :  "https://stage.identity.astrogame.app" 
+    
+  }
+}

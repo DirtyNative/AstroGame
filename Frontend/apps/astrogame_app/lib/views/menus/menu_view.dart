@@ -25,24 +25,45 @@ class MenuView extends StatelessWidget {
 
   Widget _header(BuildContext context) {
     return Container(
-      height: 128,
-      color: Colors.red,
-      child: Center(
-        child: Text('Profile', style: Theme.of(context).textTheme.headline1),
+      padding: EdgeInsets.all(16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 85,
+            height: 119,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: AssetImage('assets/images/species.png'),
+              ),
+            ),
+          ),
+          SizedBox(width: 16),
+          Column(
+            children: [
+              Text(
+                'Profile',
+                style: Theme.of(context).textTheme.headline2,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
   Widget _content(BuildContext context, MenuViewModel model) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: MenuItemListing(
-        navigationService: getIt.get(),
-        selectedItem: model.selectedItem,
-        itemSelectedCallback: (item) => {
-          //model.selectedItem = item,
-          model.navigate(item),
-        },
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: MenuItemListing(
+          navigationService: getIt.get(),
+          selectedItem: model.selectedItem,
+          itemSelectedCallback: (item) => {
+            model.navigate(item),
+          },
+        ),
       ),
     );
   }

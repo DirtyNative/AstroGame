@@ -15,6 +15,9 @@ class PlanetCardView extends StatelessWidget {
         height: 70,
         child: Row(
           children: [
+            (_planet.colonizedStellarObject == null)
+                ? SizedBox.shrink()
+                : Text('colonized'),
             ImageIcon(
               (_planet.hasHabitableAtmosphere)
                   ? AssetImage('assets/images/planet_atmosphere@64px.png')
@@ -23,7 +26,7 @@ class PlanetCardView extends StatelessWidget {
               size: 50,
             ),
             SizedBox(width: 16),
-            Text(_planet.name ?? ''),
+            Text(_planet.name),
             SizedBox(width: 16),
             Text(_planet.coordinates.toString()),
           ],

@@ -1,7 +1,8 @@
-import 'package:astrogame_app/converters/guid_converter.dart';
+import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/models/common/coordinates.dart';
+import 'package:astrogame_app/models/players/colonized_stellar_object.dart';
 import 'package:astrogame_app/models/resources/stellar_object_resource.dart';
-import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
+import 'package:astrogame_app/models/stellar/base_types/colonizable_stellar_object.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +10,7 @@ part 'planet.g.dart';
 
 @GuidConverter()
 @JsonSerializable()
-class Planet extends StellarObject {
+class Planet extends ColonizableStellarObject {
   @JsonKey()
   PlanetType planetType;
 

@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Shared.Models.Stellar.StellarSystems;
+using AstroGame.Storage.Database;
+using Microsoft.EntityFrameworkCore;
+
+namespace AstroGame.Storage.Repositories.Stellar
+{
+    [ScopedService]
+    public class MultiObjectSystemRepository : IRepository<MultiObjectSystem>
+    {
+        private readonly AstroGameDataContext _context;
+
+        public MultiObjectSystemRepository(AstroGameDataContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<MultiObjectSystem> GetAsync(Guid id)
+        {
+            return await _context.MultiObjectSystems
+                .Include(e => e.CenterObjects)
+                .Include(e => e.Satellites)
+                .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<List<MultiObjectSystem>> GetAsync()
+        {
+            return await _context.MultiObjectSystems.ToListAsync();
+        }
+
+        public async Task DeleteAsync(MultiObjectSystem entity)
+        {
+            _context.MultiObjectSystems.Remove(entity);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<MultiObjectSystem>> GetByParentAsync(Guid parentId)
+        {
+            return await _context.MultiObjectSystems
+                .Include(e => e.CenterObjects)
+                .Include(e => e.Satellites)
+                .Where(e => e.ParentId == parentId)
+                .ToListAsync();
+        }
+    }
+}

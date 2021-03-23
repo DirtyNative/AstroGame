@@ -52,7 +52,7 @@ class GlassContainer extends StatelessWidget {
           color: shadowColor.withOpacity(shadowOpacity),
         )
       ]),
-      //width: width,
+      width: width,
       child: ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.circular(8),
         child: BackdropFilter(

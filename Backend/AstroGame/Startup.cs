@@ -1,16 +1,18 @@
-using AstroGame.Api.Databases;
 using AstroGame.Api.Extensions;
+using AstroGame.Api.Filters;
 using AstroGame.Api.Helpers;
-using AstroGame.Api.Services;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
+using AstroGame.Storage.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using AstroGame.Shared.Apis;
+using AstroGame.Shared.Middlewares;
 
 namespace AstroGame.Api
 {
@@ -27,8 +29,10 @@ namespace AstroGame.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.RegisterServices(Configuration);
-            services.ConfigureDatabase(Configuration);
+            services.RegisterServices(Configuration)
+                .ConfigureDatabase(Configuration)
+                .RegisterServiceApis(Configuration)
+                .ConfigureAutoMapper();
 
             //services.AddHostedService<SolarSystemGeneratorService>();
 
@@ -42,11 +46,20 @@ namespace AstroGame.Api
                 };
             });
 
+            services.AddIdentityServerAuthentication(Configuration);
+
+            // Inject Authorization with IdentityServer
+            services.AddIdentityServerAuthenticationForSwagger<AuthorizeCheckOperationFilter>(Configuration, "v1",
+                "AstroGame API", new Dictionary<string, string>
+                {
+                    {Scopes.ApiScope, "AstroGame"}
+                }); 
+
             services.AddSignalR();
 
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "AstroGame", Version = "v1"}); });
+            //services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "AstroGame", Version = "v1"}); });
         }
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AstroGameDataContext dataContext)
         {
@@ -57,15 +70,22 @@ namespace AstroGame.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AstroGame v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AstroGame v1");
+                    c.DocumentTitle = "AstroGame";
+
+                    c.OAuthClientId(Scopes.SwaggerScope);
+                    c.OAuthAppName("AstroGame - Swagger");
+                });
             }
 
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

@@ -1,0 +1,5 @@
+{
+  "ApiConnections": {
+    "AuthorizationApi": "https://localhost:7556"
+  }
+}

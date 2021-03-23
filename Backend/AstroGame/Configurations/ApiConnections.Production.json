@@ -1,0 +1,7 @@
+{
+  "ApiConnections": {
+    "ZooKeeperServices": {
+      "LoginApi": "http://localhost:7556/api/v1/login"
+    }
+  }
+}

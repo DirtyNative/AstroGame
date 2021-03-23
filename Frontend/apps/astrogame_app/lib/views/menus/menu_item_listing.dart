@@ -17,20 +17,18 @@ class MenuItemListing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      child: ListView(
-        children: menuEntries.map(
-          (item) {
-            return MenuItem(
-              icon: item.icon,
-              label: item.label,
-              isSelected: (navigationService.currentRoute == item.route),
-              onTap: () => itemSelectedCallback(item),
-            );
-          },
-        ).toList(),
-      ),
+    return ListView(
+      shrinkWrap: true,
+      children: menuEntries.map(
+        (item) {
+          return MenuItem(
+            icon: item.icon,
+            label: item.label,
+            isSelected: (navigationService.currentRoute == item.route),
+            onTap: () => itemSelectedCallback(item),
+          );
+        },
+      ).toList(),
     );
   }
 }

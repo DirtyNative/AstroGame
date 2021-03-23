@@ -1,5 +1,5 @@
-﻿using AstroGame.Api.Repositories.Resources;
-using AstroGame.Generator.Generators.ResourceGenerators;
+﻿using AstroGame.Generator.Generators.ResourceGenerators;
+using AstroGame.Storage.Repositories.Resources;
 
 namespace AstroGame.Api.Factories
 {

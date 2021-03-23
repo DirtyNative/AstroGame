@@ -1,14 +1,16 @@
 ﻿using AstroGame.Api.Managers;
+using AstroGame.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using AstroGame.Api.Services;
 
 namespace AstroGame.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/v1/solar-system")]
     [ApiController]
+    [Authorize]
     public class SolarSystemController : Controller
     {
         private readonly SolarSystemManager _solarSystemManager;

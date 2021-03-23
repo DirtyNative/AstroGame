@@ -1,7 +1,6 @@
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/widgets/adaptive_menu.dart';
 import 'package:astrogame_app/widgets/app_header.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

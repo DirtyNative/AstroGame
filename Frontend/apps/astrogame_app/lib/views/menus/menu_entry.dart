@@ -11,9 +11,34 @@ class MenuEntry {
 }
 
 final menuEntries = <MenuEntry>[
-  MenuEntry(label: 'Home', icon: Icons.home, route: RoutePaths.StartRoute),
   MenuEntry(
-      label: 'Systems',
-      icon: Icons.system_update,
-      route: RoutePaths.SystemViewRoute),
+    label: 'Home',
+    icon: Icons.home,
+    route: RoutePaths.StartRoute,
+  ),
+  MenuEntry(
+    label: 'Systems',
+    icon: Icons.system_update,
+    route: RoutePaths.SystemViewRoute,
+  ),
+  MenuEntry(
+    label: 'Species',
+    icon: Icons.system_update,
+    route: RoutePaths.SystemViewRoute,
+  ),
+  MenuEntry(
+    label: 'Empire',
+    icon: Icons.system_update,
+    route: RoutePaths.SystemViewRoute,
+  ),
+  MenuEntry(
+    label: 'Contacts',
+    icon: Icons.system_update,
+    route: RoutePaths.SystemViewRoute,
+  ),
+  MenuEntry(
+    label: 'Alliance',
+    icon: Icons.system_update,
+    route: RoutePaths.SystemViewRoute,
+  ),
 ];

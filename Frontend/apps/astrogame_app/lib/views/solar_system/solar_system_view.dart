@@ -83,13 +83,11 @@ class _State extends State<SolarSystemView> {
 
     if (vertical) {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _stellarSystemWidget(model, stellarSystem),
           Container(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: subSystemWidgets,
             ),
@@ -98,6 +96,7 @@ class _State extends State<SolarSystemView> {
       );
     } else {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _stellarSystemWidget(model, stellarSystem),
           Column(
@@ -117,6 +116,7 @@ class _State extends State<SolarSystemView> {
 
     return GlassContainer(
         padding: EdgeInsets.all(16),
+        width: 400,
         child: Row(
           children: [
             Column(

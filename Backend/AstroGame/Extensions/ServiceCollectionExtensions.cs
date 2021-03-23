@@ -1,14 +1,19 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Api.Databases;
 using AstroGame.Api.Factories;
-using AstroGame.Api.Repositories.Resources;
 using AstroGame.Core.Storage;
 using AstroGame.Generator.Generators;
 using AstroGame.Generator.Generators.ResourceGenerators;
+using AstroGame.Shared.Apis;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
+using AstroGame.Storage.Database;
+using AstroGame.Storage.Repositories.Resources;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Refit;
+using System;
 
 namespace AstroGame.Api.Extensions
 {
@@ -48,7 +53,6 @@ namespace AstroGame.Api.Extensions
                 return new LocalFileClient(imageDirectory);
             });
 
-
             var assembliesToBeScanned = new[] {"AstroGame"};
             services.AddServicesWithAttributeOfType<ScopedServiceAttribute>(assembliesToBeScanned);
             services.AddServicesWithAttributeOfType<SingletonServiceAttribute>(assembliesToBeScanned);
@@ -70,10 +74,50 @@ namespace AstroGame.Api.Extensions
 
             services.AddDbContext<AstroGameDataContext>(options =>
             {
-                options.UseSqlServer(connectionString);
-                options.EnableSensitiveDataLogging();
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("AstroGame.Storage"));
                 options.UseSqlServer(builder => { builder.EnableRetryOnFailure(); });
             });
+
+            return services;
+        }
+
+        public static IServiceCollection RegisterServiceApis(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var serviceConnections = new ApiConnections();
+            configuration.GetSection("ApiConnections").Bind(serviceConnections);
+            
+            // IdentityService
+            services.AddRefitClient<IAuthorizationApi>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceConnections.AuthorizationApi));
+
+            return services;
+        }
+
+        public static IServiceCollection AddIdentityServerAuthentication(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var serviceConnections = new ApiConnections();
+            configuration.GetSection("ApiConnections").Bind(serviceConnections);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    // base-address of your identityserver
+                    options.Authority = serviceConnections.AuthorizationApi;
+
+                    // if you are using API resources, you can specify the name here
+                    options.Audience = Scopes.ApiScope;
+                });
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(cfg =>cfg.AddMaps("AstroGame.Api"));
+
+            services.AddSingleton(config.CreateMapper());
 
             return services;
         }

@@ -24,7 +24,7 @@ ThemeData darkTheme = new ThemeData(
       ),
       headline2: TextStyle(
         fontFamily: 'TTFirsNeue',
-        fontSize: 16,
+        fontSize: 24,
         fontWeight: FontWeight.w700,
         color: Colors.white,
       ),
@@ -71,6 +71,19 @@ ThemeData darkTheme = new ThemeData(
     minWidth: 168,
   ),*/
 
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+          return Colors.white;
+        }),
+        padding: MaterialStateProperty.resolveWith<EdgeInsets>((states) {
+          return EdgeInsets.all(8);
+        }),
+        minimumSize: MaterialStateProperty.resolveWith<Size>((states) {
+          return Size(40, 40);
+        }),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         shape: MaterialStateProperty.resolveWith<OutlinedBorder>((states) {
@@ -91,7 +104,7 @@ ThemeData darkTheme = new ThemeData(
         }),
         elevation: MaterialStateProperty.all(0),
         minimumSize: MaterialStateProperty.all(
-          Size(500, 32),
+          Size(500, 40),
         ),
       ),
     ),
@@ -99,7 +112,7 @@ ThemeData darkTheme = new ThemeData(
     // Used by TextFields
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.white),
-      contentPadding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+      contentPadding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
       isDense: true,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25),

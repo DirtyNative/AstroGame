@@ -1,4 +1,4 @@
-import 'package:astrogame_app/converters/guid_converter.dart';
+import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/models/resources/input_resource.dart';
 import 'package:astrogame_app/models/resources/material.dart';
 import 'package:flutter_guid/flutter_guid.dart';

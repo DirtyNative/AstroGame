@@ -1,4 +1,5 @@
-﻿using AstroGame.Shared.Enums;
+﻿using System;
+using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
-    public class Planet : StellarObject, IHasHabitableAtmosphere, IProvidesResources, IRenderable
+    public class Planet : ColonizableStellarObject, IHasHabitableAtmosphere, IProvidesResources, IRenderable
 
     {
         public Planet()

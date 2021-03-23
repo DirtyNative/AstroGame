@@ -5,7 +5,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 import 'helpers/route_paths.dart';
-import 'views/start/start_view.dart';
 
 class AstroGameApp extends StatelessWidget {
   @override
@@ -22,7 +21,7 @@ class AstroGameApp extends StatelessWidget {
         themeMode: themeMode,
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: generateRoute,
-        initialRoute: RoutePaths.StartRoute,
+        initialRoute: RoutePaths.LoginRoute,
         //home: StartView(),
       ),
     );

@@ -1,6 +1,4 @@
-﻿using AstroGame.Api.Databases;
-using AstroGame.Api.Repositories.Stellar;
-using AstroGame.Generator.Generators.SystemGenerators;
+﻿using AstroGame.Generator.Generators.SystemGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AstroGame.Storage.Database;
+using AstroGame.Storage.Repositories.Stellar;
 
 namespace AstroGame.Api.Services
 {

@@ -1,9 +1,9 @@
-﻿using AstroGame.Api.Repositories;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Api.Repositories.Stellar;
+using AstroGame.Storage.Repositories;
+using AstroGame.Storage.Repositories.Stellar;
 
 namespace AstroGame.Api.Managers
 {

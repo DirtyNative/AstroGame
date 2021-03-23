@@ -1,11 +1,12 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Api.Databases;
-using AstroGame.Api.Repositories.Stellar;
 using AstroGame.Generator.Generators.SystemGenerators;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
+using AstroGame.Storage.Database;
+using AstroGame.Storage.Repositories.Stellar;
 
 namespace AstroGame.Api.Managers
 {
@@ -46,6 +47,12 @@ namespace AstroGame.Api.Managers
         public async Task<SolarSystem> GetBySystemNumberRecursiveAsync(uint systemNumber)
         {
             var solarSystem = await _solarSystemRepository.GetBySystemNumberAsync(systemNumber);
+
+            if (solarSystem == null)
+            {
+                //throw new NotFoundException();
+                return null;
+            }
 
             if (solarSystem.IsGenerated == false)
             {
