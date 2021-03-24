@@ -9,7 +9,7 @@ part 'player_api.g.dart';
 abstract class PlayerApi {
   factory PlayerApi(Dio dio, {String baseUrl}) = _PlayerApi;
 
-  @GET('current')
+  @GET('/current')
   Future<Player> getCurrentAsync();
 
   @GET('/{email}')

@@ -48,6 +48,9 @@ dependencies:
   flutter_inner_drawer:
   responsive_builder:
 
+  google_nav_bar:
+  badges: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

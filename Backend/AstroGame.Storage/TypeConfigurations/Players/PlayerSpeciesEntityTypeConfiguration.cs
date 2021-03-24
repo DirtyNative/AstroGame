@@ -16,6 +16,9 @@ namespace AstroGame.Storage.TypeConfigurations.Players
 
             builder.HasOne(e => e.Species)
                 .WithMany(e => e.PlayerSpecies).HasForeignKey(e => e.SpeciesId);
+
+            builder.HasMany(e => e.Perks)
+                .WithOne(e => e.PlayerSpecies).HasForeignKey(e => e.PlayerSpeciesId);
         }
     }
 }

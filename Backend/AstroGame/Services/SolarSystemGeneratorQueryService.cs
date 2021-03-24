@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroGame.Api.Managers.Stellars;
 
 namespace AstroGame.Api.Services
 {

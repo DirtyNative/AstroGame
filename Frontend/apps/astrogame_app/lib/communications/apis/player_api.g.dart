@@ -21,7 +21,7 @@ class _PlayerApi implements PlayerApi {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('current',
+    final _result = await _dio.request<Map<String, dynamic>>('/current',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

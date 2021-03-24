@@ -1,3 +1,4 @@
+using System;
 using AstroGame.Api.Extensions;
 using AstroGame.Api.Filters;
 using AstroGame.Api.Helpers;
@@ -11,8 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
+using AstroGame.Api.Configurations;
 using AstroGame.Shared.Apis;
 using AstroGame.Shared.Middlewares;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AstroGame.Api
 {
@@ -29,7 +35,9 @@ namespace AstroGame.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.RegisterServices(Configuration)
+            services
+                //.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>()
+                .RegisterServices(Configuration)
                 .ConfigureDatabase(Configuration)
                 .RegisterServiceApis(Configuration)
                 .ConfigureAutoMapper();
@@ -47,13 +55,13 @@ namespace AstroGame.Api
             });
 
             services.AddIdentityServerAuthentication(Configuration);
-
-            // Inject Authorization with IdentityServer
+            
             services.AddIdentityServerAuthenticationForSwagger<AuthorizeCheckOperationFilter>(Configuration, "v1",
                 "AstroGame API", new Dictionary<string, string>
                 {
-                    {Scopes.ApiScope, "AstroGame"}
-                }); 
+                    {Scopes.ApiScope, "AstroGameApi"}
+                });
+
 
             services.AddSignalR();
 
@@ -69,14 +77,18 @@ namespace AstroGame.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "AstroGame v1");
-                    c.DocumentTitle = "AstroGame";
+                    //c.DocumentTitle = "AstroGame";
 
-                    c.OAuthClientId(Scopes.SwaggerScope);
+                    c.OAuthClientId("astrogame.swagger");
+
+                    //c.OAuthClientSecret("c6b5e39d22bf8d6b4f09ffc9241fb2d89c82344e9fa1e286d0cf2b866921468f");
                     c.OAuthAppName("AstroGame - Swagger");
+                    //c.OAuthUsePkce();
                 });
             }
 

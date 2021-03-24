@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.Collections.Generic;
 using AstroGame.Shared.Enums;
 
 namespace AstroGame.Storage.Seeds.Players

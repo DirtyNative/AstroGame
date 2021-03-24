@@ -82,6 +82,116 @@ namespace AstroGame.Storage.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Players.Perk", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<double>("AlloysProductionSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("AlloysProductionValueMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("BiologicalResearchSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("BuildingMaterialsProductionSpeed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("BuildingMaterialsProductionValueMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("BuildingSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("ComponentsProductionSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("ComponentsProductionValueMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("ConsumablesProductionSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("ConsumablesProductionValueMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("EngineersResearchSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("FuelsProductionSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("FuelsProductionValueMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<double>("PhysicsResearchSpeedMultiplier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(1.0);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Perks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-1111-0000-000000000000"),
+                            AlloysProductionSpeedMultiplier = 0.0,
+                            AlloysProductionValueMultiplier = 0.0,
+                            BiologicalResearchSpeedMultiplier = 0.0,
+                            BuildingMaterialsProductionSpeed = 0.0,
+                            BuildingMaterialsProductionValueMultiplier = 0.0,
+                            BuildingSpeedMultiplier = 0.0,
+                            ComponentsProductionSpeedMultiplier = 0.0,
+                            ComponentsProductionValueMultiplier = 0.0,
+                            ConsumablesProductionSpeedMultiplier = 0.0,
+                            ConsumablesProductionValueMultiplier = 0.0,
+                            Description = "",
+                            EngineersResearchSpeedMultiplier = 0.0,
+                            FuelsProductionSpeedMultiplier = 0.0,
+                            FuelsProductionValueMultiplier = 0.0,
+                            PhysicsResearchSpeedMultiplier = 0.0,
+                            Title = "Fast builder"
+                        });
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Player", b =>
                 {
                     b.Property<Guid>("Id")
@@ -125,6 +235,9 @@ namespace AstroGame.Storage.Migrations
                     b.Property<string>("EmpireName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("PerkId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("PlayerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -135,6 +248,8 @@ namespace AstroGame.Storage.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PerkId");
 
                     b.HasIndex("SpeciesId");
 
@@ -148,6 +263,36 @@ namespace AstroGame.Storage.Migrations
                             PlayerId = new Guid("22222222-0000-0000-0000-000000000000"),
                             PreferredPlanetType = 7,
                             SpeciesId = new Guid("22222222-2222-0000-0000-000000000000")
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpeciesPerk", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid>("PerkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerSpeciesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerkId");
+
+                    b.HasIndex("PlayerSpeciesId");
+
+                    b.ToTable("PlayerSpeciesPerks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11110000-0000-0000-0000-000000000000"),
+                            PerkId = new Guid("00000000-0000-1111-0000-000000000000"),
+                            PlayerSpeciesId = new Guid("22222222-1111-0000-0000-000000000000")
                         });
                 });
 
@@ -875,6 +1020,10 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpecies", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Players.Perk", null)
+                        .WithMany("PlayerSpecies")
+                        .HasForeignKey("PerkId");
+
                     b.HasOne("AstroGame.Shared.Models.Players.Species", "Species")
                         .WithMany("PlayerSpecies")
                         .HasForeignKey("SpeciesId")
@@ -882,6 +1031,25 @@ namespace AstroGame.Storage.Migrations
                         .IsRequired();
 
                     b.Navigation("Species");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpeciesPerk", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Players.Perk", "Perk")
+                        .WithMany()
+                        .HasForeignKey("PerkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Players.PlayerSpecies", "PlayerSpecies")
+                        .WithMany("Perks")
+                        .HasForeignKey("PlayerSpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Perk");
+
+                    b.Navigation("PlayerSpecies");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.InputResource", b =>
@@ -1077,6 +1245,11 @@ namespace AstroGame.Storage.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Players.Perk", b =>
+                {
+                    b.Navigation("PlayerSpecies");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Player", b =>
                 {
                     b.Navigation("ColonizedObjects");
@@ -1086,6 +1259,8 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpecies", b =>
                 {
+                    b.Navigation("Perks");
+
                     b.Navigation("Player");
                 });
 

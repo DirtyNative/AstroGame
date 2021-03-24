@@ -51,10 +51,11 @@ namespace AstroGame.Api.Helpers
 					Type = SecuritySchemeType.OAuth2,
 					Flows = new OpenApiOAuthFlows
 					{
-						Implicit = new OpenApiOAuthFlow
+						Password = new OpenApiOAuthFlow
 						{
 							AuthorizationUrl = new Uri(identityServiceConnection + "/connect/authorize",
 								UriKind.Absolute),
+                            TokenUrl = new Uri(identityServiceConnection + "/connect/token"),
 							Scopes = scopes
 						}
 					}

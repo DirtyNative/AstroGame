@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AstroGame.Shared.Enums;
 using Newtonsoft.Json;
 
@@ -17,8 +18,7 @@ namespace AstroGame.Shared.Models.Players
         /// </summary>
         public PlanetType PreferredPlanetType { get; set; }
 
-        // TODO: Set the properties for the species
-        // E.g: Intelligent, Hard working, militaristic
+        public List<PlayerSpeciesPerk> Perks { get; set; }
 
         [JsonIgnore] public Player Player { get; set; }
         public Species Species { get; set; }

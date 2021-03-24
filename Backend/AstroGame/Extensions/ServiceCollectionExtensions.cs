@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
+using Microsoft.AspNetCore.Builder;
 
 namespace AstroGame.Api.Extensions
 {
@@ -86,7 +87,7 @@ namespace AstroGame.Api.Extensions
         {
             var serviceConnections = new ApiConnections();
             configuration.GetSection("ApiConnections").Bind(serviceConnections);
-            
+
             // IdentityService
             services.AddRefitClient<IAuthorizationApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceConnections.AuthorizationApi));
@@ -94,6 +95,12 @@ namespace AstroGame.Api.Extensions
             return services;
         }
 
+        /// <summary>
+        /// Registers the api to be authenticated via IdentityServer4
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddIdentityServerAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -101,13 +108,11 @@ namespace AstroGame.Api.Extensions
             configuration.GetSection("ApiConnections").Bind(serviceConnections);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                .AddIdentityServerAuthentication(options =>
                 {
-                    // base-address of your identityserver
                     options.Authority = serviceConnections.AuthorizationApi;
-
-                    // if you are using API resources, you can specify the name here
-                    options.Audience = Scopes.ApiScope;
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = Scopes.ApiScope;
                 });
 
             return services;
@@ -115,7 +120,7 @@ namespace AstroGame.Api.Extensions
 
         public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
         {
-            var config = new MapperConfiguration(cfg =>cfg.AddMaps("AstroGame.Api"));
+            var config = new MapperConfiguration(cfg => cfg.AddMaps("AstroGame.Api"));
 
             services.AddSingleton(config.CreateMapper());
 

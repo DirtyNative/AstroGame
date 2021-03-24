@@ -40,6 +40,10 @@ namespace AstroGame.Storage.Database
         public DbSet<StellarObjectResource> StellarObjectResources { get; set; }
 
         public DbSet<Player> Players { get; set; }
+        public DbSet<Species> Species { get; set; }
+        public DbSet<PlayerSpecies> PlayerSpecies { get; set; }
+        public DbSet<Perk> Perks { get; set; }
+        public DbSet<PlayerSpeciesPerk> PlayerSpeciesPerks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,7 @@ namespace AstroGame.Storage.TypeConfigurations.Players
         public void Configure(EntityTypeBuilder<ColonizableStellarObject> builder)
         {
             builder.ToTable("ColonizableStellarObjects");
+            builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
         }
     }
 }
