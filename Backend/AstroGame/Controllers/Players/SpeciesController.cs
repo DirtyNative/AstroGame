@@ -1,8 +1,11 @@
-﻿using AstroGame.Api.Filters;
+﻿using System;
+using AstroGame.Api.Filters;
 using AstroGame.Api.Managers.Players;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Logging;
+
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Players
@@ -40,8 +43,17 @@ namespace AstroGame.Api.Controllers.Players
         public async Task<IActionResult> GetImageAsync(Guid speciesId)
         {
             var image = await _speciesManager.GetImageAsync(speciesId);
+            
+            return File(image, "image/png");
+        }
+
+        /*[HttpGet("image/{speciesId}/base64")]
+        [Produces("image/png")]
+        public async Task<IActionResult> GetImageAsync(Guid speciesId)
+        {
+            var image = await _speciesManager.GetImageAsync(speciesId);
 
             return Ok(image);
-        }
+        } */
     }
 }

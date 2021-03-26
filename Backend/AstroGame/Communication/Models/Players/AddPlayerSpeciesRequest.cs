@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AstroGame.Api.Communication.Models.Players
 {
-    [AutoMap(typeof(PlayerSpecies))]
+    [AutoMap(typeof(PlayerSpecies), ReverseMap = true)]
     public class AddPlayerSpeciesRequest
     {
         public Guid SpeciesId { get; set; }

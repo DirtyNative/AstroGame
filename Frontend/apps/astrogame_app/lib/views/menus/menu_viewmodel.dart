@@ -1,10 +1,18 @@
+import 'package:astrogame_app/communications/repositories/species_repository.dart';
+import 'package:astrogame_app/providers/player_provider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'menu_entry.dart';
 
+@injectable
 class MenuViewModel extends BaseViewModel {
   NavigationService _navigationService;
+
+  SpeciesRepository _speciesRepository;
+  PlayerProvider _playerProvider;
 
   MenuEntry _selectedItem;
   MenuEntry get selectedItem => _selectedItem;
@@ -13,7 +21,13 @@ class MenuViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  MenuViewModel(this._navigationService);
+  String get playerName => _playerProvider.getPlayer().username;
+
+  MenuViewModel(
+    this._navigationService,
+    this._speciesRepository,
+    this._playerProvider,
+  );
 
   Future navigate(MenuEntry item) async {
     // If already on this page, do nothing
@@ -22,5 +36,17 @@ class MenuViewModel extends BaseViewModel {
     }
 
     _navigationService.navigateTo(item.route);
+  }
+
+  Future<ImageProvider> getSpeciesImageAsync() async {
+    var response = await _speciesRepository.getImageAsync(
+        speciesId: _playerProvider.getPlayer().playerSpecies.speciesId);
+
+    if (response.hasError) {
+      throw Exception(
+          'Failed to load species image ${_playerProvider.getPlayer().playerSpecies.speciesId}');
+    }
+
+    return response.data;
   }
 }

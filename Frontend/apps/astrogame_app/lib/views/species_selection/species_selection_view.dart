@@ -3,7 +3,6 @@ import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/species_selection/species_selection_viewmodel.dart';
 import 'package:astrogame_app/widgets/app_header.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:stacked/stacked.dart';
 
 class SpeciesSelectionView extends StatefulWidget {
@@ -31,10 +30,7 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
         body: GestureDetector(
           child: Container(
             decoration: BoxDecoration(
-              color: AstroGameColors.mediumGrey,
-              image: DecorationImage(
-                  image: AssetImage('assets/images/background_2.png'),
-                  fit: BoxFit.cover),
+              color: AstroGameColors.darkGrey,
             ),
             child: _desktopView(context, model),
           ),
@@ -51,24 +47,80 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
     SpeciesSelectionViewModel model,
   ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppHeader(),
-        _tabBar(),
-        Container(
-          height: 300,
-          padding: EdgeInsets.all(48),
-          child: Expanded(
-            child: TabBarView(
-              controller: controller,
+        Text(
+          'Create your species',
+          style: Theme.of(context).textTheme.headline1,
+          textAlign: TextAlign.center,
+        ),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.all(48),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _selectedSpeciesWidget(context, model),
+                SizedBox(width: 48),
                 _speciesSelectionWidget(context, model),
-                _planetTypeSelectonWidget(context, model),
-                _perkSelectionWidget(context, model),
               ],
             ),
           ),
         ),
+        //_footer(),
       ],
+    );
+  }
+
+  Widget _selectedSpeciesWidget(
+      BuildContext context, SpeciesSelectionViewModel model) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AstroGameColors.mediumGrey,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      width: 500,
+      child: Column(
+        children: [
+          // Empire name
+          TextField(
+            decoration: InputDecoration(hintText: 'Empire name'),
+            controller: model.empireNameController,
+          ),
+
+          // Spacing
+          SizedBox(height: 48),
+
+          // Species image
+          (model.selectedSpecies == null)
+              ? SizedBox(height: 200)
+              : FutureBuilder<ImageProvider>(
+                  future: model.getImageAsync(model.selectedSpecies.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Image(
+                        image: snapshot.data,
+                        height: 200,
+                        fit: BoxFit.fitHeight,
+                      );
+                    } else {
+                      return Container(
+                          height: 200, child: CircularProgressIndicator());
+                    }
+                  }),
+
+          // Spacing
+          SizedBox(height: 48),
+
+          ElevatedButton(
+              child: Text('Next'),
+              onPressed: model.isNextButtonEnabled
+                  ? model.showPerkSelectionView
+                  : null),
+        ],
+      ),
     );
   }
 
@@ -76,100 +128,51 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
     BuildContext context,
     SpeciesSelectionViewModel model,
   ) {
-    return Container(
-      padding: EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AstroGameColors.mediumGrey,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          Text(
-            'Create your species',
-            style: Theme.of(context).textTheme.headline2,
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _planetTypeSelectonWidget(
-    BuildContext context,
-    SpeciesSelectionViewModel model,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Text(
-            'Select your starter planet type',
-            style: Theme.of(context).textTheme.headline2,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _perkSelectionWidget(
-    BuildContext context,
-    SpeciesSelectionViewModel model,
-  ) {
-    return Container();
-  }
-
-  Widget _tabBar() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.all(
-          Radius.circular(100),
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AstroGameColors.mediumGrey,
+          borderRadius: BorderRadius.circular(16),
         ),
+        child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 300,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16),
+            itemCount: model.species?.length,
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: AstroGameColors.lightGrey,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: EdgeInsets.all(8),
+                child: (model.species == null || model.species.length == 0)
+                    ? SizedBox(height: 200)
+                    : FutureBuilder<ImageProvider>(
+                        future: model.getImageAsync(model.species[index].id),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return InkWell(
+                              onTap: () =>
+                                  model.selectedSpecies = model.species[index],
+                              child: Image(
+                                image: snapshot.data,
+                                height: 200,
+                                fit: BoxFit.fitHeight,
+                              ),
+                            );
+                          } else {
+                            return Container(
+                                height: 200,
+                                child: CircularProgressIndicator());
+                          }
+                        }),
+              );
+            }),
       ),
-      child: GNav(
-          mainAxisAlignment: MainAxisAlignment.center,
-          tabs: [
-            GButton(
-              gap: gap,
-              //iconActiveColor: Colors.purple,
-              iconColor: Colors.white,
-              textColor: Colors.white,
-              backgroundGradient: LinearGradient(colors: [
-                AstroGameColors.purple,
-                AstroGameColors.torque,
-              ]),
-              iconSize: 24,
-              padding: padding,
-              icon: Icons.home,
-              text: 'Home',
-            ),
-            GButton(
-              gap: gap,
-              backgroundGradient: LinearGradient(colors: [
-                AstroGameColors.purple,
-                AstroGameColors.torque,
-              ]),
-              iconSize: 24,
-              padding: padding,
-              icon: Icons.hearing_outlined,
-              text: 'Likes',
-            ),
-            GButton(
-              gap: gap,
-              backgroundGradient: LinearGradient(colors: [
-                AstroGameColors.purple,
-                AstroGameColors.torque,
-              ]),
-              iconSize: 24,
-              padding: padding,
-              icon: Icons.search,
-              text: 'Search',
-            ),
-          ],
-          selectedIndex: selectedIndex,
-          onTabChange: (index) {
-            controller.index = index;
-          }),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:astrogame_app/configurations/service_container.dart';
+import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/menus/menu_item_listing.dart';
 import 'package:astrogame_app/views/menus/menu_viewmodel.dart';
@@ -13,37 +14,48 @@ class MenuView extends StatelessWidget {
         color: AstroGameColors.darkGrey,
         child: Column(
           children: [
-            _header(context),
+            _header(context, model),
             _content(context, model),
             _footer(),
           ],
         ),
       ),
-      viewModelBuilder: () => new MenuViewModel(getIt.get()),
+      viewModelBuilder: () => ServiceLocator.get(),
     );
   }
 
-  Widget _header(BuildContext context) {
+  Widget _header(BuildContext context, MenuViewModel model) {
     return Container(
       padding: EdgeInsets.all(16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 85,
-            height: 119,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: AssetImage('assets/images/species.png'),
-              ),
-            ),
-          ),
+          FutureBuilder<ImageProvider>(
+              future: model.getSpeciesImageAsync(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: snapshot.data,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                      height: 200, child: CircularProgressIndicator());
+                }
+              }),
           SizedBox(width: 16),
           Column(
             children: [
               Text(
-                'Profile',
+                model.playerName,
                 style: Theme.of(context).textTheme.headline2,
               ),
             ],

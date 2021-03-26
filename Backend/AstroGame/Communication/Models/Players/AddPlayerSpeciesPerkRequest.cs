@@ -4,7 +4,7 @@ using System;
 
 namespace AstroGame.Api.Communication.Models.Players
 {
-    [AutoMap(typeof(PlayerSpeciesPerk))]
+    [AutoMap(typeof(PlayerSpeciesPerk), ReverseMap = true)]
     public class AddPlayerSpeciesPerkRequest
     {
         public Guid PerkId { get; set; }

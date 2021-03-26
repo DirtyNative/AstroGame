@@ -71,6 +71,9 @@ ThemeData darkTheme = new ThemeData(
     minWidth: 168,
   ),*/
 
+    scrollbarTheme: ScrollbarThemeData(
+      thumbColor: MaterialStateProperty.all(AstroGameColors.purple[300]),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
@@ -84,28 +87,42 @@ ThemeData darkTheme = new ThemeData(
         }),
       ),
     ),
+
+    // Elevated Button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         shape: MaterialStateProperty.resolveWith<OutlinedBorder>((states) {
+          if (states.contains(MaterialState.disabled)) {
+            return new RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(color: Colors.white10),
+            );
+          }
+
           return new RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           );
         }),
         backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
           if (states.contains(MaterialState.disabled)) {
-            if (states.contains(MaterialState.hovered)) {
-              return Colors.white;
-            }
-
-            return Colors.white;
+            return Colors.transparent;
           }
 
           return AstroGameColors.purple;
         }),
+        foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+          if (states.contains(MaterialState.disabled)) {
+            return Colors.white10;
+          }
+
+          return Colors.white;
+        }),
         elevation: MaterialStateProperty.all(0),
         minimumSize: MaterialStateProperty.all(
-          Size(500, 40),
+          Size(100, 40),
         ),
+        padding: MaterialStateProperty.all(
+            EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8)),
       ),
     ),
 

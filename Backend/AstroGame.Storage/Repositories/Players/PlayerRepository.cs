@@ -82,6 +82,14 @@ namespace AstroGame.Storage.Repositories.Players
                 .FirstOrDefaultAsync(e => e.Credentials.Email == email);
         }
 
+        public async Task AddSpeciesAsync(Guid playerId, Guid speciesId)
+        {
+            var player = await GetAsync(playerId);
+            player.PlayerSpeciesId = speciesId;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<bool> ExistsAsync(Guid playerId)
         {
             return await _context.Players.AnyAsync(e => e.Id == playerId);

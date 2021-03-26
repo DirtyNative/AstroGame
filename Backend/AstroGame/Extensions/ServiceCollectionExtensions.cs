@@ -120,7 +120,7 @@ namespace AstroGame.Api.Extensions
 
         public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
         {
-            var config = new MapperConfiguration(cfg => cfg.AddMaps("AstroGame.Api"));
+            var config = new MapperConfiguration(cfg => cfg.AddMaps("AstroGame.Api", "AstroGame.Shared"));
 
             services.AddSingleton(config.CreateMapper());
 

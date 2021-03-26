@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'app.dart';
-import 'configurations/custom_http_overrides.dart';
 import 'configurations/service_container.dart';
 
-Future main() async {
+Future run() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
-
-  HttpOverrides.global = CustomHttpOverrides();
 
   await ThemeManager.initialise();
 

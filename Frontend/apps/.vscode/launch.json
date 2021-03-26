@@ -5,10 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "astrogame_app",
+            "name": "Dev",
             "cwd": "astrogame_app",
             "request": "launch",
-            "type": "dart"
-        }
+            "type": "dart",
+            "program": "lib/main_dev.dart"
+        },
+        {
+            "name": "Stage",
+            "cwd": "astrogame_app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_stage.dart"
+        },
+        {
+            "name": "Prod",
+            "cwd": "astrogame_app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_prod.dart"
+        },
     ]
 }

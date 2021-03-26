@@ -13,8 +13,9 @@ class LoginViewModel extends BaseViewModel {
   LoginViewModel(
     this._loginExecuter,
   ) {
-    emailController = new TextEditingController();
-    passwordController = new TextEditingController();
+    emailController =
+        new TextEditingController(text: 'daniel@dirtyandnative.de');
+    passwordController = new TextEditingController(text: 'Test1234!');
   }
 
   Future loginAsync() async {

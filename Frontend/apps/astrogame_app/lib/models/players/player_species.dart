@@ -1,5 +1,5 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:astrogame_app/models/stellar/stellar_objects/planet_type.dart';
+import 'package:astrogame_app/models/enums/planet_type.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
