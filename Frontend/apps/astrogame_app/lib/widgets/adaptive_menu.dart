@@ -1,4 +1,6 @@
 import 'package:astrogame_app/views/menus/menu_view.dart';
+import 'package:astrogame_app/views/menus/player_colonies_view.dart';
+import 'package:astrogame_app/widgets/app_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -26,7 +28,24 @@ class _State extends State<AdaptiveMenu> {
                 width: 300,
               ),
               Expanded(
-                child: widget.child,
+                child: Column(
+                  children: [
+                    AppHeader(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: widget.child,
+                          ),
+                          Container(
+                            child: PlayerColoniesView(),
+                            width: 200,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           );

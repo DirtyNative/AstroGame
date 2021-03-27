@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    [Migration("20210324230430_AddedNewSpeciesImages")]
-    partial class AddedNewSpeciesImages
+    [Migration("20210327120210_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,9 +40,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PlayerId");
-
-                    b.HasIndex("StellarObjectId")
-                        .IsUnique();
 
                     b.ToTable("ColonizedStellarObjects");
                 });
@@ -174,7 +171,47 @@ namespace AstroGame.Storage.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("00000000-0000-1111-0000-000000000000"),
+                            Id = new Guid("00000000-0000-1111-0000-6712d7115748"),
+                            AlloysProductionSpeedMultiplier = 0.0,
+                            AlloysProductionValueMultiplier = 0.0,
+                            BiologicalResearchSpeedMultiplier = 0.0,
+                            BuildingMaterialsProductionSpeed = 0.0,
+                            BuildingMaterialsProductionValueMultiplier = 0.0,
+                            BuildingSpeedMultiplier = 0.90000000000000002,
+                            ComponentsProductionSpeedMultiplier = 0.0,
+                            ComponentsProductionValueMultiplier = 0.0,
+                            ConsumablesProductionSpeedMultiplier = 0.0,
+                            ConsumablesProductionValueMultiplier = 0.0,
+                            Description = "Building big constructs is a no-brainer for your species.",
+                            EngineersResearchSpeedMultiplier = 0.0,
+                            FuelsProductionSpeedMultiplier = 0.0,
+                            FuelsProductionValueMultiplier = 0.0,
+                            PhysicsResearchSpeedMultiplier = 0.0,
+                            Title = "Fast builder"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-1111-0000-dadcd19d28e3"),
+                            AlloysProductionSpeedMultiplier = 0.0,
+                            AlloysProductionValueMultiplier = 0.0,
+                            BiologicalResearchSpeedMultiplier = 0.84999999999999998,
+                            BuildingMaterialsProductionSpeed = 0.0,
+                            BuildingMaterialsProductionValueMultiplier = 0.0,
+                            BuildingSpeedMultiplier = 0.0,
+                            ComponentsProductionSpeedMultiplier = 0.0,
+                            ComponentsProductionValueMultiplier = 0.0,
+                            ConsumablesProductionSpeedMultiplier = 0.0,
+                            ConsumablesProductionValueMultiplier = 0.0,
+                            Description = "Your species loves to inspect other creatures, and so does with species from other planets.",
+                            EngineersResearchSpeedMultiplier = 0.0,
+                            FuelsProductionSpeedMultiplier = 0.0,
+                            FuelsProductionValueMultiplier = 0.0,
+                            PhysicsResearchSpeedMultiplier = 0.0,
+                            Title = "Natural Sociologists"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-1111-0000-cb67c0894e44"),
                             AlloysProductionSpeedMultiplier = 0.0,
                             AlloysProductionValueMultiplier = 0.0,
                             BiologicalResearchSpeedMultiplier = 0.0,
@@ -185,12 +222,52 @@ namespace AstroGame.Storage.Migrations
                             ComponentsProductionValueMultiplier = 0.0,
                             ConsumablesProductionSpeedMultiplier = 0.0,
                             ConsumablesProductionValueMultiplier = 0.0,
-                            Description = "",
+                            Description = "Ever wanted to fly into a black hole? Well your species does!",
                             EngineersResearchSpeedMultiplier = 0.0,
                             FuelsProductionSpeedMultiplier = 0.0,
                             FuelsProductionValueMultiplier = 0.0,
+                            PhysicsResearchSpeedMultiplier = 0.84999999999999998,
+                            Title = "Natural Physicists"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-1111-0000-551336d46b5d"),
+                            AlloysProductionSpeedMultiplier = 0.0,
+                            AlloysProductionValueMultiplier = 0.0,
+                            BiologicalResearchSpeedMultiplier = 0.0,
+                            BuildingMaterialsProductionSpeed = 0.0,
+                            BuildingMaterialsProductionValueMultiplier = 0.0,
+                            BuildingSpeedMultiplier = 0.0,
+                            ComponentsProductionSpeedMultiplier = 0.0,
+                            ComponentsProductionValueMultiplier = 0.0,
+                            ConsumablesProductionSpeedMultiplier = 0.0,
+                            ConsumablesProductionValueMultiplier = 0.0,
+                            Description = "Absolute nerds, which love robots and automatism. Hopefully not too much",
+                            EngineersResearchSpeedMultiplier = 0.84999999999999998,
+                            FuelsProductionSpeedMultiplier = 0.0,
+                            FuelsProductionValueMultiplier = 0.0,
                             PhysicsResearchSpeedMultiplier = 0.0,
-                            Title = "Fast builder"
+                            Title = "Natural Engineers"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-1111-0000-326db14a91f9"),
+                            AlloysProductionSpeedMultiplier = 0.0,
+                            AlloysProductionValueMultiplier = 0.0,
+                            BiologicalResearchSpeedMultiplier = 0.94999999999999996,
+                            BuildingMaterialsProductionSpeed = 0.0,
+                            BuildingMaterialsProductionValueMultiplier = 0.0,
+                            BuildingSpeedMultiplier = 0.0,
+                            ComponentsProductionSpeedMultiplier = 0.0,
+                            ComponentsProductionValueMultiplier = 0.0,
+                            ConsumablesProductionSpeedMultiplier = 0.0,
+                            ConsumablesProductionValueMultiplier = 0.0,
+                            Description = "\"We're good at everything, but not with something specific.\" Well..",
+                            EngineersResearchSpeedMultiplier = 0.94999999999999996,
+                            FuelsProductionSpeedMultiplier = 0.0,
+                            FuelsProductionValueMultiplier = 0.0,
+                            PhysicsResearchSpeedMultiplier = 0.94999999999999996,
+                            Title = "Intelligent"
                         });
                 });
 
@@ -211,10 +288,6 @@ namespace AstroGame.Storage.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PlayerSpeciesId")
-                        .IsUnique()
-                        .HasFilter("[PlayerSpeciesId] IS NOT NULL");
 
                     b.ToTable("Players");
 
@@ -248,19 +321,12 @@ namespace AstroGame.Storage.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
                     b.HasIndex("SpeciesId");
 
                     b.ToTable("PlayerSpecies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("22222222-1111-0000-0000-000000000000"),
-                            EmpireName = "Dirty's Empire",
-                            PlayerId = new Guid("22222222-0000-0000-0000-000000000000"),
-                            PreferredPlanetType = 7,
-                            SpeciesId = new Guid("22222222-2222-0000-0000-000000000000")
-                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpeciesPerk", b =>
@@ -283,14 +349,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasIndex("PlayerSpeciesId");
 
                     b.ToTable("PlayerSpeciesPerks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11110000-0000-0000-0000-000000000000"),
-                            PerkId = new Guid("00000000-0000-1111-0000-000000000000"),
-                            PlayerSpeciesId = new Guid("22222222-1111-0000-0000-000000000000")
-                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Species", b =>
@@ -1957,6 +2015,10 @@ namespace AstroGame.Storage.Migrations
                     b.Property<Guid?>("ColonizedStellarObjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.HasIndex("ColonizedStellarObjectId")
+                        .IsUnique()
+                        .HasFilter("[ColonizedStellarObjectId] IS NOT NULL");
+
                     b.ToTable("ColonizableStellarObjects");
                 });
 
@@ -2070,14 +2132,6 @@ namespace AstroGame.Storage.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", "ColonizableStellarObject")
-                        .WithOne("ColonizedStellarObject")
-                        .HasForeignKey("AstroGame.Shared.Models.Players.ColonizedStellarObject", "StellarObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ColonizableStellarObject");
-
                     b.Navigation("Player");
                 });
 
@@ -2090,22 +2144,21 @@ namespace AstroGame.Storage.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Players.Player", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Players.PlayerSpecies", "PlayerSpecies")
-                        .WithOne("Player")
-                        .HasForeignKey("AstroGame.Shared.Models.Players.Player", "PlayerSpeciesId");
-
-                    b.Navigation("PlayerSpecies");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpecies", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithOne("PlayerSpecies")
+                        .HasForeignKey("AstroGame.Shared.Models.Players.PlayerSpecies", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AstroGame.Shared.Models.Players.Species", "Species")
                         .WithMany("PlayerSpecies")
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Player");
 
                     b.Navigation("Species");
                 });
@@ -2236,11 +2289,17 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", b =>
                 {
+                    b.HasOne("AstroGame.Shared.Models.Players.ColonizedStellarObject", "ColonizedStellarObject")
+                        .WithOne("ColonizableStellarObject")
+                        .HasForeignKey("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", "ColonizedStellarObjectId");
+
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("ColonizedStellarObject");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.BlackHole", b =>
@@ -2322,18 +2381,23 @@ namespace AstroGame.Storage.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>
+                {
+                    b.Navigation("ColonizableStellarObject");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Player", b =>
                 {
                     b.Navigation("ColonizedObjects");
 
                     b.Navigation("Credentials");
+
+                    b.Navigation("PlayerSpecies");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.PlayerSpecies", b =>
                 {
                     b.Navigation("Perks");
-
-                    b.Navigation("Player");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Species", b =>
@@ -2361,11 +2425,6 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Material", b =>
                 {
                     b.Navigation("Manufaction");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", b =>
-                {
-                    b.Navigation("ColonizedStellarObject");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.BlackHole", b =>

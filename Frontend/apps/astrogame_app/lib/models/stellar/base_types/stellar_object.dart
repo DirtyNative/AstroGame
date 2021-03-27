@@ -1,4 +1,5 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/communications/converters/stellar_object_converter.dart';
 import 'package:astrogame_app/models/common/coordinates.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_thing.dart';
 import 'package:flutter_guid/flutter_guid.dart';
@@ -28,4 +29,7 @@ abstract class StellarObject extends StellarThing {
   Coordinates coordinates;
 
   StellarObject();
+
+  factory StellarObject.fromJson(Map<String, dynamic> json) =>
+      StellarObjectConverter().fromJson(json);
 }

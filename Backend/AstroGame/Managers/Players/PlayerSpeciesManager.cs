@@ -6,7 +6,7 @@ using AstroGame.Storage.Repositories.Players;
 using AutoMapper;
 using System;
 using System.Threading.Tasks;
-using AstroGame.Storage.Database;
+using AstroGame.Storage.Repositories.Stellar;
 
 namespace AstroGame.Api.Managers.Players
 {
@@ -15,14 +15,17 @@ namespace AstroGame.Api.Managers.Players
     {
         private readonly PlayerSpeciesRepository _playerSpeciesRepository;
         private readonly PlayerRepository _playerRepository;
+        private readonly PlanetRepository _planetRepository;
+
         private readonly IMapper _mapper;
 
         public PlayerSpeciesManager(PlayerSpeciesRepository playerSpeciesRepository, IMapper mapper,
-            PlayerRepository playerRepository)
+            PlayerRepository playerRepository, PlanetRepository planetRepository)
         {
             _playerSpeciesRepository = playerSpeciesRepository;
             _mapper = mapper;
             _playerRepository = playerRepository;
+            _planetRepository = planetRepository;
         }
 
         public async Task<Guid> AddAsync(Guid playerId, AddPlayerSpeciesRequest request)
@@ -38,16 +41,33 @@ namespace AstroGame.Api.Managers.Players
 
             if (await _playerSpeciesRepository.ExistsAsync(playerId))
             {
-                throw new ConflictException("Player {playerId} already has a species");
+                throw new ConflictException($"Player {playerId} already has a species");
             }
 
             var playerSpecies = _mapper.Map<PlayerSpecies>(request);
             playerSpecies.PlayerId = playerId;
+            
+            // Generate the starter planet
+            var planet = await _planetRepository.GetFirstUncolonizedAsync(request.PreferredPlanetType);
+
+            if (planet == null)
+            {
+                throw new NotFoundException($"No planet found for type {request.PreferredPlanetType}");
+            }
+
+            var colonizedStellarObject = new ColonizedStellarObject()
+            {
+                ColonizableStellarObject = planet,
+                ColonizedOn = DateTime.UtcNow,
+                PlayerId = playerId,
+                StellarObjectId = planet.Id
+            };
 
             var playerSpeciesId = await _playerSpeciesRepository.AddAsync(playerSpecies);
-
             await _playerRepository.AddSpeciesAsync(playerId, playerSpeciesId);
-            
+
+            await _planetRepository.UpdateAsync(planet.Id, true, request.PreferredPlanetType, colonizedStellarObject);
+
             return playerSpeciesId;
         }
     }

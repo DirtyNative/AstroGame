@@ -19,14 +19,17 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WindowTitleBarBox(
-      child: Row(
-        children: [
-          Expanded(child: MoveWindow()),
-          MinimizeWindowButton(colors: buttonColors),
-          MaximizeWindowButton(colors: buttonColors),
-          CloseWindowButton(colors: closeButtonColors),
-        ],
+    return Container(
+      color: AstroGameColors.darkGrey,
+      child: WindowTitleBarBox(
+        child: Row(
+          children: [
+            Expanded(child: MoveWindow()),
+            MinimizeWindowButton(colors: buttonColors),
+            MaximizeWindowButton(colors: buttonColors),
+            CloseWindowButton(colors: closeButtonColors),
+          ],
+        ),
       ),
     );
   }

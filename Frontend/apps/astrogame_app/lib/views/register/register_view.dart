@@ -1,15 +1,15 @@
-import 'package:astrogame_app/configurations/service_container.dart';
+import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
-import 'package:astrogame_app/views/login/login_viewmodel.dart';
+import 'package:astrogame_app/views/register/register_viewmodel.dart';
 import 'package:astrogame_app/widgets/app_header.dart';
 import 'package:astrogame_app/widgets/glass_container.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class LoginView extends StatelessWidget {
+class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LoginViewModel>.reactive(
+    return ViewModelBuilder<RegisterViewModel>.reactive(
       builder: (context, model, _) => Scaffold(
         body: GestureDetector(
           child: Container(
@@ -36,11 +36,11 @@ class LoginView extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
         ),
       ),
-      viewModelBuilder: () => getIt.get(),
+      viewModelBuilder: () => ServiceLocator.get(),
     );
   }
 
-  Widget _desktopView(BuildContext context, LoginViewModel model) {
+  Widget _desktopView(BuildContext context, RegisterViewModel model) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -51,42 +51,66 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _desktopLoginBox(BuildContext context, LoginViewModel model) {
+  Widget _desktopLoginBox(BuildContext context, RegisterViewModel model) {
     return Container(
       width: 500,
       child: GlassContainer(
         child: Column(
           children: [
             Text(
-              'AstroGame',
+              'Register',
               style: Theme.of(context).textTheme.headline1,
             ),
+
+            // Email
             SizedBox(height: 48),
             TextField(
               controller: model.emailController,
               decoration: InputDecoration(hintText: 'Email'),
               keyboardType: TextInputType.emailAddress,
             ),
+
+            // Username
+            SizedBox(height: 16),
+            TextField(
+              controller: model.usernameController,
+              decoration: InputDecoration(hintText: 'Username'),
+            ),
+
+            // Password
             SizedBox(height: 16),
             TextField(
               controller: model.passwordController,
               decoration: InputDecoration(hintText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 48),
-            ElevatedButton(
-              onPressed: model.loginAsync,
-              child: Text('Login'),
+
+            // Password confirmation
+            SizedBox(height: 16),
+            TextField(
+              controller: model.passwordConfirmationController,
+              decoration: InputDecoration(hintText: 'Password confirmation'),
+              obscureText: true,
             ),
 
-            // Register
-            SizedBox(height: 16),
-            TextButton(
-              onPressed: model.showRegisterView,
-              child: Text('Register now'),
+            SizedBox(height: 48),
+            ElevatedButton(
+              onPressed: model.registerAsync,
+              child: Text('Register'),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _loadingOverlay(BuildContext context) {
+    return Container(
+      color: Colors.black38,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
@@ -105,17 +129,6 @@ class LoginView extends StatelessWidget {
             Text('Contact'),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _loadingOverlay(BuildContext context) {
-    return Container(
-      color: Colors.black38,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Center(
-        child: CircularProgressIndicator(),
       ),
     );
   }

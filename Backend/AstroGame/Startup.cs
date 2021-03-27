@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using AstroGame.Api.Services;
 
 namespace AstroGame.Api
 {
@@ -41,7 +42,7 @@ namespace AstroGame.Api
             services.AddMvc().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
+                options.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
                 options.SerializerSettings.SerializationBinder = new KnownTypesBinder()
                 {
                     KnownTypes = typeof(Planet).Assembly.GetTypes()

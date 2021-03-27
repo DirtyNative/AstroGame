@@ -11,6 +11,11 @@ class StellarObjectConverter
 
   @override
   fromJson(json) {
+    if (json.containsKey('\$type') == false) {
+      throw Exception('json does not contain type key');
+    }
+
+    //var type = json['\$type'];
     var type = json.entries.firstWhere((element) => element.key == '\$type');
 
     if (type.value == 'Star') {

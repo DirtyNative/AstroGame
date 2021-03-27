@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroGame.Shared.Enums;
+using AstroGame.Shared.Models.Players;
 
 namespace AstroGame.Storage.Repositories.Stellar
 {
@@ -43,6 +45,40 @@ namespace AstroGame.Storage.Repositories.Stellar
                 .Include(e => e.Resources)
                 .ThenInclude(e => e.Resource)
                 .ToListAsync();
+        }
+
+        public async Task<Planet> GetFirstUncolonizedAsync()
+        {
+            return await _context.Planets
+
+                // Include the Resources
+                .Include(e => e.Resources)
+                .ThenInclude(e => e.Resource)
+                .Where(e => e.ColonizedStellarObjectId == null).FirstOrDefaultAsync();
+        }
+
+        public async Task<Planet> GetFirstUncolonizedAsync(PlanetType planetType)
+        {
+            return await _context.Planets
+
+                // Include the Resources
+                .Include(e => e.Resources)
+                .ThenInclude(e => e.Resource)
+                .Where(e => e.ColonizedStellarObjectId == null
+                            && e.PlanetType == planetType).FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateAsync(Guid planetId, bool hasHabitableAtmosphere, PlanetType planetType,
+            ColonizedStellarObject colonizedStellarObject)
+        {
+            var planet = await GetAsync(planetId);
+
+            planet.HasHabitableAtmosphere = hasHabitableAtmosphere;
+            planet.PlanetType = planetType;
+            planet.ColonizedStellarObject = colonizedStellarObject;
+            planet.ColonizedStellarObjectId = colonizedStellarObject.Id;
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Planet entity)

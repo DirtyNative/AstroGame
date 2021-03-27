@@ -1,9 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using AspNetCore.ServiceRegistration.Dynamic;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Storage.Configurations;
 using AstroGame.Storage.Repositories.Stellar;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace AstroGame.Api.Managers.Stellars
 {
@@ -17,6 +18,13 @@ namespace AstroGame.Api.Managers.Stellars
         {
             _stellarObjectRepository = stellarObjectRepository;
             _imageRepository = imageRepository;
+        }
+
+        public async Task<StellarObject> GetAsync(Guid id)
+        {
+            var stellarObject = await _stellarObjectRepository.GetAsync(id);
+
+            return stellarObject;
         }
 
         public async Task<Stream> GetImageAsync(Guid stellarObjectId)

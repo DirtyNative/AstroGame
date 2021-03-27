@@ -1,6 +1,5 @@
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/widgets/adaptive_menu.dart';
-import 'package:astrogame_app/widgets/app_header.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -29,12 +28,7 @@ class _State extends State<ScaffoldBase> {
             ),
             child: Stack(
               children: [
-                Column(
-                  children: [
-                    AppHeader(),
-                    Expanded(child: widget.body),
-                  ],
-                ),
+                Expanded(child: widget.body),
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: widget.viewModel.isBusy ? 1 : 0,

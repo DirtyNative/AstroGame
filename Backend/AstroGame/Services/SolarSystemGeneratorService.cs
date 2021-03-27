@@ -13,7 +13,7 @@ namespace AstroGame.Api.Services
 {
     public class SolarSystemGeneratorService : BackgroundService
     {
-        private const int TaskCount = 8;
+        private const int TaskCount = 2;
 
         private uint _index;
         private readonly List<Task> _tasks;

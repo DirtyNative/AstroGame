@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AstroGame.Shared.Models.Players;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
 
 namespace AstroGame.Storage.TypeConfigurations.Objects
 {
@@ -16,6 +17,9 @@ namespace AstroGame.Storage.TypeConfigurations.Objects
             builder.HasOne(e => e.ParentSystem)
                 .WithMany(e => (IEnumerable<Planet>) e.CenterObjects);
 
+            builder.HasOne(e => e.ColonizedStellarObject)
+                .WithOne(e => e.ColonizableStellarObject as Planet)
+                .HasForeignKey<Planet>(e => e.ColonizedStellarObjectId);
 
             /*builder.HasMany(e => e.Resources).WithOne(e => e.StellarObject as Planet)
                 .HasForeignKey(e => e.StellarObjectId); */

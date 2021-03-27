@@ -9,12 +9,12 @@ namespace AstroGame.Storage.Seeds.Players
     {
         public void Configure(EntityTypeBuilder<PlayerSpeciesPerk> builder)
         {
-            builder.HasData(new PlayerSpeciesPerk()
+            /*builder.HasData(new PlayerSpeciesPerk()
             {
                 Id = Guid.Parse("11110000-0000-0000-0000-000000000000"),
                 PlayerSpeciesId = Guid.Parse("22222222-1111-0000-0000-000000000000"),
                 PerkId = Guid.Parse("00000000-0000-1111-0000-000000000000"),
-            });
+            }); */
         }
     }
 }

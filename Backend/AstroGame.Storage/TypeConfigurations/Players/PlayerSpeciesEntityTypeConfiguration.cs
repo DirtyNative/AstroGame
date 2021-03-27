@@ -12,7 +12,7 @@ namespace AstroGame.Storage.TypeConfigurations.Players
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
 
             builder.HasOne(e => e.Player)
-                .WithOne(e => e.PlayerSpecies).HasForeignKey<Player>(e => e.PlayerSpeciesId);
+                .WithOne(e => e.PlayerSpecies).HasForeignKey<PlayerSpecies>(e => e.PlayerId);
 
             builder.HasOne(e => e.Species)
                 .WithMany(e => e.PlayerSpecies).HasForeignKey(e => e.SpeciesId);

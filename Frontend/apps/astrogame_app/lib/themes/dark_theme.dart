@@ -17,7 +17,7 @@ ThemeData darkTheme = new ThemeData(
       // A special header
       headline1: TextStyle(
         fontFamily: 'TTFirsNeue',
-        fontSize: 48,
+        fontSize: 36,
         fontWeight: FontWeight.w700,
         letterSpacing: 0.5,
         color: Colors.white,

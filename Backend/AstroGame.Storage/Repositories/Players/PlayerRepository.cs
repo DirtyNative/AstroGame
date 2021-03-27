@@ -90,9 +90,30 @@ namespace AstroGame.Storage.Repositories.Players
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Guid> AddAsync(Player player)
+        {
+            await _context.Players.AddAsync(player);
+            await _context.SaveChangesAsync();
+
+            return player.Id;
+        }
+
         public async Task<bool> ExistsAsync(Guid playerId)
         {
             return await _context.Players.AnyAsync(e => e.Id == playerId);
+        }
+
+        public async Task<bool> ExistsAsync(string email)
+        {
+            return await _context.Players
+                .Include(e => e.Credentials)
+                .AnyAsync(e => e.Credentials.Email == email);
+        }
+
+        public async Task<bool> UsernameExistsAsync(string username)
+        {
+            return await _context.Players
+                .AnyAsync(e => e.Username == username);
         }
 
         public Task DeleteAsync(Player entity)

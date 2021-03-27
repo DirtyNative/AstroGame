@@ -9,12 +9,12 @@ using AstroGame.Storage.Database;
 using AstroGame.Storage.Repositories.Resources;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
-using Microsoft.AspNetCore.Builder;
 
 namespace AstroGame.Api.Extensions
 {
