@@ -1,13 +1,13 @@
+import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:astrogame_app/views/menus/menu_entry.dart';
 import 'package:astrogame_app/views/menus/menu_item.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class MenuItemListing extends StatelessWidget {
   final ValueChanged<MenuEntry> itemSelectedCallback;
   final MenuEntry selectedItem;
 
-  final NavigationService navigationService;
+  final NavigationWrapper navigationService;
 
   MenuItemListing({
     @required this.navigationService,
@@ -25,6 +25,7 @@ class MenuItemListing extends StatelessWidget {
             icon: item.icon,
             label: item.label,
             isSelected: (navigationService.currentRoute == item.route),
+            //isSelected: name == item.route,
             onTap: () => itemSelectedCallback(item),
           );
         },

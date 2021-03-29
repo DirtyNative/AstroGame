@@ -1,5 +1,4 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:astrogame_app/models/resources/resource_manufaction.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,25 +14,15 @@ class InputResource {
   Guid resourceId;
 
   @JsonKey()
-  Guid outputMaterialId;
+  Guid buildingId;
 
   @JsonKey()
-  double inputValue;
-
-  //@JsonKey()
-  //Resource input;
+  double baseValue;
 
   @JsonKey()
-  ResourceManufaction output;
+  double multiplier;
 
-  InputResource(
-    this.id,
-    this.resourceId,
-    this.outputMaterialId,
-    this.inputValue,
-    //this.input,
-    this.output,
-  );
+  InputResource();
 
   factory InputResource.fromJson(Map<String, dynamic> json) =>
       _$InputResourceFromJson(json);

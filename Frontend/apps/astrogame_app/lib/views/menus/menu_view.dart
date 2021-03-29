@@ -3,6 +3,7 @@ import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/menus/menu_item_listing.dart';
 import 'package:astrogame_app/views/menus/menu_viewmodel.dart';
+import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -30,27 +31,26 @@ class MenuView extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FutureBuilder<ImageProvider>(
-              future: model.getSpeciesImageAsync(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Expanded(
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        image: DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: snapshot.data,
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Container(
-                      height: 200, child: CircularProgressIndicator());
-                }
-              }),
+          EnhancedFutureBuilder<ImageProvider>(
+            future: model.getSpeciesImageAsync(),
+            rememberFutureResult: true,
+            whenDone: (data) => Expanded(
+              child: Container(
+                height: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: DecorationImage(
+                    fit: BoxFit.fitHeight,
+                    image: data,
+                  ),
+                ),
+              ),
+            ),
+            whenNotDone: Container(
+              height: 200,
+              child: CircularProgressIndicator(),
+            ),
+          ),
           SizedBox(width: 16),
           Column(
             children: [

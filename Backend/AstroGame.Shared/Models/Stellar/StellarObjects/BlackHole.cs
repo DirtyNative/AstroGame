@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.Interfaces;
@@ -16,5 +17,6 @@ namespace AstroGame.Shared.Models.Stellar.StellarObjects
         }
 
         public List<StellarObjectResource> Resources { get; set; }
+        public override StellarObjectType StellarObjectType => StellarObjectType.BlackHole;
     }
 }

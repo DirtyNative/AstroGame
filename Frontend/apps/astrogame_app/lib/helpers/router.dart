@@ -1,6 +1,7 @@
 import 'package:astrogame_app/bags/show_planet_view_bag.dart';
 import 'package:astrogame_app/communications/dtos/add_player_species_request.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
+import 'package:astrogame_app/views/buildings/buildings_view.dart';
 import 'package:astrogame_app/views/login/login_view.dart';
 import 'package:astrogame_app/views/perk_selection/perk_selection_view.dart';
 import 'package:astrogame_app/views/planet/planet_view.dart';
@@ -24,8 +25,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       var requestDto = settings.arguments as AddPlayerSpeciesRequest;
       return MaterialPageRoute(builder: (_) => PerkSelectionView(requestDto));
 
-    case RoutePaths.StartRoute:
+    case RoutePaths.HomeRoute:
       return MaterialPageRoute(builder: (_) => StartView());
+
+    case RoutePaths.BuildingsRoute:
+      return MaterialPageRoute(builder: (_) => BuildingsView());
 
     case RoutePaths.PlanetViewRoute:
       var bag = settings.arguments as ShowPlanetViewBag;

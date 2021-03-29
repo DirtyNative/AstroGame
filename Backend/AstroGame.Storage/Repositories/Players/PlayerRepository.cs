@@ -1,11 +1,11 @@
-﻿using AstroGame.Shared.Models.Players;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AspNetCore.ServiceRegistration.Dynamic;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Shared.Models.Players;
 using AstroGame.Storage.Database;
 using AstroGame.Storage.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AstroGame.Storage.Repositories.Players
 {

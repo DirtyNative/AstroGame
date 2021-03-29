@@ -1,6 +1,6 @@
 ﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace AstroGame.Shared.Models.Resources
 {

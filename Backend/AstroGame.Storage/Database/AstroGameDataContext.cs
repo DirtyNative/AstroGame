@@ -1,5 +1,6 @@
 ﻿using AstroGame.Core.Extensions;
 using AstroGame.Core.Structs;
+using AstroGame.Shared.Models.Buildings;
 using AstroGame.Shared.Models.Players;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
@@ -44,6 +45,8 @@ namespace AstroGame.Storage.Database
         public DbSet<PlayerSpecies> PlayerSpecies { get; set; }
         public DbSet<Perk> Perks { get; set; }
         public DbSet<PlayerSpeciesPerk> PlayerSpeciesPerks { get; set; }
+
+        public DbSet<Building> Buildings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

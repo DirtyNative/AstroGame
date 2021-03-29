@@ -4,8 +4,8 @@ import 'package:astrogame_app/communications/repositories/player_species_reposit
 import 'package:astrogame_app/helpers/dialog_helper.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/providers/player_provider.dart';
+import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 @injectable
 class SetPlayersSpeciesExecuter {
@@ -15,7 +15,7 @@ class SetPlayersSpeciesExecuter {
   PlayerProvider _playerProvider;
 
   DialogHelper _dialogHelper;
-  NavigationService _navigationService;
+  NavigationWrapper _navigationService;
 
   SetPlayersSpeciesExecuter(
     this._playerRepository,
@@ -52,7 +52,7 @@ class SetPlayersSpeciesExecuter {
 
     _dialogHelper.dismissDialog();
 
-    _navigationService.clearStackAndShow(RoutePaths.StartRoute);
+    _navigationService.clearStackAndShow(RoutePaths.HomeRoute);
 
     return true;
   }

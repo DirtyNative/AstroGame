@@ -1,7 +1,6 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/models/resources/stellar_object_resource.dart';
-import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'element_type.dart';
 
@@ -16,19 +15,7 @@ class Element extends Resource {
   @JsonKey()
   ElementType type;
 
-  Element(
-    Guid id,
-    String name,
-    int naturalOccurrenceWeight,
-    List<StellarObjectResource> stellarObjectResources,
-    this.symbol,
-    this.type,
-  ) : super(
-          id,
-          name,
-          naturalOccurrenceWeight,
-          stellarObjectResources,
-        );
+  Element();
 
   factory Element.fromJson(Map<String, dynamic> json) =>
       _$ElementFromJson(json);

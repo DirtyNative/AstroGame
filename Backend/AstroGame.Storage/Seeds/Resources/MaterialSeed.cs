@@ -17,7 +17,6 @@ namespace AstroGame.Storage.Seeds.Resources
                     Name = "Water",
                     Type = MaterialType.Consumables,
                     NaturalOccurrenceWeight = 1,
-                    ManufactionId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new Material()
                 {
@@ -74,13 +73,6 @@ namespace AstroGame.Storage.Seeds.Resources
                 },
 
                 // Building
-                new Material()
-                {
-                    Id = Guid.Parse("00000000-3333-1111-0000-000000000001"),
-                    Name = "Hardened Iron",
-                    Type = MaterialType.Building,
-                    NaturalOccurrenceWeight = 0,
-                },
                 new Material()
                 {
                     Id = Guid.Parse("00000000-3333-1111-0000-000000000002"),

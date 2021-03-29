@@ -14,7 +14,12 @@ final menuEntries = <MenuEntry>[
   MenuEntry(
     label: 'Home',
     icon: Icons.home,
-    route: RoutePaths.StartRoute,
+    route: RoutePaths.HomeRoute,
+  ),
+  MenuEntry(
+    label: 'Buildings',
+    icon: Icons.home,
+    route: RoutePaths.BuildingsRoute,
   ),
   MenuEntry(
     label: 'Systems',

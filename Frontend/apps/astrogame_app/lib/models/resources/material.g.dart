@@ -7,22 +7,16 @@ part of 'material.dart';
 // **************************************************************************
 
 Material _$MaterialFromJson(Map<String, dynamic> json) {
-  return Material(
-    const GuidConverter().fromJson(json['id'] as String),
-    json['name'] as String,
-    json['naturalOccurrenceWeight'] as int,
-    (json['stellarObjectResources'] as List)
+  return Material()
+    ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..naturalOccurrenceWeight = json['naturalOccurrenceWeight'] as int
+    ..stellarObjectResources = (json['stellarObjectResources'] as List)
         ?.map((e) => e == null
             ? null
             : StellarObjectResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    _$enumDecodeNullable(_$MaterialTypeEnumMap, json['type']),
-    const GuidConverter().fromJson(json['manufactionId'] as String),
-    json['manufaction'] == null
-        ? null
-        : ResourceManufaction.fromJson(
-            json['manufaction'] as Map<String, dynamic>),
-  );
+        ?.toList()
+    ..type = _$enumDecodeNullable(_$MaterialTypeEnumMap, json['type']);
 }
 
 Map<String, dynamic> _$MaterialToJson(Material instance) => <String, dynamic>{
@@ -31,8 +25,6 @@ Map<String, dynamic> _$MaterialToJson(Material instance) => <String, dynamic>{
       'naturalOccurrenceWeight': instance.naturalOccurrenceWeight,
       'stellarObjectResources': instance.stellarObjectResources,
       'type': _$MaterialTypeEnumMap[instance.type],
-      'manufactionId': const GuidConverter().toJson(instance.manufactionId),
-      'manufaction': instance.manufaction,
     };
 
 T _$enumDecode<T>(

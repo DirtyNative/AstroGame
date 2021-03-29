@@ -28,7 +28,7 @@ class _State extends State<ScaffoldBase> {
             ),
             child: Stack(
               children: [
-                Expanded(child: widget.body),
+                widget.body,
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: widget.viewModel.isBusy ? 1 : 0,

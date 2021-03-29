@@ -18,6 +18,9 @@ namespace AstroGame.Shared.Models.Players
         /// </summary>
         public PlanetType PreferredPlanetType { get; set; }
 
+        /// <summary>
+        /// The perks that species has
+        /// </summary>
         public List<PlayerSpeciesPerk> Perks { get; set; }
 
         [JsonIgnore] public Player Player { get; set; }

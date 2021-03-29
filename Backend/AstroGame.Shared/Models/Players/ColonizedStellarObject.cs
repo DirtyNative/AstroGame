@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using AstroGame.Shared.Models.Buildings;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
+using Newtonsoft.Json;
 
 namespace AstroGame.Shared.Models.Players
 {
@@ -14,7 +17,9 @@ namespace AstroGame.Shared.Models.Players
 
         // Built Buildings
 
-        public Player Player { get; set; }
+        [JsonIgnore] public Player Player { get; set; }
         public ColonizableStellarObject ColonizableStellarObject { get; set; }
+
+        public List<BuiltBuilding> BuiltBuildings { get; set; }
     }
 }

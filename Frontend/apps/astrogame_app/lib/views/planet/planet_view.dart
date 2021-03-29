@@ -1,11 +1,11 @@
 import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
+import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:astrogame_app/views/planet/planet_viewmodel.dart';
 import 'package:astrogame_app/widgets/glass_container.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class PlanetView extends StatelessWidget {
   final Planet _planet;
@@ -59,7 +59,7 @@ class PlanetView extends StatelessWidget {
         ),
       ),
       viewModelBuilder: () =>
-          new PlanetViewModel(getIt.get<NavigationService>(), _planet),
+          new PlanetViewModel(getIt.get<NavigationWrapper>(), _planet),
     );
   }
 

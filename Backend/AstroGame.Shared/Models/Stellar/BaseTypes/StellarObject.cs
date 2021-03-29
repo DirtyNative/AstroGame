@@ -1,6 +1,7 @@
 ﻿using AstroGame.Core.Structs;
 using Newtonsoft.Json;
 using System;
+using AstroGame.Shared.Enums;
 
 namespace AstroGame.Shared.Models.Stellar.BaseTypes
 {
@@ -18,6 +19,8 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
             ParentSystem = parentSystem;
             ParentSystemId = parentSystem.Id;
         }
+
+        public abstract StellarObjectType StellarObjectType { get; }
 
         public StellarSystem ParentSystem { get; set; }
         public Guid ParentSystemId { get; set; }

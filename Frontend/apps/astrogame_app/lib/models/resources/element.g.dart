@@ -7,18 +7,17 @@ part of 'element.dart';
 // **************************************************************************
 
 Element _$ElementFromJson(Map<String, dynamic> json) {
-  return Element(
-    const GuidConverter().fromJson(json['id'] as String),
-    json['name'] as String,
-    json['naturalOccurrenceWeight'] as int,
-    (json['stellarObjectResources'] as List)
+  return Element()
+    ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..naturalOccurrenceWeight = json['naturalOccurrenceWeight'] as int
+    ..stellarObjectResources = (json['stellarObjectResources'] as List)
         ?.map((e) => e == null
             ? null
             : StellarObjectResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['symbol'] as String,
-    _$enumDecodeNullable(_$ElementTypeEnumMap, json['type']),
-  );
+        ?.toList()
+    ..symbol = json['symbol'] as String
+    ..type = _$enumDecodeNullable(_$ElementTypeEnumMap, json['type']);
 }
 
 Map<String, dynamic> _$ElementToJson(Element instance) => <String, dynamic>{

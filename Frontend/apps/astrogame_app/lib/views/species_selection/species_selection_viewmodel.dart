@@ -2,15 +2,15 @@ import 'package:astrogame_app/communications/dtos/add_player_species_request.dar
 import 'package:astrogame_app/communications/repositories/species_repository.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/players/species.dart';
+import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 @injectable
 class SpeciesSelectionViewModel extends FutureViewModel<List<Species>> {
-  NavigationService _navigationService;
+  NavigationWrapper _navigationService;
 
   SpeciesRepository _speciesRepository;
 

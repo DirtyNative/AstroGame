@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net;
 using AstroGame.Api.Services;
 
 namespace AstroGame.Api
@@ -29,6 +30,8 @@ namespace AstroGame.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
+
             services.AddControllers();
             services
                 //.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>()

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 
 import '../server_connection.dart';
 import '../server_error.dart';
@@ -13,19 +14,23 @@ import '../server_response.dart';
 
 @injectable
 class StellarObjectRepository {
+  Logger _logger;
+
   StellarObjectApi _stellarObjectApi;
 
   ServerConnection _serverConnection;
 
-  StellarObjectRepository(Dio dio, this._serverConnection) {
+  StellarObjectRepository(Dio dio, this._logger, this._serverConnection) {
     _stellarObjectApi = new StellarObjectApi(dio);
   }
 
   Future<ServerResponseT<StellarObject>> getAsync(Guid id) async {
     try {
-      var solarSystem = await _stellarObjectApi.getAsync(id: id);
+      _logger.d('Get StellarObject');
 
-      return ServerResponseT()..data = solarSystem;
+      var stellarObject = await _stellarObjectApi.getAsync(id: id);
+
+      return ServerResponseT()..data = stellarObject;
     } catch (error) {
       return ServerResponseT()..error = ServerError.withError(error: error);
     }
@@ -35,6 +40,8 @@ class StellarObjectRepository {
     @required Guid stellarObjectId,
   }) async {
     try {
+      _logger.d('Get StellarObject image');
+
       var httpHeaderProvider = ServiceLocator.get<HttpHeaderProvider>();
 
       return ServerResponseT()

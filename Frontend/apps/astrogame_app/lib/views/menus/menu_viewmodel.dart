@@ -1,15 +1,15 @@
 import 'package:astrogame_app/communications/repositories/species_repository.dart';
 import 'package:astrogame_app/providers/player_provider.dart';
+import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import 'menu_entry.dart';
 
 @injectable
 class MenuViewModel extends BaseViewModel {
-  NavigationService _navigationService;
+  NavigationWrapper _navigationService;
 
   SpeciesRepository _speciesRepository;
   PlayerProvider _playerProvider;

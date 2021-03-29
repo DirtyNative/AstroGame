@@ -86,7 +86,7 @@ namespace AstroGame.Storage.Seeds.Resources
                 new Element()
                 {
                     Id = Guid.Parse("00000000-1111-0000-0000-000000000010"),
-                    Name = "Aluminium",
+                    Name = "Aluminum",
                     Symbol = "Al",
                     Type = ElementType.Metals,
                     NaturalOccurrenceWeight = 1

@@ -17,10 +17,5 @@ abstract class Resource {
   @JsonKey()
   List<StellarObjectResource> stellarObjectResources;
 
-  Resource(
-    this.id,
-    this.name,
-    this.naturalOccurrenceWeight,
-    this.stellarObjectResources,
-  );
+  Resource();
 }

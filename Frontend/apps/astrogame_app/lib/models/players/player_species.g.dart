@@ -14,6 +14,11 @@ PlayerSpecies _$PlayerSpeciesFromJson(Map<String, dynamic> json) {
     ..empireName = json['empireName'] as String
     ..preferredPlanetType =
         _$enumDecodeNullable(_$PlanetTypeEnumMap, json['preferredPlanetType'])
+    ..perks = (json['perks'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PlayerSpeciesPerk.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..species = json['species'] == null
         ? null
         : Species.fromJson(json['species'] as Map<String, dynamic>);
@@ -26,6 +31,7 @@ Map<String, dynamic> _$PlayerSpeciesToJson(PlayerSpecies instance) =>
       'speciesId': const GuidConverter().toJson(instance.speciesId),
       'empireName': instance.empireName,
       'preferredPlanetType': _$PlanetTypeEnumMap[instance.preferredPlanetType],
+      'perks': instance.perks,
       'species': instance.species,
     };
 

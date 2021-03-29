@@ -1,9 +1,9 @@
 import 'package:astrogame_app/models/stellar/stellar_objects/planet.dart';
+import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class PlanetViewModel extends BaseViewModel {
-  NavigationService _navigationService;
+  NavigationWrapper _navigationService;
 
   Planet _planet;
   Planet get planet => _planet;

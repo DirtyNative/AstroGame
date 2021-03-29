@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCore.ServiceRegistration.Dynamic;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Storage.Database;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AstroGame.Storage.Repositories.Resources
 {
@@ -22,27 +22,18 @@ namespace AstroGame.Storage.Repositories.Resources
         public async Task<Resource> GetAsync(Guid id)
         {
             return await _context.Resources
-                .Include(e => (e as Material).Manufaction)
-                .ThenInclude(e => e.InputResources)
-                .ThenInclude(e => e.Input)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<List<Resource>> GetAsync()
         {
             return await _context.Resources
-                .Include(e => (e as Material).Manufaction)
-                .ThenInclude(e => e.InputResources)
-                .ThenInclude(e => e.Input)
                 .ToListAsync();
         }
 
         public List<Resource> Get()
         {
             return _context.Resources
-                .Include(e => (e as Material).Manufaction)
-                .ThenInclude(e => e.InputResources)
-                .ThenInclude(e => e.Input)
                 .ToList();
         }
 

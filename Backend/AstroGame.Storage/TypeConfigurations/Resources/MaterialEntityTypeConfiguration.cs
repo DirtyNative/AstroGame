@@ -11,9 +11,6 @@ namespace AstroGame.Storage.TypeConfigurations.Resources
             builder.ToTable("Materials");
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
             builder.HasBaseType<Resource>();
-
-            builder.HasOne(e => e.Manufaction)
-                .WithOne(e => e.OutputMaterial).HasForeignKey<Material>(e => e.ManufactionId);
         }
     }
 }

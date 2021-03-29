@@ -21,18 +21,12 @@ namespace AstroGame.Storage.Repositories.Resources
         public async Task<Material> GetAsync(Guid id)
         {
             return await _context.Materials
-                .Include(e => e.Manufaction)
-                .ThenInclude(e => e.InputResources)
-                .ThenInclude(e => e.Input)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<List<Material>> GetAsync()
         {
             return await _context.Materials
-                .Include(e => e.Manufaction)
-                .ThenInclude(e => e.InputResources)
-                .ThenInclude(e => e.Input)
                 .ToListAsync();
         }
 

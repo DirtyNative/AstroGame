@@ -1,12 +1,18 @@
 import 'package:astrogame_app/communications/interceptors/header_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:logger/logger.dart';
 
 @module
 abstract class ServicesModule {
-  @lazySingleton
-  NavigationService get navigationService;
+  //@singleton
+  //NavigationService get navigationService;
+
+  @singleton
+  Logger get logger => Logger(
+        printer: PrettyPrinter(),
+        level: Level.error,
+      );
 
   @injectable
   Dio dio(HeaderInterceptor headerInterceptor) =>
