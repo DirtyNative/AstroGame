@@ -66,7 +66,7 @@ class LoginExecuter {
       return true;
     }
 
-    _navigationService.clearStackAndShow(RoutePaths.HomeRoute);
+    _navigationService.clearStackAndShow(RoutePaths.MainShellRoute);
 
     return true;
   }

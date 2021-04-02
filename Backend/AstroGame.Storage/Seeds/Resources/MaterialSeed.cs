@@ -1,7 +1,7 @@
-﻿using System;
-using AstroGame.Shared.Models.Resources;
+﻿using AstroGame.Shared.Models.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace AstroGame.Storage.Seeds.Resources
 {
@@ -109,7 +109,14 @@ namespace AstroGame.Storage.Seeds.Resources
                 {
                     Id = Guid.Parse("00000000-5555-1111-0000-000000000001"),
                     Name = "Dark matter",
-                    Type = MaterialType.Building,
+                    Type = MaterialType.Fuels,
+                    NaturalOccurrenceWeight = 0,
+                },
+                new Material()
+                {
+                    Id = Guid.Parse("00000000-5555-1111-0000-000000000002"),
+                    Name = "Antimatter",
+                    Type = MaterialType.Fuels,
                     NaturalOccurrenceWeight = 0,
                 }
             );

@@ -35,7 +35,9 @@ class MenuViewModel extends BaseViewModel {
       return;
     }
 
-    _navigationService.navigateTo(item.route);
+    _navigationService.navigateSubTo(item.route);
+    notifyListeners();
+    //_navigationService.navigateTo(item.route);
   }
 
   Future<ImageProvider> getSpeciesImageAsync() async {

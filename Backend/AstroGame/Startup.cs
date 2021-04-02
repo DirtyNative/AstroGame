@@ -30,6 +30,7 @@ namespace AstroGame.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: Check if that helps anything
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
 
             services.AddControllers();
@@ -40,7 +41,7 @@ namespace AstroGame.Api
                 .RegisterServiceApis(Configuration)
                 .ConfigureAutoMapper();
 
-            //services.AddHostedService<SolarSystemGeneratorService>();
+            services.AddHostedService<SolarSystemGeneratorService>();
 
             services.AddMvc().AddNewtonsoftJson(options =>
             {

@@ -34,11 +34,14 @@ namespace AstroGame.Storage.Database
         public DbSet<SolarSystem> SolarSystems { get; set; }
         public DbSet<MultiObjectSystem> MultiObjectSystems { get; set; }
         public DbSet<StellarSystem> StellarSystems { get; set; }
+        public DbSet<ColonizedStellarObject> ColonizedStellarObjects { get; set; }
 
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Element> Elements { get; set; }
         public DbSet<StellarObjectResource> StellarObjectResources { get; set; }
+        public DbSet<StoredResource> StoredResources { get; set; }
+        public DbSet<ResourceSnapshot> ResourceSnapshots { get; set; }
 
         public DbSet<Player> Players { get; set; }
         public DbSet<Species> Species { get; set; }
@@ -47,6 +50,9 @@ namespace AstroGame.Storage.Database
         public DbSet<PlayerSpeciesPerk> PlayerSpeciesPerks { get; set; }
 
         public DbSet<Building> Buildings { get; set; }
+        public DbSet<ProductionBuilding> ProductionBuildings { get; set; }
+        public DbSet<StorageBuilding> StorageBuildings { get; set; }
+        public DbSet<BuiltBuilding> BuiltBuildings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

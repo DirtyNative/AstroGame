@@ -29,21 +29,21 @@ final menuEntries = <MenuEntry>[
   MenuEntry(
     label: 'Species',
     icon: Icons.system_update,
-    route: RoutePaths.SystemViewRoute,
+    route: RoutePaths.NotImplementedRoute,
   ),
   MenuEntry(
     label: 'Empire',
     icon: Icons.system_update,
-    route: RoutePaths.SystemViewRoute,
+    route: RoutePaths.NotImplementedRoute,
   ),
   MenuEntry(
     label: 'Contacts',
     icon: Icons.system_update,
-    route: RoutePaths.SystemViewRoute,
+    route: RoutePaths.NotImplementedRoute,
   ),
   MenuEntry(
     label: 'Alliance',
     icon: Icons.system_update,
-    route: RoutePaths.SystemViewRoute,
+    route: RoutePaths.NotImplementedRoute,
   ),
 ];

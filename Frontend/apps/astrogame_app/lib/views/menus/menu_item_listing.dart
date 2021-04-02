@@ -24,8 +24,7 @@ class MenuItemListing extends StatelessWidget {
           return MenuItem(
             icon: item.icon,
             label: item.label,
-            isSelected: (navigationService.currentRoute == item.route),
-            //isSelected: name == item.route,
+            isSelected: (navigationService.currentSubRoute == item.route),
             onTap: () => itemSelectedCallback(item),
           );
         },

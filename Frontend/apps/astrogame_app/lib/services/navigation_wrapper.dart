@@ -1,3 +1,6 @@
+import 'package:astrogame_app/helpers/route_paths.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -5,8 +8,12 @@ import 'package:stacked_services/stacked_services.dart';
 class NavigationWrapper {
   NavigationService _navigationService;
 
+  final GlobalKey subWidgetNavigationKey = new GlobalKey();
+
   String _currentRoute;
   String _previousRoute;
+
+  String _currentSubRoute = RoutePaths.HomeRoute;
 
   NavigationWrapper() {
     _navigationService = new NavigationService();
@@ -15,12 +22,21 @@ class NavigationWrapper {
   String get currentRoute => _currentRoute;
   String get previousRoute => _previousRoute;
 
+  String get currentSubRoute => _currentSubRoute;
+
   /// Pushes [routeName] onto the navigation stack
   Future<dynamic> navigateTo(String routeName, {dynamic arguments, int id}) {
     _previousRoute = _currentRoute;
     _currentRoute = routeName;
     return _navigationService.navigateTo(routeName,
         arguments: arguments, id: id);
+  }
+
+  dynamic navigateSubTo(String routeName, {dynamic arguments}) {
+    _currentSubRoute = routeName;
+
+    return Navigator.of(subWidgetNavigationKey.currentContext)
+        .pushNamed(routeName, arguments: arguments);
   }
 
   /// Clears the entire back stack and shows [routeName]

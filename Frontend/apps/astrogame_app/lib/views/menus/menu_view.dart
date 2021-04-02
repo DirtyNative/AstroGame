@@ -28,8 +28,7 @@ class MenuView extends StatelessWidget {
   Widget _header(BuildContext context, MenuViewModel model) {
     return Container(
       padding: EdgeInsets.all(16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
           EnhancedFutureBuilder<ImageProvider>(
             future: model.getSpeciesImageAsync(),
@@ -68,7 +67,7 @@ class MenuView extends StatelessWidget {
   Widget _content(BuildContext context, MenuViewModel model) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(left: 0, right: 16),
         child: MenuItemListing(
           navigationService: getIt.get(),
           selectedItem: model.selectedItem,

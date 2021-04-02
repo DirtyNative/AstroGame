@@ -2,19 +2,20 @@ import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/controls/gradient_button.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/solar_system/solar_system_view.dart';
+import 'package:astrogame_app/widgets/scaffold_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
 import 'start_viewmodel.dart';
-import 'package:astrogame_app/widgets/scaffold_base.dart';
 
 class StartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartViewModel>.reactive(
       builder: (context, model, _) => ScaffoldBase(
-        viewModel: model,
+        //viewModel: model,
         body: Container(
+          color: AstroGameColors.mediumGrey,
           padding: EdgeInsets.all(32),
           child: Column(
             children: [

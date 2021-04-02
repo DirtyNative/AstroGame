@@ -8,6 +8,22 @@ namespace AstroGame.Storage.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Buildings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssetName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    BuildableOn = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Buildings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Perks",
                 columns: table => new
                 {
@@ -75,6 +91,40 @@ namespace AstroGame.Storage.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductionBuildings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductionBuildings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductionBuildings_Buildings_Id",
+                        column: x => x.Id,
+                        principalTable: "Buildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StorageBuildings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StorageBuildings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StorageBuildings_Buildings_Id",
+                        column: x => x.Id,
+                        principalTable: "Buildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ColonizedStellarObjects",
                 columns: table => new
                 {
@@ -116,6 +166,33 @@ namespace AstroGame.Storage.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BuildingCosts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuildingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BaseValue = table.Column<double>(type: "float", nullable: false),
+                    Multiplier = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BuildingCosts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BuildingCosts_Buildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "Buildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BuildingCosts_Resources_ResourceId",
+                        column: x => x.ResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Elements",
                 columns: table => new
                 {
@@ -139,8 +216,7 @@ namespace AstroGame.Storage.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    ManufactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,20 +257,81 @@ namespace AstroGame.Storage.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResourceManufactions",
+                name: "InputResources",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
-                    OutputMaterialId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OutputValue = table.Column<double>(type: "float", nullable: false)
+                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuildingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BaseValue = table.Column<double>(type: "float", nullable: false),
+                    Multiplier = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResourceManufactions", x => x.Id);
+                    table.PrimaryKey("PK_InputResources", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ResourceManufactions_Materials_OutputMaterialId",
-                        column: x => x.OutputMaterialId,
-                        principalTable: "Materials",
+                        name: "FK_InputResources_ProductionBuildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "ProductionBuildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InputResources_Resources_ResourceId",
+                        column: x => x.ResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OutputResources",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuildingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BaseValue = table.Column<double>(type: "float", nullable: false),
+                    Multiplier = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OutputResources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OutputResources_ProductionBuildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "ProductionBuildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OutputResources_Resources_ResourceId",
+                        column: x => x.ResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BuiltBuildings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    BuildingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ColonizedStellarObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BuiltBuildings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BuiltBuildings_Buildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "Buildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BuiltBuildings_ColonizedStellarObjects_ColonizedStellarObjectId",
+                        column: x => x.ColonizedStellarObjectId,
+                        principalTable: "ColonizedStellarObjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -220,32 +357,6 @@ namespace AstroGame.Storage.Migrations
                         name: "FK_PlayerSpeciesPerks_PlayerSpecies_PlayerSpeciesId",
                         column: x => x.PlayerSpeciesId,
                         principalTable: "PlayerSpecies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InputResources",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
-                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OutputMaterialId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InputValue = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InputResources", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InputResources_ResourceManufactions_OutputMaterialId",
-                        column: x => x.OutputMaterialId,
-                        principalTable: "ResourceManufactions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InputResources_Resources_ResourceId",
-                        column: x => x.ResourceId,
-                        principalTable: "Resources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -457,6 +568,25 @@ namespace AstroGame.Storage.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ResourceSnapshots",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    StellarObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SnapshotTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResourceSnapshots", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ResourceSnapshots_StellarObjects_StellarObjectId",
+                        column: x => x.StellarObjectId,
+                        principalTable: "StellarObjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stars",
                 columns: table => new
                 {
@@ -476,15 +606,51 @@ namespace AstroGame.Storage.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "StoredResources",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResourceSnapshotId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoredResources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StoredResources_Resources_ResourceId",
+                        column: x => x.ResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StoredResources_ResourceSnapshots_ResourceSnapshotId",
+                        column: x => x.ResourceSnapshotId,
+                        principalTable: "ResourceSnapshots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
-                table: "Perks",
-                columns: new[] { "Id", "BuildingSpeedMultiplier", "Description", "Title" },
-                values: new object[] { new Guid("00000000-0000-1111-0000-6712d7115748"), 0.90000000000000002, "Building big constructs is a no-brainer for your species.", "Fast builder" });
+                table: "Buildings",
+                columns: new[] { "Id", "AssetName", "BuildableOn", "Description", "Name", "Order" },
+                values: new object[,]
+                {
+                    { new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"), "2.jpg", 2, "Produces the most basic building material ever seen in space.. But we all need it everywhere.", "Iron Mine", 1 },
+                    { new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"), "6.jpg", 2, "Extracts Hydrogen molecules from within the atmosphere to produce an industrial product.", "Hydrogen Extractor", 2 },
+                    { new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"), "7.jpg", 2, "We need silicon to produce electronics which we need for quiet all of our constructs.", "Silicon Mine", 3 },
+                    { new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"), "9.jpg", 2, "Helium is one of the most important parts to generate fuels.", "Helium Extractor", 4 },
+                    { new Guid("44517245-cb20-4324-a275-4d8642207ad4"), "11.jpg", 2, "TODO", "Aluminum smelting plant", 4 },
+                    { new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"), "17.jpg", 2, "TODO", "Titanium Mine", 4 },
+                    { new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"), "18.jpg", 2, "TODO", "Iridium Mine", 4 },
+                    { new Guid("f09e72d5-28d8-4390-bdf5-3b589b61fc15"), "19.jpg", 2, "TODO", "Iron Store", 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Perks",
-                columns: new[] { "Id", "BiologicalResearchSpeedMultiplier", "Description", "Title" },
-                values: new object[] { new Guid("00000000-0000-1111-0000-dadcd19d28e3"), 0.84999999999999998, "Your species loves to inspect other creatures, and so does with species from other planets.", "Natural Sociologists" });
+                columns: new[] { "Id", "BiologicalResearchSpeedMultiplier", "Description", "EngineersResearchSpeedMultiplier", "PhysicsResearchSpeedMultiplier", "Title" },
+                values: new object[] { new Guid("00000000-0000-1111-0000-326db14a91f9"), 0.94999999999999996, "\"We're good at everything, but not with something specific.\" Well..", 0.94999999999999996, 0.94999999999999996, "Intelligent" });
 
             migrationBuilder.InsertData(
                 table: "Perks",
@@ -498,8 +664,13 @@ namespace AstroGame.Storage.Migrations
 
             migrationBuilder.InsertData(
                 table: "Perks",
-                columns: new[] { "Id", "BiologicalResearchSpeedMultiplier", "Description", "EngineersResearchSpeedMultiplier", "PhysicsResearchSpeedMultiplier", "Title" },
-                values: new object[] { new Guid("00000000-0000-1111-0000-326db14a91f9"), 0.94999999999999996, "\"We're good at everything, but not with something specific.\" Well..", 0.94999999999999996, 0.94999999999999996, "Intelligent" });
+                columns: new[] { "Id", "BuildingSpeedMultiplier", "Description", "Title" },
+                values: new object[] { new Guid("00000000-0000-1111-0000-6712d7115748"), 0.90000000000000002, "Building big constructs is a no-brainer for your species.", "Fast builder" });
+
+            migrationBuilder.InsertData(
+                table: "Perks",
+                columns: new[] { "Id", "BiologicalResearchSpeedMultiplier", "Description", "Title" },
+                values: new object[] { new Guid("00000000-0000-1111-0000-dadcd19d28e3"), 0.84999999999999998, "Your species loves to inspect other creatures, and so does with species from other planets.", "Natural Sociologists" });
 
             migrationBuilder.InsertData(
                 table: "Players",
@@ -511,6 +682,7 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "Name", "NaturalOccurrenceWeight" },
                 values: new object[,]
                 {
+                    { new Guid("00000000-1111-0000-0000-000000000012"), "Phosphorus", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000019"), "Copper", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000018"), "Nickel", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000017"), "Cobalt", 1L },
@@ -518,35 +690,26 @@ namespace AstroGame.Storage.Migrations
                     { new Guid("00000000-1111-0000-0000-000000000015"), "Titanium", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000014"), "Chlorine", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000013"), "Sulfur", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000012"), "Phosphorus", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000011"), "Silicon", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000008"), "Oxygen", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000004"), "Beryllium", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000009"), "Magnesium", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000020"), "Zinc", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000008"), "Oxygen", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000007"), "Nitrogen", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000006"), "Carbon", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000005"), "Boron", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000004"), "Beryllium", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000020"), "Zinc", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000003"), "Lithium", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000002"), "Helium", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000010"), "Aluminium", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000010"), "Aluminum", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000021"), "Gallium", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000024"), "Silver", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000028"), "Gold", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000023"), "Palladium", 1L },
+                    { new Guid("00000000-4444-1111-0000-000000000002"), "Nano alloys", 0L },
                     { new Guid("00000000-4444-1111-0000-000000000001"), "Reactive alloys", 0L },
                     { new Guid("00000000-3333-1111-0000-000000000003"), "Nanites", 0L },
                     { new Guid("00000000-3333-1111-0000-000000000002"), "Steel", 0L },
-                    { new Guid("00000000-3333-1111-0000-000000000001"), "Hardened Iron", 0L },
                     { new Guid("00000000-2222-1111-0000-000000000002"), "Tritium", 1L },
-                    { new Guid("00000000-2222-1111-0000-000000000001"), "Deuterium", 1L },
-                    { new Guid("00000000-1111-1111-0000-000000000003"), "Supra conductors", 1L },
-                    { new Guid("00000000-1111-1111-0000-000000000002"), "Conductive Components", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000022"), "Germanium", 1L },
-                    { new Guid("00000000-1111-1111-0000-000000000001"), "Conductive Components", 1L },
-                    { new Guid("00000000-0000-1111-0000-000000000002"), "Food", 1L },
-                    { new Guid("00000000-0000-1111-0000-000000000001"), "Water", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000029"), "Plutonium", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000028"), "Gold", 1L }
+                    { new Guid("00000000-2222-1111-0000-000000000001"), "Deuterium", 1L }
                 });
 
             migrationBuilder.InsertData(
@@ -554,13 +717,21 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "Name", "NaturalOccurrenceWeight" },
                 values: new object[,]
                 {
+                    { new Guid("00000000-1111-1111-0000-000000000003"), "Supra conductors", 1L },
+                    { new Guid("00000000-1111-1111-0000-000000000002"), "Conductive Components", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000022"), "Germanium", 1L },
+                    { new Guid("00000000-1111-1111-0000-000000000001"), "Conductive Components", 1L },
+                    { new Guid("00000000-0000-1111-0000-000000000002"), "Food", 1L },
+                    { new Guid("00000000-0000-1111-0000-000000000001"), "Water", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000029"), "Plutonium", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000001"), "Hydrogen", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000027"), "Platinum", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000026"), "Iridium", 1L },
                     { new Guid("00000000-1111-0000-0000-000000000025"), "Tin", 1L },
-                    { new Guid("00000000-1111-0000-0000-000000000001"), "Hydrogen", 1L },
+                    { new Guid("00000000-1111-0000-0000-000000000024"), "Silver", 1L },
                     { new Guid("00000000-0000-1111-0000-000000000003"), "Luxury Goods", 1L },
-                    { new Guid("00000000-4444-1111-0000-000000000002"), "Nano alloys", 0L },
-                    { new Guid("00000000-5555-1111-0000-000000000001"), "Dark matter", 0L }
+                    { new Guid("00000000-5555-1111-0000-000000000001"), "Dark matter", 0L },
+                    { new Guid("00000000-5555-1111-0000-000000000002"), "Antimatter", 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -594,15 +765,7 @@ namespace AstroGame.Storage.Migrations
                     { new Guid("22222222-2222-0000-0005-331a6a65c25a"), "Necroids_12_portrait_green.png", 7 },
                     { new Guid("22222222-2222-0000-0005-ea5d9cd4c132"), "Necroids_13_portrait_blue.png", 7 },
                     { new Guid("22222222-2222-0000-0005-f164258d5e8f"), "Necroids_14_portrait_blue.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-b193d0a19107"), "Necroids_15_portrait_grey.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-3278ace6f46b"), "Necroids_machine_portrait_red.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-2f31841ab4c8"), "Plantoid_01.png", 8 },
-                    { new Guid("22222222-2222-0000-0005-b5380a53a13b"), "Plantoid_02.png", 8 },
-                    { new Guid("22222222-2222-0000-0005-4725dd08e0a4"), "Plantoid_03.png", 8 },
-                    { new Guid("22222222-2222-0000-0005-6d781b55eafa"), "Plantoid_04.png", 8 },
-                    { new Guid("22222222-2222-0000-0005-e7642dc2baef"), "Plantoid_05.png", 8 },
-                    { new Guid("22222222-2222-0000-0005-8f57c287cbc1"), "Plantoid_06.png", 8 },
-                    { new Guid("22222222-2222-0000-0005-be709b1b6b50"), "Plantoid_07.png", 8 }
+                    { new Guid("22222222-2222-0000-0005-b193d0a19107"), "Necroids_15_portrait_grey.png", 7 }
                 });
 
             migrationBuilder.InsertData(
@@ -610,6 +773,14 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "AssetName", "SpeciesType" },
                 values: new object[,]
                 {
+                    { new Guid("22222222-2222-0000-0005-3278ace6f46b"), "Necroids_machine_portrait_red.png", 7 },
+                    { new Guid("22222222-2222-0000-0005-2f31841ab4c8"), "Plantoid_01.png", 8 },
+                    { new Guid("22222222-2222-0000-0005-b5380a53a13b"), "Plantoid_02.png", 8 },
+                    { new Guid("22222222-2222-0000-0005-4725dd08e0a4"), "Plantoid_03.png", 8 },
+                    { new Guid("22222222-2222-0000-0005-6d781b55eafa"), "Plantoid_04.png", 8 },
+                    { new Guid("22222222-2222-0000-0005-e7642dc2baef"), "Plantoid_05.png", 8 },
+                    { new Guid("22222222-2222-0000-0005-8f57c287cbc1"), "Plantoid_06.png", 8 },
+                    { new Guid("22222222-2222-0000-0005-be709b1b6b50"), "Plantoid_07.png", 8 },
                     { new Guid("22222222-2222-0000-0005-7826f5f2f44c"), "Plantoid_08.png", 8 },
                     { new Guid("22222222-2222-0000-0005-5a3142b959c0"), "Plantoid_09.png", 8 },
                     { new Guid("22222222-2222-0000-0005-01554a52ad30"), "Plantoid_10.png", 8 },
@@ -643,15 +814,7 @@ namespace AstroGame.Storage.Migrations
                     { new Guid("22222222-2222-0000-0003-111c578bbf31"), "Arthropoid_normal_08.png", 2 },
                     { new Guid("22222222-2222-0000-0005-6cc0c4862ff4"), "Necroids_11_portrait_v3.png", 7 },
                     { new Guid("22222222-2222-0000-0003-8a190f13b5dd"), "Arthropoid_normal_09.png", 2 },
-                    { new Guid("22222222-2222-0000-0003-0bd8bc8b5c04"), "Arthropoid_slender_01.png", 2 },
-                    { new Guid("22222222-2222-0000-0005-3dab2554c31a"), "Synthetic_dawn_portrait_reptilian.png", 10 },
-                    { new Guid("22222222-2222-0000-0004-e9b1c9f53b00"), "Avian_slender_03.png", 4 },
-                    { new Guid("22222222-2222-0000-0004-d1abb18ac955"), "Avian_slender_02.png", 4 },
-                    { new Guid("22222222-2222-0000-0004-79f7dc57a6ef"), "Avian_slender_01.png", 4 },
-                    { new Guid("22222222-2222-0000-0004-f2d51ca358e1"), "Avian_normal_10.png", 4 },
-                    { new Guid("22222222-2222-0000-0004-c94ddb578e15"), "Avian_normal_09.png", 4 },
-                    { new Guid("22222222-2222-0000-0004-a41cbfc3a2d0"), "Avian_normal_08.png", 4 },
-                    { new Guid("22222222-2222-0000-0004-ba43849d85ac"), "Avian_normal_07.png", 4 }
+                    { new Guid("22222222-2222-0000-0003-0bd8bc8b5c04"), "Arthropoid_slender_01.png", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -659,6 +822,14 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "AssetName", "SpeciesType" },
                 values: new object[,]
                 {
+                    { new Guid("22222222-2222-0000-0005-3dab2554c31a"), "Synthetic_dawn_portrait_reptilian.png", 10 },
+                    { new Guid("22222222-2222-0000-0004-e9b1c9f53b00"), "Avian_slender_03.png", 4 },
+                    { new Guid("22222222-2222-0000-0004-d1abb18ac955"), "Avian_slender_02.png", 4 },
+                    { new Guid("22222222-2222-0000-0004-79f7dc57a6ef"), "Avian_slender_01.png", 4 },
+                    { new Guid("22222222-2222-0000-0004-f2d51ca358e1"), "Avian_normal_10.png", 4 },
+                    { new Guid("22222222-2222-0000-0004-c94ddb578e15"), "Avian_normal_09.png", 4 },
+                    { new Guid("22222222-2222-0000-0004-a41cbfc3a2d0"), "Avian_normal_08.png", 4 },
+                    { new Guid("22222222-2222-0000-0004-ba43849d85ac"), "Avian_normal_07.png", 4 },
                     { new Guid("22222222-2222-0000-0004-59b4a036598a"), "Avian_normal_06.png", 4 },
                     { new Guid("22222222-2222-0000-0004-e4561c11b129"), "Avian_massive_17.png", 4 },
                     { new Guid("22222222-2222-0000-0004-009e992f1667"), "Avian_massive_16.png", 4 },
@@ -692,15 +863,7 @@ namespace AstroGame.Storage.Migrations
                     { new Guid("22222222-2222-0000-0005-3201f2777c5c"), "Lithoid_09.png", 0 },
                     { new Guid("22222222-2222-0000-0005-cb94dd8d78d0"), "Lithoid_10.png", 0 },
                     { new Guid("22222222-2222-0000-0005-5da0041f1c23"), "Lithoid_11.png", 0 },
-                    { new Guid("22222222-2222-0000-0005-900dfed3ffb3"), "Lithoid_03.png", 0 },
-                    { new Guid("22222222-2222-0000-0005-f75660d2b48c"), "Humanoid_hp_02.png", 1 },
-                    { new Guid("22222222-2222-0000-0005-ab24503fa348"), "Humanoid_hp_01.png", 1 },
-                    { new Guid("22222222-2222-0000-0005-a9ecea6c70f0"), "Humanoid_05.png", 1 },
-                    { new Guid("22222222-2222-0000-0005-99013cb95bbd"), "Fungoid_massive_11.png", 11 },
-                    { new Guid("22222222-2222-0000-0005-321b094f5762"), "Fungoid_massive_12.png", 11 },
-                    { new Guid("22222222-2222-0000-0005-8788d5f3e35d"), "Fungoid_massive_13.png", 11 },
-                    { new Guid("22222222-2222-0000-0005-14430c731dc2"), "Fungoid_massive_14.png", 11 },
-                    { new Guid("22222222-2222-0000-0005-ea718adf8cba"), "Fungoid_massive_15.png", 11 }
+                    { new Guid("22222222-2222-0000-0005-900dfed3ffb3"), "Lithoid_03.png", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -708,6 +871,14 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "AssetName", "SpeciesType" },
                 values: new object[,]
                 {
+                    { new Guid("22222222-2222-0000-0005-f75660d2b48c"), "Humanoid_hp_02.png", 1 },
+                    { new Guid("22222222-2222-0000-0005-ab24503fa348"), "Humanoid_hp_01.png", 1 },
+                    { new Guid("22222222-2222-0000-0005-a9ecea6c70f0"), "Humanoid_05.png", 1 },
+                    { new Guid("22222222-2222-0000-0005-99013cb95bbd"), "Fungoid_massive_11.png", 11 },
+                    { new Guid("22222222-2222-0000-0005-321b094f5762"), "Fungoid_massive_12.png", 11 },
+                    { new Guid("22222222-2222-0000-0005-8788d5f3e35d"), "Fungoid_massive_13.png", 11 },
+                    { new Guid("22222222-2222-0000-0005-14430c731dc2"), "Fungoid_massive_14.png", 11 },
+                    { new Guid("22222222-2222-0000-0005-ea718adf8cba"), "Fungoid_massive_15.png", 11 },
                     { new Guid("22222222-2222-0000-0005-0fabe7ca981f"), "Fungoid_massive_16.png", 11 },
                     { new Guid("22222222-2222-0000-0005-b04304969301"), "Fungoid_normal_06.png", 11 },
                     { new Guid("22222222-2222-0000-0005-4458e73a842c"), "Fungoid_normal_07.png", 11 },
@@ -741,15 +912,7 @@ namespace AstroGame.Storage.Migrations
                     { new Guid("22222222-2222-0000-0005-63f6fd064a0a"), "Necroids_01_portrait_purple.png", 7 },
                     { new Guid("22222222-2222-0000-0005-23339f3ea8d5"), "Necroids_02_portrait_brass.png", 7 },
                     { new Guid("22222222-2222-0000-0005-eabafe68ff0f"), "Necroids_03_portrait_green.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-8cce2081284a"), "Necroids_04_portrait_purple.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-981bd9a023d2"), "Necroids_05_portrait_green.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-244d34cb4118"), "Necroids_06_portrait_blue.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-2def3762d45b"), "Necroids_07_portrait_black.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-c3deb1b54c6b"), "Molluscoid_massive_12.png", 6 },
-                    { new Guid("22222222-2222-0000-0005-a97029d805e0"), "Necroids_09_portrait_teal.png", 7 },
-                    { new Guid("22222222-2222-0000-0005-3353eec706e9"), "Molluscoid_massive_11.png", 6 },
-                    { new Guid("22222222-2222-0000-0004-eca3989cff8c"), "Avian_slender_04.png", 4 },
-                    { new Guid("22222222-2222-0000-0005-ae4531fe98bc"), "Lithoid_machine.png", 0 }
+                    { new Guid("22222222-2222-0000-0005-8cce2081284a"), "Necroids_04_portrait_purple.png", 7 }
                 });
 
             migrationBuilder.InsertData(
@@ -757,6 +920,14 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "AssetName", "SpeciesType" },
                 values: new object[,]
                 {
+                    { new Guid("22222222-2222-0000-0005-981bd9a023d2"), "Necroids_05_portrait_green.png", 7 },
+                    { new Guid("22222222-2222-0000-0005-244d34cb4118"), "Necroids_06_portrait_blue.png", 7 },
+                    { new Guid("22222222-2222-0000-0005-2def3762d45b"), "Necroids_07_portrait_black.png", 7 },
+                    { new Guid("22222222-2222-0000-0005-c3deb1b54c6b"), "Molluscoid_massive_12.png", 6 },
+                    { new Guid("22222222-2222-0000-0005-a97029d805e0"), "Necroids_09_portrait_teal.png", 7 },
+                    { new Guid("22222222-2222-0000-0005-3353eec706e9"), "Molluscoid_massive_11.png", 6 },
+                    { new Guid("22222222-2222-0000-0005-9adcf9c7ae35"), "Molluscoid_17.png", 6 },
+                    { new Guid("22222222-2222-0000-0005-ae4531fe98bc"), "Lithoid_machine.png", 0 },
                     { new Guid("22222222-2222-0000-0005-72178817ffaa"), "Mammalian_massive_11.png", 5 },
                     { new Guid("22222222-2222-0000-0005-42c24127daa8"), "Mammalian_massive_12.png", 5 },
                     { new Guid("22222222-2222-0000-0005-1faa52038f22"), "Mammalian_massive_13.png", 5 },
@@ -771,12 +942,31 @@ namespace AstroGame.Storage.Migrations
                     { new Guid("22222222-2222-0000-0005-8de4db2a895d"), "Mammalian_normal_10.png", 5 },
                     { new Guid("22222222-2222-0000-0005-56f1b8279079"), "Mammalian_ratling.png", 5 },
                     { new Guid("22222222-2222-0000-0005-f3a13f95e0b9"), "Mammalian_slender_01.png", 5 },
-                    { new Guid("22222222-2222-0000-0005-95ca149e3a4c"), "Mammalian_slender_02.png", 5 },
+                    { new Guid("22222222-2222-0000-0004-eca3989cff8c"), "Avian_slender_04.png", 4 },
                     { new Guid("22222222-2222-0000-0005-9f3280cc0fcd"), "Mammalian_slender_03.png", 5 },
                     { new Guid("22222222-2222-0000-0005-0d1116d2e2fd"), "Mammalian_slender_04.png", 5 },
                     { new Guid("22222222-2222-0000-0005-7c282c3ab5fd"), "Mammalian_slender_05.png", 5 },
                     { new Guid("22222222-2222-0000-0005-97c37af24f37"), "Molluscoid_18.png", 6 },
-                    { new Guid("22222222-2222-0000-0005-9adcf9c7ae35"), "Molluscoid_17.png", 6 }
+                    { new Guid("22222222-2222-0000-0005-95ca149e3a4c"), "Mammalian_slender_02.png", 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BuildingCosts",
+                columns: new[] { "Id", "BaseValue", "BuildingId", "Multiplier", "ResourceId" },
+                values: new object[,]
+                {
+                    { new Guid("778a6f92-e76d-4c0a-a03f-fa5e1d31bca2"), 300.0, new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"), 1.3999999999999999, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("76f6afe9-670a-4ba5-90d8-01891f15a6a2"), 60.0, new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"), 1.5, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("58d5be3e-1d49-4c0a-ae2c-f46791d0e919"), 68.0, new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"), 1.5, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("df3f2c81-7bb8-4913-8817-57c352c07aed"), 250.0, new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"), 1.55, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("40f3accc-ba71-4306-95f5-67421aeb89f0"), 600.0, new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"), 1.5, new Guid("00000000-1111-0000-0000-000000000011") },
+                    { new Guid("36ddec13-5b03-4e09-b1d4-eb9865fa3ec6"), 900.0, new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"), 1.6000000000000001, new Guid("00000000-1111-0000-0000-000000000011") },
+                    { new Guid("01951251-4fdb-4ad6-98f1-ae001e779b04"), 400.0, new Guid("44517245-cb20-4324-a275-4d8642207ad4"), 1.5, new Guid("00000000-1111-0000-0000-000000000011") },
+                    { new Guid("9c85b65c-72e6-4e41-9106-d35580c0f9ab"), 100.0, new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"), 1.3999999999999999, new Guid("00000000-1111-0000-0000-000000000011") },
+                    { new Guid("daface0d-0bbc-4e5b-a11e-55bce19c4b0b"), 500.0, new Guid("44517245-cb20-4324-a275-4d8642207ad4"), 1.6000000000000001, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("4d6ddf71-901c-4734-b6cd-23fd2d701002"), 800.0, new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"), 1.3, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("ea28699a-c944-48a1-b6ff-30f8536cb840"), 700.0, new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"), 1.25, new Guid("00000000-1111-0000-0000-000000000016") },
+                    { new Guid("0e521620-3a9d-4f1a-9822-e7a1fb746246"), 500.0, new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"), 1.6000000000000001, new Guid("00000000-1111-0000-0000-000000000015") }
                 });
 
             migrationBuilder.InsertData(
@@ -789,80 +979,96 @@ namespace AstroGame.Storage.Migrations
                 columns: new[] { "Id", "Symbol", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-1111-0000-0000-000000000029"), "Pu", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000028"), "Au", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000027"), "Pt", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000026"), "Ir", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000025"), "Sn", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000024"), "Ag", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000023"), "Pd", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000022"), "Ge", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000020"), "Zn", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000019"), "Cu", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000018"), "Ni", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000015"), "Ti", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000017"), "Co", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000016"), "Fe", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000015"), "Ti", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000021"), "Ga", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000022"), "Ge", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000023"), "Pd", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000024"), "Ag", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000025"), "Sn", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000026"), "Ir", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000027"), "Pt", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000028"), "Au", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000029"), "Pu", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000020"), "Zn", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000018"), "Ni", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000013"), "S", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000014"), "Cl", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000002"), "He", 0 },
                     { new Guid("00000000-1111-0000-0000-000000000003"), "Li", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000001"), "H", 0 },
+                    { new Guid("00000000-1111-0000-0000-000000000002"), "He", 0 },
+                    { new Guid("00000000-1111-0000-0000-000000000014"), "Cl", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000004"), "Be", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000005"), "B", 1 },
+                    { new Guid("00000000-1111-0000-0000-000000000007"), "N", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000006"), "C", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000001"), "H", 0 },
-                    { new Guid("00000000-1111-0000-0000-000000000008"), "O", 0 },
                     { new Guid("00000000-1111-0000-0000-000000000009"), "Mg", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000010"), "Al", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000011"), "Si", 1 },
                     { new Guid("00000000-1111-0000-0000-000000000012"), "P", 1 },
-                    { new Guid("00000000-1111-0000-0000-000000000007"), "N", 1 }
+                    { new Guid("00000000-1111-0000-0000-000000000008"), "O", 0 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Materials",
-                columns: new[] { "Id", "ManufactionId", "Type" },
+                columns: new[] { "Id", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-4444-1111-0000-000000000001"), null, 3 },
-                    { new Guid("00000000-3333-1111-0000-000000000003"), null, 0 },
-                    { new Guid("00000000-3333-1111-0000-000000000002"), null, 0 },
-                    { new Guid("00000000-3333-1111-0000-000000000001"), null, 0 },
-                    { new Guid("00000000-2222-1111-0000-000000000002"), null, 4 },
-                    { new Guid("00000000-2222-1111-0000-000000000001"), null, 4 },
-                    { new Guid("00000000-1111-1111-0000-000000000001"), null, 2 },
-                    { new Guid("00000000-1111-1111-0000-000000000002"), null, 2 },
-                    { new Guid("00000000-0000-1111-0000-000000000003"), null, 1 },
-                    { new Guid("00000000-0000-1111-0000-000000000002"), null, 1 },
-                    { new Guid("00000000-0000-1111-0000-000000000001"), new Guid("00000000-0000-0000-0000-000000000001"), 1 },
-                    { new Guid("00000000-4444-1111-0000-000000000002"), null, 3 }
+                    { new Guid("00000000-3333-1111-0000-000000000003"), 0 },
+                    { new Guid("00000000-4444-1111-0000-000000000002"), 3 },
+                    { new Guid("00000000-4444-1111-0000-000000000001"), 3 },
+                    { new Guid("00000000-3333-1111-0000-000000000002"), 0 },
+                    { new Guid("00000000-1111-1111-0000-000000000001"), 2 },
+                    { new Guid("00000000-2222-1111-0000-000000000001"), 4 },
+                    { new Guid("00000000-1111-1111-0000-000000000003"), 2 },
+                    { new Guid("00000000-1111-1111-0000-000000000002"), 2 },
+                    { new Guid("00000000-2222-1111-0000-000000000002"), 4 },
+                    { new Guid("00000000-0000-1111-0000-000000000003"), 1 },
+                    { new Guid("00000000-5555-1111-0000-000000000002"), 4 },
+                    { new Guid("00000000-0000-1111-0000-000000000001"), 1 },
+                    { new Guid("00000000-5555-1111-0000-000000000001"), 4 },
+                    { new Guid("00000000-0000-1111-0000-000000000002"), 1 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Materials",
-                columns: new[] { "Id", "ManufactionId", "Type" },
-                values: new object[] { new Guid("00000000-1111-1111-0000-000000000003"), null, 2 });
+                table: "ProductionBuildings",
+                column: "Id",
+                values: new object[]
+                {
+                    new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
+                    new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
+                    new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
+                    new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                    new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
+                    new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
+                    new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb")
+                });
 
             migrationBuilder.InsertData(
-                table: "Materials",
-                columns: new[] { "Id", "ManufactionId", "Type" },
-                values: new object[] { new Guid("00000000-5555-1111-0000-000000000001"), null, 0 });
+                table: "StorageBuildings",
+                column: "Id",
+                value: new Guid("f09e72d5-28d8-4390-bdf5-3b589b61fc15"));
 
-            migrationBuilder.InsertData(
-                table: "ResourceManufactions",
-                columns: new[] { "Id", "OutputMaterialId", "OutputValue" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-0000-1111-0000-000000000001"), 1.0 });
+            migrationBuilder.CreateIndex(
+                name: "IX_BuildingCosts_BuildingId",
+                table: "BuildingCosts",
+                column: "BuildingId");
 
-            migrationBuilder.InsertData(
-                table: "InputResources",
-                columns: new[] { "Id", "InputValue", "OutputMaterialId", "ResourceId" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 2.0, new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-1111-0000-0000-000000000001") });
+            migrationBuilder.CreateIndex(
+                name: "IX_BuildingCosts_ResourceId",
+                table: "BuildingCosts",
+                column: "ResourceId");
 
-            migrationBuilder.InsertData(
-                table: "InputResources",
-                columns: new[] { "Id", "InputValue", "OutputMaterialId", "ResourceId" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), 2.0, new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-1111-0000-0000-000000000008") });
+            migrationBuilder.CreateIndex(
+                name: "IX_BuiltBuildings_BuildingId",
+                table: "BuiltBuildings",
+                column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BuiltBuildings_ColonizedStellarObjectId",
+                table: "BuiltBuildings",
+                column: "ColonizedStellarObjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ColonizableStellarObjects_ColonizedStellarObjectId",
@@ -883,9 +1089,9 @@ namespace AstroGame.Storage.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_InputResources_OutputMaterialId",
+                name: "IX_InputResources_BuildingId",
                 table: "InputResources",
-                column: "OutputMaterialId");
+                column: "BuildingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InputResources_ResourceId",
@@ -896,6 +1102,16 @@ namespace AstroGame.Storage.Migrations
                 name: "IX_MultiObjectSystems_ParentId",
                 table: "MultiObjectSystems",
                 column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OutputResources_BuildingId",
+                table: "OutputResources",
+                column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OutputResources_ResourceId",
+                table: "OutputResources",
+                column: "ResourceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayerSpecies_PlayerId",
@@ -919,10 +1135,9 @@ namespace AstroGame.Storage.Migrations
                 column: "PlayerSpeciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResourceManufactions_OutputMaterialId",
-                table: "ResourceManufactions",
-                column: "OutputMaterialId",
-                unique: true);
+                name: "IX_ResourceSnapshots_StellarObjectId",
+                table: "ResourceSnapshots",
+                column: "StellarObjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SolarSystems_ParentId",
@@ -973,6 +1188,16 @@ namespace AstroGame.Storage.Migrations
                 name: "IX_StellarSystems_StellarSystemId",
                 table: "StellarSystems",
                 column: "StellarSystemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoredResources_ResourceId",
+                table: "StoredResources",
+                column: "ResourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoredResources_ResourceSnapshotId",
+                table: "StoredResources",
+                column: "ResourceSnapshotId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_StellarObjectResources_BlackHoles_BlackHoleId",
@@ -1046,6 +1271,12 @@ namespace AstroGame.Storage.Migrations
                 table: "Galaxies");
 
             migrationBuilder.DropTable(
+                name: "BuildingCosts");
+
+            migrationBuilder.DropTable(
+                name: "BuiltBuildings");
+
+            migrationBuilder.DropTable(
                 name: "Credentials");
 
             migrationBuilder.DropTable(
@@ -1055,7 +1286,13 @@ namespace AstroGame.Storage.Migrations
                 name: "InputResources");
 
             migrationBuilder.DropTable(
+                name: "Materials");
+
+            migrationBuilder.DropTable(
                 name: "MultiObjectSystems");
+
+            migrationBuilder.DropTable(
+                name: "OutputResources");
 
             migrationBuilder.DropTable(
                 name: "PlayerSpeciesPerks");
@@ -1067,7 +1304,13 @@ namespace AstroGame.Storage.Migrations
                 name: "StellarObjectResources");
 
             migrationBuilder.DropTable(
-                name: "ResourceManufactions");
+                name: "StorageBuildings");
+
+            migrationBuilder.DropTable(
+                name: "StoredResources");
+
+            migrationBuilder.DropTable(
+                name: "ProductionBuildings");
 
             migrationBuilder.DropTable(
                 name: "Perks");
@@ -1088,16 +1331,19 @@ namespace AstroGame.Storage.Migrations
                 name: "Stars");
 
             migrationBuilder.DropTable(
-                name: "Materials");
+                name: "Resources");
+
+            migrationBuilder.DropTable(
+                name: "ResourceSnapshots");
+
+            migrationBuilder.DropTable(
+                name: "Buildings");
 
             migrationBuilder.DropTable(
                 name: "Species");
 
             migrationBuilder.DropTable(
                 name: "ColonizableStellarObjects");
-
-            migrationBuilder.DropTable(
-                name: "Resources");
 
             migrationBuilder.DropTable(
                 name: "ColonizedStellarObjects");

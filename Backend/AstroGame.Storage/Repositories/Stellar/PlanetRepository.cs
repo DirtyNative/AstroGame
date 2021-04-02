@@ -41,7 +41,7 @@ namespace AstroGame.Storage.Repositories.Stellar
                 .Include(e => e.ColonizedStellarObject)
                 .ThenInclude(e => e.Player)
 
-                // Include the Resources
+                // Include the StoredResources
                 .Include(e => e.Resources)
                 .ThenInclude(e => e.Resource)
                 .ToListAsync();

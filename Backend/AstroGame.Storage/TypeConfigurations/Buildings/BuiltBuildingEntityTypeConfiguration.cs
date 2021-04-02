@@ -12,7 +12,7 @@ namespace AstroGame.Storage.TypeConfigurations.Buildings
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
 
             builder.HasOne(e => e.Building)
-                .WithMany()
+                .WithMany(e => e.BuiltBuildings)
                 .HasForeignKey(e => e.BuildingId);
 
             builder.HasOne(e => e.ColonizedStellarObject)

@@ -30,22 +30,21 @@ class MenuItem extends StatelessWidget {
         height: 60,
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
           gradient: (isSelected) ? _gradient : _transparentGradient,
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             hoverColor: AstroGameColors.purple[100],
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(16),
+                bottomRight: Radius.circular(16)),
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 8,
-                top: 4,
-                bottom: 4,
-              ),
+              padding:
+                  const EdgeInsets.only(left: 16, right: 8, top: 4, bottom: 4),
               child: Row(
                 children: [
                   Icon(

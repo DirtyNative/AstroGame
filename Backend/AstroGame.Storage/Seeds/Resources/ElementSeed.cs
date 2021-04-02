@@ -243,6 +243,8 @@ namespace AstroGame.Storage.Seeds.Resources
                     Type = ElementType.Metals,
                     NaturalOccurrenceWeight = 1
                 }
+
+                
             );
         }
     }

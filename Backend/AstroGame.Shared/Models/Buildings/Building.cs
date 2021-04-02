@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AstroGame.Shared.Enums;
+using System;
 using System.Collections.Generic;
-using AstroGame.Shared.Enums;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public class Building
+    public abstract class Building
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -23,14 +23,6 @@ namespace AstroGame.Shared.Models.Buildings
 
         public List<BuildingCost> BuildingCosts { get; set; }
 
-        /// <summary>
-        ///  The resources which get consumed per hour
-        /// </summary>
-        public List<InputResource> InputResources { get; set; }
-
-        /// <summary>
-        /// The resources which get produces per hour
-        /// </summary>
-        public List<OutputResource> OutputResources { get; set; }
+        public virtual List<BuiltBuilding> BuiltBuildings { get; set; }
     }
 }

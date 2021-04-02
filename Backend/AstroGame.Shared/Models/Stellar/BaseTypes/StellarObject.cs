@@ -1,7 +1,9 @@
 ﻿using AstroGame.Core.Structs;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using AstroGame.Shared.Enums;
+using AstroGame.Shared.Models.Resources;
 
 namespace AstroGame.Shared.Models.Stellar.BaseTypes
 {
@@ -46,5 +48,10 @@ namespace AstroGame.Shared.Models.Stellar.BaseTypes
         [JsonProperty(Order = -9)] public virtual string Name { get; set; }
 
         public Coordinates Coordinates { get; set; }
+
+        /// <summary>
+        /// The resources stored on this object
+        /// </summary>
+        public List<ResourceSnapshot> ResourceSnapshots { get; set; }
     }
 }

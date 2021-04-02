@@ -13,5 +13,6 @@ namespace AstroGame.Shared.Models.Resources
         public uint NaturalOccurrenceWeight { get; set; }
 
         [JsonIgnore] public virtual List<StellarObjectResource> StellarObjectResources { get; set; }
+        [JsonIgnore] public virtual List<StoredResource> StoredResources { get; set; }
     }
 }

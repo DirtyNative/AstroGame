@@ -14,6 +14,10 @@ namespace AstroGame.Storage.TypeConfigurations.Buildings
             builder.HasOne(e => e.Resource)
                 .WithMany()
                 .HasForeignKey(e => e.ResourceId);
+
+            builder.HasOne(e => e.Building)
+                .WithMany(e => e.BuildingCosts)
+                .HasForeignKey(e => e.BuildingId);
         }
     }
 }

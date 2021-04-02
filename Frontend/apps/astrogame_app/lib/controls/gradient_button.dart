@@ -11,7 +11,7 @@ class AstroGameGradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+      constraints: BoxConstraints(minWidth: 100, minHeight: 10),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -30,7 +30,7 @@ class AstroGameGradientButton extends StatelessWidget {
             onTap: onPressed,
             child: Padding(
               padding:
-                  const EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
+                  const EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
               child: Center(child: child),
             ),
           ),

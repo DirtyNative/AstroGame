@@ -16,10 +16,10 @@ namespace AstroGame.Storage.TypeConfigurations.Objects
             builder.HasOne(e => e.ParentSystem)
                 .WithMany(e => (IEnumerable<Star>) e.CenterObjects);
 
-            /*builder.HasMany(e => e.Resources).WithOne(e => e.StellarObject as Star)
+            /*builder.HasMany(e => e.StoredResources).WithOne(e => e.StellarObject as Star)
                 .HasForeignKey(e => e.StellarObjectId);*/
 
-            //builder.HasMany(e => e.Resources).WithOne().HasForeignKey(e => e.StellarObjectId);
+            //builder.HasMany(e => e.StoredResources).WithOne().HasForeignKey(e => e.StellarObjectId);
         }
     }
 }

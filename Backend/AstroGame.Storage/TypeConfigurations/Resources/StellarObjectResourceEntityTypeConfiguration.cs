@@ -11,7 +11,7 @@ namespace AstroGame.Storage.TypeConfigurations.Resources
             builder.ToTable("StellarObjectResources");
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
 
-            /*builder.HasOne(e => e.StellarObject).WithMany(e => (e as IProvidesResources).Resources)
+            /*builder.HasOne(e => e.StellarObject).WithMany(e => (e as IProvidesResources).StoredResources)
                 .HasForeignKey(e => e.StellarObjectId);*/
 
             builder.HasOne(e => e.Resource)

@@ -52,7 +52,7 @@ class SetPlayersSpeciesExecuter {
 
     _dialogHelper.dismissDialog();
 
-    _navigationService.clearStackAndShow(RoutePaths.HomeRoute);
+    _navigationService.clearStackAndShow(RoutePaths.MainShellRoute);
 
     return true;
   }
