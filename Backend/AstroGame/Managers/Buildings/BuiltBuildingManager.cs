@@ -16,9 +16,9 @@ namespace AstroGame.Api.Managers.Buildings
             _builtBuildingRepository = builtBuildingRepository;
         }
 
-        public async Task<BuiltBuilding> GetByBuildingAsync(Guid colonizedStellarObjectId, Guid buildingId)
+        public async Task<BuiltBuilding> GetByBuildingAsync(Guid stellarObjectId, Guid buildingId)
         {
-            return await _builtBuildingRepository.GetByBuildingAsync(colonizedStellarObjectId, buildingId);
+            return await _builtBuildingRepository.GetByBuildingAsync(stellarObjectId, buildingId);
         }
     }
 }

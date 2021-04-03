@@ -62,6 +62,6 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$ElementTypeEnumMap = {
-  ElementType.gases: 'gases',
-  ElementType.metals: 'metals',
+  ElementType.gases: 0,
+  ElementType.metals: 1,
 };

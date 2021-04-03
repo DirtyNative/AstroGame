@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace AstroGame.Api.Controllers.Stellar
 {
     [Route("api/v1/stellar-object")]
-    [Authorize]
-    [TypeFilter(typeof(PlayerExistsFilter))]
+    //[Authorize]
+    //[TypeFilter(typeof(PlayerExistsFilter))]
     public class StellarObjectController : ControllerBase
     {
         private readonly StellarObjectManager _stellarObjectManager;

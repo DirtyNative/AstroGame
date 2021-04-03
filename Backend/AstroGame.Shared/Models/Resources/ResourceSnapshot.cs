@@ -9,7 +9,7 @@ namespace AstroGame.Shared.Models.Resources
         public Guid Id { get; set; }
         public Guid StellarObjectId { get; set; }
         public DateTime SnapshotTime { get; set; }
-        public List<StoredResource> StoredResources { get; set; }
+        public List<StoredResource> StoredResources { get; set; } = new();
 
         public virtual StellarObject StellarObject { get; set; }
     }

@@ -41,7 +41,7 @@ namespace AstroGame.Api
                 .RegisterServiceApis(Configuration)
                 .ConfigureAutoMapper();
 
-            services.AddHostedService<SolarSystemGeneratorService>();
+            //services.AddHostedService<SolarSystemGeneratorService>();
 
             services.AddMvc().AddNewtonsoftJson(options =>
             {

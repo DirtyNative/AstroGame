@@ -60,9 +60,9 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$MaterialTypeEnumMap = {
-  MaterialType.building: 'building',
-  MaterialType.consumables: 'consumables',
-  MaterialType.components: 'components',
-  MaterialType.alloys: 'alloys',
-  MaterialType.fuels: 'fuels',
+  MaterialType.building: 0,
+  MaterialType.consumables: 1,
+  MaterialType.components: 2,
+  MaterialType.alloys: 3,
+  MaterialType.fuels: 4,
 };

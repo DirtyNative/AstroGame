@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/built-building")]
     public class BuiltBuildingController : ControllerBase
     {
         private readonly BuiltBuildingManager _builtBuildingManager;
@@ -18,10 +18,10 @@ namespace AstroGame.Api.Controllers.Controllers
         [HttpGet("building/{buildingId}")]
         public async Task<IActionResult> GetByBuildingAsync([FromRoute] Guid buildingId)
         {
-            var selectedColonizedStellarObject = GetSelectedStellarObject();
+            var selectedStellarObjectId = GetSelectedStellarObject();
             
             var builtBuilding =
-                await _builtBuildingManager.GetByBuildingAsync(selectedColonizedStellarObject, buildingId);
+                await _builtBuildingManager.GetByBuildingAsync(selectedStellarObjectId, buildingId);
             return Ok(builtBuilding);
         }
     }

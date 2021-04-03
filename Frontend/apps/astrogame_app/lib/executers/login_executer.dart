@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/repositories/authorization_repository.dart';
 import 'package:astrogame_app/communications/repositories/building_repository.dart';
 import 'package:astrogame_app/communications/repositories/player_repository.dart';
+import 'package:astrogame_app/communications/repositories/resource_repository.dart';
 import 'package:astrogame_app/communications/server_response.dart';
 import 'package:astrogame_app/helpers/dialog_helper.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
@@ -8,9 +9,11 @@ import 'package:astrogame_app/models/authorization/authorization_token.dart';
 import 'package:astrogame_app/models/authorization/login_request.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/players/player.dart';
+import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/providers/authorization_token_provider.dart';
 import 'package:astrogame_app/providers/buildings_provider.dart';
 import 'package:astrogame_app/providers/player_provider.dart';
+import 'package:astrogame_app/providers/resource_provider.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
@@ -20,10 +23,12 @@ class LoginExecuter {
   AuthorizationRepository _authorizationRepository;
   PlayerRepository _playerRepository;
   BuildingRepository _buildingRepository;
+  ResourceRepository _resourceRepository;
 
   AuthorizationTokenProvider _authorizationTokenProvider;
   PlayerProvider _playerProvider;
   BuildingsProvider _buildingsProvider;
+  ResourceProvider _resourceProvider;
 
   DialogHelper _dialogHelper;
   NavigationWrapper _navigationService;
@@ -32,9 +37,11 @@ class LoginExecuter {
     this._authorizationRepository,
     this._playerRepository,
     this._buildingRepository,
+    this._resourceRepository,
     this._authorizationTokenProvider,
     this._playerProvider,
     this._buildingsProvider,
+    this._resourceProvider,
     this._dialogHelper,
     this._navigationService,
   );
@@ -55,6 +62,11 @@ class LoginExecuter {
 
     var buildingsResponse = await _fetchBuildings();
     if (buildingsResponse.item1 == false) {
+      return false;
+    }
+
+    var resourcesResponse = await _fetchResources();
+    if (resourcesResponse.item1 == false) {
       return false;
     }
 
@@ -117,5 +129,20 @@ class LoginExecuter {
     _buildingsProvider.setBuildings(buildingsResponse.data);
 
     return Tuple2(true, buildingsResponse);
+  }
+
+  Future<Tuple2<bool, ServerResponseT<List<Resource>>>>
+      _fetchResources() async {
+    var resourcesResponse = await _resourceRepository.getAllAsync();
+
+    if (resourcesResponse.hasError) {
+      _dialogHelper.dismissDialog();
+      // TODO: show error dialog
+      return Tuple2(false, null);
+    }
+
+    _resourceProvider.setResources(resourcesResponse.data);
+
+    return Tuple2(true, resourcesResponse);
   }
 }

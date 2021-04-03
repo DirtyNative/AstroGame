@@ -22,12 +22,15 @@ namespace AstroGame.Storage.Repositories.Buildings
 
         public async Task<List<Building>> GetAsync()
         {
-            return await _context.Buildings.ToListAsync();
+            return await _context.Buildings
+                .OrderBy(e => e.Order)
+                .ToListAsync();
         }
 
         public async Task<List<Building>> GetAsync(StellarObjectType type)
         {
             return await _context.Buildings
+                .OrderBy(e => e.Order)
                 .Where(e => e.BuildableOn == type)
                 .ToListAsync();
         }

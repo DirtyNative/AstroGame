@@ -27,37 +27,41 @@ class MenuView extends StatelessWidget {
 
   Widget _header(BuildContext context, MenuViewModel model) {
     return Container(
-      padding: EdgeInsets.all(16),
+      height: 180,
+      padding: EdgeInsets.all(0),
       child: Stack(
         children: [
+          // Background image
+          Image.asset(
+            'assets/images/bakground_species.jpg',
+            height: 180,
+            fit: BoxFit.fitHeight,
+          ),
+
+          // Species Image
+
           EnhancedFutureBuilder<ImageProvider>(
             future: model.getSpeciesImageAsync(),
             rememberFutureResult: true,
-            whenDone: (data) => Expanded(
-              child: Container(
+            whenDone: (data) => Positioned(
+              bottom: 0,
+              left: 20,
+              child: Image(
+                image: data,
                 height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    fit: BoxFit.fitHeight,
-                    image: data,
-                  ),
-                ),
               ),
             ),
             whenNotDone: Container(
-              height: 200,
+              height: 100,
               child: CircularProgressIndicator(),
             ),
           ),
+
+          // Player name
           SizedBox(width: 16),
-          Column(
-            children: [
-              Text(
-                model.playerName,
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ],
+          Text(
+            model.playerName,
+            style: Theme.of(context).textTheme.headline2,
           ),
         ],
       ),

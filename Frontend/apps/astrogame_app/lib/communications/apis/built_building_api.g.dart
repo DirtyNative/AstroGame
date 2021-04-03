@@ -9,7 +9,7 @@ part of 'built_building_api.dart';
 class _BuiltBuildingApi implements BuiltBuildingApi {
   _BuiltBuildingApi(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://localhost:7555/api/v1/building';
+    baseUrl ??= 'https://localhost:7555/api/v1/built-building';
   }
 
   final Dio _dio;

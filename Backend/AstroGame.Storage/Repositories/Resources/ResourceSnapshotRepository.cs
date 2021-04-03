@@ -22,12 +22,16 @@ namespace AstroGame.Storage.Repositories.Resources
         public async Task<ResourceSnapshot> GetAsync(Guid id)
         {
             return await _context.ResourceSnapshots
+                .Include(e => e.StoredResources)
+                .OrderByDescending(e => e.SnapshotTime)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<List<ResourceSnapshot>> GetByStellarObjectAsync(Guid stellarObjectId)
         {
             return await _context.ResourceSnapshots
+                .Include(e => e.StoredResources)
+                .OrderByDescending(e => e.SnapshotTime)
                 .Where(e => e.StellarObjectId == stellarObjectId)
                 .ToListAsync();
         }
@@ -35,6 +39,7 @@ namespace AstroGame.Storage.Repositories.Resources
         public async Task<ResourceSnapshot> GetLatestAsync(Guid stellarObjectId)
         {
             return await _context.ResourceSnapshots
+                .Include(e => e.StoredResources)
                 .OrderByDescending(e => e.SnapshotTime)
                 .FirstOrDefaultAsync();
         }
@@ -45,6 +50,15 @@ namespace AstroGame.Storage.Repositories.Resources
             await _context.SaveChangesAsync();
 
             return snapshot.Id;
+        }
+
+        public async Task DeleteAllAsync(Guid stellarObjectId)
+        {
+            // Get all snapshots of this StellarObject
+            var snapshots = await GetByStellarObjectAsync(stellarObjectId);
+
+            _context.ResourceSnapshots.RemoveRange(snapshots);
+            await _context.SaveChangesAsync();
         }
     }
 }

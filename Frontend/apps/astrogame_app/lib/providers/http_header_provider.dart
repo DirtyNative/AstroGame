@@ -35,8 +35,9 @@ class HttpHeaderProvider {
     if (_selectedStellarObjectProvider.getSelectedObject() != null) {
       var selectedObject = _selectedStellarObjectProvider.getSelectedObject();
 
-      customHeaders
-          .addAll({'selected-stellar-object': selectedObject.id.toString()});
+      customHeaders.addAll({
+        'selected-stellar-object': selectedObject.stellarObjectId.toString()
+      });
     }
 
     return customHeaders;

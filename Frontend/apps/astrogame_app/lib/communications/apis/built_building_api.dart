@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'built_building_api.g.dart';
 
-@RestApi(baseUrl: 'https://localhost:7555/api/v1/building')
+@RestApi(baseUrl: 'https://localhost:7555/api/v1/built-building')
 abstract class BuiltBuildingApi {
   factory BuiltBuildingApi(Dio dio, {String baseUrl}) = _BuiltBuildingApi;
 

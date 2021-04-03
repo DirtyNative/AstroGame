@@ -18,9 +18,9 @@ namespace AstroGame.Api.Controllers.Resources
         [HttpGet("{stellarObjectId}")]
         public async Task<IActionResult> CreateSnapshot([FromRoute] Guid stellarObjectId)
         {
-            await _resourceSnapshotManager.CreateSnapshot(stellarObjectId);
+            var snapshotId = await _resourceSnapshotManager.GenerateSnapshotAsync(stellarObjectId);
 
-            return Ok();
+            return Ok(snapshotId);
         }
     }
 }
