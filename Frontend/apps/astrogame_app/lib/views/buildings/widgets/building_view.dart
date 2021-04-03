@@ -1,5 +1,4 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
-import 'package:astrogame_app/controls/gradient_button.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/buildings/widgets/building_viewmodel.dart';
@@ -45,8 +44,10 @@ class BuildingView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         // Build button
-                        AstroGameGradientButton(
-                          onPressed: () => {},
+                        ElevatedButton(
+                          onPressed: (model.hasEnoughResourcesToBuild)
+                              ? () => {}
+                              : null,
                           child: Text((model.builtBuilding == null)
                               ? 'Build'
                               : 'Upgrade to level ${model.builtBuilding.level + 1}'),
@@ -56,7 +57,7 @@ class BuildingView extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

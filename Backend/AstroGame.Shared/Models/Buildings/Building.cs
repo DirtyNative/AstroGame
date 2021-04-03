@@ -21,8 +21,8 @@ namespace AstroGame.Shared.Models.Buildings
         /// </summary>
         public StellarObjectType BuildableOn { get; set; }
 
-        public List<BuildingCost> BuildingCosts { get; set; }
+        public List<BuildingCost> BuildingCosts { get; set; } = new();
 
-        public virtual List<BuiltBuilding> BuiltBuildings { get; set; }
+        public virtual List<BuiltBuilding> BuiltBuildings { get; set; } = new();
     }
 }

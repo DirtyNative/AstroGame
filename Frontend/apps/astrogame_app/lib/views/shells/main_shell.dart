@@ -34,7 +34,10 @@ class _State extends State<MainShell> {
               Expanded(
                 child: Column(
                   children: [
+                    // The header
                     AppHeader(),
+
+                    //
                     ResourceView(),
                     Expanded(
                       child: Row(

@@ -23,6 +23,7 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<List<Building>> GetAsync()
         {
             return await _context.Buildings
+                .Include(e => e.BuildingCosts)
                 .OrderBy(e => e.Order)
                 .ToListAsync();
         }
@@ -30,6 +31,7 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<List<Building>> GetAsync(StellarObjectType type)
         {
             return await _context.Buildings
+                .Include(e => e.BuildingCosts)
                 .OrderBy(e => e.Order)
                 .Where(e => e.BuildableOn == type)
                 .ToListAsync();
@@ -37,7 +39,9 @@ namespace AstroGame.Storage.Repositories.Buildings
 
         public async Task<Building> GetAsync(Guid id)
         {
-            return await _context.Buildings.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Buildings
+                .Include(e => e.BuildingCosts)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
     }
 }

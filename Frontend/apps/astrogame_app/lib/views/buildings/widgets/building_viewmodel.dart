@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:astrogame_app/communications/repositories/building_repository.dart';
 import 'package:astrogame_app/communications/repositories/built_building_repository.dart';
+import 'package:astrogame_app/helpers/resource_helper.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/built_building.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +14,10 @@ import 'package:stacked/stacked.dart';
 class BuildingViewModel extends FutureViewModel {
   BuildingRepository _buildingRepository;
   BuiltBuildingRepository _builtBuildingRepository;
+
+  ResourceHelper _resourceHelper;
+
+  Timer _timer;
 
   Building _building;
   Building get building => _building;
@@ -26,11 +33,25 @@ class BuildingViewModel extends FutureViewModel {
     notifyListeners();
   }
 
+  bool _hasEnoughResourcesToBuild = false;
+  bool get hasEnoughResourcesToBuild => _hasEnoughResourcesToBuild;
+  set hasEnoughResourcesToBuild(bool val) {
+    _hasEnoughResourcesToBuild = val;
+    notifyListeners();
+  }
+
   BuildingViewModel(
     this._buildingRepository,
     this._builtBuildingRepository,
+    this._resourceHelper,
     @factoryParam this._building,
-  );
+  ) {
+    _calculateBuildable();
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _calculateBuildable();
+    });
+  }
 
   @override
   Future futureToRun() async {
@@ -45,6 +66,17 @@ class BuildingViewModel extends FutureViewModel {
     _builtBuilding = response.data;
   }
 
+  void _calculateBuildable() {
+    var level = 0;
+
+    if (builtBuilding != null) {
+      level = builtBuilding.level;
+    }
+
+    hasEnoughResourcesToBuild =
+        _resourceHelper.hasStoredResourcesToBuild(building, level);
+  }
+
   Future<ImageProvider> getImageAsync(Guid buildingId) async {
     var response =
         await _buildingRepository.getImageAsync(buildingId: buildingId);
@@ -54,5 +86,11 @@ class BuildingViewModel extends FutureViewModel {
     }
 
     return response.data;
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
