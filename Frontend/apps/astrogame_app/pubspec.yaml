@@ -59,6 +59,10 @@ dependencies:
 
   intl:
 
+  synchronized:
+
+  duration:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

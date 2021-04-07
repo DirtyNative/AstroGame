@@ -35,7 +35,7 @@ namespace AstroGame.Api.Controllers.Players
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentAsync()
         {
-            var userId = GetCurrentUserId();
+            var userId = GetPlayerId();
 
             var player = await _playerManager.GetAsync(userId);
             var response = _mapper.Map<PlayerResponse>(player);

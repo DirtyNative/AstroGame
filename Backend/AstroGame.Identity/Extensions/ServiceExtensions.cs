@@ -13,7 +13,7 @@ namespace AstroGame.Identity.Extensions
         {
             //services.Configure<DatabaseConnection>(configuration.GetSection("DatabaseConnection"));
             var databaseConnection = new DatabaseConnection();
-            configuration.GetSection("DatabaseConnection").Bind(databaseConnection);
+            configuration.GetSection("IdentityDatabaseConnection").Bind(databaseConnection);
 
             var connectionString = string.Format(databaseConnection.DatabaseConnectionString,
                 databaseConnection.DatabaseName,

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace AstroGame.Storage.Repositories.Players
 {
@@ -22,30 +23,31 @@ namespace AstroGame.Storage.Repositories.Players
         public Task<Player> GetAsync(Guid id)
         {
             return _context.Players
-                .IncludeAll()
                 // Credentials
-                //.Include(e => e.Credentials)
+                .Include(e => e.Credentials)
 
                 // Species
-                //.Include(e => e.PlayerSpecies)
-                //.ThenInclude(e => e.Species)
+                .Include(e => e.PlayerSpecies)
+                .ThenInclude(e => e.Species)
 
                 // Perks
-                //.Include(e => e.PlayerSpecies)
-                //.ThenInclude(e => e.Perks)
-                // .ThenInclude(e => e.Perk)
+                .Include(e => e.PlayerSpecies)
+                .ThenInclude(e => e.Perks)
+                .ThenInclude(e => e.Perk)
 
                 // Colonies
-                //.Include(e => e.ColonizedObjects)
+                .Include(e => e.ColonizedObjects)
+
+                // BuildingChain
+                .Include(e => e.BuildingChain)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public Task<List<Player>> GetAsync()
         {
             return _context.Players
-                .IncludeAll()
                 // Credentials
-                /*.Include(e => e.Credentials)
+                .Include(e => e.Credentials)
 
                 // Species
                 .Include(e => e.PlayerSpecies)
@@ -57,16 +59,18 @@ namespace AstroGame.Storage.Repositories.Players
                 .ThenInclude(e => e.Perk)
 
                 // Colonies
-                .Include(e => e.ColonizedObjects) */
+                .Include(e => e.ColonizedObjects)
+
+                // BuildingChain
+                .Include(e => e.BuildingChain)
                 .ToListAsync();
         }
 
         public Task<Player> GetByEmailAsync(string email)
         {
             return _context.Players
-                .IncludeAll()
                 // Credentials
-                /*.Include(e => e.Credentials)
+                .Include(e => e.Credentials)
 
                 // Species
                 .Include(e => e.PlayerSpecies)
@@ -78,7 +82,11 @@ namespace AstroGame.Storage.Repositories.Players
                 .ThenInclude(e => e.Perk)
 
                 // Colonies
-                .Include(e => e.ColonizedObjects) */
+                .Include(e => e.ColonizedObjects)
+
+                // BuildingChain
+                .Include(e => e.BuildingChain)
+
                 .FirstOrDefaultAsync(e => e.Credentials.Email == email);
         }
 

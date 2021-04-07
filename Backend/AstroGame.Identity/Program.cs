@@ -18,6 +18,7 @@ namespace AstroGame.Identity
             var configuration = new ConfigurationBuilder()
                 //.AddEnvironmentalJsonFile("Configurations/AppSettings.json", false, true)
                 .AddEnvironmentalJsonFile("Configurations/DatabaseConnection.json", false, true)
+                .AddEnvironmentalJsonFile("Configurations/IdentityDatabaseConnection.json", false, true)
                 //.AddEnvironmentalJsonFile("Configurations/ApiConnections.json")
                 .Build();
 

@@ -57,7 +57,8 @@ namespace AstroGame.Storage.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConfirmationToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlayerSpeciesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    PlayerSpeciesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    BuildingChainId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,6 +123,25 @@ namespace AstroGame.Storage.Migrations
                         principalTable: "Buildings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BuildingChains",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChainLength = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BuildingChains", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BuildingChains_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -386,6 +406,35 @@ namespace AstroGame.Storage.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BuildingConstructions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    BuildingChainId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BuildingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StellarObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HangfireJobId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BuildingConstructions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BuildingConstructions_BuildingChains_BuildingChainId",
+                        column: x => x.BuildingChainId,
+                        principalTable: "BuildingChains",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BuildingConstructions_Buildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "Buildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Planets",
                 columns: table => new
                 {
@@ -613,7 +662,8 @@ namespace AstroGame.Storage.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
                     ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ResourceSnapshotId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: false)
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    HourlyAmount = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -674,8 +724,8 @@ namespace AstroGame.Storage.Migrations
 
             migrationBuilder.InsertData(
                 table: "Players",
-                columns: new[] { "Id", "ConfirmationToken", "PlayerSpeciesId", "Username" },
-                values: new object[] { new Guid("22222222-0000-0000-0000-000000000000"), null, new Guid("22222222-1111-0000-0000-000000000000"), "DirtyNative" });
+                columns: new[] { "Id", "BuildingChainId", "ConfirmationToken", "PlayerSpeciesId", "Username" },
+                values: new object[] { new Guid("22222222-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), null, new Guid("22222222-1111-0000-0000-000000000000"), "DirtyNative" });
 
             migrationBuilder.InsertData(
                 table: "Resources",
@@ -1050,6 +1100,32 @@ namespace AstroGame.Storage.Migrations
                 column: "Id",
                 value: new Guid("f09e72d5-28d8-4390-bdf5-3b589b61fc15"));
 
+            migrationBuilder.InsertData(
+                table: "OutputResources",
+                columns: new[] { "Id", "BaseValue", "BuildingId", "Multiplier", "ResourceId" },
+                values: new object[] { new Guid("24a0efe4-27d2-43c6-bb7b-61b36c129b00"), 60.0, new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"), 1.5, new Guid("00000000-1111-0000-0000-000000000016") });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BuildingChains_PlayerId",
+                table: "BuildingChains",
+                column: "PlayerId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BuildingConstructions_BuildingChainId",
+                table: "BuildingConstructions",
+                column: "BuildingChainId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BuildingConstructions_BuildingId",
+                table: "BuildingConstructions",
+                column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BuildingConstructions_StellarObjectId",
+                table: "BuildingConstructions",
+                column: "StellarObjectId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_BuildingCosts_BuildingId",
                 table: "BuildingCosts",
@@ -1240,6 +1316,14 @@ namespace AstroGame.Storage.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_BuildingConstructions_StellarObjects_StellarObjectId",
+                table: "BuildingConstructions",
+                column: "StellarObjectId",
+                principalTable: "StellarObjects",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Planets_ColonizableStellarObjects_Id",
                 table: "Planets",
                 column: "Id",
@@ -1269,6 +1353,9 @@ namespace AstroGame.Storage.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Galaxies_StellarSystems_Id",
                 table: "Galaxies");
+
+            migrationBuilder.DropTable(
+                name: "BuildingConstructions");
 
             migrationBuilder.DropTable(
                 name: "BuildingCosts");
@@ -1308,6 +1395,9 @@ namespace AstroGame.Storage.Migrations
 
             migrationBuilder.DropTable(
                 name: "StoredResources");
+
+            migrationBuilder.DropTable(
+                name: "BuildingChains");
 
             migrationBuilder.DropTable(
                 name: "ProductionBuildings");

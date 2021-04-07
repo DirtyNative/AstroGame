@@ -21,6 +21,16 @@ class BuiltBuildingRepository {
     _builtBuildingApi = new BuiltBuildingApi(dio);
   }
 
+  Future<ServerResponseT<List<BuiltBuilding>>> getAsync() async {
+    try {
+      _logger.d('Get built buildings');
+      var response = await _builtBuildingApi.getAsync();
+      return ServerResponseT()..data = response;
+    } catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error: error);
+    }
+  }
+
   Future<ServerResponseT<BuiltBuilding>> getByBuildingAsync(
       Guid buildingId) async {
     try {

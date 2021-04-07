@@ -18,7 +18,7 @@ namespace AstroGame.Api.Controllers.Players
         [HttpPut]
         public async Task<IActionResult> AddAsync([FromBody] AddPlayerSpeciesRequest request)
         {
-            var playerId = GetCurrentUserId();
+            var playerId = GetPlayerId();
 
             var result = await _playerSpeciesManager.AddAsync(playerId, request);
 

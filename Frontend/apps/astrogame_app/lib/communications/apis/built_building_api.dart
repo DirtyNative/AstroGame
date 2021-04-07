@@ -9,6 +9,9 @@ part 'built_building_api.g.dart';
 abstract class BuiltBuildingApi {
   factory BuiltBuildingApi(Dio dio, {String baseUrl}) = _BuiltBuildingApi;
 
+  @GET('/')
+  Future<List<BuiltBuilding>> getAsync();
+
   @GET('/building/{buildingId}')
   Future<BuiltBuilding> getByBuilding(
     @Path('buildingId') Guid buildingId,

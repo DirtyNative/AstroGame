@@ -14,8 +14,8 @@ namespace AstroGame.Storage.Seeds.Resources
                 Id = Guid.Parse("24A0EFE4-27D2-43C6-BB7B-61B36C129B00"),
                 BuildingId = Guid.Parse("5B2AA6BC-9754-42EB-B519-39EDD989F9BB"),
                 ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
-                BaseValue = 60,
-                Multiplier = 1.5,
+                BaseValue = 40,
+                Multiplier = 1.1,
             });
         }
     }

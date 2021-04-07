@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
 using AstroGame.Api.Services;
+using Hangfire;
 
 namespace AstroGame.Api
 {
@@ -39,7 +40,8 @@ namespace AstroGame.Api
                 .RegisterServices(Configuration)
                 .ConfigureDatabase(Configuration)
                 .RegisterServiceApis(Configuration)
-                .ConfigureAutoMapper();
+                .ConfigureAutoMapper()
+                .ConfigureHangfire(Configuration);
 
             //services.AddHostedService<SolarSystemGeneratorService>();
 
@@ -54,7 +56,7 @@ namespace AstroGame.Api
             });
 
             services.AddIdentityServerAuthentication(Configuration);
-            
+
             services.AddIdentityServerAuthenticationForSwagger<AuthorizeCheckOperationFilter>(Configuration, "v1",
                 "AstroGame API", new Dictionary<string, string>
                 {
@@ -92,6 +94,8 @@ namespace AstroGame.Api
             }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+            app.UseHangfireDashboard();
 
             app.UseHttpsRedirection();
             app.UseRouting();

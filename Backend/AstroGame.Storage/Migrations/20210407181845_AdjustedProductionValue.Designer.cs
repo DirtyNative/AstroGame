@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    [Migration("20210402145639_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210407181845_AdjustedProductionValue")]
+    partial class AdjustedProductionValue
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,63 @@ namespace AstroGame.Storage.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Buildings");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingChain", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<int>("ChainLength")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
+                    b.ToTable("BuildingChains");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingConstruction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid>("BuildingChainId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BuildingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HangfireJobId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("StellarObjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingChainId");
+
+                    b.HasIndex("BuildingId");
+
+                    b.HasIndex("StellarObjectId");
+
+                    b.ToTable("BuildingConstructions");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingCost", b =>
@@ -253,6 +310,16 @@ namespace AstroGame.Storage.Migrations
                     b.HasIndex("ResourceId");
 
                     b.ToTable("OutputResources");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("24a0efe4-27d2-43c6-bb7b-61b36c129b00"),
+                            BaseValue = 40.0,
+                            BuildingId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
+                            Multiplier = 1.1000000000000001,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016")
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>
@@ -512,6 +579,9 @@ namespace AstroGame.Storage.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<Guid>("BuildingChainId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ConfirmationToken")
                         .HasColumnType("nvarchar(max)");
 
@@ -529,6 +599,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("22222222-0000-0000-0000-000000000000"),
+                            BuildingChainId = new Guid("00000000-0000-0000-0000-000000000000"),
                             PlayerSpeciesId = new Guid("22222222-1111-0000-0000-000000000000"),
                             Username = "DirtyNative"
                         });
@@ -1784,6 +1855,9 @@ namespace AstroGame.Storage.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<double>("HourlyAmount")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("ResourceId")
                         .HasColumnType("uniqueidentifier");
 
@@ -2419,6 +2493,44 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("Planets");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingChain", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithOne("BuildingChain")
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.BuildingChain", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingConstruction", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.BuildingChain", "BuildingChain")
+                        .WithMany("BuildingUpgrades")
+                        .HasForeignKey("BuildingChainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
+                        .WithMany()
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "StellarObject")
+                        .WithMany()
+                        .HasForeignKey("StellarObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Building");
+
+                    b.Navigation("BuildingChain");
+
+                    b.Navigation("StellarObject");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingCost", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
@@ -2777,6 +2889,11 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("BuiltBuildings");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingChain", b =>
+                {
+                    b.Navigation("BuildingUpgrades");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>
                 {
                     b.Navigation("BuiltBuildings");
@@ -2786,6 +2903,8 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Player", b =>
                 {
+                    b.Navigation("BuildingChain");
+
                     b.Navigation("ColonizedObjects");
 
                     b.Navigation("Credentials");

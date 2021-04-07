@@ -54,4 +54,22 @@ class _BuildingApi implements BuildingApi {
         .toList();
     return value;
   }
+
+  @override
+  Future<dynamic> buildAsync(buildingId) async {
+    ArgumentError.checkNotNull(buildingId, 'buildingId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request('/build/$buildingId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
 }

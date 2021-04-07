@@ -10,7 +10,7 @@ namespace AstroGame.Api.Controllers
     [ApiController]
     public abstract class ControllerBase : Controller
     {
-        protected Guid GetCurrentUserId()
+        protected Guid GetPlayerId()
         {
             var id = (ClaimsIdentity) User.Identity;
 

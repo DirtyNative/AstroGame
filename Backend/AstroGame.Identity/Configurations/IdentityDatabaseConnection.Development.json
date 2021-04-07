@@ -1,6 +1,6 @@
 {
-  "DatabaseConnection": {
+  "IdentityDatabaseConnection": {
     "DatabaseConnectionString": "server=localhost\\SQLEXPRESS;database={0};connection timeout=30;Trusted_Connection=True;MultipleActiveResultSets=True;",
-    "DatabaseName": "Dev.AstroGame"
+    "DatabaseName": "Dev.AstroGame.Identity"
   }
 }

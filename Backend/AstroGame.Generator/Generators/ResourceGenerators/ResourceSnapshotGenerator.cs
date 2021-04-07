@@ -45,13 +45,26 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             return await CreateSnapshot(colonizedStellarObject);
         }
 
-        private async Task<ResourceSnapshot> CreateSnapshot(ColonizedStellarObject stellarObject)
+        private async Task<ResourceSnapshot> CreateSnapshot(ColonizedStellarObject colonizedStellarObject)
         {
             // Get the latest snapshot
-            var latestSnapshot = await _resourceSnapshotRepository.GetLatestAsync(stellarObject.StellarObjectId);
+            var latestSnapshot =
+                await _resourceSnapshotRepository.GetLatestAsync(colonizedStellarObject.StellarObjectId);
+
+            // If no snapshot exists, create one
+            if (latestSnapshot == null)
+            {
+                latestSnapshot = new ResourceSnapshot()
+                {
+                    SnapshotTime = DateTime.UtcNow,
+                    StellarObjectId = colonizedStellarObject.StellarObjectId,
+                };
+
+                await _resourceSnapshotRepository.AddAsync(latestSnapshot);
+            }
 
             // Get all built producing buildings
-            var builtBuildings = await _builtBuildingRepository.GetProductionBuildingsAsync(stellarObject.Id);
+            var builtBuildings = await _builtBuildingRepository.GetProductionBuildingsAsync(colonizedStellarObject.Id);
 
             // We need to order the built buildings so that we can calculate the consumption more easily
             //builtBuildings = builtBuildings.OrderBy(e => e.Building.Order).ToList();
@@ -65,7 +78,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             var snapshot = new ResourceSnapshot()
             {
                 SnapshotTime = snapshotTime,
-                StellarObjectId = stellarObject.StellarObjectId
+                StellarObjectId = colonizedStellarObject.StellarObjectId
             };
 
             // Adapt the resources from the last snapshot
@@ -113,7 +126,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                 // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
                 foreach (var inputResource in productionBuilding.InputResources)
                 {
-                    var calculatedPower = CalculateInputResource(snapshot, inputResource, builtBuilding.Level, 1);
+                    var calculatedPower = SubtractConsumption(snapshot, inputResource, builtBuilding.Level, 1);
 
                     if (calculatedPower < lowestPower)
                     {
@@ -124,7 +137,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                 // Generate the output
                 foreach (var outputResource in productionBuilding.OutputResources)
                 {
-                    CalculateOutputResource(snapshot, outputResource, builtBuilding.Level, 1, lowestPower);
+                    AddProduction(snapshot, outputResource, builtBuilding.Level, 1, lowestPower);
                 }
             }
 
@@ -136,7 +149,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             foreach (var inputResource in productionBuilding.InputResources)
             {
                 var calculatedPower =
-                    CalculateInputResource(snapshot, inputResource, builtBuilding.Level, remainingHour);
+                    SubtractConsumption(snapshot, inputResource, builtBuilding.Level, remainingHour);
 
                 if (calculatedPower < lowestPower)
                 {
@@ -147,56 +160,70 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             // Generate the output
             foreach (var outputResource in productionBuilding.OutputResources)
             {
-                CalculateOutputResource(snapshot, outputResource, builtBuilding.Level, remainingHour, lowestPower);
+                AddProduction(snapshot, outputResource, builtBuilding.Level, remainingHour, lowestPower);
             }
         }
 
         /// <summary>
-        /// 
+        /// Subtracts the amount of resources from the StoredResources
         /// </summary>
-        /// <param name="snapshot"></param>
-        /// <param name="inputResource"></param>
-        /// <param name="level"></param>
-        /// <param name="hourPercentage">The percentage of the time</param>
-        /// <returns></returns>
-        private double CalculateInputResource(ResourceSnapshot snapshot, InputResource inputResource, int level,
+        /// <param name="snapshot">The actual snapshot</param>
+        /// <param name="inputResource">The input resource to subtract</param>
+        /// <param name="level">The buildings level</param>
+        /// <param name="hourPercentage">The percentage of the passed hour</param>
+        /// <returns>0 = Nothing consumed so nothing will be produced, 1 = Full consumption and production</returns>
+        private double SubtractConsumption(ResourceSnapshot snapshot, InputResource inputResource, int level,
             double hourPercentage)
         {
+            // Get the amount from the last snapshot or set it to 0
+            double existingValue;
+            if (snapshot.StoredResources.Any(e => e.ResourceId == inputResource.ResourceId))
+            {
+                existingValue = snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).Amount;
+            }
+            else
+            {
+                existingValue = 0;
+            }
+
             // The base consumption per hour
-            var hourlyConsumption = inputResource.BaseValue * level * Math.Pow(inputResource.Multiplier, level);
+            var hourlyConsumption =
+                ResourceCalculator.CalculateConsumedAmount(inputResource.BaseValue, inputResource.Multiplier, level);
 
             // The consumption since the last snapshot
             var consumption = hourlyConsumption * hourPercentage;
 
-            var existingValue = snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).Amount;
-
+            // The percentage how many resources have been consumed
             var power = existingValue / consumption;
 
             // If there are not enough resources, set the resources to 0 and return the available percentage
             if (power < 1)
             {
                 snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).Amount = 0;
-                snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).HourlyAmount -= consumption;
+                snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).HourlyAmount =
+                    consumption;
                 return power;
             }
 
             // Update the resources and return 100% 
             snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).Amount -= consumption;
-            snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).HourlyAmount -= consumption;
+            snapshot.StoredResources.First(e => e.ResourceId == inputResource.ResourceId).HourlyAmount = consumption;
             return 1;
         }
 
-        private void CalculateOutputResource(ResourceSnapshot snapshot, OutputResource outputResource, int level,
+        private void AddProduction(ResourceSnapshot snapshot, OutputResource outputResource, int level,
             double hourPercentage, double multiplier)
         {
             // The production per hour
-            var hourlyProduction = outputResource.BaseValue * level * Math.Pow(outputResource.Multiplier, level);
+            var hourlyProduction = ResourceCalculator.CalculateProducedAmount(outputResource.BaseValue,
+                outputResource.Multiplier, level);
 
             // The production since the last snapshot
-            var production = hourlyProduction * hourPercentage * multiplier;
+            var production = ResourceCalculator.CalculateProducedAmount(hourlyProduction, hourPercentage, multiplier);
 
             snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).Amount += production;
-            snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).HourlyAmount += hourlyProduction * multiplier;
+            snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).HourlyAmount =
+                hourlyProduction * multiplier;
         }
     }
 }

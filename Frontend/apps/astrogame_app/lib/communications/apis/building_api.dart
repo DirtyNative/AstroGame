@@ -1,6 +1,7 @@
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/enums/stellar_object_type.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_guid/flutter_guid.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'building_api.g.dart';
@@ -15,5 +16,10 @@ abstract class BuildingApi {
   @GET('/type/{type}')
   Future<List<Building>> getAllByTypeAsync(
     @Path('type') StellarObjectType type,
+  );
+
+  @PUT('/build/{buildingId}')
+  Future buildAsync(
+    @Path('buildingId') Guid buildingId,
   );
 }

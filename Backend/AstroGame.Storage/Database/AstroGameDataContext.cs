@@ -53,6 +53,7 @@ namespace AstroGame.Storage.Database
         public DbSet<ProductionBuilding> ProductionBuildings { get; set; }
         public DbSet<StorageBuilding> StorageBuildings { get; set; }
         public DbSet<BuiltBuilding> BuiltBuildings { get; set; }
+        public DbSet<BuildingChain> BuildingChains { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

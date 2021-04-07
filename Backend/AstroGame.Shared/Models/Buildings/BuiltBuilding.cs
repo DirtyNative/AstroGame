@@ -8,7 +8,7 @@ namespace AstroGame.Shared.Models.Buildings
         public Guid Id { get; set; }
         public Guid BuildingId { get; set; }
         public Guid ColonizedStellarObjectId { get; set; }
-        
+
         public int Level { get; set; }
 
         public virtual Building Building { get; set; }

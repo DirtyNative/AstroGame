@@ -40,5 +40,16 @@ namespace AstroGame.Api.Controllers.Controllers
 
             return File(image, "image/png");
         }
+
+        [HttpPut("build/{buildingId}")]
+        public async Task<IActionResult> BuildAsync(Guid buildingId)
+        {
+            var playerId = GetPlayerId();
+            var selectedStellarObjectId = GetSelectedStellarObject();
+
+            await _buildingManager.BuildAsync(playerId, selectedStellarObjectId, buildingId);
+
+            return Ok();
+        }
     }
 }

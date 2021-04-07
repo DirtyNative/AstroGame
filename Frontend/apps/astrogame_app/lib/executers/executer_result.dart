@@ -2,6 +2,14 @@ class ExecuterResult {
   bool success;
 
   ExecuterResult(this.success);
+
+  ExecuterResult.success() {
+    success = true;
+  }
+
+  ExecuterResult.error() {
+    success = false;
+  }
 }
 
 class ExecuterResultT1<T1> {
@@ -14,5 +22,7 @@ class ExecuterResultT1<T1> {
     success = false;
   }
 
-  ExecuterResultT1.success(this.data);
+  ExecuterResultT1.success(this.data) {
+    success = true;
+  }
 }

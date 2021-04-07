@@ -19,6 +19,27 @@ namespace AstroGame.Storage.Repositories.Buildings
             _context = context;
         }
 
+        public async Task<List<BuiltBuilding>> GetAsync(Guid stellarObjectId)
+        {
+            return await _context.BuiltBuildings
+                .Include(e => e.ColonizedStellarObject)
+
+                // Input Resources
+                .Include(e => e.Building)
+                .ThenInclude(e => (e as ProductionBuilding).InputResources)
+
+                // Output Resources
+                .Include(e => e.Building)
+                .ThenInclude(e => (e as ProductionBuilding).OutputResources)
+
+                // Predict
+                .Where(e => e.ColonizedStellarObject.StellarObjectId == stellarObjectId)
+
+                // Order
+                .OrderBy(e => e.Building.Order)
+                .ToListAsync();
+        }
+
         public async Task<BuiltBuilding> GetByBuildingAsync(Guid stellarObjectId, Guid buildingId)
         {
             return await _context.BuiltBuildings
@@ -38,7 +59,6 @@ namespace AstroGame.Storage.Repositories.Buildings
 
                 // Order
                 .OrderBy(e => e.Building.Order)
-
                 .FirstOrDefaultAsync();
         }
 
@@ -62,6 +82,19 @@ namespace AstroGame.Storage.Repositories.Buildings
                 // Order
                 .OrderBy(e => e.Building.Order)
                 .ToListAsync();
+        }
+
+        public async Task<Guid> AddAsync(BuiltBuilding builtBuilding)
+        {
+            await _context.BuiltBuildings.AddAsync(builtBuilding);
+            await _context.SaveChangesAsync();
+
+            return builtBuilding.Id;
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

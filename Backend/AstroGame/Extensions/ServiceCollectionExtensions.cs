@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
+using Hangfire;
 
 namespace AstroGame.Api.Extensions
 {
@@ -78,6 +79,24 @@ namespace AstroGame.Api.Extensions
                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly("AstroGame.Storage"));
                 options.UseSqlServer(builder => { builder.EnableRetryOnFailure(); });
             });
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureHangfire(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.Configure<DatabaseConnection>(configuration.GetSection("HangfireDatabaseConnection"));
+            var databaseConnection = new DatabaseConnection();
+            configuration.GetSection("HangfireDatabaseConnection").Bind(databaseConnection);
+
+            var connectionString = string.Format(databaseConnection.DatabaseConnectionString,
+                databaseConnection.DatabaseName,
+                databaseConnection.DatabaseAccount, databaseConnection.DatabasePassword);
+
+            services.AddHangfire(config => config.UseSqlServerStorage(connectionString));
+
+            services.AddHangfireServer();
 
             return services;
         }
