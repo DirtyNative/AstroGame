@@ -48,6 +48,9 @@ namespace AstroGame.Api.Extensions
             services.AddScoped((provider) =>
                 new ResourceGeneratorFactory(provider.GetService<ResourceRepository>()).Create());
 
+            services.AddScoped((provider) =>
+                new ResourceCalculatorFactory(provider).Create());
+
             // The file client which provides us a location to store files
             services.AddScoped<IFileClient, LocalFileClient>(client =>
             {

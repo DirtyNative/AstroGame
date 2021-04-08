@@ -11,6 +11,7 @@ import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/providers/authorization_token_provider.dart';
 import 'package:astrogame_app/providers/player_provider.dart';
 import 'package:astrogame_app/providers/resource_provider.dart';
+import 'package:astrogame_app/services/hub_service.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
@@ -27,6 +28,7 @@ class LoginExecuter {
 
   DialogHelper _dialogHelper;
   NavigationWrapper _navigationService;
+  HubService _hubService;
 
   LoginExecuter(
     this._authorizationRepository,
@@ -37,6 +39,7 @@ class LoginExecuter {
     this._resourceProvider,
     this._dialogHelper,
     this._navigationService,
+    this._hubService,
   );
 
   Future<bool> loginAsync(String email, String password) async {
@@ -70,6 +73,9 @@ class LoginExecuter {
       _navigationService.clearStackAndShow(RoutePaths.SpeciesSelectionRoute);
       return true;
     }
+
+    // Register the hubs
+    await _hubService.connectAsync();
 
     _navigationService.clearStackAndShow(RoutePaths.MainShellRoute);
 

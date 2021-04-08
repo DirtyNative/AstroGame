@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AstroGame.Api.Helpers;
+using AstroGame.Api.Hubs;
 using AstroGame.Core.Exceptions;
 using AstroGame.Generator.Generators.ResourceGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
@@ -19,28 +20,33 @@ namespace AstroGame.Api.Services
     {
         private readonly ResourceService _resourceService;
         private readonly ResourceHelper _resourceHelper;
+        private readonly IResourceCalculator _resourceCalculator;
 
         private readonly BuildingChainRepository _buildingChainRepository;
         private readonly ColonizedStellarObjectRepository _colonizedStellarObjectRepository;
         private readonly BuiltBuildingRepository _builtBuildingRepository;
 
+        private readonly BuildingHub _buildingHub;
 
         public ConstructionService(BuildingChainRepository buildingChainRepository, ResourceService resourceService,
             ResourceHelper resourceHelper, ColonizedStellarObjectRepository colonizedStellarObjectRepository,
-            BuiltBuildingRepository builtBuildingRepository)
+            BuiltBuildingRepository builtBuildingRepository, BuildingHub buildingHub,
+            IResourceCalculator resourceCalculator)
         {
             _buildingChainRepository = buildingChainRepository;
             _resourceService = resourceService;
             _resourceHelper = resourceHelper;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
             _builtBuildingRepository = builtBuildingRepository;
+            _buildingHub = buildingHub;
+            _resourceCalculator = resourceCalculator;
         }
 
         public async Task BuildAsync(Player player, Building building, StellarObject stellarObject,
             BuiltBuilding builtBuilding)
         {
             var now = DateTime.UtcNow;
-            
+
             // Get the players chain
             var chain = await _buildingChainRepository.GetByPlayerAsync(player.Id);
 
@@ -90,11 +96,13 @@ namespace AstroGame.Api.Services
 
             // Calculate the building duration
             var totalConstructionCosts = _resourceHelper.SumBuildingCosts(building.BuildingCosts, level);
-            var buildingTime = ResourceCalculator.CalculateBuildingTime(totalConstructionCosts, 1, 1, 1);
+            var buildingTime = _resourceCalculator.CalculateBuildingTime(totalConstructionCosts, 1, 1, 1);
+
+            var jobExecutionTime = now.AddHours(buildingTime);
 
             // Create the Hangfire job
             var jobId = BackgroundJob.Schedule(() => FinishConstructionAsync(player.Id, stellarObject.Id, building.Id),
-                now.AddHours(buildingTime));
+                jobExecutionTime);
 
 
             var upgrade = new BuildingConstruction()
@@ -145,10 +153,10 @@ namespace AstroGame.Api.Services
 
             constructedBuilding.Level += 1;
 
+            // Raise SignalR Event that a building has finished
+            await _buildingHub.SendBuildingConstructionFinished(playerId);
+
             await _builtBuildingRepository.SaveChangesAsync();
-
-
-            // TODO: Raise SignalR Event that a building has finished
         }
     }
 }

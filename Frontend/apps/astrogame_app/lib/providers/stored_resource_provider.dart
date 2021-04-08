@@ -7,4 +7,6 @@ class StoredResourceProvider {
 
   List<StoredResource> getStoredRecources() => _storedResources;
   void setStoredResources(List<StoredResource> val) => _storedResources = val;
+
+  // TODO: Implement synchronized get method
 }

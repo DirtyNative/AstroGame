@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
+using AstroGame.Api.Hubs;
 using AstroGame.Api.Services;
 using Hangfire;
 
@@ -65,8 +66,6 @@ namespace AstroGame.Api
 
 
             services.AddSignalR();
-
-            //services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "AstroGame", Version = "v1"}); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,7 +100,11 @@ namespace AstroGame.Api
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<BuildingHub>("/hub/building");
+            });
         }
     }
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:astrogame_app/communications/repositories/stellar_object_repository.dart';
+import 'package:astrogame_app/events/data_updated_event.dart';
 import 'package:astrogame_app/models/buildings/building_chain.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
+import 'package:astrogame_app/services/event_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
@@ -14,12 +16,19 @@ class ConstructionsViewModel extends BaseViewModel {
   BuildingChainProvider _buildingChainProvider;
   StellarObjectRepository _stellarObjectRepository;
 
+  EventService _eventService;
+
   Timer _timer;
 
   ConstructionsViewModel(
     this._buildingChainProvider,
     this._stellarObjectRepository,
+    this._eventService,
   ) {
+    _eventService.on<DataUpdatedEvent>().listen((event) {
+      notifyListeners();
+    });
+
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       notifyListeners();
     });

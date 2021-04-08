@@ -1,27 +1,31 @@
-import 'package:astrogame_app/models/buildings/building_construction.dart';
-import 'package:astrogame_app/providers/building_chain_provider.dart';
+import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/providers/buildings_provider.dart';
-import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
-class BuildingsViewModel extends BaseViewModel {
+class BuildingsViewModel extends FutureViewModel {
   BuildingsProvider buildingsProvider;
-  BuildingChainProvider _buildingChainProvider;
-  SelectedColonizedStellarObjectProvider
-      _selectedColonizedStellarObjectProvider;
+
+  List<Building> _buildings;
+  List<Building> get buildings => _buildings;
+  set buildings(List<Building> val) {
+    _buildings = val;
+    notifyListeners();
+  }
 
   BuildingsViewModel(
     this.buildingsProvider,
-    this._buildingChainProvider,
-    this._selectedColonizedStellarObjectProvider,
   );
 
-  Future<BuildingConstruction> fetchActiveConstruction() async {
-    return _buildingChainProvider.getByStellarObject(
-        _selectedColonizedStellarObjectProvider
-            .getSelectedObject()
-            .stellarObjectId);
+  Future<List<Building>> fetchBuildingsAsync() async {
+    return await buildingsProvider.get();
   }
+
+  Future updateAsync() async {
+    buildings = await fetchBuildingsAsync();
+  }
+
+  @override
+  Future futureToRun() => updateAsync();
 }

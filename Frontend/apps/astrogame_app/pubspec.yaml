@@ -63,6 +63,8 @@ dependencies:
 
   duration:
 
+  signalr_core:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -16,6 +16,8 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
     [ScopedService]
     public class ResourceSnapshotGenerator
     {
+        private readonly IResourceCalculator _resourceCalculator;
+
         private readonly ResourceSnapshotRepository _resourceSnapshotRepository;
         private readonly BuiltBuildingRepository _builtBuildingRepository;
         private readonly StoredResourceRepository _storedResourceRepository;
@@ -24,12 +26,13 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
         public ResourceSnapshotGenerator(ResourceSnapshotRepository resourceSnapshotRepository,
             BuiltBuildingRepository builtBuildingRepository,
             StoredResourceRepository storedResourceRepository,
-            ColonizedStellarObjectRepository colonizedStellarObjectRepository)
+            ColonizedStellarObjectRepository colonizedStellarObjectRepository, IResourceCalculator resourceCalculator)
         {
             _resourceSnapshotRepository = resourceSnapshotRepository;
             _builtBuildingRepository = builtBuildingRepository;
             _storedResourceRepository = storedResourceRepository;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
+            _resourceCalculator = resourceCalculator;
         }
 
         public async Task<ResourceSnapshot> CreateSnapshot(Guid stellarObjectId)
@@ -188,7 +191,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
 
             // The base consumption per hour
             var hourlyConsumption =
-                ResourceCalculator.CalculateConsumedAmount(inputResource.BaseValue, inputResource.Multiplier, level);
+                _resourceCalculator.CalculateConsumedAmount(inputResource.BaseValue, inputResource.Multiplier, level);
 
             // The consumption since the last snapshot
             var consumption = hourlyConsumption * hourPercentage;
@@ -215,11 +218,11 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             double hourPercentage, double multiplier)
         {
             // The production per hour
-            var hourlyProduction = ResourceCalculator.CalculateProducedAmount(outputResource.BaseValue,
+            var hourlyProduction = _resourceCalculator.CalculateProducedAmount(outputResource.BaseValue,
                 outputResource.Multiplier, level);
 
             // The production since the last snapshot
-            var production = ResourceCalculator.CalculateProducedAmount(hourlyProduction, hourPercentage, multiplier);
+            var production = _resourceCalculator.CalculateProducedAmount(hourlyProduction, hourPercentage, multiplier);
 
             snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).Amount += production;
             snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).HourlyAmount =

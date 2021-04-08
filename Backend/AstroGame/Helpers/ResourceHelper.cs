@@ -10,6 +10,14 @@ namespace AstroGame.Api.Helpers
     [ScopedService]
     public class ResourceHelper
     {
+        private readonly IResourceCalculator _resourceCalculator;
+
+        public ResourceHelper(IResourceCalculator resourceCalculator)
+        {
+            _resourceCalculator = resourceCalculator;
+        }
+
+
         public bool HasNeededResources(List<StoredResource> storedResources, List<BuildingCost> buildingCosts,
             int level)
         {
@@ -36,7 +44,7 @@ namespace AstroGame.Api.Helpers
         public bool HasNeededResource(StoredResource storedResource, BuildingCost buildingCost, int level)
         {
             var neededAmount =
-                ResourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
+                _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
                     level);
 
             return HasNeededResourceAmount(storedResource, neededAmount);
@@ -54,7 +62,7 @@ namespace AstroGame.Api.Helpers
             {
                 var storedResource = storedResources.First(e => e.ResourceId == buildingCost.ResourceId);
                 var neededAmount =
-                    ResourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
+                    _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
                         level);
 
                 storedResource.Amount -= neededAmount;
@@ -66,7 +74,8 @@ namespace AstroGame.Api.Helpers
         public double SumBuildingCosts(List<BuildingCost> buildingCosts, int level)
         {
             return buildingCosts.Sum(buildingCost =>
-                ResourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier, level));
+                _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
+                    level));
         }
     }
 }

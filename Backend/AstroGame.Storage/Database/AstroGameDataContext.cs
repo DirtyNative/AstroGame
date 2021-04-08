@@ -66,6 +66,8 @@ namespace AstroGame.Storage.Database
             modelBuilder.UseValueConverterForType<Vector3>(vector3Converter);
             modelBuilder.UseValueConverterForType<Coordinates>(new CoordinateStringConverter());
 
+            modelBuilder.TreatDateTimeAsUtc();
+
             base.OnModelCreating(modelBuilder);
         }
     }
