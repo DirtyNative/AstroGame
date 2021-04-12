@@ -24,16 +24,12 @@ namespace AstroGame.Storage.Repositories.Stellar
         {
             return await _context.SolarSystems
                 .IncludeAll()
-                //.Include(e => e.CenterObjects)
-                //.Include(e => e.Satellites)
                 .FirstOrDefaultAsync(ss => ss.Id == id);
         }
 
         public async Task<SolarSystem> GetBySystemNumberAsync(uint systemNumber)
         {
             var systems = await _context.SolarSystems
-                //.Include(e => e.CenterObjects)
-                // .Include(e => e.Satellites)
                 .IncludeAll()
                 .ToListAsync();
 
@@ -44,8 +40,6 @@ namespace AstroGame.Storage.Repositories.Stellar
         {
             return await _context.SolarSystems
                 .IncludeAll()
-                //.Include(e => e.CenterObjects)
-                //.Include(e => e.Satellites)
                 .Where(e => e.ParentId == parentId)
                 .ToListAsync();
         }
@@ -54,8 +48,6 @@ namespace AstroGame.Storage.Repositories.Stellar
         {
             var solarSystem = await _context.SolarSystems
                 .IncludeAll()
-                //.Include(e => e.CenterObjects)
-                //.Include(e => e.Satellites)
                 .FirstOrDefaultAsync();
 
             return solarSystem;
@@ -65,8 +57,6 @@ namespace AstroGame.Storage.Repositories.Stellar
         {
             var solarSystem = await _context.SolarSystems
                 .IncludeAll()
-                //.Include(e => e.CenterObjects)
-                //.Include(e => e.Satellites)
                 .LastOrDefaultAsync();
 
             return solarSystem;
@@ -76,8 +66,6 @@ namespace AstroGame.Storage.Repositories.Stellar
         {
             return await _context.SolarSystems
                 .IncludeAll()
-                //.Include(e => e.CenterObjects)
-                //.Include(e => e.Satellites)
                 .ToListAsync();
         }
 

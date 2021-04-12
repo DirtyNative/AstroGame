@@ -1,36 +1,34 @@
 import 'package:astrogame_app/communications/repositories/building_chain_repository.dart';
-import 'package:astrogame_app/events/data_updated_event.dart';
 import 'package:astrogame_app/models/buildings/building_chain.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
-import 'package:astrogame_app/services/event_service.dart';
 import 'package:flutter_guid/flutter_guid.dart';
+import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
 
 @singleton
 class BuildingChainProvider {
-  BuildingChain _buildingChain;
+  MemoryCache _memoryCache = MemoryCache();
+  var _lock = new Lock();
 
   BuildingChainRepository _buildingChainRepository;
-  EventService _eventService;
 
   BuildingChainProvider(
     this._buildingChainRepository,
-    this._eventService,
   );
 
   Future<BuildingChain> get() async {
-    var lock = new Lock();
+    return await _lock.synchronized(() async {
+      var values = _memoryCache.get('all');
 
-    return await lock.synchronized(() async {
-      if (_buildingChain != null) {
-        return _buildingChain;
+      if (values != null) {
+        return values;
       }
 
       var response = await _buildingChainRepository.getByCurrentPlayerAsync();
 
-      _buildingChain = response.data;
-      return _buildingChain;
+      _memoryCache.put('all', response.data);
+      return response.data;
     });
   }
 
@@ -53,14 +51,19 @@ class BuildingChainProvider {
   }
 
   Future updateAsync() async {
-    var lock = new Lock();
-
-    return await lock.synchronized(() async {
+    return await _lock.synchronized(() async {
       var response = await _buildingChainRepository.getByCurrentPlayerAsync();
 
-      _buildingChain = response.data;
+      _memoryCache.put('all', response.data);
+    });
+  }
 
-      _eventService.fire(new DataUpdatedEvent());
+  Future removeFromStellarObjectAsync(Guid stellarObjectId) async {
+    return await _lock.synchronized(() async {
+      var chain = _memoryCache.get('all') as BuildingChain;
+
+      chain.buildingUpgrades
+          .removeWhere((element) => element.stellarObjectId == stellarObjectId);
     });
   }
 }

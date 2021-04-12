@@ -66,6 +66,7 @@ namespace AstroGame.Api
 
 
             services.AddSignalR();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +106,8 @@ namespace AstroGame.Api
                 endpoints.MapControllers();
                 endpoints.MapHub<BuildingHub>("/hub/building");
             });
+
+            app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
         }
     }
 }

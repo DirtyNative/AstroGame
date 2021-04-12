@@ -13,6 +13,8 @@ class RoutePaths {
   static const String BuildingsRoute = 'Buildings';
   static const String PlanetViewRoute = 'PlanetView';
   static const String SystemViewRoute = 'SystemView';
+  static const String ResourcesRoute = 'ResourcesView';
+  static const String MarketRoute = 'MarketView';
 
   static const String NotImplementedRoute = "NotImplementedView";
 }

@@ -1,32 +1,31 @@
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_cost.dart';
-import 'package:astrogame_app/providers/stored_resource_provider.dart';
+import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:math';
 
 @injectable
 class ResourceHelper {
-  StoredResourceProvider _storedResourceProvider;
+  bool hasStoredResourcesToBuild(
+      List<StoredResource> resources, Building building, int level) {
+    if (resources == null || resources.length == 0) {
+      return false;
+    }
 
-  ResourceHelper(this._storedResourceProvider);
-
-  bool hasStoredResourcesToBuild(Building building, int level) {
     for (int index = 0; index < building.buildingCosts.length; index++) {
       var buildingCost = building.buildingCosts[index];
 
       var amount = _calculateAmount(buildingCost, level + 1);
 
       // Check if there are stored resources
-      if (_storedResourceProvider.getStoredRecources().any(
+      if (resources.any(
               (element) => element.resourceId == buildingCost.resourceId) ==
           false) {
         return false;
       }
 
-      var storedResource = _storedResourceProvider
-          .getStoredRecources()
-          .firstWhere(
-              (element) => element.resourceId == buildingCost.resourceId);
+      var storedResource = resources.firstWhere(
+          (element) => element.resourceId == buildingCost.resourceId);
 
       if (storedResource == null) {
         return false;

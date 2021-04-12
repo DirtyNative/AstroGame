@@ -12,6 +12,7 @@ using AstroGame.Generator.Generators.ResourceGenerators;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Storage.Repositories.Stellar;
 using Hangfire;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AstroGame.Api.Services
 {
@@ -26,20 +27,20 @@ namespace AstroGame.Api.Services
         private readonly ColonizedStellarObjectRepository _colonizedStellarObjectRepository;
         private readonly BuiltBuildingRepository _builtBuildingRepository;
 
-        private readonly BuildingHub _buildingHub;
+        private readonly IHubContext<BuildingHub> _buildingHub;
 
         public ConstructionService(BuildingChainRepository buildingChainRepository, ResourceService resourceService,
             ResourceHelper resourceHelper, ColonizedStellarObjectRepository colonizedStellarObjectRepository,
-            BuiltBuildingRepository builtBuildingRepository, BuildingHub buildingHub,
-            IResourceCalculator resourceCalculator)
+            BuiltBuildingRepository builtBuildingRepository,
+            IResourceCalculator resourceCalculator, IHubContext<BuildingHub> buildingHub)
         {
             _buildingChainRepository = buildingChainRepository;
             _resourceService = resourceService;
             _resourceHelper = resourceHelper;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
             _builtBuildingRepository = builtBuildingRepository;
-            _buildingHub = buildingHub;
             _resourceCalculator = resourceCalculator;
+            _buildingHub = buildingHub;
         }
 
         public async Task BuildAsync(Player player, Building building, StellarObject stellarObject,
@@ -154,7 +155,8 @@ namespace AstroGame.Api.Services
             constructedBuilding.Level += 1;
 
             // Raise SignalR Event that a building has finished
-            await _buildingHub.SendBuildingConstructionFinished(playerId);
+            //await _buildingHub.SendBuildingConstructionFinished(playerId);
+            await _buildingHub.Clients.All.SendAsync("BuildingConstructionFinished", stellarObjectId, buildingId);
 
             await _builtBuildingRepository.SaveChangesAsync();
         }

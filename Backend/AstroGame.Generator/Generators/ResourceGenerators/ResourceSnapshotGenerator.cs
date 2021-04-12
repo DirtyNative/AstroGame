@@ -1,4 +1,5 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Core.Exceptions;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Shared.Models.Players;
 using AstroGame.Shared.Models.Resources;
@@ -9,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AstroGame.Core.Exceptions;
 
 namespace AstroGame.Generator.Generators.ResourceGenerators
 {
@@ -223,6 +223,16 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
 
             // The production since the last snapshot
             var production = _resourceCalculator.CalculateProducedAmount(hourlyProduction, hourPercentage, multiplier);
+
+            if (snapshot.StoredResources.Any(e => e.ResourceId == outputResource.ResourceId) == false)
+            {
+                snapshot.StoredResources.Add(new StoredResource()
+                {
+                    ResourceSnapshot = snapshot,
+                    ResourceId = outputResource.ResourceId,
+                    Resource = outputResource.Resource,
+                });
+            }
 
             snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).Amount += production;
             snapshot.StoredResources.First(e => e.ResourceId == outputResource.ResourceId).HourlyAmount =

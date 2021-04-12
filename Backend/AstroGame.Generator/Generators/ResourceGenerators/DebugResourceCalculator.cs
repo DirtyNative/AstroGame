@@ -9,7 +9,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
     {
         public double CalculateBuildingCostAmount(double baseValue, double multiplier, int level)
         {
-            return level;
+            return baseValue * Math.Pow(multiplier, level - 1);
         }
 
         public double CalculateBuildingTime(double resourcesAmount, double researchMultiplier,
@@ -20,35 +20,35 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
 
         public double CalculateConsumedAmount(double baseValue, double multiplier, int level)
         {
-            return level;
+            return baseValue * level * Math.Pow(multiplier, level);
         }
 
         public double CalculateConsumedAmount(double baseValue, double multiplier, int level,
             double hourPercentage)
         {
-            return level;
+            return CalculateConsumedAmount(baseValue, multiplier, level) * hourPercentage;
         }
 
         public double CalculateProducedAmount(double hourlyProduction, double hourPercentage, double power)
         {
-            return hourlyProduction;
+            return hourlyProduction * hourPercentage * power;
         }
 
         public double CalculateProducedAmount(double baseValue, double multiplier, int level)
         {
-            return level;
+            return baseValue * level * Math.Pow(multiplier, level);
         }
 
         public double CalculateProducedAmount(double baseValue, double multiplier, int level,
             double hourPercentage)
         {
-            return level;
+            return CalculateProducedAmount(baseValue, multiplier, level) * hourPercentage;
         }
 
         public double CalculateProducedAmount(double baseValue, double multiplier, int level,
             double hourPercentage, double power)
         {
-            return level;
+            return CalculateProducedAmount(baseValue, multiplier, level, hourPercentage) * power;
         }
     }
 }

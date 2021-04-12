@@ -8,6 +8,7 @@ import 'package:astrogame_app/views/login/login_view.dart';
 import 'package:astrogame_app/views/perk_selection/perk_selection_view.dart';
 import 'package:astrogame_app/views/planet/planet_view.dart';
 import 'package:astrogame_app/views/register/register_view.dart';
+import 'package:astrogame_app/views/resources/resources_view.dart';
 import 'package:astrogame_app/views/shells/main_shell.dart';
 import 'package:astrogame_app/views/species_selection/species_selection_view.dart';
 import 'package:astrogame_app/views/start/start_view.dart';
@@ -47,6 +48,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case RoutePaths.PlanetViewRoute:
       var bag = settings.arguments as ShowPlanetViewBag;
       return MaterialPageRoute(builder: (_) => PlanetView(bag.planet));
+
+    case RoutePaths.ResourcesRoute:
+      return MaterialPageRoute(builder: (_) => ResourcesView());
+
+    case RoutePaths.MarketRoute:
+      return MaterialPageRoute(builder: (_) => null);
 
     // Common
   }

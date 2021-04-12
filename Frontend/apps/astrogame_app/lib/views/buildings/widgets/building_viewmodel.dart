@@ -1,15 +1,18 @@
 import 'dart:async';
 
 import 'package:astrogame_app/communications/repositories/building_repository.dart';
-import 'package:astrogame_app/events/data_updated_event.dart';
+import 'package:astrogame_app/events/buildings/building_construction_finished_event.dart';
+import 'package:astrogame_app/events/buildings/building_construction_started_event.dart';
 import 'package:astrogame_app/executers/build_building_executer.dart';
 import 'package:astrogame_app/helpers/resource_helper.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
 import 'package:astrogame_app/models/buildings/built_building.dart';
+import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
+import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:duration/duration.dart';
 import 'package:flutter/widgets.dart';
@@ -25,6 +28,7 @@ class BuildingViewModel extends FutureViewModel {
   BuildingChainProvider _buildingChainProvider;
   SelectedColonizedStellarObjectProvider
       _selectedColonizedStellarObjectProvider;
+  StoredResourceProvider _storedResourceProvider;
 
   BuildBuildingExecuter _buildBuildingExecuter;
 
@@ -54,19 +58,30 @@ class BuildingViewModel extends FutureViewModel {
     notifyListeners();
   }
 
+  List<StoredResource> _storedResources;
+  List<StoredResource> get storedResources => _storedResources;
+  set storedResources(List<StoredResource> val) {
+    _storedResources = val;
+    notifyListeners();
+  }
+
   BuildingViewModel(
     this._buildingRepository,
     this._buildingChainProvider,
     this._constructedBuildingsProvider,
     this._selectedColonizedStellarObjectProvider,
+    this._storedResourceProvider,
     this._buildBuildingExecuter,
     this._eventService,
     this._resourceHelper,
     @factoryParam this._building,
   ) {
-    _eventService.on<DataUpdatedEvent>().listen((event) async {
+    _eventService.on<BuildingConstructionStartetEvent>().listen((event) async {
       await updateAsync();
-      notifyListeners();
+    });
+
+    _eventService.on<BuildingConstructionFinishedEvent>().listen((event) async {
+      await updateAsync();
     });
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -86,7 +101,8 @@ class BuildingViewModel extends FutureViewModel {
       level = builtBuilding.level;
     }
 
-    return _resourceHelper.hasStoredResourcesToBuild(building, level);
+    return _resourceHelper.hasStoredResourcesToBuild(
+        storedResources, building, level);
   }
 
   String get constructionText {
@@ -119,6 +135,10 @@ class BuildingViewModel extends FutureViewModel {
             .stellarObjectId);
   }
 
+  Future<List<StoredResource>> _fetchStoredResourcesAsync() async {
+    return await _storedResourceProvider.getAsync();
+  }
+
   Future<ImageProvider> fetchImageAsync(Guid buildingId) async {
     var response =
         await _buildingRepository.getImageAsync(buildingId: buildingId);
@@ -132,13 +152,14 @@ class BuildingViewModel extends FutureViewModel {
 
   Future buildAsync() async {
     await _buildBuildingExecuter.buildBuildingAsync(building.id);
+
+    await updateAsync();
   }
 
   Future updateAsync() async {
     builtBuilding = await _fetchBuiltBuildingAsync(building.id);
     buildingConstruction = await _fetchActiveConstruction();
-
-    print(buildingConstruction);
+    storedResources = await _fetchStoredResourcesAsync();
   }
 
   @override

@@ -1,34 +1,32 @@
 import 'package:astrogame_app/communications/repositories/built_building_repository.dart';
 import 'package:astrogame_app/models/buildings/built_building.dart';
 import 'package:flutter_guid/flutter_guid.dart';
+import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
 
 @singleton
 class ConstructedBuildingsProvider {
-  BuiltBuildingRepository _builtBuildingRepository;
+  MemoryCache _memoryCache = MemoryCache();
+  Lock _lock = new Lock();
 
-  List<BuiltBuilding> _constructedBuildings;
+  BuiltBuildingRepository _builtBuildingRepository;
 
   ConstructedBuildingsProvider(this._builtBuildingRepository);
 
   Future<List<BuiltBuilding>> get() async {
-    var lock = new Lock();
+    return await _lock.synchronized(() async {
+      var values = _memoryCache.get('all');
 
-    return await lock.synchronized(() async {
-      if (_constructedBuildings != null) {
-        return _constructedBuildings;
+      if (values != null) {
+        return values;
       }
 
       var response = await _builtBuildingRepository.getAsync();
 
-      _constructedBuildings = response.data;
-      return _constructedBuildings;
+      _memoryCache.put('all', response.data);
+      return response.data;
     });
-  }
-
-  void set(List<BuiltBuilding> val) {
-    _constructedBuildings = val;
   }
 
   Future<BuiltBuilding> getByBuildingAsync(Guid buildingId) async {
@@ -43,5 +41,13 @@ class ConstructedBuildingsProvider {
     }
 
     return buildings.firstWhere((element) => element.buildingId == buildingId);
+  }
+
+  Future updateAsync() async {
+    return await _lock.synchronized(() async {
+      var response = await _builtBuildingRepository.getAsync();
+
+      _memoryCache.put('all', response.data);
+    });
   }
 }

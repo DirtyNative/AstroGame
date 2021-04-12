@@ -1,31 +1,31 @@
 import 'dart:async';
-
-import 'package:astrogame_app/communications/repositories/stellar_object_repository.dart';
-import 'package:astrogame_app/events/data_updated_event.dart';
+import 'package:astrogame_app/events/buildings/building_construction_finished_event.dart';
 import 'package:astrogame_app/models/buildings/building_chain.dart';
-import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
-class ConstructionsViewModel extends BaseViewModel {
+class ConstructionsViewModel extends FutureViewModel {
   BuildingChainProvider _buildingChainProvider;
-  StellarObjectRepository _stellarObjectRepository;
 
   EventService _eventService;
 
   Timer _timer;
 
+  BuildingChain _buildingChain;
+  BuildingChain get buildingChain => _buildingChain;
+  set buildingChain(BuildingChain val) {
+    _buildingChain = val;
+    notifyListeners();
+  }
+
   ConstructionsViewModel(
     this._buildingChainProvider,
-    this._stellarObjectRepository,
     this._eventService,
   ) {
-    _eventService.on<DataUpdatedEvent>().listen((event) {
+    _eventService.on<BuildingConstructionFinishedEvent>().listen((event) {
       notifyListeners();
     });
 
@@ -38,31 +38,14 @@ class ConstructionsViewModel extends BaseViewModel {
     return await _buildingChainProvider.get();
   }
 
-  Future<ImageProvider> getStellarObjectImageAsync(Guid stellarObjectId) async {
-    var response = await _stellarObjectRepository.getImageAsync(
-      stellarObjectId: stellarObjectId,
-    );
-
-    if (response.hasError) {
-      throw Exception('Failed to load stellar object image $stellarObjectId');
-    }
-
-    return response.data;
-  }
-
-  Future<StellarObject> fetchStellarObject(Guid id) async {
-    var response = await _stellarObjectRepository.getAsync(id);
-
-    if (response.hasError) {
-      throw new Exception(response.error);
-    }
-
-    return response.data;
-  }
-
   @override
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  @override
+  Future futureToRun() async {
+    buildingChain = await fetchBuildingChain();
   }
 }

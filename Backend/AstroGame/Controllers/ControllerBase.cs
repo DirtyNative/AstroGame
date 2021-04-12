@@ -1,8 +1,8 @@
-﻿using IdentityModel;
+﻿using AstroGame.Core.Exceptions;
+using IdentityModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
-using AstroGame.Core.Exceptions;
 
 namespace AstroGame.Api.Controllers
 {

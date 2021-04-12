@@ -65,6 +65,8 @@ dependencies:
 
   signalr_core:
 
+  flutter_memory_cache:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

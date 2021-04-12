@@ -3,7 +3,6 @@ using AstroGame.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using AstroGame.Api.Hubs;
 
 namespace AstroGame.Api.Controllers.Controllers
 {
@@ -12,12 +11,9 @@ namespace AstroGame.Api.Controllers.Controllers
     {
         private readonly BuildingManager _buildingManager;
 
-        private readonly BuildingHub _buildingHub;
-
-        public BuildingController(BuildingManager buildingManager, BuildingHub buildingHub)
+        public BuildingController(BuildingManager buildingManager)
         {
             _buildingManager = buildingManager;
-            _buildingHub = buildingHub;
         }
 
         [HttpGet]
@@ -52,9 +48,7 @@ namespace AstroGame.Api.Controllers.Controllers
             var selectedStellarObjectId = GetSelectedStellarObject();
 
             await _buildingManager.BuildAsync(playerId, selectedStellarObjectId, buildingId);
-
-           // await _buildingHub.SendBuildingConstructionFinished(playerId);
-
+            
             return Ok();
         }
     }

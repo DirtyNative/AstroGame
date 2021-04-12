@@ -17,6 +17,11 @@ final menuEntries = <MenuEntry>[
     route: RoutePaths.HomeRoute,
   ),
   MenuEntry(
+    label: 'Resources',
+    icon: Icons.restore_outlined,
+    route: RoutePaths.ResourcesRoute,
+  ),
+  MenuEntry(
     label: 'Buildings',
     icon: Icons.home,
     route: RoutePaths.BuildingsRoute,
@@ -25,6 +30,11 @@ final menuEntries = <MenuEntry>[
     label: 'Systems',
     icon: Icons.system_update,
     route: RoutePaths.SystemViewRoute,
+  ),
+  MenuEntry(
+    label: 'Market',
+    icon: Icons.money,
+    route: RoutePaths.MarketRoute,
   ),
   MenuEntry(
     label: 'Species',
