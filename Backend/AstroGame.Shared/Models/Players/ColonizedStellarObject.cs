@@ -13,8 +13,6 @@ namespace AstroGame.Shared.Models.Players
         public DateTime ColonizedOn { get; set; }
         public Guid StellarObjectId { get; set; }
         
-        // Built Buildings
-
         [JsonIgnore] public Player Player { get; set; }
         public ColonizableStellarObject ColonizableStellarObject { get; set; }
 

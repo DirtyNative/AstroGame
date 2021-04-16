@@ -6,9 +6,9 @@ using System;
 
 namespace AstroGame.Storage.Seeds.Buildings
 {
-    public class ProductionBuildingSeed : IEntityTypeConfiguration<ProductionBuilding>
+    public class ConveyorBuildingSeed : IEntityTypeConfiguration<ConveyorBuilding>
     {
-        public void Configure(EntityTypeBuilder<ProductionBuilding> builder)
+        public void Configure(EntityTypeBuilder<ConveyorBuilding> builder)
         {
             builder.HasData(
                 //////////////////////////////
@@ -16,7 +16,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                 //////////////////////////////
 
                 // Production
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
                     Name = "Iron Mine",
@@ -26,7 +26,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                     AssetName = "2.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("8A0A5DAB-F877-4714-8E6B-1B578F480268"),
                     Name = "Hydrogen Extractor",
@@ -36,7 +36,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                     AssetName = "6.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
                     Name = "Silicon Mine",
@@ -46,7 +46,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                     AssetName = "7.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("8DDE001B-A19D-43A1-B151-CDE09A85C214"),
                     Name = "Helium Extractor",
@@ -56,7 +56,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                     AssetName = "9.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("44517245-CB20-4324-A275-4D8642207AD4"),
                     Name = "Aluminum smelting plant",
@@ -66,7 +66,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                     AssetName = "11.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("B8063D0E-D06E-4B2E-A7E6-4812D7DD5A3E"),
                     Name = "Titanium Mine",
@@ -76,7 +76,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                     AssetName = "17.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
-                new ProductionBuilding()
+                new ConveyorBuilding()
                 {
                     Id = Guid.Parse("9B09D3F5-FBCA-4148-B6A3-355CE7B75240"),
                     Name = "Iridium Mine",

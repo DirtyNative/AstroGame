@@ -15,10 +15,18 @@ class NumberFormatter {
   static String _billionAbbreviation = 'B';
   static String _trillionAbbreviation = 'T';
 
-  static String format(double number, int countDecimals) {
+  static String format(
+    double number,
+    int countDecimals, {
+    bool fullNumbers = false,
+  }) {
     double cut = _cut(number);
     var abbreviation = _getAbbreviation(number);
-    var format = _getFormat(countDecimals);
+    var format = (number < 1000)
+        ? (fullNumbers)
+            ? _getFormat(0)
+            : _getFormat(countDecimals)
+        : _getFormat(countDecimals);
 
     return '${format.format(cut)} $abbreviation';
   }

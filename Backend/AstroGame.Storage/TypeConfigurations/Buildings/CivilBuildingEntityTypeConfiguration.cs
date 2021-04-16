@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AstroGame.Storage.TypeConfigurations.Buildings
 {
-    public class StorageBuildingEntityTypeConfiguration : IEntityTypeConfiguration<StorageBuilding>
+    public class CivilBuildingEntityTypeConfiguration : IEntityTypeConfiguration<CivilBuilding>
     {
-        public void Configure(EntityTypeBuilder<StorageBuilding> builder)
+        public void Configure(EntityTypeBuilder<CivilBuilding> builder)
         {
-            builder.ToTable("StorageBuildings");
+            builder.ToTable("CivilBuildings");
             builder.HasBaseType<Building>();
         }
     }

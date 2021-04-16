@@ -5,6 +5,7 @@ import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/views/buildings/buildings_view.dart';
 import 'package:astrogame_app/views/home/home_view.dart';
 import 'package:astrogame_app/views/login/login_view.dart';
+import 'package:astrogame_app/views/market/market_view.dart';
 import 'package:astrogame_app/views/perk_selection/perk_selection_view.dart';
 import 'package:astrogame_app/views/planet/planet_view.dart';
 import 'package:astrogame_app/views/register/register_view.dart';
@@ -53,7 +54,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => ResourcesView());
 
     case RoutePaths.MarketRoute:
-      return MaterialPageRoute(builder: (_) => null);
+      return MaterialPageRoute(builder: (_) => MarketView());
 
     // Common
   }

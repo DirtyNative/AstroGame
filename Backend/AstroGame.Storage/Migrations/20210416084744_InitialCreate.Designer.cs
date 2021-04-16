@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    [Migration("20210407181845_AdjustedProductionValue")]
-    partial class AdjustedProductionValue
+    [Migration("20210416084744_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -319,6 +319,54 @@ namespace AstroGame.Storage.Migrations
                             BuildingId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
                             Multiplier = 1.1000000000000001,
                             ResourceId = new Guid("00000000-1111-0000-0000-000000000016")
+                        },
+                        new
+                        {
+                            Id = new Guid("792f2b69-3726-42ca-9ef3-015fb5b2e486"),
+                            BaseValue = 35.0,
+                            BuildingId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
+                            Multiplier = 1.1799999999999999,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a53e9771-e133-431b-9471-9dbd0ca5d245"),
+                            BaseValue = 38.0,
+                            BuildingId = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
+                            Multiplier = 1.0800000000000001,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011")
+                        },
+                        new
+                        {
+                            Id = new Guid("f2486781-2189-49a4-a644-e6d93e0ff7c4"),
+                            BaseValue = 37.0,
+                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                            Multiplier = 1.1499999999999999,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000002")
+                        },
+                        new
+                        {
+                            Id = new Guid("a49f760c-3168-410b-9f8a-39bffcc766e8"),
+                            BaseValue = 37.0,
+                            BuildingId = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
+                            Multiplier = 1.1000000000000001,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000010")
+                        },
+                        new
+                        {
+                            Id = new Guid("dd746ce3-b795-4700-8e7f-0f82e7bfe80f"),
+                            BaseValue = 30.0,
+                            BuildingId = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
+                            Multiplier = 1.1000000000000001,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000015")
+                        },
+                        new
+                        {
+                            Id = new Guid("2825a2ee-2c89-4eb3-a2fa-ecc20c2a8602"),
+                            BaseValue = 35.0,
+                            BuildingId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
+                            Multiplier = 1.0800000000000001,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000026")
                         });
                 });
 
@@ -1930,11 +1978,18 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("StellarSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ProductionBuilding", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.CivilBuilding", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
 
-                    b.ToTable("ProductionBuildings");
+                    b.ToTable("CivilBuildings");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ConveyorBuilding", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
+
+                    b.ToTable("ConveyorBuildings");
 
                     b.HasData(
                         new
@@ -2000,6 +2055,27 @@ namespace AstroGame.Storage.Migrations
                             Name = "Iridium Mine",
                             Order = 4
                         });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ManufacturingFacilityBuilding", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
+
+                    b.ToTable("ManufacturingFacilityBuildings");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.RefineryBuilding", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
+
+                    b.ToTable("RefineryBuildings");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ResearchLaboratoryBuilding", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
+
+                    b.ToTable("ResearchLaboratoryBuildings");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.StorageBuilding", b =>
@@ -2553,7 +2629,7 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuiltBuilding", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
-                        .WithMany("BuiltBuildings")
+                        .WithMany()
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2571,7 +2647,7 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.InputResource", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Buildings.ProductionBuilding", "Building")
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
                         .WithMany("InputResources")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2590,7 +2666,7 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.OutputResource", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Buildings.ProductionBuilding", "Building")
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
                         .WithMany("OutputResources")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2752,11 +2828,47 @@ namespace AstroGame.Storage.Migrations
                         .HasForeignKey("StellarSystemId");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ProductionBuilding", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.CivilBuilding", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Buildings.Building", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Buildings.ProductionBuilding", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.CivilBuilding", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ConveyorBuilding", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.ConveyorBuilding", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ManufacturingFacilityBuilding", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.ManufacturingFacilityBuilding", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.RefineryBuilding", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.RefineryBuilding", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ResearchLaboratoryBuilding", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.ResearchLaboratoryBuilding", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
@@ -2886,7 +2998,9 @@ namespace AstroGame.Storage.Migrations
                 {
                     b.Navigation("BuildingCosts");
 
-                    b.Navigation("BuiltBuildings");
+                    b.Navigation("InputResources");
+
+                    b.Navigation("OutputResources");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingChain", b =>
@@ -2944,13 +3058,6 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("CenterObjects");
 
                     b.Navigation("Satellites");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ProductionBuilding", b =>
-                {
-                    b.Navigation("InputResources");
-
-                    b.Navigation("OutputResources");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.BlackHole", b =>

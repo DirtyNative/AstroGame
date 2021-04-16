@@ -50,8 +50,11 @@ namespace AstroGame.Storage.Database
         public DbSet<PlayerSpeciesPerk> PlayerSpeciesPerks { get; set; }
 
         public DbSet<Building> Buildings { get; set; }
-        public DbSet<ProductionBuilding> ProductionBuildings { get; set; }
+        public DbSet<ConveyorBuilding> ConveyorBuildings { get; set; }
         public DbSet<StorageBuilding> StorageBuildings { get; set; }
+        public DbSet<RefineryBuilding> RefineryBuildings { get; set; }
+        public DbSet<ManufacturingFacilityBuilding> ManufacturingFacilityBuildings { get; set; }
+        public DbSet<CivilBuilding> CivilBuildings { get; set; }
         public DbSet<BuiltBuilding> BuiltBuildings { get; set; }
         public DbSet<BuildingChain> BuildingChains { get; set; }
 

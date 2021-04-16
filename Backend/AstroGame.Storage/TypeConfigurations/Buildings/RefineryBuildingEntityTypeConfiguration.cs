@@ -4,20 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AstroGame.Storage.TypeConfigurations.Buildings
 {
-    public class ProductionBuildingEntityTypeConfiguration : IEntityTypeConfiguration<ProductionBuilding>
+    public class RefineryBuildingEntityTypeConfiguration : IEntityTypeConfiguration<RefineryBuilding>
     {
-        public void Configure(EntityTypeBuilder<ProductionBuilding> builder)
+        public void Configure(EntityTypeBuilder<RefineryBuilding> builder)
         {
-            builder.ToTable("ProductionBuildings");
-            builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
+            builder.ToTable("RefineryBuildings");
             builder.HasBaseType<Building>();
 
             builder.HasMany(e => e.InputResources)
-                .WithOne(e => e.Building as ProductionBuilding)
+                .WithOne(e => e.Building as RefineryBuilding)
                 .HasForeignKey(e => e.BuildingId);
 
             builder.HasMany(e => e.OutputResources)
-                .WithOne(e => e.Building as ProductionBuilding)
+                .WithOne(e => e.Building as RefineryBuilding)
                 .HasForeignKey(e => e.BuildingId);
         }
     }

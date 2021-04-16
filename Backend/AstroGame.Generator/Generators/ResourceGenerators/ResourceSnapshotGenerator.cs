@@ -112,56 +112,68 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
         private void CalculateBuiltBuildingsProduction(ResourceSnapshot snapshot, BuiltBuilding builtBuilding,
             TimeSpan passedTime)
         {
-            if (builtBuilding.Building is ProductionBuilding == false)
+            if (builtBuilding.Building is not IProducingBuilding && builtBuilding.Building is not IConsumingBuilding)
             {
                 throw new InvalidCastException(
-                    $"{builtBuilding.Building.GetType()} was not of type {typeof(ProductionBuilding)}");
+                    $"{builtBuilding.Building.GetType()} was not of type {typeof(ConveyorBuilding)}");
             }
 
-            var productionBuilding = (ProductionBuilding) builtBuilding.Building;
+            //var productionBuilding = (ConveyorBuilding) builtBuilding.Building;
 
             var lowestPower = 1.0;
 
-            // Iterate over the passed full hours
-            for (var i = 0; i < passedTime.Hours; i++)
+            if (builtBuilding.Building is IConsumingBuilding consumingBuilding)
             {
-                // Iterate over the inputResources
-                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                foreach (var inputResource in productionBuilding.InputResources)
+                // Iterate over the passed full hours
+                for (var i = 0; i < passedTime.Hours; i++)
                 {
-                    var calculatedPower = SubtractConsumption(snapshot, inputResource, builtBuilding.Level, 1);
-
-                    if (calculatedPower < lowestPower)
+                    // Iterate over the inputResources
+                    // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                    foreach (var inputResource in consumingBuilding.InputResources)
                     {
-                        lowestPower = calculatedPower;
-                    }
-                }
+                        var calculatedPower = SubtractConsumption(snapshot, inputResource, builtBuilding.Level, 1);
 
-                // Generate the output
-                foreach (var outputResource in productionBuilding.OutputResources)
-                {
-                    AddProduction(snapshot, outputResource, builtBuilding.Level, 1, lowestPower);
+                        if (calculatedPower < lowestPower)
+                        {
+                            lowestPower = calculatedPower;
+                        }
+                    }
+
+                    // If the building does not produce anything, continue
+                    if (builtBuilding.Building is not IProducingBuilding producingBuilding) continue;
+
+                    // Generate the output
+                    foreach (var outputResource in producingBuilding.OutputResources)
+                    {
+                        AddProduction(snapshot, outputResource, builtBuilding.Level, 1, lowestPower);
+                    }
                 }
             }
 
             // Calculate the remaining time
             var remainingHour = passedTime.TotalHours - passedTime.Hours;
 
-            // Iterate over the inputResources
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var inputResource in productionBuilding.InputResources)
+            if (builtBuilding.Building is IConsumingBuilding consumingBuilding2)
             {
-                var calculatedPower =
-                    SubtractConsumption(snapshot, inputResource, builtBuilding.Level, remainingHour);
-
-                if (calculatedPower < lowestPower)
+                // Iterate over the inputResources
+                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                foreach (var inputResource in consumingBuilding2.InputResources)
                 {
-                    lowestPower = calculatedPower;
+                    var calculatedPower =
+                        SubtractConsumption(snapshot, inputResource, builtBuilding.Level, remainingHour);
+
+                    if (calculatedPower < lowestPower)
+                    {
+                        lowestPower = calculatedPower;
+                    }
                 }
             }
 
+            // If the building does not produce anything, continue
+            if (builtBuilding.Building is not IProducingBuilding producingBuilding2) return;
+
             // Generate the output
-            foreach (var outputResource in productionBuilding.OutputResources)
+            foreach (var outputResource in producingBuilding2.OutputResources)
             {
                 AddProduction(snapshot, outputResource, builtBuilding.Level, remainingHour, lowestPower);
             }

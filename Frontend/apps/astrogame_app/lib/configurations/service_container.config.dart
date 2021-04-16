@@ -4,66 +4,72 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:dio/dio.dart' as _i10;
+import 'package:dio/dio.dart' as _i11;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:logger/logger.dart' as _i15;
+import 'package:logger/logger.dart' as _i16;
 
-import '../communications/dtos/add_player_species_request.dart' as _i42;
-import '../communications/hubs/building_hub.dart' as _i49;
+import '../communications/dtos/add_player_species_request.dart' as _i44;
+import '../communications/hubs/building_hub.dart' as _i54;
 import '../communications/interceptors/header_interceptor.dart' as _i3;
-import '../communications/repositories/authorization_repository.dart' as _i29;
-import '../communications/repositories/building_chain_repository.dart' as _i30;
-import '../communications/repositories/building_repository.dart' as _i31;
-import '../communications/repositories/built_building_repository.dart' as _i34;
-import '../communications/repositories/perk_repository.dart' as _i14;
-import '../communications/repositories/player_repository.dart' as _i18;
-import '../communications/repositories/player_species_repository.dart' as _i19;
-import '../communications/repositories/resource_repository.dart' as _i20;
-import '../communications/repositories/solar_system_repository.dart' as _i23;
-import '../communications/repositories/species_repository.dart' as _i24;
-import '../communications/repositories/stellar_object_repository.dart' as _i27;
-import '../communications/repositories/stored_resource_repository.dart' as _i28;
-import '../communications/server_connection.dart' as _i25;
-import '../executers/build_building_executer.dart' as _i54;
-import '../executers/fetch_solar_system_executer.dart' as _i39;
-import '../executers/login_executer.dart' as _i50;
-import '../executers/set_players_species_executer.dart' as _i21;
-import '../helpers/dialog_helper.dart' as _i22;
-import '../helpers/resource_helper.dart' as _i6;
-import '../models/buildings/building.dart' as _i56;
-import '../models/buildings/building_construction.dart' as _i38;
-import '../models/players/colonized_stellar_object.dart' as _i36;
-import '../providers/authorization_token_provider.dart' as _i12;
-import '../providers/building_chain_provider.dart' as _i47;
-import '../providers/buildings_provider.dart' as _i33;
-import '../providers/constructed_buildings_provider.dart' as _i57;
-import '../providers/http_header_provider.dart' as _i11;
-import '../providers/player_provider.dart' as _i17;
-import '../providers/resource_provider.dart' as _i44;
-import '../providers/selected_colonized_stellar_object_provider.dart' as _i13;
-import '../providers/stored_resource_provider.dart' as _i53;
-import '../services/event_service.dart' as _i8;
-import '../services/hub_service.dart' as _i48;
-import '../services/navigation_wrapper.dart' as _i9;
-import '../views/buildings/buildings_viewmodel.dart' as _i32;
-import '../views/buildings/widgets/building_viewmodel.dart' as _i55;
+import '../communications/repositories/authorization_repository.dart' as _i31;
+import '../communications/repositories/building_chain_repository.dart' as _i32;
+import '../communications/repositories/building_repository.dart' as _i33;
+import '../communications/repositories/built_building_repository.dart' as _i36;
+import '../communications/repositories/perk_repository.dart' as _i15;
+import '../communications/repositories/player_repository.dart' as _i19;
+import '../communications/repositories/player_species_repository.dart' as _i20;
+import '../communications/repositories/resource_repository.dart' as _i21;
+import '../communications/repositories/resource_snapshot_repository.dart'
+    as _i22;
+import '../communications/repositories/solar_system_repository.dart' as _i25;
+import '../communications/repositories/species_repository.dart' as _i26;
+import '../communications/repositories/stellar_object_repository.dart' as _i29;
+import '../communications/repositories/stored_resource_repository.dart' as _i30;
+import '../communications/server_connection.dart' as _i27;
+import '../executers/build_building_executer.dart' as _i59;
+import '../executers/fetch_solar_system_executer.dart' as _i41;
+import '../executers/login_executer.dart' as _i55;
+import '../executers/set_players_species_executer.dart' as _i23;
+import '../helpers/dialog_helper.dart' as _i24;
+import '../helpers/resource_helper.dart' as _i7;
+import '../models/buildings/building.dart' as _i61;
+import '../models/buildings/building_construction.dart' as _i40;
+import '../models/players/colonized_stellar_object.dart' as _i38;
+import '../models/resources/resource.dart' as _i46;
+import '../providers/authorization_token_provider.dart' as _i13;
+import '../providers/building_chain_provider.dart' as _i52;
+import '../providers/buildings_provider.dart' as _i35;
+import '../providers/constructed_buildings_provider.dart' as _i62;
+import '../providers/http_header_provider.dart' as _i12;
+import '../providers/player_provider.dart' as _i18;
+import '../providers/resource_provider.dart' as _i49;
+import '../providers/resource_snapshot_provider.dart' as _i47;
+import '../providers/selected_colonized_stellar_object_provider.dart' as _i14;
+import '../providers/stored_resource_provider.dart' as _i58;
+import '../services/event_service.dart' as _i9;
+import '../services/hub_service.dart' as _i53;
+import '../services/navigation_wrapper.dart' as _i10;
+import '../views/buildings/buildings_viewmodel.dart' as _i34;
+import '../views/buildings/widgets/building_viewmodel.dart' as _i60;
 import '../views/home/home_viewmodel.dart' as _i4;
-import '../views/home/widgets/construction_viewmodel.dart' as _i37;
-import '../views/home/widgets/constructions_viewmodel.dart' as _i46;
-import '../views/login/login_viewmodel.dart' as _i51;
-import '../views/menus/colony_viewmodel.dart' as _i35;
-import '../views/menus/menu_viewmodel.dart' as _i40;
-import '../views/menus/player_colonies_viewmodel.dart' as _i16;
-import '../views/menus/resource_viewmodel.dart' as _i52;
-import '../views/perk_selection/perk_selection_viewmodel.dart' as _i41;
-import '../views/register/register_viewmodel.dart' as _i5;
-import '../views/resources/resources_viewmodel.dart' as _i43;
-import '../views/solar_system/solar_system_viewmodel.dart' as _i7;
-import '../views/species_selection/species_selection_viewmodel.dart' as _i26;
-import '../views/start/start_viewmodel.dart' as _i45;
-import 'device_info.dart' as _i58;
-import 'services_module.dart' as _i59; // ignore_for_file: unnecessary_lambdas
+import '../views/home/widgets/construction_viewmodel.dart' as _i39;
+import '../views/home/widgets/constructions_viewmodel.dart' as _i51;
+import '../views/login/login_viewmodel.dart' as _i56;
+import '../views/market/market_viewmodel.dart' as _i5;
+import '../views/menus/colony_viewmodel.dart' as _i37;
+import '../views/menus/menu_viewmodel.dart' as _i42;
+import '../views/menus/player_colonies_viewmodel.dart' as _i17;
+import '../views/menus/resource_viewmodel.dart' as _i57;
+import '../views/perk_selection/perk_selection_viewmodel.dart' as _i43;
+import '../views/register/register_viewmodel.dart' as _i6;
+import '../views/resources/resources_viewmodel.dart' as _i48;
+import '../views/resources/widgets/resource_viewmodel.dart' as _i45;
+import '../views/solar_system/solar_system_viewmodel.dart' as _i8;
+import '../views/species_selection/species_selection_viewmodel.dart' as _i28;
+import '../views/start/start_viewmodel.dart' as _i50;
+import 'device_info.dart' as _i63;
+import 'services_module.dart' as _i64; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -73,144 +79,155 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   final servicesModule = _$ServicesModule();
   gh.lazySingleton<_i3.HeaderInterceptor>(() => _i3.HeaderInterceptor());
   gh.factory<_i4.HomeViewModel>(() => _i4.HomeViewModel());
-  gh.factory<_i5.RegisterViewModel>(() => _i5.RegisterViewModel());
-  gh.factory<_i6.ResourceHelper>(() => _i6.ResourceHelper());
-  gh.factory<_i7.SolarSystemViewModel>(() => _i7.SolarSystemViewModel(
-      get<_i8.EventService>(), get<_i9.NavigationWrapper>()));
-  gh.factory<_i10.Dio>(() => servicesModule.dio(get<_i3.HeaderInterceptor>()));
-  gh.factory<_i11.HttpHeaderProvider>(() => _i11.HttpHeaderProvider(
-      get<_i12.AuthorizationTokenProvider>(),
-      get<_i13.SelectedColonizedStellarObjectProvider>()));
-  gh.factory<_i14.PerkRepository>(
-      () => _i14.PerkRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i16.PlayerColoniesViewModel>(
-      () => _i16.PlayerColoniesViewModel(get<_i17.PlayerProvider>()));
-  gh.factory<_i18.PlayerRepository>(
-      () => _i18.PlayerRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i19.PlayerSpeciesRepository>(
-      () => _i19.PlayerSpeciesRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i20.ResourceRepository>(
-      () => _i20.ResourceRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i21.SetPlayersSpeciesExecuter>(() =>
-      _i21.SetPlayersSpeciesExecuter(
-          get<_i18.PlayerRepository>(),
-          get<_i19.PlayerSpeciesRepository>(),
-          get<_i17.PlayerProvider>(),
-          get<_i22.DialogHelper>(),
-          get<_i9.NavigationWrapper>()));
-  gh.factory<_i23.SolarSystemRepository>(
-      () => _i23.SolarSystemRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i24.SpeciesRepository>(() => _i24.SpeciesRepository(
-      get<_i10.Dio>(), get<_i15.Logger>(), get<_i25.ServerConnection>()));
-  gh.factory<_i26.SpeciesSelectionViewModel>(() =>
-      _i26.SpeciesSelectionViewModel(
-          get<_i9.NavigationWrapper>(), get<_i24.SpeciesRepository>()));
-  gh.factory<_i27.StellarObjectRepository>(() => _i27.StellarObjectRepository(
-      get<_i10.Dio>(), get<_i15.Logger>(), get<_i25.ServerConnection>()));
-  gh.factory<_i28.StoredResourceRepository>(
-      () => _i28.StoredResourceRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i29.AuthorizationRepository>(
-      () => _i29.AuthorizationRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i30.BuildingChainRepository>(
-      () => _i30.BuildingChainRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factory<_i31.BuildingRepository>(() => _i31.BuildingRepository(
-      get<_i10.Dio>(),
-      get<_i15.Logger>(),
-      get<_i25.ServerConnection>(),
-      get<_i11.HttpHeaderProvider>()));
-  gh.factory<_i32.BuildingsViewModel>(
-      () => _i32.BuildingsViewModel(get<_i33.BuildingsProvider>()));
-  gh.factory<_i34.BuiltBuildingRepository>(
-      () => _i34.BuiltBuildingRepository(get<_i10.Dio>(), get<_i15.Logger>()));
-  gh.factoryParam<_i35.ColonyViewModel, _i36.ColonizedStellarObject, dynamic>(
-      (colonizedStellarObject, _) => _i35.ColonyViewModel(
-          get<_i13.SelectedColonizedStellarObjectProvider>(),
-          get<_i27.StellarObjectRepository>(),
+  gh.factory<_i5.MarketViewModel>(() => _i5.MarketViewModel());
+  gh.factory<_i6.RegisterViewModel>(() => _i6.RegisterViewModel());
+  gh.factory<_i7.ResourceHelper>(() => _i7.ResourceHelper());
+  gh.factory<_i8.SolarSystemViewModel>(() => _i8.SolarSystemViewModel(
+      get<_i9.EventService>(), get<_i10.NavigationWrapper>()));
+  gh.factory<_i11.Dio>(() => servicesModule.dio(get<_i3.HeaderInterceptor>()));
+  gh.factory<_i12.HttpHeaderProvider>(() => _i12.HttpHeaderProvider(
+      get<_i13.AuthorizationTokenProvider>(),
+      get<_i14.SelectedColonizedStellarObjectProvider>()));
+  gh.factory<_i15.PerkRepository>(
+      () => _i15.PerkRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i17.PlayerColoniesViewModel>(
+      () => _i17.PlayerColoniesViewModel(get<_i18.PlayerProvider>()));
+  gh.factory<_i19.PlayerRepository>(
+      () => _i19.PlayerRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i20.PlayerSpeciesRepository>(
+      () => _i20.PlayerSpeciesRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i21.ResourceRepository>(
+      () => _i21.ResourceRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i22.ResourceSnapshotRepository>(() =>
+      _i22.ResourceSnapshotRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i23.SetPlayersSpeciesExecuter>(() =>
+      _i23.SetPlayersSpeciesExecuter(
+          get<_i19.PlayerRepository>(),
+          get<_i20.PlayerSpeciesRepository>(),
+          get<_i18.PlayerProvider>(),
+          get<_i24.DialogHelper>(),
+          get<_i10.NavigationWrapper>()));
+  gh.factory<_i25.SolarSystemRepository>(
+      () => _i25.SolarSystemRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i26.SpeciesRepository>(() => _i26.SpeciesRepository(
+      get<_i11.Dio>(), get<_i16.Logger>(), get<_i27.ServerConnection>()));
+  gh.factory<_i28.SpeciesSelectionViewModel>(() =>
+      _i28.SpeciesSelectionViewModel(
+          get<_i10.NavigationWrapper>(), get<_i26.SpeciesRepository>()));
+  gh.factory<_i29.StellarObjectRepository>(() => _i29.StellarObjectRepository(
+      get<_i11.Dio>(), get<_i16.Logger>(), get<_i27.ServerConnection>()));
+  gh.factory<_i30.StoredResourceRepository>(
+      () => _i30.StoredResourceRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i31.AuthorizationRepository>(
+      () => _i31.AuthorizationRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i32.BuildingChainRepository>(
+      () => _i32.BuildingChainRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factory<_i33.BuildingRepository>(() => _i33.BuildingRepository(
+      get<_i11.Dio>(),
+      get<_i16.Logger>(),
+      get<_i27.ServerConnection>(),
+      get<_i12.HttpHeaderProvider>()));
+  gh.factory<_i34.BuildingsViewModel>(
+      () => _i34.BuildingsViewModel(get<_i35.BuildingsProvider>()));
+  gh.factory<_i36.BuiltBuildingRepository>(
+      () => _i36.BuiltBuildingRepository(get<_i11.Dio>(), get<_i16.Logger>()));
+  gh.factoryParam<_i37.ColonyViewModel, _i38.ColonizedStellarObject, dynamic>(
+      (colonizedStellarObject, _) => _i37.ColonyViewModel(
+          get<_i14.SelectedColonizedStellarObjectProvider>(),
+          get<_i29.StellarObjectRepository>(),
           colonizedStellarObject));
-  gh.factoryParam<_i37.ConstructionViewModel, _i38.BuildingConstruction,
+  gh.factoryParam<_i39.ConstructionViewModel, _i40.BuildingConstruction,
           dynamic>(
-      (_buildingConstruction, _) => _i37.ConstructionViewModel(
-          get<_i27.StellarObjectRepository>(),
-          get<_i13.SelectedColonizedStellarObjectProvider>(),
+      (_buildingConstruction, _) => _i39.ConstructionViewModel(
+          get<_i29.StellarObjectRepository>(),
+          get<_i14.SelectedColonizedStellarObjectProvider>(),
           _buildingConstruction));
-  gh.factory<_i39.FetchSolarSystemExecuter>(() => _i39.FetchSolarSystemExecuter(
-      get<_i22.DialogHelper>(), get<_i23.SolarSystemRepository>()));
-  gh.factory<_i40.MenuViewModel>(() => _i40.MenuViewModel(
-      get<_i9.NavigationWrapper>(),
-      get<_i24.SpeciesRepository>(),
-      get<_i17.PlayerProvider>()));
-  gh.factoryParam<_i41.PerkSelectionViewModel, _i42.AddPlayerSpeciesRequest,
+  gh.factory<_i41.FetchSolarSystemExecuter>(() => _i41.FetchSolarSystemExecuter(
+      get<_i24.DialogHelper>(), get<_i25.SolarSystemRepository>()));
+  gh.factory<_i42.MenuViewModel>(() => _i42.MenuViewModel(
+      get<_i10.NavigationWrapper>(),
+      get<_i26.SpeciesRepository>(),
+      get<_i18.PlayerProvider>()));
+  gh.factoryParam<_i43.PerkSelectionViewModel, _i44.AddPlayerSpeciesRequest,
           dynamic>(
-      (_playerSpecies, _) => _i41.PerkSelectionViewModel(
-          get<_i14.PerkRepository>(),
-          get<_i21.SetPlayersSpeciesExecuter>(),
+      (_playerSpecies, _) => _i43.PerkSelectionViewModel(
+          get<_i15.PerkRepository>(),
+          get<_i23.SetPlayersSpeciesExecuter>(),
           _playerSpecies));
-  gh.factory<_i43.ResourcesViewModel>(
-      () => _i43.ResourcesViewModel(get<_i44.ResourceProvider>()));
-  gh.factory<_i45.StartViewModel>(() => _i45.StartViewModel(
-      get<_i39.FetchSolarSystemExecuter>(), get<_i8.EventService>()));
-  gh.factory<_i46.ConstructionsViewModel>(() => _i46.ConstructionsViewModel(
-      get<_i47.BuildingChainProvider>(), get<_i8.EventService>()));
-  gh.factory<_i48.HubService>(() => _i48.HubService(get<_i49.BuildingHub>()));
-  gh.factory<_i50.LoginExecuter>(() => _i50.LoginExecuter(
-      get<_i29.AuthorizationRepository>(),
-      get<_i18.PlayerRepository>(),
-      get<_i12.AuthorizationTokenProvider>(),
-      get<_i17.PlayerProvider>(),
-      get<_i22.DialogHelper>(),
-      get<_i9.NavigationWrapper>(),
-      get<_i48.HubService>()));
-  gh.factory<_i51.LoginViewModel>(() => _i51.LoginViewModel(
-      get<_i50.LoginExecuter>(), get<_i9.NavigationWrapper>()));
-  gh.factory<_i52.ResourceViewModel>(() => _i52.ResourceViewModel(
-      get<_i8.EventService>(),
-      get<_i44.ResourceProvider>(),
-      get<_i53.StoredResourceProvider>()));
-  gh.factory<_i54.BuildBuildingExecuter>(() => _i54.BuildBuildingExecuter(
-      get<_i8.EventService>(),
-      get<_i22.DialogHelper>(),
-      get<_i31.BuildingRepository>(),
-      get<_i47.BuildingChainProvider>()));
-  gh.factoryParam<_i55.BuildingViewModel, _i56.Building, dynamic>(
-      (_building, _) => _i55.BuildingViewModel(
-          get<_i31.BuildingRepository>(),
-          get<_i47.BuildingChainProvider>(),
-          get<_i57.ConstructedBuildingsProvider>(),
-          get<_i13.SelectedColonizedStellarObjectProvider>(),
-          get<_i53.StoredResourceProvider>(),
-          get<_i54.BuildBuildingExecuter>(),
-          get<_i8.EventService>(),
-          get<_i6.ResourceHelper>(),
+  gh.factoryParam<_i45.ResourceViewModel, _i46.Resource, dynamic>(
+      (_resource, _) => _i45.ResourceViewModel(
+          get<_i47.ResourceSnapshotProvider>(),
+          get<_i14.SelectedColonizedStellarObjectProvider>(),
+          _resource));
+  gh.factory<_i48.ResourcesViewModel>(
+      () => _i48.ResourcesViewModel(get<_i49.ResourceProvider>()));
+  gh.factory<_i50.StartViewModel>(() => _i50.StartViewModel(
+      get<_i41.FetchSolarSystemExecuter>(), get<_i9.EventService>()));
+  gh.factory<_i51.ConstructionsViewModel>(() => _i51.ConstructionsViewModel(
+      get<_i52.BuildingChainProvider>(), get<_i9.EventService>()));
+  gh.factory<_i53.HubService>(() => _i53.HubService(get<_i54.BuildingHub>()));
+  gh.factory<_i55.LoginExecuter>(() => _i55.LoginExecuter(
+      get<_i31.AuthorizationRepository>(),
+      get<_i19.PlayerRepository>(),
+      get<_i13.AuthorizationTokenProvider>(),
+      get<_i18.PlayerProvider>(),
+      get<_i24.DialogHelper>(),
+      get<_i10.NavigationWrapper>(),
+      get<_i53.HubService>()));
+  gh.factory<_i56.LoginViewModel>(() => _i56.LoginViewModel(
+      get<_i55.LoginExecuter>(), get<_i10.NavigationWrapper>()));
+  gh.factory<_i57.ResourceViewModel>(() => _i57.ResourceViewModel(
+      get<_i9.EventService>(),
+      get<_i49.ResourceProvider>(),
+      get<_i58.StoredResourceProvider>()));
+  gh.factory<_i59.BuildBuildingExecuter>(() => _i59.BuildBuildingExecuter(
+      get<_i9.EventService>(),
+      get<_i24.DialogHelper>(),
+      get<_i33.BuildingRepository>(),
+      get<_i52.BuildingChainProvider>()));
+  gh.factoryParam<_i60.BuildingViewModel, _i61.Building, dynamic>(
+      (_building, _) => _i60.BuildingViewModel(
+          get<_i33.BuildingRepository>(),
+          get<_i52.BuildingChainProvider>(),
+          get<_i62.ConstructedBuildingsProvider>(),
+          get<_i14.SelectedColonizedStellarObjectProvider>(),
+          get<_i58.StoredResourceProvider>(),
+          get<_i59.BuildBuildingExecuter>(),
+          get<_i9.EventService>(),
+          get<_i7.ResourceHelper>(),
           _building));
-  gh.singleton<_i12.AuthorizationTokenProvider>(
-      _i12.AuthorizationTokenProvider());
-  gh.singletonAsync<_i58.DeviceInfo>(() => _i58.DeviceInfo.instance());
-  gh.singleton<_i8.EventService>(_i8.EventService());
-  gh.singleton<_i15.Logger>(servicesModule.logger);
-  gh.singleton<_i9.NavigationWrapper>(_i9.NavigationWrapper());
-  gh.singleton<_i17.PlayerProvider>(_i17.PlayerProvider());
-  gh.singleton<_i13.SelectedColonizedStellarObjectProvider>(
-      _i13.SelectedColonizedStellarObjectProvider(get<_i17.PlayerProvider>()));
-  gh.singleton<_i25.ServerConnection>(_i25.ServerConnection());
-  gh.singleton<_i22.DialogHelper>(
-      _i22.DialogHelper(get<_i9.NavigationWrapper>()));
-  gh.singleton<_i33.BuildingsProvider>(
-      _i33.BuildingsProvider(get<_i31.BuildingRepository>()));
-  gh.singleton<_i57.ConstructedBuildingsProvider>(
-      _i57.ConstructedBuildingsProvider(get<_i34.BuiltBuildingRepository>()));
-  gh.singleton<_i44.ResourceProvider>(
-      _i44.ResourceProvider(get<_i20.ResourceRepository>()));
-  gh.singleton<_i53.StoredResourceProvider>(
-      _i53.StoredResourceProvider(get<_i28.StoredResourceRepository>()));
-  gh.singleton<_i47.BuildingChainProvider>(
-      _i47.BuildingChainProvider(get<_i30.BuildingChainRepository>()));
-  gh.singleton<_i49.BuildingHub>(_i49.BuildingHub(
-      get<_i8.EventService>(),
-      get<_i25.ServerConnection>(),
-      get<_i11.HttpHeaderProvider>(),
-      get<_i47.BuildingChainProvider>(),
-      get<_i57.ConstructedBuildingsProvider>()));
+  gh.singleton<_i13.AuthorizationTokenProvider>(
+      _i13.AuthorizationTokenProvider());
+  gh.singletonAsync<_i63.DeviceInfo>(() => _i63.DeviceInfo.instance());
+  gh.singleton<_i9.EventService>(_i9.EventService());
+  gh.singleton<_i16.Logger>(servicesModule.logger);
+  gh.singleton<_i10.NavigationWrapper>(_i10.NavigationWrapper());
+  gh.singleton<_i18.PlayerProvider>(_i18.PlayerProvider());
+  gh.singleton<_i14.SelectedColonizedStellarObjectProvider>(
+      _i14.SelectedColonizedStellarObjectProvider(get<_i18.PlayerProvider>()));
+  gh.singleton<_i27.ServerConnection>(_i27.ServerConnection());
+  gh.singleton<_i24.DialogHelper>(
+      _i24.DialogHelper(get<_i10.NavigationWrapper>()));
+  gh.singleton<_i35.BuildingsProvider>(
+      _i35.BuildingsProvider(get<_i33.BuildingRepository>()));
+  gh.singleton<_i62.ConstructedBuildingsProvider>(
+      _i62.ConstructedBuildingsProvider(get<_i36.BuiltBuildingRepository>()));
+  gh.singleton<_i49.ResourceProvider>(
+      _i49.ResourceProvider(get<_i21.ResourceRepository>()));
+  gh.singleton<_i47.ResourceSnapshotProvider>(
+      _i47.ResourceSnapshotProvider(get<_i22.ResourceSnapshotRepository>()));
+  gh.singleton<_i58.StoredResourceProvider>(_i58.StoredResourceProvider(
+      get<_i47.ResourceSnapshotProvider>(),
+      get<_i14.SelectedColonizedStellarObjectProvider>()));
+  gh.singleton<_i52.BuildingChainProvider>(
+      _i52.BuildingChainProvider(get<_i32.BuildingChainRepository>()));
+  gh.singleton<_i54.BuildingHub>(_i54.BuildingHub(
+      get<_i9.EventService>(),
+      get<_i27.ServerConnection>(),
+      get<_i12.HttpHeaderProvider>(),
+      get<_i52.BuildingChainProvider>(),
+      get<_i62.ConstructedBuildingsProvider>()));
   return get;
 }
 
-class _$ServicesModule extends _i59.ServicesModule {}
+class _$ServicesModule extends _i64.ServicesModule {}

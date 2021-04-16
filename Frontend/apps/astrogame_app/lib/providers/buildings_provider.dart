@@ -1,25 +1,30 @@
 import 'package:astrogame_app/communications/repositories/building_repository.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
+import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
+import 'package:synchronized/synchronized.dart';
 
 @singleton
 class BuildingsProvider {
+  var _memoryCache = new MemoryCache(ttl: 60 * 60);
+  var _lock = new Lock();
+
   BuildingRepository _buildingRepository;
-  List<Building> _buildings;
 
   BuildingsProvider(this._buildingRepository);
 
-  Future<List<Building>> get() async => _buildings ?? await _fetchAsync();
-  void set(List<Building> val) => _buildings = val;
+  Future<List<Building>> get() async {
+    return await _lock.synchronized(() async {
+      var values = _memoryCache.get('all');
 
-  Future<List<Building>> _fetchAsync() async {
-    var buildingsResponse = await _buildingRepository.getAllAsync();
+      if (values != null) {
+        return values;
+      }
 
-    if (buildingsResponse.hasError) {
-      // TODO: show error dialog
-    }
+      var response = await _buildingRepository.getAllAsync();
 
-    set(buildingsResponse.data);
-    return buildingsResponse.data;
+      _memoryCache.put('all', response.data);
+      return response.data;
+    });
   }
 }

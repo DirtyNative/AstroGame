@@ -1,5 +1,6 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Api.Services;
+using AstroGame.Shared.Models.Resources;
 using System;
 using System.Threading.Tasks;
 
@@ -13,6 +14,11 @@ namespace AstroGame.Api.Managers.Resources
         public ResourceSnapshotManager(ResourceService resourceService)
         {
             _resourceService = resourceService;
+        }
+
+        public async Task<ResourceSnapshot> GetAsync(Guid stellarObjectId)
+        {
+            return await _resourceService.GenerateSnapshotAsync(stellarObjectId);
         }
 
         public async Task<Guid> GenerateSnapshotAsync(Guid stellarObjectId)

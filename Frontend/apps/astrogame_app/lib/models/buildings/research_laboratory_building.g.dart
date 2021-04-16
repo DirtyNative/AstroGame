@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'building.dart';
+part of 'research_laboratory_building.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Building _$BuildingFromJson(Map<String, dynamic> json) {
-  return Building()
+ResearchLaboratoryBuilding _$ResearchLaboratoryBuildingFromJson(
+    Map<String, dynamic> json) {
+  return ResearchLaboratoryBuilding()
     ..id = const GuidConverter().fromJson(json['id'] as String)
     ..name = json['name'] as String
     ..description = json['description'] as String
@@ -31,7 +32,9 @@ Building _$BuildingFromJson(Map<String, dynamic> json) {
         ?.toList();
 }
 
-Map<String, dynamic> _$BuildingToJson(Building instance) => <String, dynamic>{
+Map<String, dynamic> _$ResearchLaboratoryBuildingToJson(
+        ResearchLaboratoryBuilding instance) =>
+    <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
       'name': instance.name,
       'description': instance.description,

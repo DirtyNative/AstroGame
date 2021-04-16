@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public abstract class Building
+    public abstract class Building : IConsumingBuilding, IProducingBuilding
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -23,6 +23,8 @@ namespace AstroGame.Shared.Models.Buildings
 
         public List<BuildingCost> BuildingCosts { get; set; } = new();
 
-        public virtual List<BuiltBuilding> BuiltBuildings { get; set; } = new();
+        //public virtual List<BuiltBuilding> BuiltBuildings { get; set; } = new();
+        public List<InputResource> InputResources { get; set; }
+        public List<OutputResource> OutputResources { get; set; }
     }
 }

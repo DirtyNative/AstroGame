@@ -1,6 +1,7 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Storage.Database;
+using AstroGame.Storage.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,15 +23,16 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<List<BuiltBuilding>> GetAsync(Guid stellarObjectId)
         {
             return await _context.BuiltBuildings
-                .Include(e => e.ColonizedStellarObject)
+                .IncludeAll()
+                //.Include(e => e.ColonizedStellarObject)
 
                 // Input Resources
-                .Include(e => e.Building)
-                .ThenInclude(e => (e as ProductionBuilding).InputResources)
+                //.Include(e => e.Building)
+                //.ThenInclude(e => (e as ConveyorBuilding).InputResources)
 
                 // Output Resources
-                .Include(e => e.Building)
-                .ThenInclude(e => (e as ProductionBuilding).OutputResources)
+                //.Include(e => e.Building)
+                //.ThenInclude(e => (e as ConveyorBuilding).OutputResources)
 
                 // Predict
                 .Where(e => e.ColonizedStellarObject.StellarObjectId == stellarObjectId)
@@ -43,15 +45,16 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<BuiltBuilding> GetByBuildingAsync(Guid stellarObjectId, Guid buildingId)
         {
             return await _context.BuiltBuildings
-                .Include(e => e.ColonizedStellarObject)
+                .IncludeAll()
+                //.Include(e => e.ColonizedStellarObject)
 
                 // Input Resources
-                .Include(e => e.Building)
-                .ThenInclude(e => (e as ProductionBuilding).InputResources)
+                //.Include(e => e.Building)
+                //.ThenInclude(e => (e as ConveyorBuilding).InputResources)
 
                 // Output Resources
-                .Include(e => e.Building)
-                .ThenInclude(e => (e as ProductionBuilding).OutputResources)
+                //.Include(e => e.Building)
+                //.ThenInclude(e => (e as ConveyorBuilding).OutputResources)
 
                 // Predict
                 .Where(e => e.ColonizedStellarObject.StellarObjectId == stellarObjectId
@@ -65,18 +68,19 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<List<BuiltBuilding>> GetProductionBuildingsAsync(Guid colonizedStellarObjectId)
         {
             return await _context.BuiltBuildings
-                .Include(e => e.ColonizedStellarObject)
+                .IncludeAll()
+                //.Include(e => e.ColonizedStellarObject)
 
                 // Input Resources
-                .Include(e => e.Building)
-                .ThenInclude(e => (e as ProductionBuilding).InputResources)
+                //.Include(e => e.Building)
+                //.ThenInclude(e => (e as ConveyorBuilding).InputResources)
 
                 // Output Resources
-                .Include(e => e.Building)
-                .ThenInclude(e => (e as ProductionBuilding).OutputResources)
+                //.Include(e => e.Building)
+                //.ThenInclude(e => (e as ConveyorBuilding).OutputResources)
 
                 // Predict
-                .Where(e => e.Building is ProductionBuilding
+                .Where(e => e.Building is ConveyorBuilding
                             && e.ColonizedStellarObjectId == colonizedStellarObjectId)
 
                 // Order

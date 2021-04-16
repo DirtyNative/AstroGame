@@ -10,7 +10,7 @@ namespace AstroGame.Storage.TypeConfigurations.Buildings
         {
             builder.ToTable("OutputResources");
             builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
-
+            
             builder.HasOne(e => e.Resource)
                 .WithMany()
                 .HasForeignKey(e => e.ResourceId);

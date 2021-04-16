@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Resources
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/resource-snapshot")]
     public class ResourceSnapshotController : ControllerBase
     {
         private readonly ResourceSnapshotManager _resourceSnapshotManager;
@@ -15,7 +15,15 @@ namespace AstroGame.Api.Controllers.Resources
             _resourceSnapshotManager = resourceSnapshotManager;
         }
 
-        [HttpGet("{stellarObjectId}")]
+        [HttpGet("stellar-object/{stellarObjectId}")]
+        public async Task<IActionResult> GetAsync([FromRoute] Guid stellarObjectId)
+        {
+            var snapshot = await _resourceSnapshotManager.GetAsync(stellarObjectId);
+
+            return Ok(snapshot);
+        }
+
+        [HttpPost("{stellarObjectId}")]
         public async Task<IActionResult> CreateSnapshot([FromRoute] Guid stellarObjectId)
         {
             var snapshotId = await _resourceSnapshotManager.GenerateSnapshotAsync(stellarObjectId);

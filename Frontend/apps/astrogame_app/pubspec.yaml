@@ -67,6 +67,9 @@ dependencies:
 
   flutter_memory_cache:
 
+  # Many extension methods
+  dartx:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
