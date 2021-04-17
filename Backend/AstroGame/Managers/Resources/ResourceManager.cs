@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AspNetCore.ServiceRegistration.Dynamic;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Storage.Repositories.Resources;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AstroGame.Api.Managers.Resources
 {

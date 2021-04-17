@@ -112,24 +112,15 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
         private void CalculateBuiltBuildingsProduction(ResourceSnapshot snapshot, BuiltBuilding builtBuilding,
             TimeSpan passedTime)
         {
-            if (builtBuilding.Building is not IProducingBuilding && builtBuilding.Building is not IConsumingBuilding)
-            {
-                throw new InvalidCastException(
-                    $"{builtBuilding.Building.GetType()} was not of type {typeof(ConveyorBuilding)}");
-            }
-
-            //var productionBuilding = (ConveyorBuilding) builtBuilding.Building;
-
             var lowestPower = 1.0;
 
-            if (builtBuilding.Building is IConsumingBuilding consumingBuilding)
-            {
+           
                 // Iterate over the passed full hours
                 for (var i = 0; i < passedTime.Hours; i++)
                 {
                     // Iterate over the inputResources
                     // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                    foreach (var inputResource in consumingBuilding.InputResources)
+                    foreach (var inputResource in builtBuilding.Building.InputResources)
                     {
                         var calculatedPower = SubtractConsumption(snapshot, inputResource, builtBuilding.Level, 1);
 
@@ -138,26 +129,23 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                             lowestPower = calculatedPower;
                         }
                     }
-
-                    // If the building does not produce anything, continue
-                    if (builtBuilding.Building is not IProducingBuilding producingBuilding) continue;
+                    
 
                     // Generate the output
-                    foreach (var outputResource in producingBuilding.OutputResources)
+                    foreach (var outputResource in builtBuilding.Building.OutputResources)
                     {
                         AddProduction(snapshot, outputResource, builtBuilding.Level, 1, lowestPower);
                     }
                 }
-            }
+            
 
             // Calculate the remaining time
             var remainingHour = passedTime.TotalHours - passedTime.Hours;
 
-            if (builtBuilding.Building is IConsumingBuilding consumingBuilding2)
-            {
+           
                 // Iterate over the inputResources
                 // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                foreach (var inputResource in consumingBuilding2.InputResources)
+                foreach (var inputResource in builtBuilding.Building.InputResources)
                 {
                     var calculatedPower =
                         SubtractConsumption(snapshot, inputResource, builtBuilding.Level, remainingHour);
@@ -167,13 +155,9 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                         lowestPower = calculatedPower;
                     }
                 }
-            }
-
-            // If the building does not produce anything, continue
-            if (builtBuilding.Building is not IProducingBuilding producingBuilding2) return;
-
+            
             // Generate the output
-            foreach (var outputResource in producingBuilding2.OutputResources)
+            foreach (var outputResource in builtBuilding.Building.OutputResources)
             {
                 AddProduction(snapshot, outputResource, builtBuilding.Level, remainingHour, lowestPower);
             }
@@ -187,7 +171,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
         /// <param name="level">The buildings level</param>
         /// <param name="hourPercentage">The percentage of the passed hour</param>
         /// <returns>0 = Nothing consumed so nothing will be produced, 1 = Full consumption and production</returns>
-        private double SubtractConsumption(ResourceSnapshot snapshot, InputResource inputResource, int level,
+        private double SubtractConsumption(ResourceSnapshot snapshot, InputResource inputResource, uint level,
             double hourPercentage)
         {
             // Get the amount from the last snapshot or set it to 0
@@ -226,7 +210,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             return 1;
         }
 
-        private void AddProduction(ResourceSnapshot snapshot, OutputResource outputResource, int level,
+        private void AddProduction(ResourceSnapshot snapshot, OutputResource outputResource, uint level,
             double hourPercentage, double multiplier)
         {
             // The production per hour

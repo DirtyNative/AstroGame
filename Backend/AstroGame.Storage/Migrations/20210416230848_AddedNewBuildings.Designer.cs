@@ -4,14 +4,16 @@ using AstroGame.Storage.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210416230848_AddedNewBuildings")]
+    partial class AddedNewBuildings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -418,8 +420,8 @@ namespace AstroGame.Storage.Migrations
                     b.Property<Guid>("ColonizedStellarObjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("Level")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

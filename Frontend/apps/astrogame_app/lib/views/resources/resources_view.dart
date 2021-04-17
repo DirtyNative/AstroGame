@@ -97,10 +97,12 @@ class ResourcesView extends StatelessWidget {
   Widget _gridView(BuildContext context, List<Resource> resourceList) {
     return Padding(
       padding: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
-      child: GridView.builder(
-        itemBuilder: (context, index) => ResourceView(resourceList[index]),
-        itemCount: resourceList.length ?? 0,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, childAspectRatio: 3 / 1, crossAxisSpacing: 20, mainAxisSpacing: 20),
+      child: Scrollbar(
+        child: GridView.builder(
+          itemBuilder: (context, index) => ResourceView(resourceList[index]),
+          itemCount: resourceList.length ?? 0,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, childAspectRatio: 3 / 1, crossAxisSpacing: 20, mainAxisSpacing: 20),
+        ),
       ),
     );
   }

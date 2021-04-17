@@ -2,6 +2,8 @@ import 'package:astrogame_app/bags/show_planet_view_bag.dart';
 import 'package:astrogame_app/communications/dtos/add_player_species_request.dart';
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
+import 'package:astrogame_app/views/building_detail/bags/building_detail_bag.dart';
+import 'package:astrogame_app/views/building_detail/building_detail_view.dart';
 import 'package:astrogame_app/views/buildings/buildings_view.dart';
 import 'package:astrogame_app/views/home/home_view.dart';
 import 'package:astrogame_app/views/login/login_view.dart';
@@ -45,6 +47,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case RoutePaths.BuildingsRoute:
       return MaterialPageRoute(builder: (_) => BuildingsView());
+
+    case RoutePaths.BuildingDetailsRoute:
+      var bag = settings.arguments as BuildingDetailBag;
+      return MaterialPageRoute(builder: (_) => BuildingDetailView(bag.building, bag.builtBuilding));
 
     case RoutePaths.PlanetViewRoute:
       var bag = settings.arguments as ShowPlanetViewBag;

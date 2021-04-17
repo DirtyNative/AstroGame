@@ -11,12 +11,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using AstroGame.Api.Communication.Models.Resources;
+using AstroGame.Generator.Generators.ResourceGenerators;
 
 namespace AstroGame.Api.Managers.Buildings
 {
     [ScopedService]
     public class BuildingManager
     {
+        private readonly IResourceCalculator _resourceCalculator;
+
         private readonly ConstructionService _constructionService;
 
         private readonly BuildingRepository _buildingRepository;
@@ -30,7 +34,8 @@ namespace AstroGame.Api.Managers.Buildings
         public BuildingManager(BuildingRepository buildingRepository, ImageRepository imageRepository,
             PlayerRepository playerRepository, ColonizedStellarObjectRepository colonizedStellarObjectRepository,
             BuiltBuildingRepository builtBuildingRepository,
-            ConstructionService constructionService, StellarObjectRepository stellarObjectRepository)
+            ConstructionService constructionService, StellarObjectRepository stellarObjectRepository,
+            IResourceCalculator resourceCalculator)
         {
             _buildingRepository = buildingRepository;
             _imageRepository = imageRepository;
@@ -39,6 +44,7 @@ namespace AstroGame.Api.Managers.Buildings
             _builtBuildingRepository = builtBuildingRepository;
             _constructionService = constructionService;
             _stellarObjectRepository = stellarObjectRepository;
+            _resourceCalculator = resourceCalculator;
         }
 
         public async Task<List<Building>> GetAsync()
@@ -105,6 +111,67 @@ namespace AstroGame.Api.Managers.Buildings
             }
 
             await _constructionService.BuildAsync(player, building, stellarObject, builtBuilding);
+        }
+
+        public async Task<List<BuildingValueResponse>> GetBuildingValuesAsync(Guid buildingId, uint startLevel,
+            uint countLevels)
+        {
+            var list = new List<BuildingValueResponse>();
+
+            var building = await _buildingRepository.GetAsync(buildingId);
+
+            for (var index = startLevel; index < startLevel + countLevels; index++)
+            {
+                var item = new BuildingValueResponse()
+                {
+                    BuildingId = buildingId,
+                    Level = index,
+                };
+
+                // Consumption
+                foreach (var inputResource in building.InputResources)
+                {
+                    var val = _resourceCalculator.CalculateConsumedAmount(inputResource.BaseValue,
+                        inputResource.Multiplier, index);
+
+                    item.BuildingConsumptions.Add(new ResourceAmountResponse()
+                    {
+                        ResourceId = inputResource.Resource.Id,
+                        Amount = val
+                    });
+                }
+
+                // Production
+                foreach (var outputResource in building.OutputResources)
+                {
+                    var val = _resourceCalculator.CalculateConsumedAmount(outputResource.BaseValue,
+                        outputResource.Multiplier, index);
+
+                    item.BuildingProductions.Add(new ResourceAmountResponse()
+                    {
+                        ResourceId = outputResource.Resource.Id,
+                        Amount = val
+                    });
+                }
+
+                // Costs
+                foreach (var cost in building.BuildingCosts)
+                {
+                    var val = _resourceCalculator.CalculateBuildingCostAmount(cost.BaseValue,
+                        cost.Multiplier, index);
+
+                    item.BuildingCosts.Add(new ResourceAmountResponse()
+                    {
+                        ResourceId = cost.Resource.Id,
+                        Amount = val
+                    });
+                }
+
+                list.Add(item);
+            }
+
+
+            return list;
         }
     }
 }

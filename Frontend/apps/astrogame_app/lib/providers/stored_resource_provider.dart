@@ -1,37 +1,47 @@
+import 'package:astrogame_app/events/server_events/buildings/building_construction_finished_event.dart';
+import 'package:astrogame_app/events/server_events/buildings/building_construction_started_event.dart';
+import 'package:astrogame_app/events/view_events/resources_updated_event.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/resource_snapshot_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
+import 'package:astrogame_app/services/event_service.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class StoredResourceProvider {
+  EventService _eventService;
+
   ResourceSnapshotProvider _resourceSnapshotProvider;
-  SelectedColonizedStellarObjectProvider
-      _selectedColonizedStellarObjectProvider;
+  SelectedColonizedStellarObjectProvider _selectedColonizedStellarObjectProvider;
 
   StoredResourceProvider(
+    this._eventService,
     this._resourceSnapshotProvider,
     this._selectedColonizedStellarObjectProvider,
-  );
+  ) {
+    _eventService.on<BuildingConstructionStartedEvent>().listen((event) async {
+      await updateAsync();
+      _eventService.fire(new ResourcesUpdatedEvent());
+    });
+
+    _eventService.on<BuildingConstructionFinishedEvent>().listen((event) async {
+      await updateAsync();
+      _eventService.fire(new ResourcesUpdatedEvent());
+    });
+  }
 
   Future<List<StoredResource>> getAsync() async {
-    var currentStellarObjectId = _selectedColonizedStellarObjectProvider
-        .getSelectedObject()
-        .stellarObjectId;
+    var currentStellarObjectId = _selectedColonizedStellarObjectProvider.getSelectedObject().stellarObjectId;
 
-    var snapshot =
-        await _resourceSnapshotProvider.getAsync(currentStellarObjectId);
+    var snapshot = await _resourceSnapshotProvider.getAsync(currentStellarObjectId);
 
     return snapshot.storedResources;
   }
 
   Future<List<StoredResource>> updateAsync() async {
-    var currentStellarObjectId = _selectedColonizedStellarObjectProvider
-        .getSelectedObject()
-        .stellarObjectId;
+    var currentStellarObjectId = _selectedColonizedStellarObjectProvider.getSelectedObject().stellarObjectId;
 
-    var snapshot =
-        await _resourceSnapshotProvider.updateAsync(currentStellarObjectId);
+    var snapshot = await _resourceSnapshotProvider.updateAsync(currentStellarObjectId);
 
     return snapshot.storedResources;
   }

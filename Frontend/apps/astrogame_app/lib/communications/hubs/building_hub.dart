@@ -1,4 +1,4 @@
-import 'package:astrogame_app/events/buildings/building_construction_finished_event.dart';
+import 'package:astrogame_app/events/server_events/buildings/building_construction_finished_event.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
 import 'package:astrogame_app/providers/http_header_provider.dart';
@@ -32,8 +32,7 @@ class BuildingHub extends HubBase {
 
   @override
   Future connectAsync() async {
-    final httpClient =
-        _HttpClient(defaultHeaders: _httpHeaderProvider.getHeaders());
+    final httpClient = _HttpClient(defaultHeaders: _httpHeaderProvider.getHeaders());
 
     connection = HubConnectionBuilder()
         .withUrl(

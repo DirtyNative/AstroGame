@@ -19,7 +19,7 @@ namespace AstroGame.Api.Helpers
 
 
         public bool HasNeededResources(List<StoredResource> storedResources, List<BuildingCost> buildingCosts,
-            int level)
+            uint level)
         {
             foreach (var buildingCost in buildingCosts)
             {
@@ -41,7 +41,7 @@ namespace AstroGame.Api.Helpers
             return true;
         }
 
-        public bool HasNeededResource(StoredResource storedResource, BuildingCost buildingCost, int level)
+        public bool HasNeededResource(StoredResource storedResource, BuildingCost buildingCost, uint level)
         {
             var neededAmount =
                 _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
@@ -56,7 +56,7 @@ namespace AstroGame.Api.Helpers
         }
 
         public List<StoredResource> SubtractBuildingCosts(List<StoredResource> storedResources,
-            List<BuildingCost> buildingCosts, int level)
+            List<BuildingCost> buildingCosts, uint level)
         {
             foreach (var buildingCost in buildingCosts)
             {
@@ -71,7 +71,7 @@ namespace AstroGame.Api.Helpers
             return storedResources;
         }
 
-        public double SumBuildingCosts(List<BuildingCost> buildingCosts, int level)
+        public double SumBuildingCosts(List<BuildingCost> buildingCosts, uint level)
         {
             return buildingCosts.Sum(buildingCost =>
                 _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,

@@ -14,36 +14,14 @@ namespace AstroGame.Storage.Seeds.Buildings
                 //////////////////////////////
                 // Planet
                 //////////////////////////////
-
-                // Production
-                new ConveyorBuilding()
-                {
-                    Id = Guid.Parse("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
-                    Name = "Iron Mine",
-                    Description =
-                        "Produces the most basic building material ever seen in space.. But we all need it everywhere.",
-                    Order = 1,
-                    AssetName = "2.jpg",
-                    BuildableOn = StellarObjectType.Planet,
-                },
                 new ConveyorBuilding()
                 {
                     Id = Guid.Parse("8A0A5DAB-F877-4714-8E6B-1B578F480268"),
                     Name = "Hydrogen Extractor",
                     Description =
                         "Extracts Hydrogen molecules from within the atmosphere to produce an industrial product.",
-                    Order = 2,
+                    Order = 1,
                     AssetName = "6.jpg",
-                    BuildableOn = StellarObjectType.Planet,
-                },
-                new ConveyorBuilding()
-                {
-                    Id = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
-                    Name = "Silicon Mine",
-                    Description =
-                        "We need silicon to produce electronics which we need for quiet all of our constructs.",
-                    Order = 3,
-                    AssetName = "7.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
                 new ConveyorBuilding()
@@ -52,7 +30,77 @@ namespace AstroGame.Storage.Seeds.Buildings
                     Name = "Helium Extractor",
                     Description =
                         "Helium is one of the most important parts to generate fuels.",
+                    Order = 2,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("20EF5BEB-8D80-4EA1-980A-1B77649B4249"),
+                    Name = "Lithium Extractor",
+                    Description =
+                        "TODO",
+                    Order = 3,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("81B33A6B-C9A6-446C-BF61-441931A9F2AB"),
+                    Name = "Beryllium Reductor",
+                    Description =
+                        "TODO",
                     Order = 4,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("7D3B17D6-3084-4725-A259-CFF46FC3A554"),
+                    Name = "Boron Reductor",
+                    Description =
+                        "TODO",
+                    Order = 5,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("08F6708B-DD2A-427A-9E49-E24810452421"),
+                    Name = "Carbon Extractor",
+                    Description =
+                        "TODO",
+                    Order = 6,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("35C9D3C1-BB03-4C2A-B6DD-EB34C0BFCF0D"),
+                    Name = "Nitrogen Destillator",
+                    Description =
+                        "TODO",
+                    Order = 7,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("ADAB9B7C-53E7-4F89-AA62-61B8A6D8B60F"),
+                    Name = "Oxygen Extractor",
+                    Description =
+                        "TODO",
+                    Order = 8,
+                    AssetName = "9.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("BDCAE1CC-D8E2-4DD5-97B6-8CDE1162F6EE"),
+                    Name = "Magnesium Reductor",
+                    Description =
+                        "TODO",
+                    Order = 9,
                     AssetName = "9.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
@@ -62,18 +110,157 @@ namespace AstroGame.Storage.Seeds.Buildings
                     Name = "Aluminum smelting plant",
                     Description =
                         "TODO",
-                    Order = 4,
+                    Order = 10,
                     AssetName = "11.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
                 new ConveyorBuilding()
                 {
+                    Id = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
+                    Name = "Silicon Mine",
+                    Description =
+                        "We need silicon to produce electronics which we need for quiet all of our constructs.",
+                    Order = 11,
+                    AssetName = "7.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("E5C2C36B-3393-4599-B054-77458C7E74E8"),
+                    Name = "Phosphorus Miner",
+                    Description =
+                        "TODO",
+                    Order = 12,
+                    AssetName = "7.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("6D519575-BCFB-49F7-AEF9-15A4B8364B32"),
+                    Name = "Sulfur Mine",
+                    Description =
+                        "TODO",
+                    Order = 13,
+                    AssetName = "7.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("89B6448B-CA4E-43D4-A8BB-69B6F5C55211"),
+                    Name = "Chlorine Dissolver",
+                    Description =
+                        "TODO",
+                    Order = 14,
+                    AssetName = "7.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                }, new ConveyorBuilding()
+                {
                     Id = Guid.Parse("B8063D0E-D06E-4B2E-A7E6-4812D7DD5A3E"),
                     Name = "Titanium Mine",
                     Description =
                         "TODO",
-                    Order = 4,
+                    Order = 15,
                     AssetName = "17.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
+                    Name = "Iron Mine",
+                    Description =
+                        "Produces the most basic building material ever seen in space.. But we all need it everywhere.",
+                    Order = 16,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("B8D93F41-D6C2-4CE8-9763-840ECB53BF44"),
+                    Name = "Cobalt Melting Plant",
+                    Description =
+                        "TODO",
+                    Order = 17,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("A0500EB9-8F5C-4FD0-90AF-4BE209939464"),
+                    Name = "Nickel Melting Plant",
+                    Description =
+                        "TODO",
+                    Order = 18,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("C8D6228C-4C68-444D-BDF9-BB16279A5EB8"),
+                    Name = "Copper Melting Plant",
+                    Description =
+                        "TODO",
+                    Order = 19,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("4DF104B3-64B6-4843-BA43-4B5B98F08C2B"),
+                    Name = "Zinc Mine",
+                    Description =
+                        "TODO",
+                    Order = 20,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("626D4D9B-F90E-4E24-8F84-054E709AFA2A"),
+                    Name = "Gallium smelting plant",
+                    Description =
+                        "TODO",
+                    Order = 21,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("0998D19E-C02F-41E2-B2FD-BA5C6FC7DEF1"),
+                    Name = "Germanium Dissolver",
+                    Description =
+                        "TODO",
+                    Order = 22,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("405A352F-943D-40F7-9E8A-359872D25E84"),
+                    Name = "Palladium Mine",
+                    Description =
+                        "TODO",
+                    Order = 23,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("428801F4-4777-4589-9A64-CB97BCEF71CB"),
+                    Name = "Silver Mine",
+                    Description =
+                        "TODO",
+                    Order = 24,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("45168D04-86CB-499C-AEC9-A8255580071E"),
+                    Name = "Tin Mine",
+                    Description =
+                        "TODO",
+                    Order = 25,
+                    AssetName = "2.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 },
                 new ConveyorBuilding()
@@ -81,8 +268,38 @@ namespace AstroGame.Storage.Seeds.Buildings
                     Id = Guid.Parse("9B09D3F5-FBCA-4148-B6A3-355CE7B75240"),
                     Name = "Iridium Mine",
                     Description = "TODO",
-                    Order = 4,
+                    Order = 26,
                     AssetName = "18.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("31B2747D-FF1B-49B1-BF97-782BDB28CBA2"),
+                    Name = "Platinum Mine",
+                    Description =
+                        "TODO",
+                    Order = 27,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("A6A8F230-DDE3-464D-9EDD-76CFC9882CBB"),
+                    Name = "Gold Mine",
+                    Description =
+                        "TODO",
+                    Order = 28,
+                    AssetName = "2.jpg",
+                    BuildableOn = StellarObjectType.Planet,
+                },
+                new ConveyorBuilding()
+                {
+                    Id = Guid.Parse("357F7740-3CA7-4FF8-81C6-9CF22289A709"),
+                    Name = "Plutonium Reactor",
+                    Description =
+                        "TODO",
+                    Order = 29,
+                    AssetName = "2.jpg",
                     BuildableOn = StellarObjectType.Planet,
                 }
             );

@@ -2,7 +2,6 @@ import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/buildings/widgets/building_viewmodel.dart';
-import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -36,11 +35,7 @@ class BuildingView extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(model.building.name,
-                            style: Theme.of(context).textTheme.headline2),
-                        Text('Level ${model.builtBuilding?.level ?? 0}')
-                      ],
+                      children: [Text(model.building.name, style: Theme.of(context).textTheme.headline2), Text('Level ${model.builtBuilding?.level ?? 0}')],
                     ),
                     Text(
                       model.building.description,
@@ -50,8 +45,7 @@ class BuildingView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ElevatedButton(
-                          onPressed:
-                              (model.isConstructable) ? model.buildAsync : null,
+                          onPressed: (model.isConstructable) ? model.buildAsync : null,
                           child: Text(model.constructionText),
                         ),
                       ],
@@ -68,24 +62,22 @@ class BuildingView extends StatelessWidget {
   }
 
   Widget _buildingImageWidget(BuildingViewModel model) {
-    return EnhancedFutureBuilder(
-      future: model.fetchImageAsync(model.building.id),
-      whenDone: (data) => ClipRRect(
+    return InkWell(
+      onTap: model.showBuildingDetails,
+      child: ClipRRect(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           bottomLeft: Radius.circular(16),
           bottomRight: Radius.circular(32),
         ),
-        child: Image(
-          image: data,
-          height: 150,
-          fit: BoxFit.fitHeight,
-        ),
+        child: (model.buildingImage == null)
+            ? Container()
+            : Image(
+                image: model.buildingImage,
+                height: 150,
+                fit: BoxFit.fitHeight,
+              ),
       ),
-      whenError: (error) => Container(),
-      whenWaiting: CircularProgressIndicator(),
-      whenNotDone: Container(),
-      rememberFutureResult: true,
     );
   }
 }

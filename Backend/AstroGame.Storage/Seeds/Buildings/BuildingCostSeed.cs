@@ -10,25 +10,10 @@ namespace AstroGame.Storage.Seeds.Buildings
         public void Configure(EntityTypeBuilder<BuildingCost> builder)
         {
             builder.HasData(
-              
-                //////////////////////////////
-                // Iron Mine
-                //////////////////////////////
-                
-                // Iron
-                new BuildingCost()
-                {
-                    Id = Guid.Parse("76F6AFE9-670A-4BA5-90D8-01891F15A6A2"),
-                    BuildingId = Guid.Parse("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
-                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
-                    BaseValue = 60,
-                    Multiplier = 1.5,
-                },
-
                 //////////////////////////////
                 // Hydrogen Extractor
                 //////////////////////////////
-                
+
                 // Iron
                 new BuildingCost()
                 {
@@ -37,20 +22,6 @@ namespace AstroGame.Storage.Seeds.Buildings
                     ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
                     BaseValue = 68,
                     Multiplier = 1.5,
-                },
-
-                //////////////////////////////
-                // Silicon Mine
-                //////////////////////////////
-
-                // Iron
-                new BuildingCost()
-                {
-                    Id = Guid.Parse("778A6F92-E76D-4C0A-A03F-FA5E1D31BCA2"),
-                    BuildingId = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
-                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
-                    BaseValue = 300,
-                    Multiplier = 1.4,
                 },
 
                 //////////////////////////////
@@ -78,6 +49,104 @@ namespace AstroGame.Storage.Seeds.Buildings
                 },
 
                 //////////////////////////////
+                // Lithium Extractor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("EC330D07-7DCD-40AC-9151-1D53BC6CE6D4"),
+                    BuildingId = Guid.Parse("20EF5BEB-8D80-4EA1-980A-1B77649B4249"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
+                // Beryllium Reductor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("760DC621-3BAB-4E9A-AE53-FED5DCD76F85"),
+                    BuildingId = Guid.Parse("81B33A6B-C9A6-446C-BF61-441931A9F2AB"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
+                // Boron Reductor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("2F921C53-C7BA-426B-8C37-553F9CF37BEF"),
+                    BuildingId = Guid.Parse("7D3B17D6-3084-4725-A259-CFF46FC3A554"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
+                // Carbon Extractor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("1EBA7135-5378-4276-B163-5E631FB6A2C2"),
+                    BuildingId = Guid.Parse("08F6708B-DD2A-427A-9E49-E24810452421"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
+                // Nitrogen Destillator
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("0A0E9EF7-6926-4871-9F51-7AD94E8DC8E1"),
+                    BuildingId = Guid.Parse("35C9D3C1-BB03-4C2A-B6DD-EB34C0BFCF0D"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
+                // Oxygen Extractor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("6FD807B8-043A-4E62-B9C9-6B8DFF135DA0"),
+                    BuildingId = Guid.Parse("ADAB9B7C-53E7-4F89-AA62-61B8A6D8B60F"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
+                // Magnesium Reductor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("8FF89127-91E6-4DC0-A375-7DD3D9125870"),
+                    BuildingId = Guid.Parse("BDCAE1CC-D8E2-4DD5-97B6-8CDE1162F6EE"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 250,
+                    Multiplier = 1.55,
+                },
+
+                //////////////////////////////
                 // Aluminum smelting plant
                 //////////////////////////////
 
@@ -102,6 +171,62 @@ namespace AstroGame.Storage.Seeds.Buildings
                 },
 
                 //////////////////////////////
+                // Silicon Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("778A6F92-E76D-4C0A-A03F-FA5E1D31BCA2"),
+                    BuildingId = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 300,
+                    Multiplier = 1.4,
+                },
+
+                //////////////////////////////
+                // Phosphorus Miner
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("15474D59-20C5-463C-BDF0-BC9B09F7E08A"),
+                    BuildingId = Guid.Parse("E5C2C36B-3393-4599-B054-77458C7E74E8"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 300,
+                    Multiplier = 1.4,
+                },
+
+                //////////////////////////////
+                // Sulfur Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("8F367705-7C4E-4A3D-9761-1B91DBB1AA55"),
+                    BuildingId = Guid.Parse("6D519575-BCFB-49F7-AEF9-15A4B8364B32"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 300,
+                    Multiplier = 1.4,
+                },
+
+                //////////////////////////////
+                // Chlorine Dissolver
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("306A853B-8583-4A1E-8ACE-C49EC34EF991"),
+                    BuildingId = Guid.Parse("89B6448B-CA4E-43D4-A8BB-69B6F5C55211"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 300,
+                    Multiplier = 1.4,
+                },
+
+                //////////////////////////////
                 // Titanium Mine
                 //////////////////////////////
 
@@ -123,6 +248,146 @@ namespace AstroGame.Storage.Seeds.Buildings
                     ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000011"),
                     BaseValue = 900,
                     Multiplier = 1.6,
+                },
+
+                //////////////////////////////
+                // Iron Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("76F6AFE9-670A-4BA5-90D8-01891F15A6A2"),
+                    BuildingId = Guid.Parse("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Cobalt Melting Plant
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("F4B92197-1ECA-4003-94FF-EB47AE854CEB"),
+                    BuildingId = Guid.Parse("B8D93F41-D6C2-4CE8-9763-840ECB53BF44"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Nickel Melting Plant
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("7D09ED30-8FA3-4E8D-BFA2-8702539F6AE9"),
+                    BuildingId = Guid.Parse("A0500EB9-8F5C-4FD0-90AF-4BE209939464"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Copper Melting Plant
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("DAEE009B-8819-4CCF-944A-0E5E35A95D3F"),
+                    BuildingId = Guid.Parse("C8D6228C-4C68-444D-BDF9-BB16279A5EB8"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Zinc Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("18F5C558-4FF8-483D-812C-B0E9E49EB9F6"),
+                    BuildingId = Guid.Parse("4DF104B3-64B6-4843-BA43-4B5B98F08C2B"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Gallium smelting plant
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("1B7CCEC7-F828-4C20-81ED-08472BEA2486"),
+                    BuildingId = Guid.Parse("626D4D9B-F90E-4E24-8F84-054E709AFA2A"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Germanium Dissolver
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("261C88EA-3595-4A65-9823-A3C245D0E9C6"),
+                    BuildingId = Guid.Parse("0998D19E-C02F-41E2-B2FD-BA5C6FC7DEF1"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Palladium Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("F9814F8D-6DCE-4F44-818B-63426AE1BC27"),
+                    BuildingId = Guid.Parse("405A352F-943D-40F7-9E8A-359872D25E84"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Silver Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("B385D85D-7DC0-48E6-B9F0-B84AC3A26540"),
+                    BuildingId = Guid.Parse("428801F4-4777-4589-9A64-CB97BCEF71CB"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Tin Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("EF756673-3AE1-4E35-951B-5BF3EF24A6F0"),
+                    BuildingId = Guid.Parse("45168D04-86CB-499C-AEC9-A8255580071E"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
                 },
 
                 //////////////////////////////
@@ -157,6 +422,48 @@ namespace AstroGame.Storage.Seeds.Buildings
                     ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000015"),
                     BaseValue = 500,
                     Multiplier = 1.6,
+                },
+
+                //////////////////////////////
+                // Platinum Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("41333116-1CE5-4625-96B6-1F7C75F1BD38"),
+                    BuildingId = Guid.Parse("31B2747D-FF1B-49B1-BF97-782BDB28CBA2"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Gold Mine
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("651E720F-9C3A-4F1F-9095-FCC82CCC0D36"),
+                    BuildingId = Guid.Parse("A6A8F230-DDE3-464D-9EDD-76CFC9882CBB"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
+                },
+
+                //////////////////////////////
+                // Plutonium Reactor
+                //////////////////////////////
+
+                // Iron
+                new BuildingCost()
+                {
+                    Id = Guid.Parse("1F147721-9F55-4856-B160-6BE4B097B2F6"),
+                    BuildingId = Guid.Parse("357F7740-3CA7-4FF8-81C6-9CF22289A709"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 60,
+                    Multiplier = 1.5,
                 }
             );
         }

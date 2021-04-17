@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AstroGame.Api.Filters;
+﻿using AstroGame.Api.Filters;
 using AstroGame.Api.Managers.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Resources
 {

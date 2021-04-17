@@ -35,12 +35,14 @@ import '../helpers/dialog_helper.dart' as _i24;
 import '../helpers/resource_helper.dart' as _i7;
 import '../models/buildings/building.dart' as _i61;
 import '../models/buildings/building_construction.dart' as _i40;
+import '../models/buildings/built_building.dart' as _i62;
 import '../models/players/colonized_stellar_object.dart' as _i38;
 import '../models/resources/resource.dart' as _i46;
 import '../providers/authorization_token_provider.dart' as _i13;
 import '../providers/building_chain_provider.dart' as _i52;
+import '../providers/building_image_provider.dart' as _i63;
 import '../providers/buildings_provider.dart' as _i35;
-import '../providers/constructed_buildings_provider.dart' as _i62;
+import '../providers/constructed_buildings_provider.dart' as _i65;
 import '../providers/http_header_provider.dart' as _i12;
 import '../providers/player_provider.dart' as _i18;
 import '../providers/resource_provider.dart' as _i49;
@@ -50,8 +52,9 @@ import '../providers/stored_resource_provider.dart' as _i58;
 import '../services/event_service.dart' as _i9;
 import '../services/hub_service.dart' as _i53;
 import '../services/navigation_wrapper.dart' as _i10;
+import '../views/building_detail/building_detail_viewmodel.dart' as _i60;
 import '../views/buildings/buildings_viewmodel.dart' as _i34;
-import '../views/buildings/widgets/building_viewmodel.dart' as _i60;
+import '../views/buildings/widgets/building_viewmodel.dart' as _i64;
 import '../views/home/home_viewmodel.dart' as _i4;
 import '../views/home/widgets/construction_viewmodel.dart' as _i39;
 import '../views/home/widgets/constructions_viewmodel.dart' as _i51;
@@ -68,8 +71,8 @@ import '../views/resources/widgets/resource_viewmodel.dart' as _i45;
 import '../views/solar_system/solar_system_viewmodel.dart' as _i8;
 import '../views/species_selection/species_selection_viewmodel.dart' as _i28;
 import '../views/start/start_viewmodel.dart' as _i50;
-import 'device_info.dart' as _i63;
-import 'services_module.dart' as _i64; // ignore_for_file: unnecessary_lambdas
+import 'device_info.dart' as _i66;
+import 'services_module.dart' as _i67; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -156,6 +159,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
           _playerSpecies));
   gh.factoryParam<_i45.ResourceViewModel, _i46.Resource, dynamic>(
       (_resource, _) => _i45.ResourceViewModel(
+          get<_i9.EventService>(),
           get<_i47.ResourceSnapshotProvider>(),
           get<_i14.SelectedColonizedStellarObjectProvider>(),
           _resource));
@@ -184,13 +188,23 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i9.EventService>(),
       get<_i24.DialogHelper>(),
       get<_i33.BuildingRepository>(),
-      get<_i52.BuildingChainProvider>()));
-  gh.factoryParam<_i60.BuildingViewModel, _i61.Building, dynamic>(
-      (_building, _) => _i60.BuildingViewModel(
+      get<_i52.BuildingChainProvider>(),
+      get<_i58.StoredResourceProvider>()));
+  gh.factoryParam<_i60.BuildingDetailViewModel, _i61.Building,
+          _i62.BuiltBuilding>(
+      (_building, _builtBuilding) => _i60.BuildingDetailViewModel(
           get<_i33.BuildingRepository>(),
+          get<_i49.ResourceProvider>(),
+          get<_i63.BuildingImageProvider>(),
+          _building,
+          _builtBuilding));
+  gh.factoryParam<_i64.BuildingViewModel, _i61.Building, dynamic>(
+      (_building, _) => _i64.BuildingViewModel(
+          get<_i10.NavigationWrapper>(),
           get<_i52.BuildingChainProvider>(),
-          get<_i62.ConstructedBuildingsProvider>(),
+          get<_i65.ConstructedBuildingsProvider>(),
           get<_i14.SelectedColonizedStellarObjectProvider>(),
+          get<_i63.BuildingImageProvider>(),
           get<_i58.StoredResourceProvider>(),
           get<_i59.BuildBuildingExecuter>(),
           get<_i9.EventService>(),
@@ -198,7 +212,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
           _building));
   gh.singleton<_i13.AuthorizationTokenProvider>(
       _i13.AuthorizationTokenProvider());
-  gh.singletonAsync<_i63.DeviceInfo>(() => _i63.DeviceInfo.instance());
+  gh.singletonAsync<_i66.DeviceInfo>(() => _i66.DeviceInfo.instance());
   gh.singleton<_i9.EventService>(_i9.EventService());
   gh.singleton<_i16.Logger>(servicesModule.logger);
   gh.singleton<_i10.NavigationWrapper>(_i10.NavigationWrapper());
@@ -210,13 +224,14 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       _i24.DialogHelper(get<_i10.NavigationWrapper>()));
   gh.singleton<_i35.BuildingsProvider>(
       _i35.BuildingsProvider(get<_i33.BuildingRepository>()));
-  gh.singleton<_i62.ConstructedBuildingsProvider>(
-      _i62.ConstructedBuildingsProvider(get<_i36.BuiltBuildingRepository>()));
+  gh.singleton<_i65.ConstructedBuildingsProvider>(
+      _i65.ConstructedBuildingsProvider(get<_i36.BuiltBuildingRepository>()));
   gh.singleton<_i49.ResourceProvider>(
       _i49.ResourceProvider(get<_i21.ResourceRepository>()));
   gh.singleton<_i47.ResourceSnapshotProvider>(
       _i47.ResourceSnapshotProvider(get<_i22.ResourceSnapshotRepository>()));
   gh.singleton<_i58.StoredResourceProvider>(_i58.StoredResourceProvider(
+      get<_i9.EventService>(),
       get<_i47.ResourceSnapshotProvider>(),
       get<_i14.SelectedColonizedStellarObjectProvider>()));
   gh.singleton<_i52.BuildingChainProvider>(
@@ -226,8 +241,10 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i27.ServerConnection>(),
       get<_i12.HttpHeaderProvider>(),
       get<_i52.BuildingChainProvider>(),
-      get<_i62.ConstructedBuildingsProvider>()));
+      get<_i65.ConstructedBuildingsProvider>()));
+  gh.singleton<_i63.BuildingImageProvider>(
+      _i63.BuildingImageProvider(get<_i33.BuildingRepository>()));
   return get;
 }
 
-class _$ServicesModule extends _i64.ServicesModule {}
+class _$ServicesModule extends _i67.ServicesModule {}

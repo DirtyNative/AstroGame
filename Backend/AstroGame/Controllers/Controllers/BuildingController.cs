@@ -51,5 +51,15 @@ namespace AstroGame.Api.Controllers.Controllers
             
             return Ok();
         }
+
+        [HttpGet("values/building/{buildingId}/level/{startLevel}")]
+        public async Task<IActionResult> GetBuildingValuesAsync([FromRoute] Guid buildingId,
+            [FromRoute] uint startLevel,
+            [FromQuery] uint countLevels = 1)
+        {
+            var response = await _buildingManager.GetBuildingValuesAsync(buildingId, startLevel, countLevels);
+
+            return Ok(response);
+        }
     }
 }

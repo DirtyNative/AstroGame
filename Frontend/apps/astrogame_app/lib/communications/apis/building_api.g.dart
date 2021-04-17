@@ -72,4 +72,28 @@ class _BuildingApi implements BuildingApi {
     final value = _result.data;
     return value;
   }
+
+  @override
+  Future<List<BuildingValue>> getValuesAsync(
+      buildingId, startLevel, countLevels) async {
+    ArgumentError.checkNotNull(buildingId, 'buildingId');
+    ArgumentError.checkNotNull(startLevel, 'startLevel');
+    ArgumentError.checkNotNull(countLevels, 'countLevels');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'countLevels': countLevels};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>(
+        '/values/building/$buildingId/level/$startLevel',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => BuildingValue.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
 }

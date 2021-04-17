@@ -70,7 +70,7 @@ namespace AstroGame.Api.Managers.Stellars
             for (var i = 0; i < solarSystems.Count; i++)
             {
                 var solarSystem = await _recursiveBuilder.GetRecursiveAsync(solarSystems[i]) as SolarSystem;
-            
+
                 // Should not happen but better catch
                 if (solarSystem == null) continue;
 
@@ -99,6 +99,24 @@ namespace AstroGame.Api.Managers.Stellars
         public override async Task<List<SolarSystem>> GetByParentAsync(Guid parentId)
         {
             return await _solarSystemRepository.GetByParentAsync(parentId);
+        }
+
+        public async Task GenerateAsync(uint count, uint start)
+        {
+            for (var index = start; index < start + count; index++)
+            {
+                var solarSystem = await _solarSystemRepository.GetBySystemNumberAsync(index);
+
+                if (solarSystem == null)
+                {
+                    throw new NotFoundException($"SolarSystem {index} not found");
+                }
+
+                if (solarSystem.IsGenerated) continue;
+
+                _solarSystemGenerator.GenerateChildren(solarSystem, solarSystem.Coordinates);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteRecursiveAsync(Guid id)

@@ -1,10 +1,12 @@
 using AstroGame.Api.Extensions;
 using AstroGame.Api.Filters;
 using AstroGame.Api.Helpers;
+using AstroGame.Api.Hubs;
 using AstroGame.Shared.Apis;
 using AstroGame.Shared.Middlewares;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Storage.Database;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +16,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
-using AstroGame.Api.Hubs;
-using AstroGame.Api.Services;
-using Hangfire;
 
 namespace AstroGame.Api
 {

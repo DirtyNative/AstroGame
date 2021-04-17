@@ -23,7 +23,19 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<List<Building>> GetAsync()
         {
             return await _context.Buildings
+                // Costs
                 .Include(e => e.BuildingCosts)
+                .ThenInclude(e => e.Resource)
+
+                // Consumption
+                .Include(e => e.InputResources)
+                .ThenInclude(e => e.Resource)
+
+                // Production
+                .Include(e => e.OutputResources)
+                .ThenInclude(e => e.Resource)
+
+                // Prediction
                 .OrderBy(e => e.Order)
                 .ToListAsync();
         }
@@ -31,7 +43,19 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<List<Building>> GetAsync(StellarObjectType type)
         {
             return await _context.Buildings
+                // Costs
                 .Include(e => e.BuildingCosts)
+                .ThenInclude(e => e.Resource)
+
+                // Consumption
+                .Include(e => e.InputResources)
+                .ThenInclude(e => e.Resource)
+
+                // Production
+                .Include(e => e.OutputResources)
+                .ThenInclude(e => e.Resource)
+
+                // Prediction
                 .OrderBy(e => e.Order)
                 .Where(e => e.BuildableOn == type)
                 .ToListAsync();
@@ -40,7 +64,19 @@ namespace AstroGame.Storage.Repositories.Buildings
         public async Task<Building> GetAsync(Guid id)
         {
             return await _context.Buildings
+                // Costs
                 .Include(e => e.BuildingCosts)
+                .ThenInclude(e => e.Resource)
+
+                // Consumption
+                .Include(e => e.InputResources)
+                .ThenInclude(e => e.Resource)
+
+                // Production
+                .Include(e => e.OutputResources)
+                .ThenInclude(e => e.Resource)
+
+                // Prediction
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
     }

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:astrogame_app/events/buildings/building_construction_finished_event.dart';
+import 'package:astrogame_app/events/server_events/buildings/building_construction_finished_event.dart';
 import 'package:astrogame_app/models/buildings/building_chain.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AstroGame.Api.Controllers.Stellar
 {
     [Route("api/v1/solar-system")]
-    [Authorize]
-    [TypeFilter(typeof(PlayerExistsFilter))]
+    //[Authorize]
+    //[TypeFilter(typeof(PlayerExistsFilter))]
     public class SolarSystemController : ControllerBase
     {
         private readonly SolarSystemManager _solarSystemManager;
@@ -50,6 +50,13 @@ namespace AstroGame.Api.Controllers.Stellar
         {
             var result = await _solarSystemManager.GetAsync();
             return Ok(result);
+        }
+
+        [HttpPost("generate")]
+        public async Task<IActionResult> GenerateAsync([FromQuery] uint count = 1, [FromQuery] uint start = 0)
+        {
+            await _solarSystemManager.GenerateAsync(count, start);
+            return Ok();
         }
 
         [HttpDelete("recursive/{id}")]

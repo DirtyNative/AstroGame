@@ -1,8 +1,9 @@
 import 'package:astrogame_app/communications/repositories/building_repository.dart';
-import 'package:astrogame_app/events/buildings/building_construction_started_event.dart';
+import 'package:astrogame_app/events/server_events/buildings/building_construction_started_event.dart';
 import 'package:astrogame_app/executers/executer_result.dart';
 import 'package:astrogame_app/helpers/dialog_helper.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
+import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
@@ -13,6 +14,7 @@ class BuildBuildingExecuter {
 
   BuildingRepository _buildingRepository;
   BuildingChainProvider _buildingChainProvider;
+  StoredResourceProvider _storedResourceProvider;
 
   DialogHelper _dialogHelper;
 
@@ -21,6 +23,7 @@ class BuildBuildingExecuter {
     this._dialogHelper,
     this._buildingRepository,
     this._buildingChainProvider,
+    this._storedResourceProvider,
   );
 
   Future<ExecuterResult> buildBuildingAsync(
@@ -38,10 +41,10 @@ class BuildBuildingExecuter {
     }
 
     await _buildingChainProvider.updateAsync();
-    // TODO: await _storedResourceProvider.updateAsync();
+    await _storedResourceProvider.updateAsync();
 
     // Raise an event so that the ui can update
-    _eventService.fire(new BuildingConstructionStartetEvent());
+    _eventService.fire(new BuildingConstructionStartedEvent());
 
     _dialogHelper.dismissDialog();
     return ExecuterResult.success();

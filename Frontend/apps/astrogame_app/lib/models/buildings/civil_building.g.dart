@@ -13,13 +13,26 @@ CivilBuilding _$CivilBuildingFromJson(Map<String, dynamic> json) {
     ..description = json['description'] as String
     ..assetName = json['assetName'] as String
     ..order = json['order'] as int
-    ..buildableOn = _$enumDecodeNullable(_$StellarObjectTypeEnumMap, json['buildableOn'])
-    ..buildingCosts = (json['buildingCosts'] as List)?.map((e) => e == null ? null : BuildingCost.fromJson(e as Map<String, dynamic>))?.toList()
-    ..inputResources = (json['inputResources'] as List)?.map((e) => e == null ? null : InputResource.fromJson(e as Map<String, dynamic>))?.toList()
-    ..outputResource = (json['outputResource'] as List)?.map((e) => e == null ? null : OutputResource.fromJson(e as Map<String, dynamic>))?.toList();
+    ..buildableOn =
+        _$enumDecodeNullable(_$StellarObjectTypeEnumMap, json['buildableOn'])
+    ..buildingCosts = (json['buildingCosts'] as List)
+        ?.map((e) =>
+            e == null ? null : BuildingCost.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..inputResources = (json['inputResources'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InputResource.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..outputResource = (json['outputResource'] as List)
+        ?.map((e) => e == null
+            ? null
+            : OutputResource.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
-Map<String, dynamic> _$CivilBuildingToJson(CivilBuilding instance) => <String, dynamic>{
+Map<String, dynamic> _$CivilBuildingToJson(CivilBuilding instance) =>
+    <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
       'name': instance.name,
       'description': instance.description,
@@ -41,7 +54,9 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
 
-  final value = enumValues.entries.singleWhere((e) => e.value == source, orElse: () => null)?.key;
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
 
   if (value == null && unknownValue == null) {
     throw ArgumentError('`$source` is not one of the supported values: '

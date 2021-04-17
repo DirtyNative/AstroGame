@@ -7,7 +7,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
     [ScopedService]
     public class DebugResourceCalculator : IResourceCalculator
     {
-        public double CalculateBuildingCostAmount(double baseValue, double multiplier, int level)
+        public double CalculateBuildingCostAmount(double baseValue, double multiplier, uint level)
         {
             return baseValue * Math.Pow(multiplier, level - 1);
         }
@@ -18,12 +18,12 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             return TimeSpan.FromSeconds(30).TotalHours;
         }
 
-        public double CalculateConsumedAmount(double baseValue, double multiplier, int level)
+        public double CalculateConsumedAmount(double baseValue, double multiplier, uint level)
         {
             return baseValue * level * Math.Pow(multiplier, level);
         }
 
-        public double CalculateConsumedAmount(double baseValue, double multiplier, int level,
+        public double CalculateConsumedAmount(double baseValue, double multiplier, uint level,
             double hourPercentage)
         {
             return CalculateConsumedAmount(baseValue, multiplier, level) * hourPercentage;
@@ -34,18 +34,18 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             return hourlyProduction * hourPercentage * power;
         }
 
-        public double CalculateProducedAmount(double baseValue, double multiplier, int level)
+        public double CalculateProducedAmount(double baseValue, double multiplier, uint level)
         {
             return baseValue * level * Math.Pow(multiplier, level);
         }
 
-        public double CalculateProducedAmount(double baseValue, double multiplier, int level,
+        public double CalculateProducedAmount(double baseValue, double multiplier, uint level,
             double hourPercentage)
         {
             return CalculateProducedAmount(baseValue, multiplier, level) * hourPercentage;
         }
 
-        public double CalculateProducedAmount(double baseValue, double multiplier, int level,
+        public double CalculateProducedAmount(double baseValue, double multiplier, uint level,
             double hourPercentage, double power)
         {
             return CalculateProducedAmount(baseValue, multiplier, level, hourPercentage) * power;

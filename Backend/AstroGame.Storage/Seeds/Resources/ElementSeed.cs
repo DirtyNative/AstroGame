@@ -1,7 +1,7 @@
-﻿using System;
-using AstroGame.Shared.Models.Resources;
+﻿using AstroGame.Shared.Models.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace AstroGame.Storage.Seeds.Resources
 {
@@ -243,8 +243,6 @@ namespace AstroGame.Storage.Seeds.Resources
                     Type = ElementType.Metals,
                     NaturalOccurrenceWeight = 1
                 }
-
-                
             );
         }
     }

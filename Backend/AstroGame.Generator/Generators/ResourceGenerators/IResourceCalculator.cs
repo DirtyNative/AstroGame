@@ -9,7 +9,7 @@
         /// <param name="multiplier">The buildings multiplier</param>
         /// <param name="level">The level of the upgrade. Note: Not the buildings actual level</param>
         /// <returns>The amount of cost</returns>
-        public double CalculateBuildingCostAmount(double baseValue, double multiplier, int level);
+        public double CalculateBuildingCostAmount(double baseValue, double multiplier, uint level);
 
         /// <summary>
         /// Calculates the time in hours a building needs t obe built
@@ -29,7 +29,7 @@
         /// <param name="multiplier">The buildings multiplier</param>
         /// <param name="level">The buildings level</param>
         /// <returns>The amount of the consumed resource</returns>
-        public double CalculateConsumedAmount(double baseValue, double multiplier, int level);
+        public double CalculateConsumedAmount(double baseValue, double multiplier, uint level);
 
         /// <summary>
         /// Calculates the consumption per hour
@@ -39,7 +39,7 @@
         /// <param name="level">The buildings level</param>
         /// <param name="hourPercentage">The percent of the passed hour</param>
         /// <returns>The amount of the consumed resource</returns>
-        public double CalculateConsumedAmount(double baseValue, double multiplier, int level,
+        public double CalculateConsumedAmount(double baseValue, double multiplier, uint level,
             double hourPercentage);
 
         /// <summary>
@@ -58,7 +58,7 @@
         /// <param name="multiplier">The buildings multiplier</param>
         /// <param name="level">The buildings level</param>
         /// <returns>The amount of the produced resource</returns>
-        public double CalculateProducedAmount(double baseValue, double multiplier, int level);
+        public double CalculateProducedAmount(double baseValue, double multiplier, uint level);
 
         /// <summary>
         /// Calculates the resource production per hour by percent
@@ -68,7 +68,7 @@
         /// <param name="level">The buildings level</param>
         /// <param name="hourPercentage">The percent of the passed hour</param>
         /// <returns>The amount of the produced resource</returns>
-        public double CalculateProducedAmount(double baseValue, double multiplier, int level,
+        public double CalculateProducedAmount(double baseValue, double multiplier, uint level,
             double hourPercentage);
 
         /// <summary>
@@ -80,7 +80,7 @@
         /// <param name="hourPercentage">The percent of the passed hour</param>
         /// <param name="power">The percent of this buildings production value</param>
         /// <returns>The amount of the produced resource</returns>
-        public double CalculateProducedAmount(double baseValue, double multiplier, int level,
+        public double CalculateProducedAmount(double baseValue, double multiplier, uint level,
             double hourPercentage, double power);
     }
 }

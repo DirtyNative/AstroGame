@@ -72,12 +72,14 @@ class MenuView extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: 0, right: 16),
-        child: MenuItemListing(
-          navigationService: getIt.get(),
-          selectedItem: model.selectedItem,
-          itemSelectedCallback: (item) => {
-            model.navigate(item),
-          },
+        child: Scrollbar(
+          child: MenuItemListing(
+            navigationService: getIt.get(),
+            selectedItem: model.selectedItem,
+            itemSelectedCallback: (item) => {
+              model.navigate(item),
+            },
+          ),
         ),
       ),
     );

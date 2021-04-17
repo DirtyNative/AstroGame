@@ -1,29 +1,37 @@
 import 'dart:async';
 
+import 'package:astrogame_app/events/view_events/resources_updated_event.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/models/resources/resource_snapshot.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/resource_snapshot_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
+import 'package:astrogame_app/services/event_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:astrogame_app/extensions/duration_extensions.dart';
 
 @injectable
 class ResourceViewModel extends FutureViewModel {
+  EventService _eventService;
+
   ResourceSnapshotProvider _resourceSnapshotProvider;
-  SelectedColonizedStellarObjectProvider
-      _selectedColonizedStellarObjectProvider;
+  SelectedColonizedStellarObjectProvider _selectedColonizedStellarObjectProvider;
 
   Timer _timer;
 
   ResourceViewModel(
+    this._eventService,
     this._resourceSnapshotProvider,
     this._selectedColonizedStellarObjectProvider,
     @factoryParam this._resource,
   ) {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       notifyListeners();
+    });
+
+    _eventService.on<ResourcesUpdatedEvent>().listen((event) async {
+      _resourceSnapshot = await _fetchResourceSnapshotAsync();
     });
   }
 
@@ -46,11 +54,9 @@ class ResourceViewModel extends FutureViewModel {
       return 0;
     }
 
-    var elapsedTime =
-        resourceSnapshot.snapshotTime.difference(DateTime.now().toUtc());
+    var elapsedTime = resourceSnapshot.snapshotTime.difference(DateTime.now().toUtc());
 
-    return storedResource.amount +
-        storedResource.hourlyAmount * elapsedTime.abs().totalHours;
+    return storedResource.amount + storedResource.hourlyAmount * elapsedTime.abs().totalHours;
   }
 
   StoredResource get storedResource {
@@ -58,20 +64,15 @@ class ResourceViewModel extends FutureViewModel {
       return null;
     }
 
-    if (resourceSnapshot.storedResources
-            .any((element) => element.resourceId == resource.id) ==
-        false) {
+    if (resourceSnapshot.storedResources.any((element) => element.resourceId == resource.id) == false) {
       return null;
     }
 
-    return resourceSnapshot.storedResources
-        .firstWhere((element) => element.resourceId == resource.id);
+    return resourceSnapshot.storedResources.firstWhere((element) => element.resourceId == resource.id);
   }
 
   Future<ResourceSnapshot> _fetchResourceSnapshotAsync() async {
-    var selectedStellarObjectId = _selectedColonizedStellarObjectProvider
-        .getSelectedObject()
-        .stellarObjectId;
+    var selectedStellarObjectId = _selectedColonizedStellarObjectProvider.getSelectedObject().stellarObjectId;
 
     return _resourceSnapshotProvider.getAsync(selectedStellarObjectId);
   }
