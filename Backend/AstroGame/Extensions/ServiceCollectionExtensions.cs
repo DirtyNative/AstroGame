@@ -46,7 +46,7 @@ namespace AstroGame.Api.Extensions
                 new BlackHoleGeneratorFactory(provider).Create());
 
             services.AddScoped((provider) =>
-                new ResourceGeneratorFactory(provider.GetService<ResourceRepository>()).Create());
+                new ResourceGeneratorFactory(provider.GetService<ElementRepository>()).Create());
 
             services.AddScoped((provider) =>
                 new ResourceCalculatorFactory(provider).Create());

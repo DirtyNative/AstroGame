@@ -4,14 +4,16 @@ using AstroGame.Storage.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210418175558_AddedBaseResources")]
+    partial class AddedBaseResources
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -488,30 +490,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("792f2b69-3726-42ca-9ef3-015fb5b2e486"),
-                            BaseValue = 35.0,
-                            BuildingId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
-                            Multiplier = 1.1799999999999999,
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000001")
-                        },
-                        new
-                        {
-                            Id = new Guid("f2486781-2189-49a4-a644-e6d93e0ff7c4"),
-                            BaseValue = 37.0,
-                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
-                            Multiplier = 1.1499999999999999,
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            Id = new Guid("f2486784-2189-49a4-a644-e6d93e0ff7f4"),
-                            BaseValue = 37.0,
-                            BuildingId = new Guid("adab9b7c-53e7-4f89-aa62-61b8a6d8b60f"),
-                            Multiplier = 1.1299999999999999,
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000008")
-                        },
-                        new
-                        {
                             Id = new Guid("24a0efe4-27d2-43c6-bb7b-61b36c129b00"),
                             BaseValue = 40.0,
                             BuildingId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
@@ -520,11 +498,27 @@ namespace AstroGame.Storage.Migrations
                         },
                         new
                         {
+                            Id = new Guid("792f2b69-3726-42ca-9ef3-015fb5b2e486"),
+                            BaseValue = 35.0,
+                            BuildingId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
+                            Multiplier = 1.1799999999999999,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000001")
+                        },
+                        new
+                        {
                             Id = new Guid("a53e9771-e133-431b-9471-9dbd0ca5d245"),
                             BaseValue = 38.0,
                             BuildingId = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
                             Multiplier = 1.0800000000000001,
                             ResourceId = new Guid("00000000-1111-0000-0000-000000000011")
+                        },
+                        new
+                        {
+                            Id = new Guid("f2486781-2189-49a4-a644-e6d93e0ff7c4"),
+                            BaseValue = 37.0,
+                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                            Multiplier = 1.1499999999999999,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000002")
                         },
                         new
                         {
@@ -2083,92 +2077,6 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("StoredResources");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.Ship", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<long>("CargoCapacity")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("FuelConsumption")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("FuelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("InterstellarSpeed")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("ShieldPower")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("StellarSpeed")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("StructuralIntegrity")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("WeaponPower")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuelId")
-                        .IsUnique();
-
-                    b.ToTable("Ships");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d11e09e0-e058-4e2e-8cf0-65a0a79b81be"),
-                            CargoCapacity = 2000L,
-                            Description = "A small pod to transport some resources",
-                            FuelConsumption = 10L,
-                            FuelId = new Guid("00000000-1111-0000-0000-000000000001"),
-                            InterstellarSpeed = 50000L,
-                            Name = "Cargo pod",
-                            ShieldPower = 10L,
-                            StellarSpeed = 5000L,
-                            StructuralIntegrity = 4000L,
-                            WeaponPower = 0L
-                        });
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.ShipConstructionCost", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ShipId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.HasIndex("ShipId");
-
-                    b.ToTable("ShipConstructionCosts");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2231,17 +2139,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
 
                     b.ToTable("CivilBuildings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
-                            AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            Description = "TODO",
-                            Name = "Small Shipyard",
-                            Order = 1
-                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ConveyorBuilding", b =>
@@ -3279,36 +3176,6 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("ResourceSnapshot");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.Ship", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Fuel")
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Ships.Ship", "FuelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fuel");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.ShipConstructionCost", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Ships.Ship", "Ship")
-                        .WithMany("ConstructionCosts")
-                        .HasForeignKey("ShipId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Resource");
-
-                    b.Navigation("Ship");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "ParentSystem")
@@ -3549,11 +3416,6 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.ResourceSnapshot", b =>
                 {
                     b.Navigation("StoredResources");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.Ship", b =>
-                {
-                    b.Navigation("ConstructionCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>

@@ -24,6 +24,15 @@ namespace AstroGame.Api.Controllers.Controllers
             return Ok(buildings);
         }
 
+        [HttpGet("current")]
+        public async Task<IActionResult> GetOnCurrentStellarObjectAsync([FromHeader(Name = "selected-stellar-object")] Guid stellarObjectId)
+        {
+            //var stellarObjectId = GetSelectedStellarObject();
+            var buildings = await _buildingManager.GetAsync(stellarObjectId);
+
+            return Ok(buildings);
+        }
+
         [HttpGet("type/{type}")]
         public async Task<IActionResult> GetAsync([FromRoute] StellarObjectType type)
         {

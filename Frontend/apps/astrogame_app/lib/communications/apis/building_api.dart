@@ -14,6 +14,9 @@ abstract class BuildingApi {
   @GET('/')
   Future<List<Building>> getAllAsync();
 
+  @GET('/current')
+  Future<List<Building>> getForCurrentStellarObjectAsync();
+
   @GET('/type/{type}')
   Future<List<Building>> getAllByTypeAsync(
     @Path('type') StellarObjectType type,

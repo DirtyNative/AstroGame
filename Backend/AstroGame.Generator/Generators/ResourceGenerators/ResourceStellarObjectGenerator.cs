@@ -11,9 +11,9 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
         private const double MinValue = 0.20;
         private const double MaxValue = 2;
 
-        private readonly List<Resource> _resources;
+        private readonly List<Element> _resources;
 
-        public ResourceStellarObjectGenerator(List<Resource> resources)
+        public ResourceStellarObjectGenerator(List<Element> resources)
         {
             _resources = resources;
         }

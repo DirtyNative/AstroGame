@@ -11,20 +11,6 @@ namespace AstroGame.Storage.Seeds.Resources
         {
             builder.HasData(
                 //////////////////////////////
-                // Iron Mine
-                //////////////////////////////
-
-                // Iron
-                new OutputResource()
-                {
-                    Id = Guid.Parse("24A0EFE4-27D2-43C6-BB7B-61B36C129B00"),
-                    BuildingId = Guid.Parse("5B2AA6BC-9754-42EB-B519-39EDD989F9BB"),
-                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
-                    BaseValue = 40,
-                    Multiplier = 1.1,
-                },
-
-                //////////////////////////////
                 // Hydrogen Extractor
                 //////////////////////////////
 
@@ -36,20 +22,6 @@ namespace AstroGame.Storage.Seeds.Resources
                     ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000001"),
                     BaseValue = 35,
                     Multiplier = 1.18,
-                },
-
-                //////////////////////////////
-                // Silicon Mine
-                //////////////////////////////
-
-                // Silicon
-                new OutputResource()
-                {
-                    Id = Guid.Parse("A53E9771-E133-431B-9471-9DBD0CA5D245"),
-                    BuildingId = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
-                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000011"),
-                    BaseValue = 38,
-                    Multiplier = 1.08,
                 },
 
                 //////////////////////////////
@@ -65,6 +37,52 @@ namespace AstroGame.Storage.Seeds.Resources
                     BaseValue = 37,
                     Multiplier = 1.15,
                 },
+
+                //////////////////////////////
+                // Oxygen Extractor
+                //////////////////////////////
+
+                // Oxygen
+                new OutputResource()
+                {
+                    Id = Guid.Parse("F2486784-2189-49A4-A644-E6D93E0FF7F4"),
+                    BuildingId = Guid.Parse("ADAB9B7C-53E7-4F89-AA62-61B8A6D8B60F"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000008"),
+                    BaseValue = 37,
+                    Multiplier = 1.13,
+                },
+
+                //////////////////////////////
+                // Iron Mine
+                //////////////////////////////
+
+                // Iron
+                new OutputResource()
+                {
+                    Id = Guid.Parse("24A0EFE4-27D2-43C6-BB7B-61B36C129B00"),
+                    BuildingId = Guid.Parse("5B2AA6BC-9754-42EB-B519-39EDD989F9BB"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
+                    BaseValue = 40,
+                    Multiplier = 1.1,
+                },
+
+                
+
+                //////////////////////////////
+                // Silicon Mine
+                //////////////////////////////
+
+                // Silicon
+                new OutputResource()
+                {
+                    Id = Guid.Parse("A53E9771-E133-431B-9471-9DBD0CA5D245"),
+                    BuildingId = Guid.Parse("E200EF94-6EB9-46C8-BA08-3DD86AC3B373"),
+                    ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000011"),
+                    BaseValue = 38,
+                    Multiplier = 1.08,
+                },
+
+                
 
                 //////////////////////////////
                 // Aluminum smelting plant

@@ -10,9 +10,11 @@ using AstroGame.Storage.Repositories.Stellar;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AstroGame.Api.Communication.Models.Resources;
 using AstroGame.Generator.Generators.ResourceGenerators;
+using Microsoft.Extensions.Configuration;
 
 namespace AstroGame.Api.Managers.Buildings
 {
@@ -50,6 +52,42 @@ namespace AstroGame.Api.Managers.Buildings
         public async Task<List<Building>> GetAsync()
         {
             return await _buildingRepository.GetAsync();
+        }
+
+        public async Task<List<Building>> GetAsync(Guid stellarObjectId)
+        {
+            var stellarObject = await _stellarObjectRepository.GetAsync(stellarObjectId);
+
+            if (stellarObject == null)
+            {
+                throw new NotFoundException($"StellarObject {stellarObjectId} not found");
+            }
+
+            var buildings = await _buildingRepository.GetAsync();
+
+            // Filter by stellar object type
+            buildings = buildings.Where(e => e.BuildableOn == stellarObject.StellarObjectType).ToList();
+
+            // Remove the ConveyorBuildings which would not produce any resource
+            for (var index = buildings.Count - 1; index >= 0; index--)
+            {
+                var building = buildings[index];
+
+                if (building is not ConveyorBuilding)
+                {
+                    continue;
+                }
+
+                var containsResource = building.OutputResources.Any(or =>
+                    stellarObject.Resources.Any(r => r.ResourceId == or.ResourceId));
+
+                if (containsResource == false)
+                {
+                    buildings.RemoveAt(index);
+                }
+            }
+
+            return buildings;
         }
 
         public async Task<List<Building>> GetAsync(StellarObjectType type)

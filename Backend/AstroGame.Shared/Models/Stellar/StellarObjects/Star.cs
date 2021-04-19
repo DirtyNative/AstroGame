@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
-    public class Star : StellarObject, IProvidesResources, IRenderable
+    public class Star : StellarObject, IRenderable
     {
         public Star()
         {

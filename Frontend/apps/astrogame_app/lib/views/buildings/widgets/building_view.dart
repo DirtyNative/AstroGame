@@ -42,8 +42,9 @@ class BuildingView extends StatelessWidget {
                     ),
                     Expanded(child: Container()),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        TextButton(onPressed: model.showBuildingDetails, child: Text('Details')),
                         ElevatedButton(
                           onPressed: (model.isConstructable) ? model.buildAsync : null,
                           child: Text(model.constructionText),

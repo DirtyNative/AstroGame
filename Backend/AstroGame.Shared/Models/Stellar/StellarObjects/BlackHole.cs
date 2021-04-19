@@ -6,7 +6,7 @@ using AstroGame.Shared.Models.Stellar.Interfaces;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
-    public class BlackHole : StellarObject, IProvidesResources, IRenderable
+    public class BlackHole : StellarObject, IRenderable
     {
         public BlackHole()
         {

@@ -5,16 +5,16 @@ namespace AstroGame.Api.Factories
 {
     public class ResourceGeneratorFactory
     {
-        private readonly ResourceRepository _resourceRepository;
+        private readonly ElementRepository _elementRepository;
 
-        public ResourceGeneratorFactory(ResourceRepository resourceRepository)
+        public ResourceGeneratorFactory(ElementRepository elementRepository)
         {
-            _resourceRepository = resourceRepository;
+            _elementRepository = elementRepository;
         }
 
         public ResourceStellarObjectGenerator Create()
         {
-            var resources = _resourceRepository.Get();
+            var resources = _elementRepository.Get();
 
             return new ResourceStellarObjectGenerator(resources);
         }

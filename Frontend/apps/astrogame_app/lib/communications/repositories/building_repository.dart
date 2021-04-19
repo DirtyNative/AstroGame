@@ -36,6 +36,16 @@ class BuildingRepository {
     }
   }
 
+  Future<ServerResponseT<List<Building>>> getForCurrentStellarObjectAsync() async {
+    try {
+      _logger.d('Get all buildings');
+      var response = await _buildingApi.getForCurrentStellarObjectAsync();
+      return ServerResponseT()..data = response;
+    } catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error: error);
+    }
+  }
+
   Future<ServerResponseT<List<Building>>> getAllByTypeAsync(
     StellarObjectType type,
   ) async {

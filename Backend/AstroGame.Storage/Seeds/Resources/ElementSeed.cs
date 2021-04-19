@@ -17,7 +17,8 @@ namespace AstroGame.Storage.Seeds.Resources
                     Name = "Hydrogen",
                     Symbol = "H",
                     Type = ElementType.Gases,
-                    NaturalOccurrenceWeight = 1
+                    NaturalOccurrenceWeight = 1,
+                    IsBaseResource = true,
                 },
                 new Element()
                 {
@@ -25,7 +26,8 @@ namespace AstroGame.Storage.Seeds.Resources
                     Name = "Helium",
                     Symbol = "He",
                     Type = ElementType.Gases,
-                    NaturalOccurrenceWeight = 1
+                    NaturalOccurrenceWeight = 1,
+                    IsBaseResource = true,
                 },
                 new Element()
                 {
@@ -73,7 +75,8 @@ namespace AstroGame.Storage.Seeds.Resources
                     Name = "Oxygen",
                     Symbol = "O",
                     Type = ElementType.Gases,
-                    NaturalOccurrenceWeight = 1
+                    NaturalOccurrenceWeight = 1,
+                    IsBaseResource = true,
                 },
                 new Element()
                 {
@@ -97,7 +100,8 @@ namespace AstroGame.Storage.Seeds.Resources
                     Name = "Silicon",
                     Symbol = "Si",
                     Type = ElementType.Metals,
-                    NaturalOccurrenceWeight = 1
+                    NaturalOccurrenceWeight = 1,
+                    IsBaseResource = true,
                 },
                 new Element()
                 {
@@ -137,7 +141,8 @@ namespace AstroGame.Storage.Seeds.Resources
                     Name = "Iron",
                     Symbol = "Fe",
                     Type = ElementType.Metals,
-                    NaturalOccurrenceWeight = 1
+                    NaturalOccurrenceWeight = 1,
+                    IsBaseResource = true,
                 },
                 new Element()
                 {

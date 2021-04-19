@@ -21,12 +21,20 @@ namespace AstroGame.Storage.Repositories.Stellar
         public async Task<StellarObject> GetAsync(Guid id)
         {
             return await _context.StellarObjects
+
+                // Resources
+                .Include(e => e.Resources)
+                .ThenInclude(e => e.Resource)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<List<StellarObject>> GetAsync()
         {
             return await _context.StellarObjects
+
+                // Resources
+                .Include(e => e.Resources)
+                .ThenInclude(e => e.Resource)
                 .ToListAsync();
         }
     }

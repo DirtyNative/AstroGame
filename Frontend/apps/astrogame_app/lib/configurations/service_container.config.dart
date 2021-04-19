@@ -192,12 +192,12 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i58.StoredResourceProvider>()));
   gh.factoryParam<_i60.BuildingDetailViewModel, _i61.Building,
           _i62.BuiltBuilding>(
-      (_building, _builtBuilding) => _i60.BuildingDetailViewModel(
+      (building, builtBuilding) => _i60.BuildingDetailViewModel(
           get<_i33.BuildingRepository>(),
           get<_i49.ResourceProvider>(),
           get<_i63.BuildingImageProvider>(),
-          _building,
-          _builtBuilding));
+          building,
+          builtBuilding));
   gh.factoryParam<_i64.BuildingViewModel, _i61.Building, dynamic>(
       (_building, _) => _i64.BuildingViewModel(
           get<_i10.NavigationWrapper>(),

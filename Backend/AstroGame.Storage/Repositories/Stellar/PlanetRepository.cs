@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Players;
+using AstroGame.Shared.Models.Resources;
 
 namespace AstroGame.Storage.Repositories.Stellar
 {
@@ -69,7 +70,7 @@ namespace AstroGame.Storage.Repositories.Stellar
         }
 
         public async Task UpdateAsync(Guid planetId, bool hasHabitableAtmosphere, PlanetType planetType,
-            ColonizedStellarObject colonizedStellarObject)
+            ColonizedStellarObject colonizedStellarObject, List<StellarObjectResource> resourceOccurrences)
         {
             var planet = await GetAsync(planetId);
 
@@ -77,6 +78,7 @@ namespace AstroGame.Storage.Repositories.Stellar
             planet.PlanetType = planetType;
             planet.ColonizedStellarObject = colonizedStellarObject;
             planet.ColonizedStellarObjectId = colonizedStellarObject.Id;
+            planet.Resources = resourceOccurrences;
 
             await _context.SaveChangesAsync();
         }

@@ -3,7 +3,7 @@ using System;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public class BuildingCost
+    public class StaticBuildingCost
     {
         public Guid Id { get; set; }
 
@@ -13,22 +13,14 @@ namespace AstroGame.Shared.Models.Buildings
         public Guid ResourceId { get; set; }
 
         public Guid BuildingId { get; set; }
-
-        /// <summary>
-        /// The base value for the calculation
-        /// </summary>
-        public double BaseValue { get; set; }
-
-        /// <summary>
-        /// The multiplier for the calculation
-        /// </summary>
-        public double Multiplier { get; set; }
-
+        
+        public double Amount { get; set; }
+        
         /// <summary>
         /// The Resource that needs to be spent
         /// </summary>
         public virtual Resource Resource { get; set; }
 
-        public virtual Building Building { get; set; }
+        public virtual StaticBuilding Building { get; set; }
     }
 }

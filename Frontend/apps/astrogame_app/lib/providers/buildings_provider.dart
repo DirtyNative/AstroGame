@@ -21,7 +21,7 @@ class BuildingsProvider {
         return values;
       }
 
-      var response = await _buildingRepository.getAllAsync();
+      var response = await _buildingRepository.getForCurrentStellarObjectAsync();
 
       _memoryCache.put('all', response.data);
       return response.data;

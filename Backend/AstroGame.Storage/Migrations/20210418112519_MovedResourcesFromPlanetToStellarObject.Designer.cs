@@ -4,14 +4,16 @@ using AstroGame.Storage.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    partial class AstroGameDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210418112519_MovedResourcesFromPlanetToStellarObject")]
+    partial class MovedResourcesFromPlanetToStellarObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -488,30 +490,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("792f2b69-3726-42ca-9ef3-015fb5b2e486"),
-                            BaseValue = 35.0,
-                            BuildingId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
-                            Multiplier = 1.1799999999999999,
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000001")
-                        },
-                        new
-                        {
-                            Id = new Guid("f2486781-2189-49a4-a644-e6d93e0ff7c4"),
-                            BaseValue = 37.0,
-                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
-                            Multiplier = 1.1499999999999999,
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            Id = new Guid("f2486784-2189-49a4-a644-e6d93e0ff7f4"),
-                            BaseValue = 37.0,
-                            BuildingId = new Guid("adab9b7c-53e7-4f89-aa62-61b8a6d8b60f"),
-                            Multiplier = 1.1299999999999999,
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000008")
-                        },
-                        new
-                        {
                             Id = new Guid("24a0efe4-27d2-43c6-bb7b-61b36c129b00"),
                             BaseValue = 40.0,
                             BuildingId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
@@ -520,11 +498,27 @@ namespace AstroGame.Storage.Migrations
                         },
                         new
                         {
+                            Id = new Guid("792f2b69-3726-42ca-9ef3-015fb5b2e486"),
+                            BaseValue = 35.0,
+                            BuildingId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
+                            Multiplier = 1.1799999999999999,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000001")
+                        },
+                        new
+                        {
                             Id = new Guid("a53e9771-e133-431b-9471-9dbd0ca5d245"),
                             BaseValue = 38.0,
                             BuildingId = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
                             Multiplier = 1.0800000000000001,
                             ResourceId = new Guid("00000000-1111-0000-0000-000000000011")
+                        },
+                        new
+                        {
+                            Id = new Guid("f2486781-2189-49a4-a644-e6d93e0ff7c4"),
+                            BaseValue = 37.0,
+                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                            Multiplier = 1.1499999999999999,
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000002")
                         },
                         new
                         {
@@ -2083,92 +2077,6 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("StoredResources");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.Ship", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<long>("CargoCapacity")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("FuelConsumption")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("FuelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("InterstellarSpeed")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("ShieldPower")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("StellarSpeed")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("StructuralIntegrity")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("WeaponPower")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuelId")
-                        .IsUnique();
-
-                    b.ToTable("Ships");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d11e09e0-e058-4e2e-8cf0-65a0a79b81be"),
-                            CargoCapacity = 2000L,
-                            Description = "A small pod to transport some resources",
-                            FuelConsumption = 10L,
-                            FuelId = new Guid("00000000-1111-0000-0000-000000000001"),
-                            InterstellarSpeed = 50000L,
-                            Name = "Cargo pod",
-                            ShieldPower = 10L,
-                            StellarSpeed = 5000L,
-                            StructuralIntegrity = 4000L,
-                            WeaponPower = 0L
-                        });
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.ShipConstructionCost", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ShipId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.HasIndex("ShipId");
-
-                    b.ToTable("ShipConstructionCosts");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2231,17 +2139,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
 
                     b.ToTable("CivilBuildings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
-                            AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            Description = "TODO",
-                            Name = "Small Shipyard",
-                            Order = 1
-                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.ConveyorBuilding", b =>
@@ -2557,9 +2454,6 @@ namespace AstroGame.Storage.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Resources.Resource");
 
-                    b.Property<bool>("IsBaseResource")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Symbol")
                         .HasColumnType("nvarchar(max)");
 
@@ -2574,7 +2468,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000001"),
                             Name = "Hydrogen",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = true,
                             Symbol = "H",
                             Type = 0
                         },
@@ -2583,7 +2476,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000002"),
                             Name = "Helium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = true,
                             Symbol = "He",
                             Type = 0
                         },
@@ -2592,7 +2484,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000003"),
                             Name = "Lithium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Li",
                             Type = 1
                         },
@@ -2601,7 +2492,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000004"),
                             Name = "Beryllium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Be",
                             Type = 1
                         },
@@ -2610,7 +2500,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000005"),
                             Name = "Boron",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "B",
                             Type = 1
                         },
@@ -2619,7 +2508,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000006"),
                             Name = "Carbon",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "C",
                             Type = 1
                         },
@@ -2628,7 +2516,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000007"),
                             Name = "Nitrogen",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "N",
                             Type = 1
                         },
@@ -2637,7 +2524,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000008"),
                             Name = "Oxygen",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = true,
                             Symbol = "O",
                             Type = 0
                         },
@@ -2646,7 +2532,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000009"),
                             Name = "Magnesium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Mg",
                             Type = 1
                         },
@@ -2655,7 +2540,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000010"),
                             Name = "Aluminum",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Al",
                             Type = 1
                         },
@@ -2664,7 +2548,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000011"),
                             Name = "Silicon",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = true,
                             Symbol = "Si",
                             Type = 1
                         },
@@ -2673,7 +2556,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000012"),
                             Name = "Phosphorus",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "P",
                             Type = 1
                         },
@@ -2682,7 +2564,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000013"),
                             Name = "Sulfur",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "S",
                             Type = 1
                         },
@@ -2691,7 +2572,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000014"),
                             Name = "Chlorine",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Cl",
                             Type = 1
                         },
@@ -2700,7 +2580,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000015"),
                             Name = "Titanium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Ti",
                             Type = 1
                         },
@@ -2709,7 +2588,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000016"),
                             Name = "Iron",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = true,
                             Symbol = "Fe",
                             Type = 1
                         },
@@ -2718,7 +2596,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000017"),
                             Name = "Cobalt",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Co",
                             Type = 1
                         },
@@ -2727,7 +2604,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000018"),
                             Name = "Nickel",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Ni",
                             Type = 1
                         },
@@ -2736,7 +2612,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000019"),
                             Name = "Copper",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Cu",
                             Type = 1
                         },
@@ -2745,7 +2620,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000020"),
                             Name = "Zinc",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Zn",
                             Type = 1
                         },
@@ -2754,7 +2628,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000021"),
                             Name = "Gallium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Ga",
                             Type = 1
                         },
@@ -2763,7 +2636,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000022"),
                             Name = "Germanium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Ge",
                             Type = 1
                         },
@@ -2772,7 +2644,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000023"),
                             Name = "Palladium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Pd",
                             Type = 1
                         },
@@ -2781,7 +2652,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000024"),
                             Name = "Silver",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Ag",
                             Type = 1
                         },
@@ -2790,7 +2660,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000025"),
                             Name = "Tin",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Sn",
                             Type = 1
                         },
@@ -2799,7 +2668,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000026"),
                             Name = "Iridium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Ir",
                             Type = 1
                         },
@@ -2808,7 +2676,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000027"),
                             Name = "Platinum",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Pt",
                             Type = 1
                         },
@@ -2817,7 +2684,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000028"),
                             Name = "Gold",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Au",
                             Type = 1
                         },
@@ -2826,7 +2692,6 @@ namespace AstroGame.Storage.Migrations
                             Id = new Guid("00000000-1111-0000-0000-000000000029"),
                             Name = "Plutonium",
                             NaturalOccurrenceWeight = 1L,
-                            IsBaseResource = false,
                             Symbol = "Pu",
                             Type = 1
                         });
@@ -3279,36 +3144,6 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("ResourceSnapshot");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.Ship", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Fuel")
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Ships.Ship", "FuelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fuel");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.ShipConstructionCost", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Ships.Ship", "Ship")
-                        .WithMany("ConstructionCosts")
-                        .HasForeignKey("ShipId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Resource");
-
-                    b.Navigation("Ship");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarSystem", "ParentSystem")
@@ -3549,11 +3384,6 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.ResourceSnapshot", b =>
                 {
                     b.Navigation("StoredResources");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Ships.Ship", b =>
-                {
-                    b.Navigation("ConstructionCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", b =>

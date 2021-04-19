@@ -6,7 +6,7 @@ using AstroGame.Shared.Enums;
 
 namespace AstroGame.Shared.Models.Stellar.StellarObjects
 {
-    public class Moon : StellarObject, IProvidesResources, IRenderable
+    public class Moon : StellarObject, IRenderable
     {
         public Moon()
         {
