@@ -2574,6 +2574,15 @@ namespace AstroGame.Storage.Migrations
                     b.HasIndex("BuildingId");
 
                     b.ToTable("FixedBuildingCosts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("bd87afe1-192e-4618-a34c-7a6e8ed7eb0b"),
+                            BuildingId = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            Amount = 2000.0
+                        });
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Element", b =>

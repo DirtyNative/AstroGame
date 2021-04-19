@@ -16,7 +16,7 @@ class ResourceHelper {
     for (int index = 0; index < building.buildingCosts.length; index++) {
       var buildingCost = building.buildingCosts[index];
 
-      var amount = _calculateAmount(buildingCost, level + 1);
+      var amount = calculateAmount(buildingCost, level + 1);
 
       // Check if there are stored resources
       if (resources.any((element) => element.resourceId == buildingCost.resourceId) == false) {
@@ -37,7 +37,7 @@ class ResourceHelper {
     return true;
   }
 
-  double _calculateAmount(BuildingCost buildingCost, int level) {
+  double calculateAmount(BuildingCost buildingCost, int level) {
     if (buildingCost is DynamicBuildingCost) {
       return buildingCost.baseValue * pow(buildingCost.multiplier, level - 1);
     } else if (buildingCost is FixedBuildingCost) {

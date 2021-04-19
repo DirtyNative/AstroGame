@@ -25,7 +25,7 @@ class BuildingsView extends StatelessWidget {
             Divider(color: Colors.white),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.only(left: 0, right: 0),
                 child: PageView(
                   controller: controller,
                   onPageChanged: (index) => model.selectedTabIndex = index,
@@ -97,10 +97,12 @@ class BuildingsView extends StatelessWidget {
 
   Widget _listView(List<Building> buildings) {
     return Scrollbar(
-      child: ListView.separated(
-        itemCount: buildings?.length ?? 0,
-        itemBuilder: (context, index) => BuildingView(buildings[index]),
-        separatorBuilder: (context, index) => SizedBox(height: 16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: ListView.builder(
+          itemCount: buildings?.length ?? 0,
+          itemBuilder: (context, index) => BuildingView(buildings[index]),
+        ),
       ),
     );
   }

@@ -19,6 +19,7 @@ class NumberFormatter {
     double number,
     int countDecimals, {
     bool fullNumbers = false,
+    bool roundDown = false,
   }) {
     double cut = _cut(number);
     var abbreviation = _getAbbreviation(number);
@@ -27,6 +28,10 @@ class NumberFormatter {
             ? _getFormat(0)
             : _getFormat(countDecimals)
         : _getFormat(countDecimals);
+
+    if (roundDown) {
+      return '${format.format(cut.floor())} $abbreviation';
+    }
 
     return '${format.format(cut)} $abbreviation';
   }

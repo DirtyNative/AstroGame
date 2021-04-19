@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    [Migration("20210419093925_SplitBuildingInDynamicAndFixed")]
-    partial class SplitBuildingInDynamicAndFixed
+    [Migration("20210419112416_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

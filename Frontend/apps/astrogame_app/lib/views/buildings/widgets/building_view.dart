@@ -1,5 +1,7 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
+import 'package:astrogame_app/models/buildings/fixed_building.dart';
+import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/buildings/widgets/building_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class BuildingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<BuildingViewModel>.reactive(
       builder: (context, model, _) => Container(
+        margin: EdgeInsets.only(bottom: 16),
         height: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -35,7 +38,15 @@ class BuildingView extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text(model.building.name, style: Theme.of(context).textTheme.headline2), Text('Level ${model.builtBuilding?.level ?? 0}')],
+                      children: [
+                        Text(model.building.name, style: Theme.of(context).textTheme.headline2),
+
+                        // Show the level only if it's a levelable building
+                        if (model.building is LevelableBuilding)
+                          Text('Level ${model.builtBuilding?.level ?? 0}')
+                        else if (model.building is FixedBuilding)
+                          SizedBox.shrink(),
+                      ],
                     ),
                     Text(
                       model.building.description,

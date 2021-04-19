@@ -8,6 +8,8 @@ import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
 import 'package:astrogame_app/models/buildings/built_building.dart';
+import 'package:astrogame_app/models/buildings/fixed_building.dart';
+import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/building_image_provider.dart';
@@ -112,6 +114,11 @@ class BuildingViewModel extends FutureViewModel {
       level = builtBuilding.level;
     }
 
+    // If this is a FixedBuilding and it's already built
+    if (building is FixedBuilding && builtBuilding != null) {
+      return false;
+    }
+
     return _resourceHelper.hasStoredResourcesToBuild(storedResources, building, level);
   }
 
@@ -127,7 +134,13 @@ class BuildingViewModel extends FutureViewModel {
       return prettyDuration(duration, abbreviated: true, delimiter: ' : ');
     }
 
-    return (builtBuilding == null) ? 'Build' : 'Upgrade ${builtBuilding.level + 1}';
+    if (building is LevelableBuilding) {
+      return (builtBuilding == null) ? 'Build' : 'Upgrade ${builtBuilding.level + 1}';
+    } else if (building is FixedBuilding) {
+      return (builtBuilding == null) ? 'Build' : 'Already built';
+    }
+
+    throw Exception('Building type ${building.runtimeType} is not implemented yet');
   }
 
   Future buildAsync() async {

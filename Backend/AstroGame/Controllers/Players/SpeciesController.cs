@@ -1,11 +1,8 @@
-﻿using System;
-using AstroGame.Api.Filters;
+﻿using AstroGame.Api.Filters;
 using AstroGame.Api.Managers.Players;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
+using System;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Players
