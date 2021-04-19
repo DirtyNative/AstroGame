@@ -1,7 +1,6 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Storage.Database;
-using AstroGame.Storage.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,11 +26,11 @@ namespace AstroGame.Storage.Repositories.Buildings
 
                 // Input Resources
                 .Include(e => e.Building)
-                .ThenInclude(e => (e as ConveyorBuilding).InputResources)
+                .ThenInclude(e => e.InputResources)
 
                 // Output Resources
                 .Include(e => e.Building)
-                .ThenInclude(e => (e as ConveyorBuilding).OutputResources)
+                .ThenInclude(e => e.OutputResources)
 
                 // Predict
                 .Where(e => e.ColonizedStellarObject.StellarObjectId == stellarObjectId)
@@ -48,11 +47,11 @@ namespace AstroGame.Storage.Repositories.Buildings
 
                 // Input Resources
                 .Include(e => e.Building)
-                .ThenInclude(e => (e as ConveyorBuilding).InputResources)
+                .ThenInclude(e => e.InputResources)
 
                 // Output Resources
                 .Include(e => e.Building)
-                .ThenInclude(e => (e as ConveyorBuilding).OutputResources)
+                .ThenInclude(e => e.OutputResources)
 
                 // Predict
                 .Where(e => e.ColonizedStellarObject.StellarObjectId == stellarObjectId
@@ -63,22 +62,21 @@ namespace AstroGame.Storage.Repositories.Buildings
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<BuiltBuilding>> GetProductionBuildingsAsync(Guid colonizedStellarObjectId)
+        public async Task<List<BuiltBuilding>> GetOnColonizedStellarObjectAsync(Guid colonizedStellarObjectId)
         {
             return await _context.BuiltBuildings
                 .Include(e => e.ColonizedStellarObject)
 
                 // Input Resources
                 .Include(e => e.Building)
-                .ThenInclude(e => (e as ConveyorBuilding).InputResources)
+                .ThenInclude(e => e.InputResources)
 
                 // Output Resources
                 .Include(e => e.Building)
-                .ThenInclude(e => (e as ConveyorBuilding).OutputResources)
+                .ThenInclude(e => e.OutputResources)
 
                 // Predict
-                .Where(e => e.Building is ConveyorBuilding
-                            && e.ColonizedStellarObjectId == colonizedStellarObjectId)
+                .Where(e => e.ColonizedStellarObjectId == colonizedStellarObjectId)
 
                 // Order
                 .OrderBy(e => e.Building.Order)

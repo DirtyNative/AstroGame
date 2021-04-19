@@ -1,12 +1,11 @@
+import 'package:astrogame_app/communications/converters/building_cost_converter.dart';
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'building_cost.g.dart';
-
 @GuidConverter()
 @JsonSerializable()
-class BuildingCost {
+abstract class BuildingCost {
   @JsonKey()
   Guid id;
 
@@ -16,15 +15,7 @@ class BuildingCost {
   @JsonKey()
   Guid buildingId;
 
-  @JsonKey()
-  double baseValue;
-
-  @JsonKey()
-  double multiplier;
-
   BuildingCost();
 
-  factory BuildingCost.fromJson(Map<String, dynamic> json) =>
-      _$BuildingCostFromJson(json);
-  Map<String, dynamic> toJson() => _$BuildingCostToJson(this);
+  factory BuildingCost.fromJson(Map<String, dynamic> json) => BuildingCostConverter().fromJson(json);
 }

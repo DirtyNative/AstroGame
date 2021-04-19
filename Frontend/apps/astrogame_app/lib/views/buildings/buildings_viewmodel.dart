@@ -1,10 +1,5 @@
 import 'package:astrogame_app/models/buildings/building.dart';
-import 'package:astrogame_app/models/buildings/civil_building.dart';
-import 'package:astrogame_app/models/buildings/conveyor_building.dart';
-import 'package:astrogame_app/models/buildings/refinery_building.dart';
-import 'package:astrogame_app/models/buildings/storage_building.dart';
-import 'package:astrogame_app/models/buildings/manufacturing_facility_building.dart';
-import 'package:astrogame_app/models/buildings/research_laboratory_building.dart';
+import 'package:astrogame_app/models/enums/building_type.dart';
 import 'package:astrogame_app/providers/buildings_provider.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
@@ -32,18 +27,24 @@ class BuildingsViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  List<Building> get conveyorBuildings =>
-      (buildings == null) ? null : buildings.where((element) => element is ConveyorBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get civilBuildings =>
-      (buildings == null) ? null : buildings.where((element) => element is CivilBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get refineryBuildings =>
-      (buildings == null) ? null : buildings.where((element) => element is RefineryBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get manufacturingFacilityBuildings =>
-      (buildings == null) ? null : buildings.where((element) => element is ManufacturingFacilityBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get researchLaboratoryBuildings =>
-      (buildings == null) ? null : buildings.where((element) => element is ResearchLaboratoryBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get storageBuildings =>
-      (buildings == null) ? null : buildings.where((element) => element is StorageBuilding).sortedBy((element) => element.order).toList();
+  List<Building> get conveyorBuildings => (buildings == null)
+      ? null
+      : buildings.where((element) => element.buildingType == BuildingType.conveyorBuilding).sortedBy((element) => element.order).toList();
+  List<Building> get civilBuildings => (buildings == null)
+      ? null
+      : buildings.where((element) => element.buildingType == BuildingType.civilBuilding).sortedBy((element) => element.order).toList();
+  List<Building> get refineryBuildings => (buildings == null)
+      ? null
+      : buildings.where((element) => element.buildingType == BuildingType.refineryBuilding).sortedBy((element) => element.order).toList();
+  List<Building> get manufacturingFacilityBuildings => (buildings == null)
+      ? null
+      : buildings.where((element) => element.buildingType == BuildingType.manufacturingFacilityBuilding).sortedBy((element) => element.order).toList();
+  List<Building> get researchLaboratoryBuildings => (buildings == null)
+      ? null
+      : buildings.where((element) => element.buildingType == BuildingType.researchLaboratoryBuilding).sortedBy((element) => element.order).toList();
+  List<Building> get storageBuildings => (buildings == null)
+      ? null
+      : buildings.where((element) => element.buildingType == BuildingType.storageBuilding).sortedBy((element) => element.order).toList();
 
   Future<List<Building>> _fetchBuildingsAsync() async {
     return await buildingsProvider.get();

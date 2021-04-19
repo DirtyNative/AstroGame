@@ -1,10 +1,6 @@
 import 'package:astrogame_app/models/buildings/building.dart';
-import 'package:astrogame_app/models/buildings/civil_building.dart';
-import 'package:astrogame_app/models/buildings/conveyor_building.dart';
-import 'package:astrogame_app/models/buildings/refinery_building.dart';
-import 'package:astrogame_app/models/buildings/manufacturing_facility_building.dart';
-import 'package:astrogame_app/models/buildings/research_laboratory_building.dart';
-import 'package:astrogame_app/models/buildings/storage_building.dart';
+import 'package:astrogame_app/models/buildings/fixed_building.dart';
+import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class BuildingConverter implements JsonConverter<Building, Map<String, dynamic>> {
@@ -19,18 +15,10 @@ class BuildingConverter implements JsonConverter<Building, Map<String, dynamic>>
     //var type = json['\$type'];
     var type = json.entries.firstWhere((element) => element.key == '\$type');
 
-    if (type.value == 'CivilBuilding') {
-      return CivilBuilding.fromJson(json);
-    } else if (type.value == 'ConveyorBuilding') {
-      return ConveyorBuilding.fromJson(json);
-    } else if (type.value == 'ManufacturingFacilityBuilding') {
-      return ManufacturingFacilityBuilding.fromJson(json);
-    } else if (type.value == 'RefineryBuilding') {
-      return RefineryBuilding.fromJson(json);
-    } else if (type.value == 'ResearchLaboratoryBuilding') {
-      return ResearchLaboratoryBuilding.fromJson(json);
-    } else if (type.value == 'StorageBuilding') {
-      return StorageBuilding.fromJson(json);
+    if (type.value == 'LevelableBuilding') {
+      return LevelableBuilding.fromJson(json);
+    } else if (type.value == 'FixedBuilding') {
+      return FixedBuilding.fromJson(json);
     }
 
     return null;

@@ -1,13 +1,14 @@
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_cost.dart';
+import 'package:astrogame_app/models/buildings/dynamic_building_cost.dart';
+import 'package:astrogame_app/models/buildings/fixed_building_cost.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:math';
 
 @injectable
 class ResourceHelper {
-  bool hasStoredResourcesToBuild(
-      List<StoredResource> resources, Building building, int level) {
+  bool hasStoredResourcesToBuild(List<StoredResource> resources, Building building, int level) {
     if (resources == null || resources.length == 0) {
       return false;
     }
@@ -18,14 +19,11 @@ class ResourceHelper {
       var amount = _calculateAmount(buildingCost, level + 1);
 
       // Check if there are stored resources
-      if (resources.any(
-              (element) => element.resourceId == buildingCost.resourceId) ==
-          false) {
+      if (resources.any((element) => element.resourceId == buildingCost.resourceId) == false) {
         return false;
       }
 
-      var storedResource = resources.firstWhere(
-          (element) => element.resourceId == buildingCost.resourceId);
+      var storedResource = resources.firstWhere((element) => element.resourceId == buildingCost.resourceId);
 
       if (storedResource == null) {
         return false;
@@ -40,6 +38,12 @@ class ResourceHelper {
   }
 
   double _calculateAmount(BuildingCost buildingCost, int level) {
-    return buildingCost.baseValue * pow(buildingCost.multiplier, level - 1);
+    if (buildingCost is DynamicBuildingCost) {
+      return buildingCost.baseValue * pow(buildingCost.multiplier, level - 1);
+    } else if (buildingCost is FixedBuildingCost) {
+      return buildingCost.amount;
+    }
+
+    throw Exception('${buildingCost.runtimeType} is not implemented yet');
   }
 }

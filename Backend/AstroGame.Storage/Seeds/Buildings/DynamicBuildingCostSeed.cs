@@ -5,7 +5,7 @@ using System;
 
 namespace AstroGame.Storage.Seeds.Buildings
 {
-    public class BuildingCostSeed : IEntityTypeConfiguration<DynamicBuildingCost>
+    public class DynamicBuildingCostSeed : IEntityTypeConfiguration<DynamicBuildingCost>
     {
         public void Configure(EntityTypeBuilder<DynamicBuildingCost> builder)
         {

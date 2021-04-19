@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/converters/building_converter.dart';
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/enums/building_type.dart';
 import 'package:astrogame_app/models/enums/stellar_object_type.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 
@@ -13,6 +14,7 @@ abstract class Building {
   String name;
   String description;
   String assetName;
+  BuildingType buildingType;
 
   int order;
 

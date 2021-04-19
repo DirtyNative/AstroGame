@@ -1,18 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'research_laboratory_building.dart';
+part of 'fixed_building.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ResearchLaboratoryBuilding _$ResearchLaboratoryBuildingFromJson(
-    Map<String, dynamic> json) {
-  return ResearchLaboratoryBuilding()
+FixedBuilding _$FixedBuildingFromJson(Map<String, dynamic> json) {
+  return FixedBuilding()
     ..id = const GuidConverter().fromJson(json['id'] as String)
     ..name = json['name'] as String
     ..description = json['description'] as String
     ..assetName = json['assetName'] as String
+    ..buildingType =
+        _$enumDecodeNullable(_$BuildingTypeEnumMap, json['buildingType'])
     ..order = json['order'] as int
     ..buildableOn =
         _$enumDecodeNullable(_$StellarObjectTypeEnumMap, json['buildableOn'])
@@ -32,13 +33,13 @@ ResearchLaboratoryBuilding _$ResearchLaboratoryBuildingFromJson(
         ?.toList();
 }
 
-Map<String, dynamic> _$ResearchLaboratoryBuildingToJson(
-        ResearchLaboratoryBuilding instance) =>
+Map<String, dynamic> _$FixedBuildingToJson(FixedBuilding instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
       'name': instance.name,
       'description': instance.description,
       'assetName': instance.assetName,
+      'buildingType': _$BuildingTypeEnumMap[instance.buildingType],
       'order': instance.order,
       'buildableOn': _$StellarObjectTypeEnumMap[instance.buildableOn],
       'buildingCosts': instance.buildingCosts,
@@ -77,6 +78,15 @@ T _$enumDecodeNullable<T>(
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
+
+const _$BuildingTypeEnumMap = {
+  BuildingType.civilBuilding: 0,
+  BuildingType.conveyorBuilding: 1,
+  BuildingType.manufacturingFacilityBuilding: 2,
+  BuildingType.refineryBuilding: 3,
+  BuildingType.researchLaboratoryBuilding: 4,
+  BuildingType.storageBuilding: 5,
+};
 
 const _$StellarObjectTypeEnumMap = {
   StellarObjectType.star: 0,

@@ -18,7 +18,7 @@ namespace AstroGame.Api.Helpers
         }
 
 
-        public bool HasNeededResources(List<StoredResource> storedResources, List<DynamicBuildingCost> buildingCosts,
+        public bool HasNeededResources(List<StoredResource> storedResources, List<BuildingCost> buildingCosts,
             uint level)
         {
             foreach (var buildingCost in buildingCosts)
@@ -41,11 +41,21 @@ namespace AstroGame.Api.Helpers
             return true;
         }
 
-        public bool HasNeededResource(StoredResource storedResource, DynamicBuildingCost dynamicBuildingCost, uint level)
+        public bool HasNeededResource(StoredResource storedResource, BuildingCost buildingCost, uint level)
         {
-            var neededAmount =
-                _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue, dynamicBuildingCost.Multiplier,
-                    level);
+            double neededAmount = 0;
+
+            if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
+            {
+                neededAmount =
+                    _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue,
+                        dynamicBuildingCost.Multiplier,
+                        level);
+            }
+            else if (buildingCost is FixedBuildingCost fixedBuildingCost)
+            {
+                neededAmount = fixedBuildingCost.Amount;
+            }
 
             return HasNeededResourceAmount(storedResource, neededAmount);
         }
@@ -56,14 +66,25 @@ namespace AstroGame.Api.Helpers
         }
 
         public List<StoredResource> SubtractBuildingCosts(List<StoredResource> storedResources,
-            List<DynamicBuildingCost> buildingCosts, uint level)
+            List<BuildingCost> buildingCosts, uint level)
         {
             foreach (var buildingCost in buildingCosts)
             {
                 var storedResource = storedResources.First(e => e.ResourceId == buildingCost.ResourceId);
-                var neededAmount =
-                    _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
-                        level);
+
+                double neededAmount = 0;
+                if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
+                {
+                    neededAmount =
+                        _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue,
+                            dynamicBuildingCost.Multiplier,
+                            level);
+                }
+                else if (buildingCost is FixedBuildingCost fixedBuildingCost)
+                {
+                    neededAmount = fixedBuildingCost.Amount;
+                }
+
 
                 storedResource.Amount -= neededAmount;
             }
@@ -71,11 +92,26 @@ namespace AstroGame.Api.Helpers
             return storedResources;
         }
 
-        public double SumBuildingCosts(List<DynamicBuildingCost> buildingCosts, uint level)
+        public double SumBuildingCosts(List<BuildingCost> buildingCosts, uint level)
         {
-            return buildingCosts.Sum(buildingCost =>
-                _resourceCalculator.CalculateBuildingCostAmount(buildingCost.BaseValue, buildingCost.Multiplier,
-                    level));
+            var amount = 0d;
+
+            foreach (var buildingCost in buildingCosts)
+            {
+                if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
+                {
+                    amount +=
+                        _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue,
+                            dynamicBuildingCost.Multiplier,
+                            level);
+                }
+                else if (buildingCost is FixedBuildingCost fixedBuildingCost)
+                {
+                    amount += fixedBuildingCost.Amount;
+                }
+            }
+
+            return amount;
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Api.Communication.Models.Resources;
 using AstroGame.Api.Services;
 using AstroGame.Core.Exceptions;
+using AstroGame.Generator.Generators.ResourceGenerators;
 using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Storage.Configurations;
 using AstroGame.Storage.Repositories.Buildings;
 using AstroGame.Storage.Repositories.Players;
 using AstroGame.Storage.Repositories.Stellar;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AstroGame.Api.Communication.Models.Resources;
-using AstroGame.Generator.Generators.ResourceGenerators;
-using Microsoft.Extensions.Configuration;
 
 namespace AstroGame.Api.Managers.Buildings
 {
@@ -73,7 +73,7 @@ namespace AstroGame.Api.Managers.Buildings
             {
                 var building = buildings[index];
 
-                if (building is not ConveyorBuilding)
+                if (building.BuildingType != BuildingType.ConveyorBuilding)
                 {
                     continue;
                 }
@@ -195,13 +195,18 @@ namespace AstroGame.Api.Managers.Buildings
                 // Costs
                 foreach (var cost in building.BuildingCosts)
                 {
-                    var val = _resourceCalculator.CalculateBuildingCostAmount(cost.BaseValue,
-                        cost.Multiplier, index);
+                    var amount = cost switch
+                    {
+                        DynamicBuildingCost dynamicBuildingCost => _resourceCalculator.CalculateBuildingCostAmount(
+                            dynamicBuildingCost.BaseValue, dynamicBuildingCost.Multiplier, index),
+                        FixedBuildingCost fixedBuildingCost => fixedBuildingCost.Amount,
+                        _ => 0
+                    };
 
                     item.BuildingCosts.Add(new ResourceAmountResponse()
                     {
                         ResourceId = cost.Resource.Id,
-                        Amount = val
+                        Amount = amount
                     });
                 }
 

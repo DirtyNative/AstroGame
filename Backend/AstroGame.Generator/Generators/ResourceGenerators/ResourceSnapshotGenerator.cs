@@ -67,7 +67,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             }
 
             // Get all built producing buildings
-            var builtBuildings = await _builtBuildingRepository.GetProductionBuildingsAsync(colonizedStellarObject.Id);
+            var builtBuildings = await _builtBuildingRepository.GetOnColonizedStellarObjectAsync(colonizedStellarObject.Id);
 
             // We need to order the built buildings so that we can calculate the consumption more easily
             //builtBuildings = builtBuildings.OrderBy(e => e.Building.Order).ToList();

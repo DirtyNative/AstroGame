@@ -1,25 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'building_cost.dart';
+part of 'fixed_building_cost.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BuildingCost _$BuildingCostFromJson(Map<String, dynamic> json) {
-  return BuildingCost()
+FixedBuildingCost _$FixedBuildingCostFromJson(Map<String, dynamic> json) {
+  return FixedBuildingCost()
     ..id = const GuidConverter().fromJson(json['id'] as String)
     ..resourceId = const GuidConverter().fromJson(json['resourceId'] as String)
     ..buildingId = const GuidConverter().fromJson(json['buildingId'] as String)
-    ..baseValue = (json['baseValue'] as num)?.toDouble()
-    ..multiplier = (json['multiplier'] as num)?.toDouble();
+    ..amount = (json['amount'] as num)?.toDouble();
 }
 
-Map<String, dynamic> _$BuildingCostToJson(BuildingCost instance) =>
+Map<String, dynamic> _$FixedBuildingCostToJson(FixedBuildingCost instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
       'resourceId': const GuidConverter().toJson(instance.resourceId),
       'buildingId': const GuidConverter().toJson(instance.buildingId),
-      'baseValue': instance.baseValue,
-      'multiplier': instance.multiplier,
+      'amount': instance.amount,
     };

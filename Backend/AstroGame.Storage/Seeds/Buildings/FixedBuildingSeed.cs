@@ -6,14 +6,15 @@ using System;
 
 namespace AstroGame.Storage.Seeds.Buildings
 {
-    public class CivilBuildingSeed : IEntityTypeConfiguration<CivilBuilding>
+    public class FixedBuildingSeed : IEntityTypeConfiguration<FixedBuilding>
     {
-        public void Configure(EntityTypeBuilder<CivilBuilding> builder)
+        public void Configure(EntityTypeBuilder<FixedBuilding> builder)
         {
             builder.HasData(
-                new CivilBuilding()
+                new FixedBuilding()
                 {
                     Id = Guid.Parse("75021A39-C0C1-46F0-B155-F1CDFB9FBC00"),
+                    BuildingType = BuildingType.CivilBuilding,
                     Name = "Small Shipyard",
                     Description = "TODO",
                     BuildableOn = StellarObjectType.Planet,
