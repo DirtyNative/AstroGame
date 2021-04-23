@@ -5,5 +5,6 @@
         public const string StellarObjectStore = "stellar_objects";
         public const string SpeciesStore = "species";
         public const string BuildingStore = "buildings";
+        public const string ResearchStore = "researches";
     }
 }

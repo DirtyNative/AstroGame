@@ -11,6 +11,8 @@ import 'package:astrogame_app/views/market/market_view.dart';
 import 'package:astrogame_app/views/perk_selection/perk_selection_view.dart';
 import 'package:astrogame_app/views/planet/planet_view.dart';
 import 'package:astrogame_app/views/register/register_view.dart';
+import 'package:astrogame_app/views/researches/bags/research_detail_bag.dart';
+import 'package:astrogame_app/views/researches/researches_view.dart';
 import 'package:astrogame_app/views/resources/resources_view.dart';
 import 'package:astrogame_app/views/shells/main_shell.dart';
 import 'package:astrogame_app/views/species_selection/species_selection_view.dart';
@@ -51,6 +53,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case RoutePaths.BuildingDetailsRoute:
       var bag = settings.arguments as BuildingDetailBag;
       return MaterialPageRoute(builder: (_) => BuildingDetailView(bag.building, bag.builtBuilding));
+
+    case RoutePaths.ResearchesRoute:
+      return MaterialPageRoute(builder: (_) => ResearchesView());
+
+    /*case RoutePaths.ResearchDetailsRoute:
+      var bag = settings.arguments as ResearchDetailBag;
+      return MaterialPageRoute(builder: (_) => ResearchDetailView(bag.research, bag.studiedResearch)); */
 
     case RoutePaths.PlanetViewRoute:
       var bag = settings.arguments as ShowPlanetViewBag;

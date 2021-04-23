@@ -84,7 +84,7 @@ namespace AstroGame.Api.Services
 
             // Check if the needed resources are available
             var hasNeededResources =
-                _resourceHelper.HasNeededResources(snapshot.StoredResources, building.BuildingCosts, level);
+                _resourceHelper.HasNeededResources(snapshot.StoredResources, building.BuildingCosts.ToList(), level);
             if (hasNeededResources == false)
             {
                 throw new LockedException($"Not enough resources to build building {building.Id}");
@@ -93,10 +93,10 @@ namespace AstroGame.Api.Services
             // TODO: Check if the player has enough slots to build
 
             // Subtract the needed resources from the stored
-            _resourceHelper.SubtractBuildingCosts(snapshot.StoredResources, building.BuildingCosts, level);
+            _resourceHelper.SubtractBuildingCosts(snapshot.StoredResources, building.BuildingCosts.ToList(), level);
 
             // Calculate the building duration
-            var totalConstructionCosts = _resourceHelper.SumBuildingCosts(building.BuildingCosts, level);
+            var totalConstructionCosts = _resourceHelper.SumBuildingCosts(building.BuildingCosts.ToList(), level);
             var buildingTime = _resourceCalculator.CalculateBuildingTime(totalConstructionCosts, 1, 1, 1);
 
             var jobExecutionTime = now.AddHours(buildingTime);

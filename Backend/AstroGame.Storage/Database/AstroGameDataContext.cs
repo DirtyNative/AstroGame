@@ -1,7 +1,9 @@
 ﻿using AstroGame.Core.Extensions;
 using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Buildings;
+using AstroGame.Shared.Models.Conditions;
 using AstroGame.Shared.Models.Players;
+using AstroGame.Shared.Models.Researches;
 using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
@@ -52,9 +54,24 @@ namespace AstroGame.Storage.Database
         public DbSet<Building> Buildings { get; set; }
         public DbSet<LevelableBuilding> LevelableBuildings { get; set; }
         public DbSet<FixedBuilding> FixedBuildings { get; set; }
-        
+
         public DbSet<BuiltBuilding> BuiltBuildings { get; set; }
         public DbSet<BuildingChain> BuildingChains { get; set; }
+
+        public DbSet<Research> Researches { get; set; }
+        public DbSet<ResearchStudy> ResearchStudies { get; set; }
+        public DbSet<StudiedResearch> StudiedResearches { get; set; }
+
+        public DbSet<ResearchStudyCondition> ResearchStudyConditions { get; set; }
+        public DbSet<BuildingConstructionCondition> BuildingConstructionConditions { get; set; }
+        public DbSet<BuildingCondition> BuildingConditions { get; set; }
+        public DbSet<BuiltBuildingCondition> BuiltBuildingConditions { get; set; }
+        public DbSet<Condition> Conditions { get; set; }
+        public DbSet<LevelableBuildingCondition> LevelableBuildingConditions { get; set; }
+        public DbSet<LevelableResearchCondition> LevelableResearchConditions { get; set; }
+        public DbSet<OneTimeResearchCondition> OneTimeResearchConditions { get; set; }
+        public DbSet<ResearchCondition> ResearchConditions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,10 +1,10 @@
-﻿using AstroGame.Api.Managers.Buildings;
+﻿using System;
+using System.Threading.Tasks;
+using AstroGame.Api.Managers.Buildings;
 using AstroGame.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
-namespace AstroGame.Api.Controllers.Controllers
+namespace AstroGame.Api.Controllers.Buildings
 {
     [Route("api/v1/[controller]")]
     public class BuildingController : ControllerBase
@@ -24,11 +24,19 @@ namespace AstroGame.Api.Controllers.Controllers
             return Ok(buildings);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync(Guid id)
+        {
+            var buildings = await _buildingManager.GetAsync(id);
+
+            return Ok(buildings);
+        }
+
         [HttpGet("current")]
         public async Task<IActionResult> GetOnCurrentStellarObjectAsync([FromHeader(Name = "selected-stellar-object")] Guid stellarObjectId)
         {
             //var stellarObjectId = GetSelectedStellarObject();
-            var buildings = await _buildingManager.GetAsync(stellarObjectId);
+            var buildings = await _buildingManager.GetByStellarObjectAsync(stellarObjectId);
 
             return Ok(buildings);
         }

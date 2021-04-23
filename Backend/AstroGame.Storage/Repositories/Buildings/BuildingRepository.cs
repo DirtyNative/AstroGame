@@ -28,14 +28,18 @@ namespace AstroGame.Storage.Repositories.Buildings
                 .ThenInclude(e => e.Resource)
                 .Include(e => (e as FixedBuilding).BuildingCosts)
                 .ThenInclude(e => e.Resource)
-                
+
                 // Consumption
                 .Include(e => e.InputResources)
                 .ThenInclude(e => e.Resource)
-                
+
                 // Production
                 .Include(e => e.OutputResources)
                 .ThenInclude(e => e.Resource)
+
+                // Condition
+                .Include(e => e.BuildingConditions)
+                .ThenInclude(e => e.Condition)
 
                 // Prediction
                 .OrderBy(e => e.Order)
@@ -59,6 +63,10 @@ namespace AstroGame.Storage.Repositories.Buildings
                 .Include(e => e.OutputResources)
                 .ThenInclude(e => e.Resource)
 
+                // Condition
+                .Include(e => e.BuildingConditions)
+                .ThenInclude(e => e.Condition)
+
                 // Prediction
                 .OrderBy(e => e.Order)
                 .Where(e => e.BuildableOn == type)
@@ -81,6 +89,10 @@ namespace AstroGame.Storage.Repositories.Buildings
                 // Production
                 .Include(e => e.OutputResources)
                 .ThenInclude(e => e.Resource)
+
+                // Condition
+                .Include(e => e.BuildingConditions)
+                .ThenInclude(e => e.Condition)
 
                 // Prediction
                 .FirstOrDefaultAsync(e => e.Id == id);

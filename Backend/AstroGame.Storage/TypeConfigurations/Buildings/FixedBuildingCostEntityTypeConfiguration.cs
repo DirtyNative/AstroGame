@@ -11,7 +11,6 @@ namespace AstroGame.Storage.TypeConfigurations.Buildings
         {
             builder.ToTable("FixedBuildingCosts");
             builder.HasBaseType<BuildingCost>();
-            //builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
 
             builder.HasOne(e => e.Resource)
                 .WithMany()

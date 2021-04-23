@@ -1,5 +1,4 @@
-﻿using System;
-using AstroGame.Shared.Models.Buildings;
+﻿using AstroGame.Shared.Models.Buildings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

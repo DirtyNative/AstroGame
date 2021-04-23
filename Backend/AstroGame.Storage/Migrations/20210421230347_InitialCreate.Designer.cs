@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AstroGame.Storage.Migrations
 {
     [DbContext(typeof(AstroGameDataContext))]
-    [Migration("20210419112416_InitialCreate")]
+    [Migration("20210421230347_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,6 +273,35 @@ namespace AstroGame.Storage.Migrations
                             Multiplier = 1.0800000000000001,
                             ResourceId = new Guid("00000000-1111-0000-0000-000000000026")
                         });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.Condition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Conditions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.NeededCondition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid>("ConditionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConditionId");
+
+                    b.ToTable("NeededConditions");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>
@@ -1715,6 +1744,145 @@ namespace AstroGame.Storage.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.Research", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<string>("AssetName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("BuildingConsumptionMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BuildingCostMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BuildingProductionMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BuildingTimeMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("CargoCapacityMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("FuelConsumptionMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("InterstellarSpeedMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResearchType")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ShieldPowerMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("StellarSpeedMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("StructuralIntegrityMultiplier")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WeaponPowerMultiplier")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Researches");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchCost", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid>("ResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResearchId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("ResearchCosts");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HangfireJobId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
+                    b.HasIndex("ResearchId");
+
+                    b.ToTable("ResearchStudies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.StudiedResearch", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<long>("Level")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.HasIndex("ResearchId");
+
+                    b.ToTable("StudiedResearches");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Resource", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2576,6 +2744,382 @@ namespace AstroGame.Storage.Migrations
                     b.HasIndex("BuildingId");
 
                     b.ToTable("FixedBuildingCosts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("bd87afe1-192e-4618-a34c-7a6e8ed7eb0b"),
+                            BuildingId = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            Amount = 2000.0
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.BuildingCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.Condition");
+
+                    b.Property<Guid>("BuildingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("BuildingId");
+
+                    b.ToTable("BuildingConditions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.ResearchCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.Condition");
+
+                    b.Property<Guid>("ResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ResearchId");
+
+                    b.ToTable("ResearchConditions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.BuildingConstructionCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.NeededCondition");
+
+                    b.Property<Guid>("BuildingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("BuildingId");
+
+                    b.ToTable("BuildingConstructionConditions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d17fcfed-cc17-4e75-9517-ebd23a531bed"),
+                            ConditionId = new Guid("73180255-1cae-4f66-bdd6-7f6ba892cafe"),
+                            BuildingId = new Guid("b8d93f41-d6c2-4ce8-9763-840ecb53bf44")
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.ResearchStudyCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.NeededCondition");
+
+                    b.Property<Guid>("ResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ResearchId");
+
+                    b.ToTable("ResearchStudyConditions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.LevelableResearch", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Researches.Research");
+
+                    b.ToTable("LevelableResearches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4f692196-4c30-4af0-9813-03cfe4c35e15"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Quantum Theory",
+                            Order = 0,
+                            ResearchType = 0,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("73488326-4f47-418c-a5bd-7d31095fb539"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Espionage Technology",
+                            Order = 0,
+                            ResearchType = 1,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("233c1c99-cda1-4d90-ad8b-834903b455f3"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Weapon Engineering",
+                            Order = 0,
+                            ResearchType = 6,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("12f1450b-5ad5-4799-98c4-8a63c0f79da2"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Shield Engineering",
+                            Order = 0,
+                            ResearchType = 6,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("e193ba9c-4b8c-4e21-8c5c-e15421de26f4"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Armor Engineering",
+                            Order = 0,
+                            ResearchType = 6,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("113dc4ed-4272-4577-8b55-92780e0751ff"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Impulse Thruster",
+                            Order = 0,
+                            ResearchType = 1,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("f19fc99c-2db1-4877-9ac3-32974174f970"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Ion Thruster",
+                            Order = 0,
+                            ResearchType = 1,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("5966224b-f201-4a6a-8b86-d7cf36856e06"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Plasma Thruster",
+                            Order = 0,
+                            ResearchType = 1,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("9b4d8661-7811-4324-a6bf-ee30cd83c3cd"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Dark Matter Thruster",
+                            Order = 0,
+                            ResearchType = 1,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("08b9feac-851b-4f76-87ca-b97d1a9f1a78"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Dark Matter Thruster",
+                            Order = 0,
+                            ResearchType = 3,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("8efb2b99-2132-4510-8d24-ff80b86223db"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Efficient Workplaces",
+                            Order = 0,
+                            ResearchType = 5,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearch", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Researches.Research");
+
+                    b.ToTable("OneTimeResearches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4139a914-6958-482a-9fab-6291426e075f"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Planet colonization",
+                            Order = 0,
+                            ResearchType = 7,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("fcc5c51a-5705-4517-9890-f5fa8d8bde25"),
+                            AssetName = "1.jpg",
+                            BuildingConsumptionMultiplier = 0.0,
+                            BuildingCostMultiplier = 0.0,
+                            BuildingProductionMultiplier = 0.0,
+                            BuildingTimeMultiplier = 0.0,
+                            CargoCapacityMultiplier = 0.0,
+                            Description = "TODO",
+                            FuelConsumptionMultiplier = 0.0,
+                            InterstellarSpeedMultiplier = 0.0,
+                            Name = "Moon colonization",
+                            Order = 0,
+                            ResearchType = 7,
+                            ShieldPowerMultiplier = 0.0,
+                            StellarSpeedMultiplier = 0.0,
+                            StructuralIntegrityMultiplier = 0.0,
+                            WeaponPowerMultiplier = 0.0
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.DynamicResearchCost", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Researches.ResearchCost");
+
+                    b.Property<double>("BaseValue")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("LevelableResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Multiplier")
+                        .HasColumnType("float");
+
+                    b.HasIndex("LevelableResearchId");
+
+                    b.ToTable("DynamicResearchCosts");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearchCost", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Researches.ResearchCost");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("OneTimeResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("OneTimeResearchId");
+
+                    b.ToTable("OneTimeResearchCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Element", b =>
@@ -3064,6 +3608,48 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("SolarSystems");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.BuiltBuildingCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.BuildingCondition");
+
+                    b.ToTable("BuiltBuildingConditions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableBuildingCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.BuildingCondition");
+
+                    b.Property<int>("NeededLevel")
+                        .HasColumnType("int");
+
+                    b.ToTable("LevelableBuildingConditions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("73180255-1cae-4f66-bdd6-7f6ba892cafe"),
+                            BuildingId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
+                            NeededLevel = 6
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableResearchCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.ResearchCondition");
+
+                    b.Property<int>("NeededLevel")
+                        .HasColumnType("int");
+
+                    b.ToTable("LevelableResearchConditions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.OneTimeResearchCondition", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Conditions.ResearchCondition");
+
+                    b.ToTable("OneTimeResearchConditions");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject");
@@ -3189,6 +3775,17 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Resource");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.NeededCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.Condition", "Condition")
+                        .WithMany()
+                        .HasForeignKey("ConditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Condition");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
@@ -3245,6 +3842,63 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Perk");
 
                     b.Navigation("PlayerSpecies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
+                        .WithMany("ResearchCosts")
+                        .HasForeignKey("ResearchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Research");
+
+                    b.Navigation("Resource");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.ResearchStudy", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
+                        .WithMany()
+                        .HasForeignKey("ResearchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+
+                    b.Navigation("Research");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.StudiedResearch", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
+                        .WithMany()
+                        .HasForeignKey("ResearchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+
+                    b.Navigation("Research");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.ResourceSnapshot", b =>
@@ -3400,6 +4054,122 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Building");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.BuildingCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
+                        .WithMany()
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Conditions.Condition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.BuildingCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Building");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.ResearchCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.Condition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.ResearchCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
+                        .WithMany()
+                        .HasForeignKey("ResearchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Research");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.BuildingConstructionCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
+                        .WithMany("BuildingConditions")
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Conditions.NeededCondition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.BuildingConstructionCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Building");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.ResearchStudyCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.NeededCondition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.ResearchStudyCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
+                        .WithMany("ResearchStudyConditions")
+                        .HasForeignKey("ResearchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Research");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.LevelableResearch", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.LevelableResearch", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearch", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Researches.Research", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.OneTimeResearch", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.DynamicResearchCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Researches.ResearchCost", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.DynamicResearchCost", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.LevelableResearch", "LevelableResearch")
+                        .WithMany()
+                        .HasForeignKey("LevelableResearchId");
+
+                    b.Navigation("LevelableResearch");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearchCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Researches.ResearchCost", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.OneTimeResearchCost", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.OneTimeResearch", "OneTimeResearch")
+                        .WithMany()
+                        .HasForeignKey("OneTimeResearchId");
+
+                    b.Navigation("OneTimeResearch");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Element", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Resources.Resource", null)
@@ -3503,6 +4273,42 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.BuiltBuildingCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.BuildingCondition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.BuiltBuildingCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableBuildingCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.BuildingCondition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.LevelableBuildingCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableResearchCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.ResearchCondition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.LevelableResearchCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Conditions.OneTimeResearchCondition", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Conditions.ResearchCondition", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Conditions.OneTimeResearchCondition", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", null)
@@ -3514,6 +4320,8 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.Building", b =>
                 {
+                    b.Navigation("BuildingConditions");
+
                     b.Navigation("InputResources");
 
                     b.Navigation("OutputResources");
@@ -3550,6 +4358,13 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Species", b =>
                 {
                     b.Navigation("PlayerSpecies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.Research", b =>
+                {
+                    b.Navigation("ResearchCosts");
+
+                    b.Navigation("ResearchStudyConditions");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Resource", b =>

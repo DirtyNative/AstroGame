@@ -54,7 +54,12 @@ namespace AstroGame.Api.Managers.Buildings
             return await _buildingRepository.GetAsync();
         }
 
-        public async Task<List<Building>> GetAsync(Guid stellarObjectId)
+        public async Task<Building> GetAsync(Guid id)
+        {
+            return await _buildingRepository.GetAsync(id);
+        }
+
+        public async Task<List<Building>> GetByStellarObjectAsync(Guid stellarObjectId)
         {
             var stellarObject = await _stellarObjectRepository.GetAsync(stellarObjectId);
 

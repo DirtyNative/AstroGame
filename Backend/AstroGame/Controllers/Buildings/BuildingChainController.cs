@@ -1,8 +1,8 @@
-﻿using AstroGame.Api.Managers.Buildings;
+﻿using System.Threading.Tasks;
+using AstroGame.Api.Managers.Buildings;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace AstroGame.Api.Controllers.Controllers
+namespace AstroGame.Api.Controllers.Buildings
 {
     [Route("api/v1/building-chain")]
     [ApiController]

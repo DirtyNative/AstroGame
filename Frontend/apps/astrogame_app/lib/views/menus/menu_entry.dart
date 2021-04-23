@@ -27,6 +27,11 @@ final menuEntries = <MenuEntry>[
     route: RoutePaths.BuildingsRoute,
   ),
   MenuEntry(
+    label: 'Researches',
+    icon: Icons.home,
+    route: RoutePaths.ResearchesRoute,
+  ),
+  MenuEntry(
     label: 'Systems',
     icon: Icons.system_update,
     route: RoutePaths.SystemViewRoute,

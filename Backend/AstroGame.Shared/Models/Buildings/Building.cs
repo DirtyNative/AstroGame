@@ -1,6 +1,7 @@
 ﻿using AstroGame.Shared.Enums;
 using System;
 using System.Collections.Generic;
+using AstroGame.Shared.Models.Conditions;
 
 namespace AstroGame.Shared.Models.Buildings
 {
@@ -22,10 +23,12 @@ namespace AstroGame.Shared.Models.Buildings
         /// </summary>
         public StellarObjectType BuildableOn { get; set; }
 
-        public List<BuildingCost> BuildingCosts { get; set; }
+        public IEnumerable<BuildingCost> BuildingCosts { get; set; }
 
         //public virtual List<BuiltBuilding> BuiltBuildings { get; set; } = new();
         public List<InputResource> InputResources { get; set; }
         public List<OutputResource> OutputResources { get; set; }
+
+        public IEnumerable<BuildingConstructionCondition> BuildingConditions { get; set; }
     }
 }

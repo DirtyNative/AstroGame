@@ -1,9 +1,9 @@
-﻿using AstroGame.Api.Managers.Buildings;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using AstroGame.Api.Managers.Buildings;
+using Microsoft.AspNetCore.Mvc;
 
-namespace AstroGame.Api.Controllers.Controllers
+namespace AstroGame.Api.Controllers.Buildings
 {
     [Route("api/v1/built-building")]
     public class BuiltBuildingController : ControllerBase

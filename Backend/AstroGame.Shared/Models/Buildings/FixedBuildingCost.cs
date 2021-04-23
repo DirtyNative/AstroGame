@@ -1,4 +1,6 @@
-﻿namespace AstroGame.Shared.Models.Buildings
+﻿using System;
+
+namespace AstroGame.Shared.Models.Buildings
 {
     public class FixedBuildingCost : BuildingCost
     {
