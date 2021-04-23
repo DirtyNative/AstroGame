@@ -16,16 +16,24 @@ class LoginViewModel extends BaseViewModel {
   LoginViewModel(
     this._loginExecuter,
     this._navigationService,
+    @factoryParam String lastEmail,
   ) {
-    emailController =
-        new TextEditingController(text: 'daniel@dirtyandnative.de');
+    emailController = new TextEditingController(text: lastEmail);
     passwordController = new TextEditingController(text: 'Test1234!');
+  }
+
+  bool _stayLoggedIn = false;
+  bool get stayLoggedIn => _stayLoggedIn;
+  set stayLoggedIn(bool val) {
+    _stayLoggedIn = val;
+    notifyListeners();
   }
 
   Future loginAsync() async {
     var status = await _loginExecuter.loginAsync(
       emailController.text,
       passwordController.text,
+      stayLoggedIn,
     );
 
     print(status);

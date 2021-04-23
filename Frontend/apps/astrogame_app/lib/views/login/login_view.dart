@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class LoginView extends StatelessWidget {
+  final String _lastEmail;
+
+  LoginView(this._lastEmail);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
@@ -15,9 +19,7 @@ class LoginView extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: AstroGameColors.mediumGrey,
-              image: DecorationImage(
-                  image: AssetImage('assets/images/background_2.png'),
-                  fit: BoxFit.cover),
+              image: DecorationImage(image: AssetImage('assets/images/background_2.png'), fit: BoxFit.cover),
             ),
             child: Stack(
               children: [
@@ -25,9 +27,7 @@ class LoginView extends StatelessWidget {
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: model.isBusy ? 1 : 0,
-                  child: (model.isBusy)
-                      ? _loadingOverlay(context)
-                      : SizedBox.shrink(),
+                  child: (model.isBusy) ? _loadingOverlay(context) : SizedBox.shrink(),
                 ),
               ],
             ),
@@ -36,7 +36,7 @@ class LoginView extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
         ),
       ),
-      viewModelBuilder: () => getIt.get(),
+      viewModelBuilder: () => getIt.get(param1: _lastEmail),
     );
   }
 
@@ -73,6 +73,16 @@ class LoginView extends StatelessWidget {
               decoration: InputDecoration(hintText: 'Password'),
               obscureText: true,
             ),
+
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Checkbox(value: model.stayLoggedIn, onChanged: (checked) => model.stayLoggedIn = checked),
+                Text('Stay logged in'),
+              ],
+            ),
+
             SizedBox(height: 48),
             ElevatedButton(
               onPressed: model.loginAsync,

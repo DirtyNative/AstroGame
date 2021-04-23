@@ -46,12 +46,7 @@ ThemeData darkTheme = new ThemeData(
         fontWeight: FontWeight.w400,
         color: Colors.white,
       ),
-      button: TextStyle(
-          fontFamily: 'TTFirsNeue',
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-          letterSpacing: 0.7),
+      button: TextStyle(fontFamily: 'TTFirsNeue', fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white, letterSpacing: 0.7),
       subtitle1: TextStyle(
         fontFamily: 'TTFirsNeue',
         fontSize: 14,
@@ -121,8 +116,7 @@ ThemeData darkTheme = new ThemeData(
         minimumSize: MaterialStateProperty.all(
           Size(100, 40),
         ),
-        padding: MaterialStateProperty.all(
-            EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8)),
+        padding: MaterialStateProperty.all(EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8)),
       ),
     ),
 
@@ -148,6 +142,22 @@ ThemeData darkTheme = new ThemeData(
       ),
       fillColor: AstroGameColors.lightGrey,
       filled: true,
+    ),
+    checkboxTheme: CheckboxThemeData(
+      checkColor: MaterialStateProperty.resolveWith<Color>((states) {
+        if (states.contains(MaterialState.disabled)) {
+          return Colors.transparent;
+        }
+
+        return Colors.white;
+      }),
+      fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+        if (states.contains(MaterialState.disabled)) {
+          return Colors.transparent;
+        }
+
+        return AstroGameColors.purple;
+      }),
     ),
 
     // Bottom navigation bar

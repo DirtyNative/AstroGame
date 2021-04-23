@@ -3,6 +3,7 @@ class RoutePaths {
   static const String MainShellRoute = "MainShell";
 
   // Common
+  static const String SplashRoute = 'Splash';
   static const String LoginRoute = 'Login';
   static const String RegisterRoute = 'Register';
   static const String SpeciesSelectionRoute = 'SpeciesSelection';

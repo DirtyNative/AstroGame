@@ -15,8 +15,7 @@ abstract class ServicesModule {
       );
 
   @injectable
-  Dio dio(HeaderInterceptor headerInterceptor) =>
-      new Dio()..interceptors.add(headerInterceptor);
+  Dio dio(HeaderInterceptor headerInterceptor) => new Dio()..interceptors.add(headerInterceptor);
 
   /*@lazySingleton
   DialogService get dialogService {

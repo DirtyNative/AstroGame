@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/repositories/authorization_repository.dart';
 import 'package:astrogame_app/communications/repositories/player_repository.dart';
 import 'package:astrogame_app/communications/server_response.dart';
+import 'package:astrogame_app/consts/storage_keys.dart';
 import 'package:astrogame_app/helpers/dialog_helper.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/authorization/authorization_token.dart';
@@ -9,6 +10,7 @@ import 'package:astrogame_app/models/players/player.dart';
 import 'package:astrogame_app/providers/authorization_token_provider.dart';
 import 'package:astrogame_app/providers/player_provider.dart';
 import 'package:astrogame_app/services/hub_service.dart';
+import 'package:astrogame_app/services/local_storage_service.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
@@ -24,6 +26,7 @@ class LoginExecuter {
   DialogHelper _dialogHelper;
   NavigationWrapper _navigationService;
   HubService _hubService;
+  LocalStorageService _localStorageService;
 
   LoginExecuter(
     this._authorizationRepository,
@@ -33,9 +36,10 @@ class LoginExecuter {
     this._dialogHelper,
     this._navigationService,
     this._hubService,
+    this._localStorageService,
   );
 
-  Future<bool> loginAsync(String email, String password) async {
+  Future<bool> loginAsync(String email, String password, bool stayLoggedIn) async {
     _dialogHelper.showLoadingIndicator();
 
     var loginResponse = await _fetchToken(email, password);
@@ -48,6 +52,16 @@ class LoginExecuter {
     if (playerResponse.item1 == false) {
       return false;
     }
+
+    // Save the token
+    if (stayLoggedIn == true) {
+      await _localStorageService.writeAsync(StorageKeys.tokenKey, loginResponse.item2.data);
+    } else {
+      await _localStorageService.deleteAsync(StorageKeys.tokenKey);
+    }
+
+    // Save the email as the last used one
+    await _localStorageService.writeAsync(StorageKeys.lastEmailKey, email);
 
     _dialogHelper.dismissDialog();
 
@@ -65,11 +79,9 @@ class LoginExecuter {
     return true;
   }
 
-  Future<Tuple2<bool, ServerResponseT<AuthorizationToken>>> _fetchToken(
-      String email, String password) async {
+  Future<Tuple2<bool, ServerResponseT<AuthorizationToken>>> _fetchToken(String email, String password) async {
     var request = new LoginRequest(email, password);
-    var authorizationResponse =
-        await _authorizationRepository.loginAsync(request: request);
+    var authorizationResponse = await _authorizationRepository.loginAsync(request: request);
 
     // If there happened an error
     if (authorizationResponse.hasError) {

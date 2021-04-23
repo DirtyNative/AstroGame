@@ -21,7 +21,7 @@ class AstroGameApp extends StatelessWidget {
         themeMode: themeMode,
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: generateRoute,
-        initialRoute: RoutePaths.LoginRoute,
+        initialRoute: RoutePaths.SplashRoute,
         //home: StartView(),
       ),
     );

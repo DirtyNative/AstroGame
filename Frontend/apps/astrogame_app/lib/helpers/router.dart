@@ -16,6 +16,7 @@ import 'package:astrogame_app/views/researches/researches_view.dart';
 import 'package:astrogame_app/views/resources/resources_view.dart';
 import 'package:astrogame_app/views/shells/main_shell.dart';
 import 'package:astrogame_app/views/species_selection/species_selection_view.dart';
+import 'package:astrogame_app/views/splash/splash_view.dart';
 import 'package:astrogame_app/views/start/start_view.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => MainShell(ServiceLocator.get()));
 
     // Login
+    case RoutePaths.SplashRoute:
+      return MaterialPageRoute(builder: (_) => SplashView());
     case RoutePaths.LoginRoute:
-      return MaterialPageRoute(builder: (_) => LoginView());
+      var lastEmail = settings.arguments as String;
+      return MaterialPageRoute(builder: (_) => LoginView(lastEmail));
 
     case RoutePaths.RegisterRoute:
       return MaterialPageRoute(builder: (_) => RegisterView());
