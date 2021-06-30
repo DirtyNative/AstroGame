@@ -11,6 +11,7 @@ abstract class Research {
   String description;
   int order;
   ResearchType researchType;
+  String assetName;
 
   double buildingTimeMultiplier;
   double buildingCostMultiplier;

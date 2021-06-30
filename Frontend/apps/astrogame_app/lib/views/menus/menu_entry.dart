@@ -37,6 +37,11 @@ final menuEntries = <MenuEntry>[
     route: RoutePaths.SystemViewRoute,
   ),
   MenuEntry(
+    label: 'Galaxy',
+    icon: Icons.system_update,
+    route: RoutePaths.GalaxyRoute,
+  ),
+  MenuEntry(
     label: 'Market',
     icon: Icons.money,
     route: RoutePaths.MarketRoute,

@@ -155,8 +155,8 @@ namespace AstroGame.Api.Services
             constructedBuilding.Level += 1;
 
             // Raise SignalR Event that a building has finished
-            //await _buildingHub.SendBuildingConstructionFinished(playerId);
-            await _buildingHub.Clients.All.SendAsync("BuildingConstructionFinished", stellarObjectId, buildingId);
+            await _buildingHub.Clients.Group(playerId.ToString())
+                .SendAsync("BuildingConstructionFinished", stellarObjectId, buildingId);
 
             await _builtBuildingRepository.SaveChangesAsync();
         }

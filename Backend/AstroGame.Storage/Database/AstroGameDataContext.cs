@@ -1,6 +1,7 @@
 ﻿using AstroGame.Core.Extensions;
 using AstroGame.Core.Structs;
 using AstroGame.Shared.Models.Buildings;
+using AstroGame.Shared.Models.Chats;
 using AstroGame.Shared.Models.Conditions;
 using AstroGame.Shared.Models.Players;
 using AstroGame.Shared.Models.Researches;
@@ -72,6 +73,8 @@ namespace AstroGame.Storage.Database
         public DbSet<OneTimeResearchCondition> OneTimeResearchConditions { get; set; }
         public DbSet<ResearchCondition> ResearchConditions { get; set; }
 
+
+        public DbSet<Conversation> Conversations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

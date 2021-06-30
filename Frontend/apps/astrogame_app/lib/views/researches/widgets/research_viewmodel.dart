@@ -7,7 +7,7 @@ import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/researches/research_study.dart';
 import 'package:astrogame_app/models/researches/studied_research.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
-import 'package:astrogame_app/providers/research_image_provider.dart';
+import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/research_study_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/providers/studied_researches_provider.dart';
@@ -152,7 +152,7 @@ class ResearchViewModel extends FutureViewModel {
     studiedResearch = await _fetchStudiedResearchAsync(research.id);
     researchStudy = await _fetchActiveResearchStudy();
     storedResources = await _fetchStoredResourcesAsync();
-    researchImage = await _fetchImageAsync(research.id);
+    researchImage = await _fetchImageAsync(research.assetName);
   }
 
   Future<StudiedResearch> _fetchStudiedResearchAsync(Guid researchId) async {
@@ -167,7 +167,7 @@ class ResearchViewModel extends FutureViewModel {
     return await _storedResourceProvider.getAsync();
   }
 
-  Future<ImageProvider> _fetchImageAsync(Guid researchId) async {
-    return await _researchImageProvider.get(researchId);
+  Future<ImageProvider> _fetchImageAsync(String assetName) async {
+    return await _researchImageProvider.get(assetName);
   }
 }

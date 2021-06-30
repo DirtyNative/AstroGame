@@ -273,6 +273,74 @@ namespace AstroGame.Storage.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Chats.Conversation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Conversations");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Chats.ConversationMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("ConversationMessages");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Chats.ConversationParticipant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("JoinedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastSeenDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("ConversationParticipants");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Conditions.Condition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -358,6 +426,22 @@ namespace AstroGame.Storage.Migrations
                             Email = "daniel@dirtyandnative.de",
                             Password = new byte[] { 214, 212, 211, 33, 140, 160, 231, 162, 57, 199, 64, 131, 187, 201, 119, 192, 203, 109, 243, 123, 229, 56, 47, 180, 17, 5, 138, 178, 72, 221, 137, 25, 69, 173, 181, 157, 202, 130, 182, 172, 20, 121, 129, 43, 136, 74, 120, 242, 126, 100, 62, 207, 24, 9, 244, 206, 7, 166, 63, 155, 128, 118, 47, 81 },
                             PlayerId = new Guid("22222222-0000-0000-0000-000000000000"),
+                            Salt = new byte[] { 193, 79, 225, 80, 112, 24, 191, 243, 40, 86, 90, 75, 6, 166, 103, 215, 30, 13, 70, 153, 161, 73, 23, 145, 154, 13, 46, 5, 245, 103, 100, 241 }
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-1110-000000000001"),
+                            Email = "test1@dirtyandnative.de",
+                            Password = new byte[] { 214, 212, 211, 33, 140, 160, 231, 162, 57, 199, 64, 131, 187, 201, 119, 192, 203, 109, 243, 123, 229, 56, 47, 180, 17, 5, 138, 178, 72, 221, 137, 25, 69, 173, 181, 157, 202, 130, 182, 172, 20, 121, 129, 43, 136, 74, 120, 242, 126, 100, 62, 207, 24, 9, 244, 206, 7, 166, 63, 155, 128, 118, 47, 81 },
+                            PlayerId = new Guid("22222222-0000-0000-0000-000000000001"),
+                            Salt = new byte[] { 193, 79, 225, 80, 112, 24, 191, 243, 40, 86, 90, 75, 6, 166, 103, 215, 30, 13, 70, 153, 161, 73, 23, 145, 154, 13, 46, 5, 245, 103, 100, 241 }
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-1110-000000000002"),
+                            Email = "test2@dirtyandnative.de",
+                            Password = new byte[] { 214, 212, 211, 33, 140, 160, 231, 162, 57, 199, 64, 131, 187, 201, 119, 192, 203, 109, 243, 123, 229, 56, 47, 180, 17, 5, 138, 178, 72, 221, 137, 25, 69, 173, 181, 157, 202, 130, 182, 172, 20, 121, 129, 43, 136, 74, 120, 242, 126, 100, 62, 207, 24, 9, 244, 206, 7, 166, 63, 155, 128, 118, 47, 81 },
+                            PlayerId = new Guid("22222222-0000-0000-0000-000000000002"),
                             Salt = new byte[] { 193, 79, 225, 80, 112, 24, 191, 243, 40, 86, 90, 75, 6, 166, 103, 215, 30, 13, 70, 153, 161, 73, 23, 145, 154, 13, 46, 5, 245, 103, 100, 241 }
                         });
                 });
@@ -582,6 +666,20 @@ namespace AstroGame.Storage.Migrations
                             BuildingChainId = new Guid("00000000-0000-0000-0000-000000000000"),
                             PlayerSpeciesId = new Guid("22222222-1111-0000-0000-000000000000"),
                             Username = "DirtyNative"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0000-0000-0000-000000000001"),
+                            BuildingChainId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            PlayerSpeciesId = new Guid("22222222-1111-0000-0000-000000000000"),
+                            Username = "Test1"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0000-0000-0000-000000000002"),
+                            BuildingChainId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            PlayerSpeciesId = new Guid("22222222-1111-0000-0000-000000000000"),
+                            Username = "Test2"
                         });
                 });
 
@@ -3773,6 +3871,44 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Resource");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Chats.ConversationMessage", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Chats.Conversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Chats.ConversationParticipant", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Chats.Conversation", "Conversation")
+                        .WithMany("Participants")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("Player");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Conditions.NeededCondition", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Conditions.Condition", "Condition")
@@ -4328,6 +4464,13 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingChain", b =>
                 {
                     b.Navigation("BuildingUpgrades");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Chats.Conversation", b =>
+                {
+                    b.Navigation("Messages");
+
+                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>

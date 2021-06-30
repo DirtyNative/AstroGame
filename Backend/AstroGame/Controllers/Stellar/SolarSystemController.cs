@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using AstroGame.Api.Filters;
-using AstroGame.Api.Managers.Stellars;
+﻿using AstroGame.Api.Managers.Stellars;
 using AstroGame.Api.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Stellar
 {
@@ -50,6 +48,14 @@ namespace AstroGame.Api.Controllers.Stellar
         {
             var result = await _solarSystemManager.GetAsync();
             return Ok(result);
+        }
+
+        [HttpGet("range/{minX}/{maxX}/{minZ}/{maxZ}")]
+        public async Task<IActionResult> GetInRangeAsync([FromRoute] float minX, [FromRoute] float maxX,
+            [FromRoute] float minZ, [FromRoute] float maxZ)
+        {
+            var solarSystems = await _solarSystemManager.GetInRangeAsync(minX, maxX, minZ, maxZ);
+            return Ok(solarSystems);
         }
 
         [HttpPost("generate")]

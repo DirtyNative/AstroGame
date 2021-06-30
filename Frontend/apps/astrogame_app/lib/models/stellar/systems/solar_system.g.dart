@@ -21,7 +21,10 @@ SolarSystem _$SolarSystemFromJson(Map<String, dynamic> json) {
     ..coordinates = json['coordinates'] == null
         ? null
         : Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
-    ..isGenerated = json['isGenerated'] as bool;
+    ..isGenerated = json['isGenerated'] as bool
+    ..position = json['position'] == null
+        ? null
+        : Vector3.fromJson(json['position'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$SolarSystemToJson(SolarSystem instance) =>
@@ -36,4 +39,5 @@ Map<String, dynamic> _$SolarSystemToJson(SolarSystem instance) =>
       'name': instance.name,
       'coordinates': instance.coordinates,
       'isGenerated': instance.isGenerated,
+      'position': instance.position,
     };

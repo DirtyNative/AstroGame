@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
@@ -67,6 +68,17 @@ namespace AstroGame.Storage.Repositories.Stellar
             return await _context.SolarSystems
                 .IncludeAll()
                 .ToListAsync();
+        }
+
+        public async Task<List<SolarSystem>> GetInRangeAsync(float minX, float maxX, float minZ, float maxZ)
+        {
+            var systems = await _context.SolarSystems.ToListAsync();
+
+
+            return systems.Where(e => e.Position.X > minX
+                                      && e.Position.X < maxX
+                                      && e.Position.Z > minZ
+                                      && e.Position.Z < maxZ).ToList();
         }
 
         public async Task AddAsync(SolarSystem solarSystem)

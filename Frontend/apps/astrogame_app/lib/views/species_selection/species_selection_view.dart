@@ -73,8 +73,7 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
     );
   }
 
-  Widget _selectedSpeciesWidget(
-      BuildContext context, SpeciesSelectionViewModel model) {
+  Widget _selectedSpeciesWidget(BuildContext context, SpeciesSelectionViewModel model) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -97,7 +96,7 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
           (model.selectedSpecies == null)
               ? SizedBox(height: 200)
               : FutureBuilder<ImageProvider>(
-                  future: model.getImageAsync(model.selectedSpecies.id),
+                  future: model.getImageAsync(model.selectedSpecies.assetName),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Image(
@@ -106,19 +105,14 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
                         fit: BoxFit.fitHeight,
                       );
                     } else {
-                      return Container(
-                          height: 200, child: CircularProgressIndicator());
+                      return Container(height: 200, child: CircularProgressIndicator());
                     }
                   }),
 
           // Spacing
           SizedBox(height: 48),
 
-          ElevatedButton(
-              child: Text('Next'),
-              onPressed: model.isNextButtonEnabled
-                  ? model.showPerkSelectionView
-                  : null),
+          ElevatedButton(child: Text('Next'), onPressed: model.isNextButtonEnabled ? model.showPerkSelectionView : null),
         ],
       ),
     );
@@ -136,11 +130,7 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
           borderRadius: BorderRadius.circular(16),
         ),
         child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 300,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, childAspectRatio: 3 / 2, crossAxisSpacing: 16, mainAxisSpacing: 16),
             itemCount: model.species?.length,
             itemBuilder: (context, index) {
               return Container(
@@ -152,12 +142,11 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
                 child: (model.species == null || model.species.length == 0)
                     ? SizedBox(height: 200)
                     : FutureBuilder<ImageProvider>(
-                        future: model.getImageAsync(model.species[index].id),
+                        future: model.getImageAsync(model.species[index].assetName),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return InkWell(
-                              onTap: () =>
-                                  model.selectedSpecies = model.species[index],
+                              onTap: () => model.selectedSpecies = model.species[index],
                               child: Image(
                                 image: snapshot.data,
                                 height: 200,
@@ -165,9 +154,7 @@ class _State extends State<SpeciesSelectionView> with TickerProviderStateMixin {
                               ),
                             );
                           } else {
-                            return Container(
-                                height: 200,
-                                child: CircularProgressIndicator());
+                            return Container(height: 200, child: CircularProgressIndicator());
                           }
                         }),
               );

@@ -3,10 +3,9 @@ import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_value.dart';
 import 'package:astrogame_app/models/buildings/built_building.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
-import 'package:astrogame_app/providers/building_image_provider.dart';
+import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/resource_provider.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
@@ -52,7 +51,7 @@ class BuildingDetailViewModel extends FutureViewModel {
   Future futureToRun() async {
     resources = await _fetchResourcesAsync();
     buildingValues = await _fetchBuildingValues();
-    buildingImage = await _fetchImageAsync(building.id);
+    buildingImage = await _fetchImageAsync(building.assetName);
   }
 
   Future<List<Resource>> _fetchResourcesAsync() async {
@@ -69,7 +68,7 @@ class BuildingDetailViewModel extends FutureViewModel {
     return response.data;
   }
 
-  Future<ImageProvider> _fetchImageAsync(Guid buildingId) async {
-    return await _buildingImageProvider.get(buildingId);
+  Future<ImageProvider> _fetchImageAsync(String assetName) async {
+    return await _buildingImageProvider.get(assetName);
   }
 }

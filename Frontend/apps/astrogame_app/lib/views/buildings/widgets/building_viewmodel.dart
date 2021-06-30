@@ -12,8 +12,8 @@ import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
-import 'package:astrogame_app/providers/building_image_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
+import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
@@ -169,7 +169,7 @@ class BuildingViewModel extends FutureViewModel {
     builtBuilding = await _fetchBuiltBuildingAsync(building.id);
     buildingConstruction = await _fetchActiveConstruction();
     storedResources = await _fetchStoredResourcesAsync();
-    buildingImage = await _fetchImageAsync(building.id);
+    buildingImage = await _fetchImageAsync(building.assetName);
   }
 
   Future<BuiltBuilding> _fetchBuiltBuildingAsync(Guid buildingId) async {
@@ -184,7 +184,7 @@ class BuildingViewModel extends FutureViewModel {
     return await _storedResourceProvider.getAsync();
   }
 
-  Future<ImageProvider> _fetchImageAsync(Guid buildingId) async {
-    return await _buildingImageProvider.get(buildingId);
+  Future<ImageProvider> _fetchImageAsync(String assetName) async {
+    return await _buildingImageProvider.get(assetName);
   }
 }

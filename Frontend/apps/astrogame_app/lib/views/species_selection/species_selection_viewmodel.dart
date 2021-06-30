@@ -2,9 +2,9 @@ import 'package:astrogame_app/communications/dtos/add_player_species_request.dar
 import 'package:astrogame_app/communications/repositories/species_repository.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/players/species.dart';
+import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_guid/flutter_guid.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
@@ -13,6 +13,21 @@ class SpeciesSelectionViewModel extends FutureViewModel<List<Species>> {
   NavigationWrapper _navigationService;
 
   SpeciesRepository _speciesRepository;
+  SpeciesImageProvider _speciesImageProvider;
+
+  SpeciesSelectionViewModel(
+    this._navigationService,
+    this._speciesRepository,
+    this._speciesImageProvider,
+  ) {
+    empireNameController = new TextEditingController();
+    empireNameController.addListener(() {
+      _playerSpecies.empireName = empireNameController.text;
+      notifyListeners();
+    });
+
+    _playerSpecies = new AddPlayerSpeciesRequest();
+  }
 
   List<Species> _species;
   List<Species> get species => _species;
@@ -29,24 +44,11 @@ class SpeciesSelectionViewModel extends FutureViewModel<List<Species>> {
     notifyListeners();
   }
 
-  bool get isNextButtonEnabled =>
-      _playerSpecies.empireName != null &&
-      _playerSpecies.empireName != '' &&
-      _playerSpecies.speciesId != null;
+  bool get isNextButtonEnabled => _playerSpecies.empireName != null && _playerSpecies.empireName != '' && _playerSpecies.speciesId != null;
 
   AddPlayerSpeciesRequest _playerSpecies;
 
   TextEditingController empireNameController;
-
-  SpeciesSelectionViewModel(this._navigationService, this._speciesRepository) {
-    empireNameController = new TextEditingController();
-    empireNameController.addListener(() {
-      _playerSpecies.empireName = empireNameController.text;
-      notifyListeners();
-    });
-
-    _playerSpecies = new AddPlayerSpeciesRequest();
-  }
 
   @override
   Future<List<Species>> futureToRun() => _getAllSpeciesAsync();
@@ -63,18 +65,11 @@ class SpeciesSelectionViewModel extends FutureViewModel<List<Species>> {
     return response.data;
   }
 
-  Future<ImageProvider> getImageAsync(Guid speciesId) async {
-    var response = await _speciesRepository.getImageAsync(speciesId: speciesId);
-
-    if (response.hasError) {
-      throw Exception('Failed to load species image $speciesId');
-    }
-
-    return response.data;
+  Future<ImageProvider> getImageAsync(String assetName) async {
+    return await _speciesImageProvider.get(assetName);
   }
 
   void showPerkSelectionView() {
-    _navigationService.navigateTo(RoutePaths.PerkSelectionRoute,
-        arguments: _playerSpecies);
+    _navigationService.navigateTo(RoutePaths.PerkSelectionRoute, arguments: _playerSpecies);
   }
 }

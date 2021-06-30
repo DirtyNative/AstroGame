@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AspNetCore.ServiceRegistration.Dynamic;
 using AstroGame.Core.Exceptions;
@@ -99,6 +100,11 @@ namespace AstroGame.Api.Managers.Stellars
         public override async Task<List<SolarSystem>> GetByParentAsync(Guid parentId)
         {
             return await _solarSystemRepository.GetByParentAsync(parentId);
+        }
+
+        public async Task<List<SolarSystem>> GetInRangeAsync(float minX, float maxX, float minZ, float maxZ)
+        {
+            return await _solarSystemRepository.GetInRangeAsync(minX, maxX, minZ, maxZ);
         }
 
         public async Task GenerateAsync(uint count, uint start)

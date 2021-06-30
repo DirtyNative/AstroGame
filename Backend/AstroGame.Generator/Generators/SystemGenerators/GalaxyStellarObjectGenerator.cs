@@ -14,9 +14,9 @@ namespace AstroGame.Generator.Generators.SystemGenerators
     {
         private const double MinY = -5;
         private const double MaxY = 5;
-
+        
         private const float Spin = 3f;
-        private const double ArmSpread = 0.1d;
+        private const double ArmSpread = 0.05d;
         private const double StarsAtCenterRatio = 3;
 
         private readonly SolarSystemGenerator _solarSystemGenerator;

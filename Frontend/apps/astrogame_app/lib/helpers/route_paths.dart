@@ -12,6 +12,8 @@ class RoutePaths {
   // Menus
   static const String HomeRoute = 'Home';
 
+  static const String GalaxyRoute = 'Galaxy';
+
   static const String BuildingsRoute = 'Buildings';
   static const String BuildingDetailsRoute = 'BuildingDetails';
 

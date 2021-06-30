@@ -10,7 +10,7 @@ namespace AstroGame.Storage.Seeds.Players
         public void Configure(EntityTypeBuilder<Credentials> builder)
         {
             var passwordBytes = new byte[]
-           {
+            {
                 214,
                 212,
                 211,
@@ -75,7 +75,7 @@ namespace AstroGame.Storage.Seeds.Players
                 118,
                 47,
                 81
-           };
+            };
             var saltBytes = new byte[]
             {
                 193,
@@ -112,14 +112,32 @@ namespace AstroGame.Storage.Seeds.Players
                 241
             };
 
-            builder.HasData(new Credentials()
-            {
-                Id = Guid.Parse("00000000-0000-0000-1110-000000000000"),
-                PlayerId = Guid.Parse("22222222-0000-0000-0000-000000000000"),
-                Email = "daniel@dirtyandnative.de",
-                Password = passwordBytes,
-                Salt = saltBytes,
-            });
+            builder.HasData(
+                new Credentials()
+                {
+                    Id = Guid.Parse("00000000-0000-0000-1110-000000000000"),
+                    PlayerId = Guid.Parse("22222222-0000-0000-0000-000000000000"),
+                    Email = "daniel@dirtyandnative.de",
+                    Password = passwordBytes,
+                    Salt = saltBytes,
+                },
+                new Credentials()
+                {
+                    Id = Guid.Parse("00000000-0000-0000-1110-000000000001"),
+                    PlayerId = Guid.Parse("22222222-0000-0000-0000-000000000001"),
+                    Email = "test1@dirtyandnative.de",
+                    Password = passwordBytes,
+                    Salt = saltBytes,
+                },
+                new Credentials()
+                {
+                    Id = Guid.Parse("00000000-0000-0000-1110-000000000002"),
+                    PlayerId = Guid.Parse("22222222-0000-0000-0000-000000000002"),
+                    Email = "test2@dirtyandnative.de",
+                    Password = passwordBytes,
+                    Salt = saltBytes,
+                }
+            );
         }
     }
 }

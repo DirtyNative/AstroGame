@@ -35,4 +35,28 @@ class _SolarSystemApi implements SolarSystemApi {
     final value = SolarSystem.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<List<SolarSystem>> getInRangeAsync(minX, maxX, minZ, maxZ) async {
+    ArgumentError.checkNotNull(minX, 'minX');
+    ArgumentError.checkNotNull(maxX, 'maxX');
+    ArgumentError.checkNotNull(minZ, 'minZ');
+    ArgumentError.checkNotNull(maxZ, 'maxZ');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>(
+        '/range/$minX/$maxX/$minZ/$maxZ',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => SolarSystem.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
 }

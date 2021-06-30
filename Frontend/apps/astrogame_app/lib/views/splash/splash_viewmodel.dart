@@ -66,6 +66,10 @@ class SplashViewModel extends FutureViewModel {
     }
     var token = await _localStorageService.readAsync(StorageKeys.tokenKey);
 
+    if (token == null) {
+      return null;
+    }
+
     return AuthorizationToken.fromJson(token);
   }
 

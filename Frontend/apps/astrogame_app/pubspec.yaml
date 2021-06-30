@@ -60,12 +60,13 @@ dependencies:
   intl:
 
   synchronized:
+  flutter_memory_cache:
 
   duration:
 
   signalr_core:
 
-  flutter_memory_cache:
+  
 
   # Many extension methods
   dartx:
@@ -74,7 +75,7 @@ dependencies:
   fl_chart: ^0.35.0
 
   # Used to save data in storage
-  localstorage: ^3.0.6
+  localstorage: 3.0.1+4
 
 dev_dependencies:
   flutter_test:

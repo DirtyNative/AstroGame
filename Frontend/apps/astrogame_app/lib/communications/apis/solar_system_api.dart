@@ -13,4 +13,12 @@ abstract class SolarSystemApi {
   Future<SolarSystem> getBySystemNumberRecursiveAsync({
     @required @Path('systemNumber') int systemNumber,
   });
+
+  @GET('/range/{minX}/{maxX}/{minZ}/{maxZ}')
+  Future<List<SolarSystem>> getInRangeAsync(
+    @Path('minX') double minX,
+    @Path('maxX') double maxX,
+    @Path('minZ') double minZ,
+    @Path('maxZ') double maxZ,
+  );
 }

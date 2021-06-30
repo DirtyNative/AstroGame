@@ -14,6 +14,7 @@ LevelableResearch _$LevelableResearchFromJson(Map<String, dynamic> json) {
     ..order = json['order'] as int
     ..researchType =
         _$enumDecodeNullable(_$ResearchTypeEnumMap, json['researchType'])
+    ..assetName = json['assetName'] as String
     ..buildingTimeMultiplier =
         (json['buildingTimeMultiplier'] as num)?.toDouble()
     ..buildingCostMultiplier =
@@ -47,6 +48,7 @@ Map<String, dynamic> _$LevelableResearchToJson(LevelableResearch instance) =>
       'description': instance.description,
       'order': instance.order,
       'researchType': _$ResearchTypeEnumMap[instance.researchType],
+      'assetName': instance.assetName,
       'buildingTimeMultiplier': instance.buildingTimeMultiplier,
       'buildingCostMultiplier': instance.buildingCostMultiplier,
       'buildingProductionMultiplier': instance.buildingProductionMultiplier,
