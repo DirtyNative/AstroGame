@@ -1,6 +1,6 @@
 ﻿namespace AstroGame.Shared.Models.Conditions
 {
-    public class OneTimeResearchCondition : ResearchCondition
+    public class OneTimeCondition : Condition
     {
     }
 }

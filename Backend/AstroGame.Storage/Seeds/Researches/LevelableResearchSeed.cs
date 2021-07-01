@@ -113,6 +113,16 @@ namespace AstroGame.Storage.Seeds.Researches
                     AssetName = "1.jpg",
                 },
 
+                new LevelableResearch()
+                {
+                    Id = Guid.Parse("A3058710-E6FE-4DB1-98D2-F7D93874FF5A"),
+                    Name = "Efficient living places",
+                    Description = "TODO",
+                    Order = 1,
+                    ResearchType = ResearchType.Social,
+                    AssetName = "2.jpg",
+                },
+
                 //////////////////////////////
                 // Industry technologies
                 //////////////////////////////

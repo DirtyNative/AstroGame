@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using AstroGame.Shared.Models.Conditions;
 
 namespace AstroGame.Shared.Models.Researches
 {
-    public abstract class Research
+    public abstract class Research : Technology
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
@@ -28,7 +25,5 @@ namespace AstroGame.Shared.Models.Researches
         [DefaultValue(1)] public double FuelConsumptionMultiplier { get; set; }
 
         public virtual List<ResearchCost> ResearchCosts { get; set; }
-
-        public virtual List<ResearchStudyCondition> ResearchStudyConditions { get; set; }
     }
 }

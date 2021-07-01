@@ -63,15 +63,11 @@ namespace AstroGame.Storage.Database
         public DbSet<ResearchStudy> ResearchStudies { get; set; }
         public DbSet<StudiedResearch> StudiedResearches { get; set; }
 
-        public DbSet<ResearchStudyCondition> ResearchStudyConditions { get; set; }
-        public DbSet<BuildingConstructionCondition> BuildingConstructionConditions { get; set; }
-        public DbSet<BuildingCondition> BuildingConditions { get; set; }
-        public DbSet<BuiltBuildingCondition> BuiltBuildingConditions { get; set; }
+       
         public DbSet<Condition> Conditions { get; set; }
-        public DbSet<LevelableBuildingCondition> LevelableBuildingConditions { get; set; }
-        public DbSet<LevelableResearchCondition> LevelableResearchConditions { get; set; }
-        public DbSet<OneTimeResearchCondition> OneTimeResearchConditions { get; set; }
-        public DbSet<ResearchCondition> ResearchConditions { get; set; }
+        public DbSet<LevelableCondition> LevelableConditions { get; set; }
+        public DbSet<LevelableCondition> LevelableResearchConditions { get; set; }
+        public DbSet<OneTimeCondition> OneTimeConditions { get; set; }
 
 
         public DbSet<Conversation> Conversations { get; set; }

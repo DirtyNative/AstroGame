@@ -1,4 +1,5 @@
-﻿using AstroGame.Shared.Models.Researches;
+﻿using AstroGame.Shared.Models;
+using AstroGame.Shared.Models.Researches;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +10,7 @@ namespace AstroGame.Storage.TypeConfigurations.Researches
         public void Configure(EntityTypeBuilder<Research> builder)
         {
             builder.ToTable("Researches");
+            builder.HasBaseType<Technology>();
         }
     }
 }

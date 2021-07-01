@@ -1,6 +1,6 @@
 ﻿namespace AstroGame.Shared.Models.Conditions
 {
-    public class LevelableResearchCondition : ResearchCondition
+    public class LevelableCondition : Condition
     {
         public int NeededLevel { get; set; }
     }

@@ -1,13 +1,10 @@
 ﻿using AstroGame.Shared.Enums;
-using AstroGame.Shared.Models.Conditions;
-using System;
 using System.Collections.Generic;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public abstract class Building
+    public abstract class Building : Technology
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string AssetName { get; set; }
@@ -28,7 +25,5 @@ namespace AstroGame.Shared.Models.Buildings
         //public virtual List<BuiltBuilding> BuiltBuildings { get; set; } = new();
         public List<InputResource> InputResources { get; set; }
         public List<OutputResource> OutputResources { get; set; }
-
-        public IEnumerable<BuildingConstructionCondition> BuildingConditions { get; set; }
     }
 }

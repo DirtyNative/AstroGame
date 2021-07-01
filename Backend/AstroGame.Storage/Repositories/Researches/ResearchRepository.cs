@@ -25,8 +25,11 @@ namespace AstroGame.Storage.Repositories.Researches
                 .Include(e => e.ResearchCosts)
 
                 // Conditions
-                .Include(e => e.ResearchStudyConditions)
-                .ThenInclude(e => e.Condition)
+                .Include(e => e.NeededConditions)
+                .ThenInclude(e => e.NeededTechnology)
+
+                .Include(e => e.ConditionFor)
+                .ThenInclude(e => e.Technology)
 
                 // Prediction
                 .ToListAsync();
@@ -39,8 +42,11 @@ namespace AstroGame.Storage.Repositories.Researches
                 .Include(e => e.ResearchCosts)
 
                 // Conditions
-                .Include(e => e.ResearchStudyConditions)
-                .ThenInclude(e => e.Condition)
+                .Include(e => e.NeededConditions)
+                .ThenInclude(e => e.NeededTechnology)
+
+                .Include(e => e.ConditionFor)
+                .ThenInclude(e => e.Technology)
 
                 // Prediction
                 .FirstOrDefaultAsync(e => e.Id == id);

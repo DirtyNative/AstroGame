@@ -38,8 +38,11 @@ namespace AstroGame.Storage.Repositories.Buildings
                 .ThenInclude(e => e.Resource)
 
                 // Condition
-                .Include(e => e.BuildingConditions)
-                .ThenInclude(e => e.Condition)
+                .Include(e => e.NeededConditions)
+                .ThenInclude(e => e.NeededTechnology)
+
+                .Include(e => e.ConditionFor)
+                .ThenInclude(e => e.Technology)
 
                 // Prediction
                 .OrderBy(e => e.Order)
@@ -64,8 +67,11 @@ namespace AstroGame.Storage.Repositories.Buildings
                 .ThenInclude(e => e.Resource)
 
                 // Condition
-                .Include(e => e.BuildingConditions)
-                .ThenInclude(e => e.Condition)
+                .Include(e => e.NeededConditions)
+                .ThenInclude(e => e.NeededTechnology)
+
+                .Include(e => e.ConditionFor)
+                .ThenInclude(e => e.Technology)
 
                 // Prediction
                 .OrderBy(e => e.Order)
@@ -91,8 +97,11 @@ namespace AstroGame.Storage.Repositories.Buildings
                 .ThenInclude(e => e.Resource)
 
                 // Condition
-                .Include(e => e.BuildingConditions)
-                .ThenInclude(e => e.Condition)
+                .Include(e => e.NeededConditions)
+                .ThenInclude(e => e.NeededTechnology)
+
+                .Include(e => e.ConditionFor)
+                .ThenInclude(e => e.Technology)
 
                 // Prediction
                 .FirstOrDefaultAsync(e => e.Id == id);

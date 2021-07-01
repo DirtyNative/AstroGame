@@ -352,6 +352,24 @@ namespace AstroGame.Storage.Seeds.Buildings
                     Order = 1,
                     AssetName = "19.jpg",
                     BuildableOn = StellarObjectType.Planet,
+                },
+
+                //////////////////////////////
+                // Civil Buildings
+                //////////////////////////////
+
+                //////////////////////////////
+                // Planet
+                //////////////////////////////
+                new LevelableBuilding()
+                {
+                    Id = Guid.Parse("0233326E-2B2A-4170-993E-835417E293C6"),
+                    BuildingType = BuildingType.CivilBuilding,
+                    Name = "Building Grounds",
+                    Description = "TODO",
+                    Order = 1,
+                    AssetName = "19.jpg",
+                    BuildableOn = StellarObjectType.Planet,
                 }
             );
         }
