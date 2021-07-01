@@ -96,13 +96,11 @@ class BuildingsView extends StatelessWidget {
   }
 
   Widget _listView(List<Building> buildings) {
-    return Scrollbar(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: ListView.builder(
-          itemCount: buildings?.length ?? 0,
-          itemBuilder: (context, index) => BuildingView(buildings[index]),
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: ListView.builder(
+        itemCount: buildings?.length ?? 0,
+        itemBuilder: (context, index) => BuildingView(buildings[index]),
       ),
     );
   }

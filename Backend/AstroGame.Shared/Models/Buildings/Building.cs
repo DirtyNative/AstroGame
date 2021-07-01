@@ -1,7 +1,7 @@
 ﻿using AstroGame.Shared.Enums;
+using AstroGame.Shared.Models.Conditions;
 using System;
 using System.Collections.Generic;
-using AstroGame.Shared.Models.Conditions;
 
 namespace AstroGame.Shared.Models.Buildings
 {

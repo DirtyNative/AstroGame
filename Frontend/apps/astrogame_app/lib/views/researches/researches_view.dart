@@ -105,13 +105,11 @@ class ResearchesView extends StatelessWidget {
   }
 
   Widget _listView(List<Research> researches) {
-    return Scrollbar(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: ListView.builder(
-          itemCount: researches?.length ?? 0,
-          itemBuilder: (context, index) => ResearchView(researches[index]),
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: ListView.builder(
+        itemCount: researches?.length ?? 0,
+        itemBuilder: (context, index) => ResearchView(researches[index]),
       ),
     );
   }
