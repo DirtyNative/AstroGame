@@ -48,7 +48,7 @@ namespace AstroGame.Api.Helpers
             if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
             {
                 neededAmount =
-                    _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue,
+                    _resourceCalculator.CalculateTechnologyCostAmount(dynamicBuildingCost.BaseValue,
                         dynamicBuildingCost.Multiplier,
                         level);
             }
@@ -76,7 +76,7 @@ namespace AstroGame.Api.Helpers
                 if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
                 {
                     neededAmount =
-                        _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue,
+                        _resourceCalculator.CalculateTechnologyCostAmount(dynamicBuildingCost.BaseValue,
                             dynamicBuildingCost.Multiplier,
                             level);
                 }
@@ -101,7 +101,7 @@ namespace AstroGame.Api.Helpers
                 if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
                 {
                     amount +=
-                        _resourceCalculator.CalculateBuildingCostAmount(dynamicBuildingCost.BaseValue,
+                        _resourceCalculator.CalculateTechnologyCostAmount(dynamicBuildingCost.BaseValue,
                             dynamicBuildingCost.Multiplier,
                             level);
                 }

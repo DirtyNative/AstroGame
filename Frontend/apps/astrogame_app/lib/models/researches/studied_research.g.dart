@@ -8,6 +8,14 @@ part of 'studied_research.dart';
 
 StudiedResearch _$StudiedResearchFromJson(Map<String, dynamic> json) {
   return StudiedResearch()
+    ..neededConditions = (json['neededConditions'] as List)
+        ?.map((e) =>
+            e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..conditionFor = (json['conditionFor'] as List)
+        ?.map((e) =>
+            e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..name = json['name'] as String
     ..description = json['description'] as String
     ..order = json['order'] as int
@@ -46,6 +54,8 @@ StudiedResearch _$StudiedResearchFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$StudiedResearchToJson(StudiedResearch instance) =>
     <String, dynamic>{
+      'neededConditions': instance.neededConditions,
+      'conditionFor': instance.conditionFor,
       'name': instance.name,
       'description': instance.description,
       'order': instance.order,

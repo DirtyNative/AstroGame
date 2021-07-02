@@ -1,6 +1,5 @@
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:retrofit/retrofit.dart';
 

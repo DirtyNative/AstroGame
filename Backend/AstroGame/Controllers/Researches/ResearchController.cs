@@ -30,5 +30,15 @@ namespace AstroGame.Api.Controllers.Researches
 
             return File(image, "image/png");
         }
+
+        [HttpGet("values/research/{researchId}/level/{startLevel}")]
+        public async Task<IActionResult> GetBuildingValuesAsync([FromRoute] Guid researchId,
+            [FromRoute] uint startLevel,
+            [FromQuery] uint countLevels = 1)
+        {
+            var response = await _researchManager.GetResearchValuesAsync(researchId, startLevel, countLevels);
+
+            return Ok(response);
+        }
     }
 }

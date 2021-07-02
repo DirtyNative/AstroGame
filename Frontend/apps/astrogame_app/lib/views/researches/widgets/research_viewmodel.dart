@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:astrogame_app/helpers/resource_helper.dart';
+import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/one_time_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
@@ -13,6 +14,7 @@ import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/providers/studied_researches_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
+import 'package:astrogame_app/views/researches/bags/research_detail_bag.dart';
 import 'package:duration/duration.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_guid/flutter_guid.dart';
@@ -108,7 +110,8 @@ class ResearchViewModel extends FutureViewModel {
       return false;
     }
 
-    return _resourceHelper.hasStoredResourcesToStudy(storedResources, research, level);
+    return _resourceHelper.hasStoredResourcesToStudy(
+        storedResources, research, level);
   }
 
   String get studyText {
@@ -124,19 +127,22 @@ class ResearchViewModel extends FutureViewModel {
     }
 
     if (research is LevelableResearch) {
-      return (studiedResearch == null) ? 'Study' : 'Upgrade ${studiedResearch.level + 1}';
+      return (studiedResearch == null)
+          ? 'Study'
+          : 'Upgrade ${studiedResearch.level + 1}';
     } else if (research is OneTimeResearch) {
       return (studiedResearch == null) ? 'Study' : 'Already studied';
     }
 
-    throw Exception('Research type ${research.runtimeType} is not implemented yet');
+    throw Exception(
+        'Research type ${research.runtimeType} is not implemented yet');
   }
 
   void showResearchDetails() {
-    /*_navigationWrapper.navigateSubTo(
-      RoutePaths.BuildingDetailsRoute,
-      arguments: new BuildingDetailBag(research, studiedResearch),
-    ); */
+    _navigationWrapper.navigateSubTo(
+      RoutePaths.ResearchDetailsRoute,
+      arguments: new ResearchDetailBag(research, studiedResearch),
+    );
   }
 
   @override

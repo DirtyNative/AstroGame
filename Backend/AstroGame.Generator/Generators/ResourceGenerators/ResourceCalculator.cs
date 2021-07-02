@@ -9,7 +9,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
     {
         public const double BaseTime = 2500;
 
-        public double CalculateBuildingCostAmount(double baseValue, double multiplier, uint level)
+        public double CalculateTechnologyCostAmount(double baseValue, double multiplier, uint level)
         {
             return baseValue * Math.Pow(multiplier, level - 1);
         }

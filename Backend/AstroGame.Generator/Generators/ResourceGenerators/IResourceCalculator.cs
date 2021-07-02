@@ -9,7 +9,7 @@
         /// <param name="multiplier">The buildings multiplier</param>
         /// <param name="level">The level of the upgrade. Note: Not the buildings actual level</param>
         /// <returns>The amount of cost</returns>
-        public double CalculateBuildingCostAmount(double baseValue, double multiplier, uint level);
+        public double CalculateTechnologyCostAmount(double baseValue, double multiplier, uint level);
 
         /// <summary>
         /// Calculates the time in hours a building needs t obe built

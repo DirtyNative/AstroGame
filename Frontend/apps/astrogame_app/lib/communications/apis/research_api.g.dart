@@ -34,4 +34,28 @@ class _ResearchApi implements ResearchApi {
         .toList();
     return value;
   }
+
+  @override
+  Future<List<ResearchValue>> getValuesAsync(
+      researchId, startLevel, countLevels) async {
+    ArgumentError.checkNotNull(researchId, 'researchId');
+    ArgumentError.checkNotNull(startLevel, 'startLevel');
+    ArgumentError.checkNotNull(countLevels, 'countLevels');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'countLevels': countLevels};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>(
+        '/values/research/$researchId/level/$startLevel',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => ResearchValue.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
 }

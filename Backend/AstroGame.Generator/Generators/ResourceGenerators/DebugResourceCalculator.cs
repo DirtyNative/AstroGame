@@ -7,7 +7,7 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
     [ScopedService]
     public class DebugResourceCalculator : IResourceCalculator
     {
-        public double CalculateBuildingCostAmount(double baseValue, double multiplier, uint level)
+        public double CalculateTechnologyCostAmount(double baseValue, double multiplier, uint level)
         {
             return baseValue * Math.Pow(multiplier, level - 1);
         }

@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/apis/research_api.dart';
 
 import 'package:astrogame_app/models/researches/research.dart';
+import 'package:astrogame_app/models/researches/research_value.dart';
 import 'package:astrogame_app/providers/http_header_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -21,7 +22,8 @@ class ResearchRepository {
 
   ResearchApi _researchApi;
 
-  ResearchRepository(Dio dio, this._logger, this._serverConnection, this._httpHeaderProvider) {
+  ResearchRepository(
+      Dio dio, this._logger, this._serverConnection, this._httpHeaderProvider) {
     _researchApi = new ResearchApi(dio);
   }
 
@@ -41,7 +43,24 @@ class ResearchRepository {
     try {
       _logger.d('Get research image');
       return ServerResponseT()
-        ..data = NetworkImage(_serverConnection.baseAdress + '/api/v1/research/image/$researchId', headers: _httpHeaderProvider.getHeaders());
+        ..data = NetworkImage(
+            _serverConnection.baseAdress + '/api/v1/research/image/$researchId',
+            headers: _httpHeaderProvider.getHeaders());
+    } catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error: error);
+    }
+  }
+
+  Future<ServerResponseT<List<ResearchValue>>> getValuesAsync(
+    Guid researchId,
+    int startLevel,
+    int countLevels,
+  ) async {
+    try {
+      _logger.d('Get research values by research id');
+      var response = await _researchApi.getValuesAsync(
+          researchId, startLevel, countLevels);
+      return ServerResponseT()..data = response;
     } catch (error) {
       return ServerResponseT()..error = ServerError.withError(error: error);
     }

@@ -9,7 +9,6 @@ using AstroGame.Storage.Configurations;
 using AstroGame.Storage.Repositories.Buildings;
 using AstroGame.Storage.Repositories.Players;
 using AstroGame.Storage.Repositories.Stellar;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -202,7 +201,7 @@ namespace AstroGame.Api.Managers.Buildings
                 {
                     var amount = cost switch
                     {
-                        DynamicBuildingCost dynamicBuildingCost => _resourceCalculator.CalculateBuildingCostAmount(
+                        DynamicBuildingCost dynamicBuildingCost => _resourceCalculator.CalculateTechnologyCostAmount(
                             dynamicBuildingCost.BaseValue, dynamicBuildingCost.Multiplier, index),
                         FixedBuildingCost fixedBuildingCost => fixedBuildingCost.Amount,
                         _ => 0

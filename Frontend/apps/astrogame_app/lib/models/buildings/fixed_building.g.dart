@@ -9,6 +9,14 @@ part of 'fixed_building.dart';
 FixedBuilding _$FixedBuildingFromJson(Map<String, dynamic> json) {
   return FixedBuilding()
     ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..neededConditions = (json['neededConditions'] as List)
+        ?.map((e) =>
+            e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..conditionFor = (json['conditionFor'] as List)
+        ?.map((e) =>
+            e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..name = json['name'] as String
     ..description = json['description'] as String
     ..assetName = json['assetName'] as String
@@ -36,6 +44,8 @@ FixedBuilding _$FixedBuildingFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$FixedBuildingToJson(FixedBuilding instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
+      'neededConditions': instance.neededConditions,
+      'conditionFor': instance.conditionFor,
       'name': instance.name,
       'description': instance.description,
       'assetName': instance.assetName,

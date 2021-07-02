@@ -1,12 +1,12 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/communications/converters/research_converter.dart';
+import 'package:astrogame_app/models/base_types/technology.dart';
 import 'package:astrogame_app/models/enums/research_type.dart';
-import 'package:astrogame_app/models/researches/research_cost.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
+import 'research_cost.dart';
 
 @GuidConverter()
-abstract class Research {
-  Guid id;
+abstract class Research extends Technology {
   String name;
   String description;
   int order;
@@ -27,9 +27,9 @@ abstract class Research {
   double fuelConsumptionMultiplier;
 
   List<ResearchCost> researchCosts;
-  //List<ResearchStudyCondition> researchStudyConditions;
 
   Research();
 
-  factory Research.fromJson(Map<String, dynamic> json) => ResearchConverter().fromJson(json);
+  factory Research.fromJson(Map<String, dynamic> json) =>
+      ResearchConverter().fromJson(json);
 }

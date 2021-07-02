@@ -1,4 +1,5 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/conditions/condition.dart';
 import 'package:astrogame_app/models/enums/research_type.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/researches/research_cost.dart';
@@ -11,6 +12,7 @@ part 'levelable_research.g.dart';
 class LevelableResearch extends Research {
   LevelableResearch();
 
-  factory LevelableResearch.fromJson(Map<String, dynamic> json) => _$LevelableResearchFromJson(json);
+  factory LevelableResearch.fromJson(Map<String, dynamic> json) =>
+      _$LevelableResearchFromJson(json);
   Map<String, dynamic> toJson() => _$LevelableResearchToJson(this);
 }
