@@ -1,18 +1,20 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Shared.Models.Buildings;
-using AstroGame.Shared.Models.Players;
-using AstroGame.Storage.Repositories.Buildings;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using AstroGame.Api.Helpers;
 using AstroGame.Api.Hubs;
 using AstroGame.Core.Exceptions;
 using AstroGame.Generator.Generators.ResourceGenerators;
+using AstroGame.Shared.Models.Buildings;
+using AstroGame.Shared.Models.Players;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
+using AstroGame.Shared.Models.Technologies;
+using AstroGame.Storage.Repositories.Buildings;
 using AstroGame.Storage.Repositories.Stellar;
+using AstroGame.Storage.Repositories.Technologies;
 using Hangfire;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AstroGame.Api.Services
 {
@@ -25,26 +27,26 @@ namespace AstroGame.Api.Services
 
         private readonly BuildingChainRepository _buildingChainRepository;
         private readonly ColonizedStellarObjectRepository _colonizedStellarObjectRepository;
-        private readonly BuiltBuildingRepository _builtBuildingRepository;
+        private readonly StellarObjectDependentFinishedTechnologyRepository _stellarObjectDependentFinishedTechnologyRepository;
 
         private readonly IHubContext<BuildingHub> _buildingHub;
 
         public ConstructionService(BuildingChainRepository buildingChainRepository, ResourceService resourceService,
             ResourceHelper resourceHelper, ColonizedStellarObjectRepository colonizedStellarObjectRepository,
-            BuiltBuildingRepository builtBuildingRepository,
+            StellarObjectDependentFinishedTechnologyRepository stellarObjectDependentFinishedTechnologyRepository,
             IResourceCalculator resourceCalculator, IHubContext<BuildingHub> buildingHub)
         {
             _buildingChainRepository = buildingChainRepository;
             _resourceService = resourceService;
             _resourceHelper = resourceHelper;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
-            _builtBuildingRepository = builtBuildingRepository;
+            _stellarObjectDependentFinishedTechnologyRepository = stellarObjectDependentFinishedTechnologyRepository;
             _resourceCalculator = resourceCalculator;
             _buildingHub = buildingHub;
         }
 
         public async Task BuildAsync(Player player, Building building, StellarObject stellarObject,
-            BuiltBuilding builtBuilding)
+            FinishedTechnology finishedTechnology)
         {
             var now = DateTime.UtcNow;
 
@@ -80,11 +82,11 @@ namespace AstroGame.Api.Services
             }
 
             // Increment the building level
-            var level = builtBuilding?.Level + 1 ?? 1;
+            var level = finishedTechnology?.Level + 1 ?? 1;
 
             // Check if the needed resources are available
             var hasNeededResources =
-                _resourceHelper.HasNeededResources(snapshot.StoredResources, building.BuildingCosts.ToList(), level);
+                _resourceHelper.HasNeededResources(snapshot.StoredResources, building.TechnologyCosts.ToList(), level);
             if (hasNeededResources == false)
             {
                 throw new LockedException($"Not enough resources to build building {building.Id}");
@@ -93,10 +95,10 @@ namespace AstroGame.Api.Services
             // TODO: Check if the player has enough slots to build
 
             // Subtract the needed resources from the stored
-            _resourceHelper.SubtractBuildingCosts(snapshot.StoredResources, building.BuildingCosts.ToList(), level);
+            _resourceHelper.SubtractBuildingCosts(snapshot.StoredResources, building.TechnologyCosts.ToList(), level);
 
             // Calculate the building duration
-            var totalConstructionCosts = _resourceHelper.SumBuildingCosts(building.BuildingCosts.ToList(), level);
+            var totalConstructionCosts = _resourceHelper.SumBuildingCosts(building.TechnologyCosts.ToList(), level);
             var buildingTime = _resourceCalculator.CalculateBuildingTime(totalConstructionCosts, 1, 1, 1);
 
             var jobExecutionTime = now.AddHours(buildingTime);
@@ -123,7 +125,7 @@ namespace AstroGame.Api.Services
             await _buildingChainRepository.SaveChangesAsync();
         }
 
-        public async Task FinishConstructionAsync(Guid playerId, Guid stellarObjectId, Guid buildingId)
+        public async Task FinishConstructionAsync(Guid playerId, Guid stellarObjectId, Guid technologyId)
         {
             // Get the players chain
             var chain = await _buildingChainRepository.GetByPlayerAsync(playerId);
@@ -132,33 +134,33 @@ namespace AstroGame.Api.Services
             await _resourceService.GenerateSnapshotAsync(stellarObjectId);
 
             // Delete the construction from the pool
-            chain.BuildingUpgrades.RemoveAll(e => e.StellarObjectId == stellarObjectId && e.BuildingId == buildingId);
+            chain.BuildingUpgrades.RemoveAll(e => e.StellarObjectId == stellarObjectId && e.BuildingId == technologyId);
 
             var colonizedStellarObject =
                 await _colonizedStellarObjectRepository.GetByStellarObjectAsync(stellarObjectId);
 
             // Get the constructedBuilding or create one
-            var constructedBuilding = await _builtBuildingRepository.GetByBuildingAsync(stellarObjectId, buildingId);
+            var constructedBuilding = await _stellarObjectDependentFinishedTechnologyRepository.GetByBuildingAsync(stellarObjectId, technologyId);
             if (constructedBuilding == null)
             {
-                constructedBuilding = new BuiltBuilding()
+                constructedBuilding = new StellarObjectDependentFinishedTechnology()
                 {
-                    BuildingId = buildingId,
+                    TechnologyId = technologyId,
                     ColonizedStellarObjectId = colonizedStellarObject.Id,
                     ColonizedStellarObject = colonizedStellarObject,
                     Level = 0
                 };
 
-                await _builtBuildingRepository.AddAsync(constructedBuilding);
+                await _stellarObjectDependentFinishedTechnologyRepository.AddAsync(constructedBuilding);
             }
 
             constructedBuilding.Level += 1;
 
             // Raise SignalR Event that a building has finished
             await _buildingHub.Clients.Group(playerId.ToString())
-                .SendAsync("BuildingConstructionFinished", stellarObjectId, buildingId);
+                .SendAsync("BuildingConstructionFinished", stellarObjectId, technologyId);
 
-            await _builtBuildingRepository.SaveChangesAsync();
+            await _stellarObjectDependentFinishedTechnologyRepository.SaveChangesAsync();
         }
     }
 }

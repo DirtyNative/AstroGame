@@ -76,51 +76,6 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("BuildingConstructions");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingCost", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid>("BuildingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("BuildingCosts");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuiltBuilding", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid>("BuildingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ColonizedStellarObjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("Level")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuildingId");
-
-                    b.HasIndex("ColonizedStellarObjectId");
-
-                    b.ToTable("BuiltBuildings");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.InputResource", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1803,28 +1758,6 @@ namespace AstroGame.Storage.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchCost", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid>("ResearchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResearchId");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("ResearchCosts");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1855,31 +1788,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasIndex("ResearchId");
 
                     b.ToTable("ResearchStudies");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.StudiedResearch", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<long>("Level")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResearchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.HasIndex("ResearchId");
-
-                    b.ToTable("StudiedResearches");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Resource", b =>
@@ -2116,326 +2024,61 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("StellarSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnology", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<long>("Level")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TechnologyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TechnologyId");
+
+                    b.ToTable("FinishedTechnologies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.Technology", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Technologies");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.DynamicBuildingCost", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.TechnologyCost", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Buildings.BuildingCost");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
 
-                    b.Property<double>("BaseValue")
-                        .HasColumnType("float");
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("Multiplier")
-                        .HasColumnType("float");
+                    b.Property<Guid>("TechnologyId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("BuildingId");
+                    b.HasKey("Id");
 
-                    b.ToTable("DynamicBuildingCosts");
+                    b.HasIndex("ResourceId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("58d5be3e-1d49-4c0a-ae2c-f46791d0e919"),
-                            BuildingId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 68.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("df3f2c81-7bb8-4913-8817-57c352c07aed"),
-                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("9c85b65c-72e6-4e41-9106-d35580c0f9ab"),
-                            BuildingId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
-                            BaseValue = 100.0,
-                            Multiplier = 1.3999999999999999
-                        },
-                        new
-                        {
-                            Id = new Guid("ec330d07-7dcd-40ac-9151-1d53bc6ce6d4"),
-                            BuildingId = new Guid("20ef5beb-8d80-4ea1-980a-1b77649b4249"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("760dc621-3bab-4e9a-ae53-fed5dcd76f85"),
-                            BuildingId = new Guid("81b33a6b-c9a6-446c-bf61-441931a9f2ab"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("2f921c53-c7ba-426b-8c37-553f9cf37bef"),
-                            BuildingId = new Guid("7d3b17d6-3084-4725-a259-cff46fc3a554"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("1eba7135-5378-4276-b163-5e631fb6a2c2"),
-                            BuildingId = new Guid("08f6708b-dd2a-427a-9e49-e24810452421"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("0a0e9ef7-6926-4871-9f51-7ad94e8dc8e1"),
-                            BuildingId = new Guid("35c9d3c1-bb03-4c2a-b6dd-eb34c0bfcf0d"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("6fd807b8-043a-4e62-b9c9-6b8dff135da0"),
-                            BuildingId = new Guid("adab9b7c-53e7-4f89-aa62-61b8a6d8b60f"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("8ff89127-91e6-4dc0-a375-7dd3d9125870"),
-                            BuildingId = new Guid("bdcae1cc-d8e2-4dd5-97b6-8cde1162f6ee"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 250.0,
-                            Multiplier = 1.55
-                        },
-                        new
-                        {
-                            Id = new Guid("daface0d-0bbc-4e5b-a11e-55bce19c4b0b"),
-                            BuildingId = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 500.0,
-                            Multiplier = 1.6000000000000001
-                        },
-                        new
-                        {
-                            Id = new Guid("01951251-4fdb-4ad6-98f1-ae001e779b04"),
-                            BuildingId = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
-                            BaseValue = 400.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("778a6f92-e76d-4c0a-a03f-fa5e1d31bca2"),
-                            BuildingId = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 300.0,
-                            Multiplier = 1.3999999999999999
-                        },
-                        new
-                        {
-                            Id = new Guid("15474d59-20c5-463c-bdf0-bc9b09f7e08a"),
-                            BuildingId = new Guid("e5c2c36b-3393-4599-b054-77458c7e74e8"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 300.0,
-                            Multiplier = 1.3999999999999999
-                        },
-                        new
-                        {
-                            Id = new Guid("8f367705-7c4e-4a3d-9761-1b91dbb1aa55"),
-                            BuildingId = new Guid("6d519575-bcfb-49f7-aef9-15a4b8364b32"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 300.0,
-                            Multiplier = 1.3999999999999999
-                        },
-                        new
-                        {
-                            Id = new Guid("306a853b-8583-4a1e-8ace-c49ec34ef991"),
-                            BuildingId = new Guid("89b6448b-ca4e-43d4-a8bb-69b6f5c55211"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 300.0,
-                            Multiplier = 1.3999999999999999
-                        },
-                        new
-                        {
-                            Id = new Guid("4d6ddf71-901c-4734-b6cd-23fd2d701002"),
-                            BuildingId = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 800.0,
-                            Multiplier = 1.3
-                        },
-                        new
-                        {
-                            Id = new Guid("36ddec13-5b03-4e09-b1d4-eb9865fa3ec6"),
-                            BuildingId = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
-                            BaseValue = 900.0,
-                            Multiplier = 1.6000000000000001
-                        },
-                        new
-                        {
-                            Id = new Guid("76f6afe9-670a-4ba5-90d8-01891f15a6a2"),
-                            BuildingId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("f4b92197-1eca-4003-94ff-eb47ae854ceb"),
-                            BuildingId = new Guid("b8d93f41-d6c2-4ce8-9763-840ecb53bf44"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("7d09ed30-8fa3-4e8d-bfa2-8702539f6ae9"),
-                            BuildingId = new Guid("a0500eb9-8f5c-4fd0-90af-4be209939464"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("daee009b-8819-4ccf-944a-0e5e35a95d3f"),
-                            BuildingId = new Guid("c8d6228c-4c68-444d-bdf9-bb16279a5eb8"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("18f5c558-4ff8-483d-812c-b0e9e49eb9f6"),
-                            BuildingId = new Guid("4df104b3-64b6-4843-ba43-4b5b98f08c2b"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("1b7ccec7-f828-4c20-81ed-08472bea2486"),
-                            BuildingId = new Guid("626d4d9b-f90e-4e24-8f84-054e709afa2a"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("261c88ea-3595-4a65-9823-a3c245d0e9c6"),
-                            BuildingId = new Guid("0998d19e-c02f-41e2-b2fd-ba5c6fc7def1"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("f9814f8d-6dce-4f44-818b-63426ae1bc27"),
-                            BuildingId = new Guid("405a352f-943d-40f7-9e8a-359872d25e84"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("b385d85d-7dc0-48e6-b9f0-b84ac3a26540"),
-                            BuildingId = new Guid("428801f4-4777-4589-9a64-cb97bcef71cb"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("ef756673-3ae1-4e35-951b-5bf3ef24a6f0"),
-                            BuildingId = new Guid("45168d04-86cb-499c-aec9-a8255580071e"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("ea28699a-c944-48a1-b6ff-30f8536cb840"),
-                            BuildingId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 700.0,
-                            Multiplier = 1.25
-                        },
-                        new
-                        {
-                            Id = new Guid("40f3accc-ba71-4306-95f5-67421aeb89f0"),
-                            BuildingId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
-                            BaseValue = 600.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("0e521620-3a9d-4f1a-9822-e7a1fb746246"),
-                            BuildingId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000015"),
-                            BaseValue = 500.0,
-                            Multiplier = 1.6000000000000001
-                        },
-                        new
-                        {
-                            Id = new Guid("41333116-1ce5-4625-96b6-1f7c75f1bd38"),
-                            BuildingId = new Guid("31b2747d-ff1b-49b1-bf97-782bdb28cba2"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("651e720f-9c3a-4f1f-9095-fcc82ccc0d36"),
-                            BuildingId = new Guid("a6a8f230-dde3-464d-9edd-76cfc9882cbb"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        },
-                        new
-                        {
-                            Id = new Guid("1f147721-9f55-4856-b160-6be4b097b2f6"),
-                            BuildingId = new Guid("357f7740-3ca7-4ff8-81c6-9cf22289a709"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            BaseValue = 60.0,
-                            Multiplier = 1.5
-                        });
-                });
+                    b.HasIndex("TechnologyId");
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.FixedBuildingCost", b =>
-                {
-                    b.HasBaseType("AstroGame.Shared.Models.Buildings.BuildingCost");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.HasIndex("BuildingId");
-
-                    b.ToTable("FixedBuildingCosts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("bd87afe1-192e-4618-a34c-7a6e8ed7eb0b"),
-                            BuildingId = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
-                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
-                            Amount = 2000.0
-                        });
+                    b.ToTable("TechnologyCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableCondition", b =>
@@ -2462,39 +2105,6 @@ namespace AstroGame.Storage.Migrations
                     b.HasBaseType("AstroGame.Shared.Models.Conditions.Condition");
 
                     b.ToTable("OneTimeConditions");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.DynamicResearchCost", b =>
-                {
-                    b.HasBaseType("AstroGame.Shared.Models.Researches.ResearchCost");
-
-                    b.Property<double>("BaseValue")
-                        .HasColumnType("float");
-
-                    b.Property<Guid?>("LevelableResearchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Multiplier")
-                        .HasColumnType("float");
-
-                    b.HasIndex("LevelableResearchId");
-
-                    b.ToTable("DynamicResearchCosts");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearchCost", b =>
-                {
-                    b.HasBaseType("AstroGame.Shared.Models.Researches.ResearchCost");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<Guid?>("OneTimeResearchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasIndex("OneTimeResearchId");
-
-                    b.ToTable("OneTimeResearchCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Element", b =>
@@ -2983,9 +2593,33 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("SolarSystems");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.PlayerDependentFinishedTechnology", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnology");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("PlayerDependentFinishedTechnologies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.StellarObjectDependentFinishedTechnology", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnology");
+
+                    b.Property<Guid>("ColonizedStellarObjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ColonizedStellarObjectId");
+
+                    b.ToTable("StellarObjectDependentFinishedTechnologies");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.Building", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Technology");
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.Technology");
 
                     b.Property<string>("AssetName")
                         .HasColumnType("nvarchar(max)");
@@ -3002,15 +2636,12 @@ namespace AstroGame.Storage.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.ToTable("Buildings");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Researches.Research", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Technology");
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.Technology");
 
                     b.Property<string>("AssetName")
                         .HasColumnType("nvarchar(max)");
@@ -3042,9 +2673,6 @@ namespace AstroGame.Storage.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.Property<int>("ResearchType")
                         .HasColumnType("int");
 
@@ -3061,6 +2689,345 @@ namespace AstroGame.Storage.Migrations
                         .HasColumnType("float");
 
                     b.ToTable("Researches");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.DynamicBuildingCost", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.TechnologyCost");
+
+                    b.Property<double>("BaseValue")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Multiplier")
+                        .HasColumnType("float");
+
+                    b.ToTable("DynamicBuildingCosts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("58d5be3e-1d49-4c0a-ae2c-f46791d0e919"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
+                            BaseValue = 68.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("df3f2c81-7bb8-4913-8817-57c352c07aed"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("9c85b65c-72e6-4e41-9106-d35580c0f9ab"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
+                            TechnologyId = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                            BaseValue = 100.0,
+                            Multiplier = 1.3999999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("ec330d07-7dcd-40ac-9151-1d53bc6ce6d4"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("20ef5beb-8d80-4ea1-980a-1b77649b4249"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("760dc621-3bab-4e9a-ae53-fed5dcd76f85"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("81b33a6b-c9a6-446c-bf61-441931a9f2ab"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("2f921c53-c7ba-426b-8c37-553f9cf37bef"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("7d3b17d6-3084-4725-a259-cff46fc3a554"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("1eba7135-5378-4276-b163-5e631fb6a2c2"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("08f6708b-dd2a-427a-9e49-e24810452421"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("0a0e9ef7-6926-4871-9f51-7ad94e8dc8e1"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("35c9d3c1-bb03-4c2a-b6dd-eb34c0bfcf0d"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("6fd807b8-043a-4e62-b9c9-6b8dff135da0"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("adab9b7c-53e7-4f89-aa62-61b8a6d8b60f"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("8ff89127-91e6-4dc0-a375-7dd3d9125870"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("bdcae1cc-d8e2-4dd5-97b6-8cde1162f6ee"),
+                            BaseValue = 250.0,
+                            Multiplier = 1.55
+                        },
+                        new
+                        {
+                            Id = new Guid("daface0d-0bbc-4e5b-a11e-55bce19c4b0b"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
+                            BaseValue = 500.0,
+                            Multiplier = 1.6000000000000001
+                        },
+                        new
+                        {
+                            Id = new Guid("01951251-4fdb-4ad6-98f1-ae001e779b04"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
+                            TechnologyId = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
+                            BaseValue = 400.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("778a6f92-e76d-4c0a-a03f-fa5e1d31bca2"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
+                            BaseValue = 300.0,
+                            Multiplier = 1.3999999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("15474d59-20c5-463c-bdf0-bc9b09f7e08a"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("e5c2c36b-3393-4599-b054-77458c7e74e8"),
+                            BaseValue = 300.0,
+                            Multiplier = 1.3999999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("8f367705-7c4e-4a3d-9761-1b91dbb1aa55"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("6d519575-bcfb-49f7-aef9-15a4b8364b32"),
+                            BaseValue = 300.0,
+                            Multiplier = 1.3999999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("306a853b-8583-4a1e-8ace-c49ec34ef991"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("89b6448b-ca4e-43d4-a8bb-69b6f5c55211"),
+                            BaseValue = 300.0,
+                            Multiplier = 1.3999999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("4d6ddf71-901c-4734-b6cd-23fd2d701002"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
+                            BaseValue = 800.0,
+                            Multiplier = 1.3
+                        },
+                        new
+                        {
+                            Id = new Guid("36ddec13-5b03-4e09-b1d4-eb9865fa3ec6"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
+                            TechnologyId = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
+                            BaseValue = 900.0,
+                            Multiplier = 1.6000000000000001
+                        },
+                        new
+                        {
+                            Id = new Guid("76f6afe9-670a-4ba5-90d8-01891f15a6a2"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("f4b92197-1eca-4003-94ff-eb47ae854ceb"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("b8d93f41-d6c2-4ce8-9763-840ecb53bf44"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("7d09ed30-8fa3-4e8d-bfa2-8702539f6ae9"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("a0500eb9-8f5c-4fd0-90af-4be209939464"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("daee009b-8819-4ccf-944a-0e5e35a95d3f"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("c8d6228c-4c68-444d-bdf9-bb16279a5eb8"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("18f5c558-4ff8-483d-812c-b0e9e49eb9f6"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("4df104b3-64b6-4843-ba43-4b5b98f08c2b"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("1b7ccec7-f828-4c20-81ed-08472bea2486"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("626d4d9b-f90e-4e24-8f84-054e709afa2a"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("261c88ea-3595-4a65-9823-a3c245d0e9c6"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("0998d19e-c02f-41e2-b2fd-ba5c6fc7def1"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("f9814f8d-6dce-4f44-818b-63426ae1bc27"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("405a352f-943d-40f7-9e8a-359872d25e84"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("b385d85d-7dc0-48e6-b9f0-b84ac3a26540"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("428801f4-4777-4589-9a64-cb97bcef71cb"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("ef756673-3ae1-4e35-951b-5bf3ef24a6f0"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("45168d04-86cb-499c-aec9-a8255580071e"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("ea28699a-c944-48a1-b6ff-30f8536cb840"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
+                            BaseValue = 700.0,
+                            Multiplier = 1.25
+                        },
+                        new
+                        {
+                            Id = new Guid("40f3accc-ba71-4306-95f5-67421aeb89f0"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000011"),
+                            TechnologyId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
+                            BaseValue = 600.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("0e521620-3a9d-4f1a-9822-e7a1fb746246"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000015"),
+                            TechnologyId = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
+                            BaseValue = 500.0,
+                            Multiplier = 1.6000000000000001
+                        },
+                        new
+                        {
+                            Id = new Guid("41333116-1ce5-4625-96b6-1f7c75f1bd38"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("31b2747d-ff1b-49b1-bf97-782bdb28cba2"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("651e720f-9c3a-4f1f-9095-fcc82ccc0d36"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("a6a8f230-dde3-464d-9edd-76cfc9882cbb"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        },
+                        new
+                        {
+                            Id = new Guid("1f147721-9f55-4856-b160-6be4b097b2f6"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("357f7740-3ca7-4ff8-81c6-9cf22289a709"),
+                            BaseValue = 60.0,
+                            Multiplier = 1.5
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.FixedBuildingCost", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.TechnologyCost");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.ToTable("FixedBuildingCosts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("bd87afe1-192e-4618-a34c-7a6e8ed7eb0b"),
+                            ResourceId = new Guid("00000000-1111-0000-0000-000000000016"),
+                            TechnologyId = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
+                            Amount = 2000.0
+                        });
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.DynamicResearchCost", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.TechnologyCost");
+
+                    b.Property<double>("BaseValue")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("LevelableResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Multiplier")
+                        .HasColumnType("float");
+
+                    b.HasIndex("LevelableResearchId");
+
+                    b.ToTable("DynamicResearchCosts");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearchCost", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.TechnologyCost");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("OneTimeResearchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("OneTimeResearchId");
+
+                    b.ToTable("OneTimeResearchCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
@@ -3092,12 +3059,12 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
+                            Order = 1,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 0,
                             Description = "TODO",
-                            Name = "Small Shipyard",
-                            Order = 1
+                            Name = "Small Shipyard"
                         });
                 });
 
@@ -3111,312 +3078,312 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
+                            Order = 1,
                             AssetName = "6.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "Extracts Hydrogen molecules from within the atmosphere to produce an industrial product.",
-                            Name = "Hydrogen Extractor",
-                            Order = 1
+                            Name = "Hydrogen Extractor"
                         },
                         new
                         {
                             Id = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
+                            Order = 2,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "Helium is one of the most important parts to generate fuels.",
-                            Name = "Helium Extractor",
-                            Order = 2
+                            Name = "Helium Extractor"
                         },
                         new
                         {
                             Id = new Guid("20ef5beb-8d80-4ea1-980a-1b77649b4249"),
+                            Order = 3,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Lithium Extractor",
-                            Order = 3
+                            Name = "Lithium Extractor"
                         },
                         new
                         {
                             Id = new Guid("81b33a6b-c9a6-446c-bf61-441931a9f2ab"),
+                            Order = 4,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Beryllium Reductor",
-                            Order = 4
+                            Name = "Beryllium Reductor"
                         },
                         new
                         {
                             Id = new Guid("7d3b17d6-3084-4725-a259-cff46fc3a554"),
+                            Order = 5,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Boron Reductor",
-                            Order = 5
+                            Name = "Boron Reductor"
                         },
                         new
                         {
                             Id = new Guid("08f6708b-dd2a-427a-9e49-e24810452421"),
+                            Order = 6,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Carbon Extractor",
-                            Order = 6
+                            Name = "Carbon Extractor"
                         },
                         new
                         {
                             Id = new Guid("35c9d3c1-bb03-4c2a-b6dd-eb34c0bfcf0d"),
+                            Order = 7,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Nitrogen Destillator",
-                            Order = 7
+                            Name = "Nitrogen Destillator"
                         },
                         new
                         {
                             Id = new Guid("adab9b7c-53e7-4f89-aa62-61b8a6d8b60f"),
+                            Order = 8,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Oxygen Extractor",
-                            Order = 8
+                            Name = "Oxygen Extractor"
                         },
                         new
                         {
                             Id = new Guid("bdcae1cc-d8e2-4dd5-97b6-8cde1162f6ee"),
+                            Order = 9,
                             AssetName = "9.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Magnesium Reductor",
-                            Order = 9
+                            Name = "Magnesium Reductor"
                         },
                         new
                         {
                             Id = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
+                            Order = 10,
                             AssetName = "11.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Aluminum smelting plant",
-                            Order = 10
+                            Name = "Aluminum smelting plant"
                         },
                         new
                         {
                             Id = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
+                            Order = 11,
                             AssetName = "7.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "We need silicon to produce electronics which we need for quiet all of our constructs.",
-                            Name = "Silicon Mine",
-                            Order = 11
+                            Name = "Silicon Mine"
                         },
                         new
                         {
                             Id = new Guid("e5c2c36b-3393-4599-b054-77458c7e74e8"),
+                            Order = 12,
                             AssetName = "7.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Phosphorus Miner",
-                            Order = 12
+                            Name = "Phosphorus Miner"
                         },
                         new
                         {
                             Id = new Guid("6d519575-bcfb-49f7-aef9-15a4b8364b32"),
+                            Order = 13,
                             AssetName = "7.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Sulfur Mine",
-                            Order = 13
+                            Name = "Sulfur Mine"
                         },
                         new
                         {
                             Id = new Guid("89b6448b-ca4e-43d4-a8bb-69b6f5c55211"),
+                            Order = 14,
                             AssetName = "7.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Chlorine Dissolver",
-                            Order = 14
+                            Name = "Chlorine Dissolver"
                         },
                         new
                         {
                             Id = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
+                            Order = 15,
                             AssetName = "17.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Titanium Mine",
-                            Order = 15
+                            Name = "Titanium Mine"
                         },
                         new
                         {
                             Id = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
+                            Order = 16,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "Produces the most basic building material ever seen in space.. But we all need it everywhere.",
-                            Name = "Iron Mine",
-                            Order = 16
+                            Name = "Iron Mine"
                         },
                         new
                         {
                             Id = new Guid("b8d93f41-d6c2-4ce8-9763-840ecb53bf44"),
+                            Order = 17,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Cobalt Melting Plant",
-                            Order = 17
+                            Name = "Cobalt Melting Plant"
                         },
                         new
                         {
                             Id = new Guid("a0500eb9-8f5c-4fd0-90af-4be209939464"),
+                            Order = 18,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Nickel Melting Plant",
-                            Order = 18
+                            Name = "Nickel Melting Plant"
                         },
                         new
                         {
                             Id = new Guid("c8d6228c-4c68-444d-bdf9-bb16279a5eb8"),
+                            Order = 19,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Copper Melting Plant",
-                            Order = 19
+                            Name = "Copper Melting Plant"
                         },
                         new
                         {
                             Id = new Guid("4df104b3-64b6-4843-ba43-4b5b98f08c2b"),
+                            Order = 20,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Zinc Mine",
-                            Order = 20
+                            Name = "Zinc Mine"
                         },
                         new
                         {
                             Id = new Guid("626d4d9b-f90e-4e24-8f84-054e709afa2a"),
+                            Order = 21,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Gallium smelting plant",
-                            Order = 21
+                            Name = "Gallium smelting plant"
                         },
                         new
                         {
                             Id = new Guid("0998d19e-c02f-41e2-b2fd-ba5c6fc7def1"),
+                            Order = 22,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Germanium Dissolver",
-                            Order = 22
+                            Name = "Germanium Dissolver"
                         },
                         new
                         {
                             Id = new Guid("405a352f-943d-40f7-9e8a-359872d25e84"),
+                            Order = 23,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Palladium Mine",
-                            Order = 23
+                            Name = "Palladium Mine"
                         },
                         new
                         {
                             Id = new Guid("428801f4-4777-4589-9a64-cb97bcef71cb"),
+                            Order = 24,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Silver Mine",
-                            Order = 24
+                            Name = "Silver Mine"
                         },
                         new
                         {
                             Id = new Guid("45168d04-86cb-499c-aec9-a8255580071e"),
+                            Order = 25,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Tin Mine",
-                            Order = 25
+                            Name = "Tin Mine"
                         },
                         new
                         {
                             Id = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
+                            Order = 26,
                             AssetName = "18.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Iridium Mine",
-                            Order = 26
+                            Name = "Iridium Mine"
                         },
                         new
                         {
                             Id = new Guid("31b2747d-ff1b-49b1-bf97-782bdb28cba2"),
+                            Order = 27,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Platinum Mine",
-                            Order = 27
+                            Name = "Platinum Mine"
                         },
                         new
                         {
                             Id = new Guid("a6a8f230-dde3-464d-9edd-76cfc9882cbb"),
+                            Order = 28,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Gold Mine",
-                            Order = 28
+                            Name = "Gold Mine"
                         },
                         new
                         {
                             Id = new Guid("357f7740-3ca7-4ff8-81c6-9cf22289a709"),
+                            Order = 29,
                             AssetName = "2.jpg",
                             BuildableOn = 2,
                             BuildingType = 1,
                             Description = "TODO",
-                            Name = "Plutonium Reactor",
-                            Order = 29
+                            Name = "Plutonium Reactor"
                         },
                         new
                         {
                             Id = new Guid("f09e72d5-28d8-4390-bdf5-3b589b61fc15"),
+                            Order = 1,
                             AssetName = "19.jpg",
                             BuildableOn = 2,
                             BuildingType = 5,
                             Description = "TODO",
-                            Name = "Iron Store",
-                            Order = 1
+                            Name = "Iron Store"
                         },
                         new
                         {
                             Id = new Guid("0233326e-2b2a-4170-993e-835417e293c6"),
+                            Order = 1,
                             AssetName = "19.jpg",
                             BuildableOn = 2,
                             BuildingType = 0,
                             Description = "TODO",
-                            Name = "Building Grounds",
-                            Order = 1
+                            Name = "Building Grounds"
                         });
                 });
 
@@ -3430,6 +3397,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("4f692196-4c30-4af0-9813-03cfe4c35e15"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3440,7 +3408,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Quantum Theory",
-                            Order = 0,
                             ResearchType = 0,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3450,6 +3417,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("73488326-4f47-418c-a5bd-7d31095fb539"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3460,7 +3428,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Espionage Technology",
-                            Order = 0,
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3470,6 +3437,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("233c1c99-cda1-4d90-ad8b-834903b455f3"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3480,7 +3448,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Weapon Engineering",
-                            Order = 0,
                             ResearchType = 6,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3490,6 +3457,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("12f1450b-5ad5-4799-98c4-8a63c0f79da2"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3500,7 +3468,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Shield Engineering",
-                            Order = 0,
                             ResearchType = 6,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3510,6 +3477,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("e193ba9c-4b8c-4e21-8c5c-e15421de26f4"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3520,7 +3488,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Armor Engineering",
-                            Order = 0,
                             ResearchType = 6,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3530,6 +3497,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("113dc4ed-4272-4577-8b55-92780e0751ff"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3540,7 +3508,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Impulse Thruster",
-                            Order = 0,
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3550,6 +3517,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("f19fc99c-2db1-4877-9ac3-32974174f970"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3560,7 +3528,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Ion Thruster",
-                            Order = 0,
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3570,6 +3537,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("5966224b-f201-4a6a-8b86-d7cf36856e06"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3580,7 +3548,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Plasma Thruster",
-                            Order = 0,
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3590,6 +3557,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("9b4d8661-7811-4324-a6bf-ee30cd83c3cd"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3600,7 +3568,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Dark Matter Thruster",
-                            Order = 0,
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3610,6 +3577,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("08b9feac-851b-4f76-87ca-b97d1a9f1a78"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3620,7 +3588,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Dark Matter Thruster",
-                            Order = 0,
                             ResearchType = 3,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3630,6 +3597,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("a3058710-e6fe-4db1-98d2-f7d93874ff5a"),
+                            Order = 1,
                             AssetName = "2.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3640,7 +3608,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Efficient living places",
-                            Order = 1,
                             ResearchType = 3,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3650,6 +3617,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("8efb2b99-2132-4510-8d24-ff80b86223db"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3660,7 +3628,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Efficient Workplaces",
-                            Order = 0,
                             ResearchType = 5,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3679,6 +3646,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("4139a914-6958-482a-9fab-6291426e075f"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3689,7 +3657,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Planet colonization",
-                            Order = 0,
                             ResearchType = 7,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3699,6 +3666,7 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("fcc5c51a-5705-4517-9890-f5fa8d8bde25"),
+                            Order = 0,
                             AssetName = "1.jpg",
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
@@ -3709,7 +3677,6 @@ namespace AstroGame.Storage.Migrations
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
                             Name = "Moon colonization",
-                            Order = 0,
                             ResearchType = 7,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3754,36 +3721,6 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("BuildingChain");
 
                     b.Navigation("StellarObject");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingCost", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Resource");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuiltBuilding", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
-                        .WithMany()
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Players.ColonizedStellarObject", "ColonizedStellarObject")
-                        .WithMany("BuiltBuildings")
-                        .HasForeignKey("ColonizedStellarObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Building");
-
-                    b.Navigation("ColonizedStellarObject");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.InputResource", b =>
@@ -3864,13 +3801,13 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Conditions.Condition", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Technology", "NeededTechnology")
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", "NeededTechnology")
                         .WithMany("ConditionFor")
                         .HasForeignKey("NeededTechnologyId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("AstroGame.Shared.Models.Technology", "Technology")
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", "Technology")
                         .WithMany("NeededConditions")
                         .HasForeignKey("TechnologyId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -3939,49 +3876,11 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("PlayerSpecies");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchCost", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
-                        .WithMany("ResearchCosts")
-                        .HasForeignKey("ResearchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Research");
-
-                    b.Navigation("Resource");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Researches.ResearchStudy", "PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
-                        .WithMany()
-                        .HasForeignKey("ResearchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Player");
-
-                    b.Navigation("Research");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.StudiedResearch", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -4097,38 +3996,34 @@ namespace AstroGame.Storage.Migrations
                         .HasForeignKey("StellarSystemId");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.DynamicBuildingCost", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnology", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Buildings.LevelableBuilding", "Building")
-                        .WithMany("BuildingCosts")
-                        .HasForeignKey("BuildingId")
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", "Technology")
+                        .WithMany()
+                        .HasForeignKey("TechnologyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroGame.Shared.Models.Buildings.BuildingCost", null)
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Buildings.DynamicBuildingCost", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Building");
+                    b.Navigation("Technology");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.FixedBuildingCost", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.TechnologyCost", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Buildings.FixedBuilding", "Building")
-                        .WithMany("BuildingCosts")
-                        .HasForeignKey("BuildingId")
+                    b.HasOne("AstroGame.Shared.Models.Resources.Resource", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroGame.Shared.Models.Buildings.BuildingCost", null)
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Buildings.FixedBuildingCost", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", "Technology")
+                        .WithMany("TechnologyCosts")
+                        .HasForeignKey("TechnologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Building");
+                    b.Navigation("Resource");
+
+                    b.Navigation("Technology");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableCondition", b =>
@@ -4147,36 +4042,6 @@ namespace AstroGame.Storage.Migrations
                         .HasForeignKey("AstroGame.Shared.Models.Conditions.OneTimeCondition", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.DynamicResearchCost", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Researches.ResearchCost", null)
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Researches.DynamicResearchCost", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Researches.LevelableResearch", "LevelableResearch")
-                        .WithMany()
-                        .HasForeignKey("LevelableResearchId");
-
-                    b.Navigation("LevelableResearch");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearchCost", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Researches.ResearchCost", null)
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Researches.OneTimeResearchCost", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Researches.OneTimeResearch", "OneTimeResearch")
-                        .WithMany()
-                        .HasForeignKey("OneTimeResearchId");
-
-                    b.Navigation("OneTimeResearch");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Element", b =>
@@ -4282,9 +4147,43 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.PlayerDependentFinishedTechnology", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnology", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.PlayerDependentFinishedTechnology", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.StellarObjectDependentFinishedTechnology", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Players.ColonizedStellarObject", "ColonizedStellarObject")
+                        .WithMany("FinishedTechnologies")
+                        .HasForeignKey("ColonizedStellarObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnology", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.StellarObjectDependentFinishedTechnology", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("ColonizedStellarObject");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.Building", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Technology", null)
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Buildings.Building", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -4293,11 +4192,59 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Researches.Research", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Technology", null)
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Researches.Research", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.DynamicBuildingCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.TechnologyCost", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.DynamicBuildingCost", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.FixedBuildingCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.TechnologyCost", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.FixedBuildingCost", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.DynamicResearchCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.TechnologyCost", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.DynamicResearchCost", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.LevelableResearch", "LevelableResearch")
+                        .WithMany()
+                        .HasForeignKey("LevelableResearchId");
+
+                    b.Navigation("LevelableResearch");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.OneTimeResearchCost", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.TechnologyCost", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.OneTimeResearchCost", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Researches.OneTimeResearch", "OneTimeResearch")
+                        .WithMany()
+                        .HasForeignKey("OneTimeResearchId");
+
+                    b.Navigation("OneTimeResearch");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
@@ -4359,9 +4306,9 @@ namespace AstroGame.Storage.Migrations
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.ColonizedStellarObject", b =>
                 {
-                    b.Navigation("BuiltBuildings");
-
                     b.Navigation("ColonizableStellarObject");
+
+                    b.Navigation("FinishedTechnologies");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Players.Player", b =>
@@ -4416,11 +4363,13 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Satellites");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.Technology", b =>
                 {
                     b.Navigation("ConditionFor");
 
                     b.Navigation("NeededConditions");
+
+                    b.Navigation("TechnologyCosts");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarSystems.Galaxy", b =>
@@ -4433,21 +4382,6 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("InputResources");
 
                     b.Navigation("OutputResources");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.Research", b =>
-                {
-                    b.Navigation("ResearchCosts");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.FixedBuilding", b =>
-                {
-                    b.Navigation("BuildingCosts");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.LevelableBuilding", b =>
-                {
-                    b.Navigation("BuildingCosts");
                 });
 #pragma warning restore 612, 618
         }

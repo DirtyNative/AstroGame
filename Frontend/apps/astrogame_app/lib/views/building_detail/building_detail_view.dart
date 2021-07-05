@@ -1,10 +1,10 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
-import 'package:astrogame_app/models/buildings/built_building.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/buildings/resource_amount.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/building_detail/building_detail_viewmodel.dart';
 import 'package:astrogame_app/views/building_detail/widgets/resource_view.dart';
@@ -16,9 +16,9 @@ import 'package:stacked/stacked.dart';
 
 class BuildingDetailView extends StatelessWidget {
   final Building _building;
-  final BuiltBuilding _builtBuilding;
+  final FinishedTechnology _finishedTechnology;
 
-  BuildingDetailView(this._building, this._builtBuilding);
+  BuildingDetailView(this._building, this._finishedTechnology);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +29,18 @@ class BuildingDetailView extends StatelessWidget {
           child: ListView(
             children: [
               _headerWidget(context, model),
-              (model.building is LevelableBuilding) ? _dynamicBuildingCostsWidget(context, model) : _fixedBuildingCostsWidget(context, model),
-              _productionWidget(context, model),
-              _consumptionWidget(context, model),
+              (model.building is LevelableBuilding)
+                  ? _dynamicBuildingCostsWidget(context, model)
+                  : _fixedBuildingCostsWidget(context, model),
+              //_productionWidget(context, model),
+              //_consumptionWidget(context, model),
             ],
           ),
         ),
       ),
       viewModelBuilder: () => ServiceLocator.get(
         param1: _building,
-        param2: _builtBuilding,
+        param2: _finishedTechnology,
       ),
     );
   }
@@ -81,7 +83,8 @@ class BuildingDetailView extends StatelessWidget {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: [
-                    Text(model.building.name, style: Theme.of(context).textTheme.headline1),
+                    Text(model.building.name,
+                        style: Theme.of(context).textTheme.headline1),
                     _levelText(context, model),
                     Text(model.building.description),
                   ],
@@ -96,16 +99,22 @@ class BuildingDetailView extends StatelessWidget {
 
   Widget _levelText(BuildContext context, BuildingDetailViewModel model) {
     if (model.building is LevelableBuilding) {
-      return Text('Level ${model.builtBuilding?.level ?? 0}', style: Theme.of(context).textTheme.headline2);
+      return Text('Level ${model.finishedTechnology?.level ?? 0}',
+          style: Theme.of(context).textTheme.headline2);
     } else if (model.building is FixedBuilding) {
       return SizedBox.shrink();
     }
 
-    throw Exception('Building ${model.building.runtimeType} is not implemented yet');
+    throw Exception(
+        'Building ${model.building.runtimeType} is not implemented yet');
   }
 
-  Widget _fixedBuildingCostsWidget(BuildContext context, BuildingDetailViewModel model) {
-    if (model.buildingValues == null || model.buildingValues.length == 0 || model.resources == null || model.resources.length == 0) {
+  Widget _fixedBuildingCostsWidget(
+      BuildContext context, BuildingDetailViewModel model) {
+    if (model.buildingValues == null ||
+        model.buildingValues.length == 0 ||
+        model.resources == null ||
+        model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -130,28 +139,38 @@ class BuildingDetailView extends StatelessWidget {
           SizedBox(height: 16),
           GridView.builder(
             shrinkWrap: true,
-            itemCount: model.building.buildingCosts.length,
+            itemCount: model.building.technologyCosts.length,
             itemBuilder: (context, index) {
-              var buildingCost = model.building.buildingCosts[index];
-              var resource = model.resources.firstWhere((element) => element.id == buildingCost.resourceId);
+              var buildingCost = model.building.technologyCosts[index];
+              var resource = model.resources.firstWhere(
+                  (element) => element.id == buildingCost.resourceId);
 
               return ResourceView(resource, buildingCost);
             },
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, childAspectRatio: 3 / 1, crossAxisSpacing: 20, mainAxisSpacing: 20),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 300,
+                childAspectRatio: 3 / 1,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20),
           ),
         ],
       ),
     );
   }
 
-  Widget _dynamicBuildingCostsWidget(BuildContext context, BuildingDetailViewModel model) {
-    if (model.buildingValues == null || model.buildingValues.length == 0 || model.resources == null || model.resources.length == 0) {
+  Widget _dynamicBuildingCostsWidget(
+      BuildContext context, BuildingDetailViewModel model) {
+    if (model.buildingValues == null ||
+        model.buildingValues.length == 0 ||
+        model.resources == null ||
+        model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
-    List<Resource> usedResources = calculateUsedResources(model, model.buildingValues.first.buildingCosts);
+    List<Resource> usedResources = calculateUsedResources(
+        model, model.buildingValues.first.technologyCosts);
     double minValue = 0;
-    double maxValue = calculateMax(model.buildingValues.last.buildingCosts);
+    double maxValue = calculateMax(model.buildingValues.last.technologyCosts);
 
     var step = (maxValue - minValue) / 10;
 
@@ -182,7 +201,8 @@ class BuildingDetailView extends StatelessWidget {
                 lineTouchData: getLineTouchData(context, usedResources),
                 lineBarsData: List.generate(
                   usedResources.length,
-                  (index) => _generateBuildingCostChartData(model, usedResources[index].id, index),
+                  (index) => _generateBuildingCostChartData(
+                      model, usedResources[index].id, index),
                 ),
               ),
             ),
@@ -192,19 +212,25 @@ class BuildingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _consumptionWidget(BuildContext context, BuildingDetailViewModel model) {
-    if (model.buildingValues == null || model.buildingValues.length == 0 || model.resources == null || model.resources.length == 0) {
+  Widget _consumptionWidget(
+      BuildContext context, BuildingDetailViewModel model) {
+    if (model.buildingValues == null ||
+        model.buildingValues.length == 0 ||
+        model.resources == null ||
+        model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
-    List<Resource> usedResources = calculateUsedResources(model, model.buildingValues.first.buildingConsumptions);
+    List<Resource> usedResources = calculateUsedResources(
+        model, model.buildingValues.first.buildingConsumptions);
 
     if (usedResources == null || usedResources.length == 0) {
       return SizedBox.shrink();
     }
 
     double minValue = 0;
-    double maxValue = calculateMax(model.buildingValues.last.buildingConsumptions);
+    double maxValue =
+        calculateMax(model.buildingValues.last.buildingConsumptions);
 
     var step = (maxValue - minValue) / 10;
 
@@ -235,7 +261,8 @@ class BuildingDetailView extends StatelessWidget {
                 lineTouchData: getLineTouchData(context, usedResources),
                 lineBarsData: List.generate(
                   usedResources.length,
-                  (index) => _generateConsumptionChartData(model, usedResources[index].id, index),
+                  (index) => _generateConsumptionChartData(
+                      model, usedResources[index].id, index),
                 ),
               ),
             ),
@@ -245,12 +272,17 @@ class BuildingDetailView extends StatelessWidget {
     );
   }
 
-  Widget _productionWidget(BuildContext context, BuildingDetailViewModel model) {
-    if (model.buildingValues == null || model.buildingValues.length == 0 || model.resources == null || model.resources.length == 0) {
+  Widget _productionWidget(
+      BuildContext context, BuildingDetailViewModel model) {
+    if (model.buildingValues == null ||
+        model.buildingValues.length == 0 ||
+        model.resources == null ||
+        model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
-    List<Resource> usedResources = calculateUsedResources(model, model.buildingValues.first.buildingProductions);
+    List<Resource> usedResources = calculateUsedResources(
+        model, model.buildingValues.first.buildingProductions);
 
     // If there are no resources to produce
     if (usedResources == null || usedResources.length == 0) {
@@ -258,7 +290,8 @@ class BuildingDetailView extends StatelessWidget {
     }
 
     double minValue = 0;
-    double maxValue = calculateMax(model.buildingValues.last.buildingProductions);
+    double maxValue =
+        calculateMax(model.buildingValues.last.buildingProductions);
 
     var step = (maxValue - minValue) / 10;
 
@@ -289,7 +322,8 @@ class BuildingDetailView extends StatelessWidget {
                 lineTouchData: getLineTouchData(context, usedResources),
                 lineBarsData: List.generate(
                   usedResources.length,
-                  (index) => _generateProductionChartData(model, usedResources[index].id, index),
+                  (index) => _generateProductionChartData(
+                      model, usedResources[index].id, index),
                 ),
               ),
             ),
@@ -302,6 +336,10 @@ class BuildingDetailView extends StatelessWidget {
   double calculateMax(List<ResourceAmount> amounts) {
     var maxValue = 0.0;
 
+    if (amounts == null) {
+      return maxValue;
+    }
+
     amounts.forEach((element) {
       if (maxValue < element.amount) {
         maxValue = element.amount;
@@ -311,46 +349,61 @@ class BuildingDetailView extends StatelessWidget {
     return maxValue;
   }
 
-  List<Resource> calculateUsedResources(BuildingDetailViewModel model, List<ResourceAmount> amounts) {
+  List<Resource> calculateUsedResources(
+      BuildingDetailViewModel model, List<ResourceAmount> amounts) {
     List<Resource> usedResources = [];
 
+    if (amounts == null) {
+      return usedResources;
+    }
+
     amounts.forEach((element) {
-      usedResources.add(model.resources.firstWhere((resource) => resource.id == element.resourceId));
+      usedResources.add(model.resources
+          .firstWhere((resource) => resource.id == element.resourceId));
     });
 
     return usedResources;
   }
 
-  LineChartBarData _generateBuildingCostChartData(BuildingDetailViewModel model, Guid resourceId, int index) {
+  LineChartBarData _generateBuildingCostChartData(
+      BuildingDetailViewModel model, Guid resourceId, int index) {
     List<FlSpot> spots = [];
 
     model.buildingValues.forEach((element) {
-      var costs = element.buildingCosts.firstWhere((costs) => costs.resourceId == resourceId);
-      var spot = new FlSpot(element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
+      var costs = element.technologyCosts
+          .firstWhere((costs) => costs.resourceId == resourceId);
+      var spot = new FlSpot(
+          element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
       spots.add(spot);
     });
 
     return getLineChartBarData(spots, index);
   }
 
-  LineChartBarData _generateConsumptionChartData(BuildingDetailViewModel model, Guid resourceId, int index) {
+  LineChartBarData _generateConsumptionChartData(
+      BuildingDetailViewModel model, Guid resourceId, int index) {
     List<FlSpot> spots = [];
 
     model.buildingValues.forEach((element) {
-      var costs = element.buildingConsumptions.firstWhere((costs) => costs.resourceId == resourceId);
-      var spot = new FlSpot(element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
+      var costs = element.buildingConsumptions
+          .firstWhere((costs) => costs.resourceId == resourceId);
+      var spot = new FlSpot(
+          element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
       spots.add(spot);
     });
 
     return getLineChartBarData(spots, index);
   }
 
-  LineChartBarData _generateProductionChartData(BuildingDetailViewModel model, Guid resourceId, int index) {
+  LineChartBarData _generateProductionChartData(
+      BuildingDetailViewModel model, Guid resourceId, int index) {
     List<FlSpot> spots = [];
 
     model.buildingValues.forEach((element) {
-      var costs = element.buildingProductions.firstWhere((costs) => costs.resourceId == resourceId);
-      var spot = new FlSpot(element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
+      var costs = element.buildingProductions
+          .firstWhere((costs) => costs.resourceId == resourceId);
+      var spot = new FlSpot(
+          element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
       spots.add(spot);
     });
 
@@ -384,7 +437,8 @@ class BuildingDetailView extends StatelessWidget {
     }
   }
 
-  LineTouchData getLineTouchData(BuildContext context, List<Resource> usedResources) {
+  LineTouchData getLineTouchData(
+      BuildContext context, List<Resource> usedResources) {
     return LineTouchData(
       touchTooltipData: LineTouchTooltipData(
         tooltipBgColor: AstroGameColors.darkGrey,

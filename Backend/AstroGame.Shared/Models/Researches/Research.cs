@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Shared.Models.Researches
 {
@@ -7,7 +8,6 @@ namespace AstroGame.Shared.Models.Researches
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Order { get; set; }
         public string AssetName { get; set; }
         public ResearchType ResearchType { get; set; }
 
@@ -23,7 +23,5 @@ namespace AstroGame.Shared.Models.Researches
         [DefaultValue(1)] public double StellarSpeedMultiplier { get; set; }
         [DefaultValue(1)] public double InterstellarSpeedMultiplier { get; set; }
         [DefaultValue(1)] public double FuelConsumptionMultiplier { get; set; }
-
-        public virtual List<ResearchCost> ResearchCosts { get; set; }
     }
 }

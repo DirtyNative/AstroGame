@@ -1,8 +1,8 @@
 import 'package:astrogame_app/communications/repositories/building_repository.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_value.dart';
-import 'package:astrogame_app/models/buildings/built_building.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/resource_provider.dart';
 import 'package:flutter/widgets.dart';
@@ -16,14 +16,14 @@ class BuildingDetailViewModel extends FutureViewModel {
   BuildingImageProvider _buildingImageProvider;
 
   Building building;
-  BuiltBuilding builtBuilding;
+  FinishedTechnology finishedTechnology;
 
   BuildingDetailViewModel(
     this._buildingRepository,
     this._resourceProvider,
     this._buildingImageProvider,
     @factoryParam this.building,
-    @factoryParam this.builtBuilding,
+    @factoryParam this.finishedTechnology,
   );
 
   List<BuildingValue> _buildingValues;
@@ -59,7 +59,8 @@ class BuildingDetailViewModel extends FutureViewModel {
   }
 
   Future<List<BuildingValue>> _fetchBuildingValues() async {
-    var response = await _buildingRepository.getValuesAsync(building.id, builtBuilding?.level ?? 1, 10);
+    var response = await _buildingRepository.getValuesAsync(
+        building.id, finishedTechnology?.level ?? 1, 10);
 
     if (response.hasError) {
       throw Exception(response.error);

@@ -7,10 +7,10 @@ import 'package:astrogame_app/helpers/resource_helper.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
-import 'package:astrogame_app/models/buildings/built_building.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
@@ -31,7 +31,8 @@ class BuildingViewModel extends FutureViewModel {
 
   ConstructedBuildingsProvider _constructedBuildingsProvider;
   BuildingChainProvider _buildingChainProvider;
-  SelectedColonizedStellarObjectProvider _selectedColonizedStellarObjectProvider;
+  SelectedColonizedStellarObjectProvider
+      _selectedColonizedStellarObjectProvider;
   StoredResourceProvider _storedResourceProvider;
   BuildingImageProvider _buildingImageProvider;
 
@@ -74,10 +75,10 @@ class BuildingViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  BuiltBuilding _builtBuilding;
-  BuiltBuilding get builtBuilding => _builtBuilding;
-  set builtBuilding(BuiltBuilding val) {
-    _builtBuilding = val;
+  FinishedTechnology _finishedTechnology;
+  FinishedTechnology get finishedTechnology => _finishedTechnology;
+  set finishedTechnology(FinishedTechnology val) {
+    _finishedTechnology = val;
     notifyListeners();
   }
 
@@ -110,22 +111,25 @@ class BuildingViewModel extends FutureViewModel {
 
     var level = 0;
 
-    if (builtBuilding != null) {
-      level = builtBuilding.level;
+    if (finishedTechnology != null) {
+      level = finishedTechnology.level;
     }
 
     // If this is a FixedBuilding and it's already built
-    if (building is FixedBuilding && builtBuilding != null) {
+    if (building is FixedBuilding && finishedTechnology != null) {
       return false;
     }
 
-    return _resourceHelper.hasStoredResourcesToBuild(storedResources, building, level);
+    return _resourceHelper.hasStoredResourcesToBuild(
+        storedResources, building, level);
   }
 
   String get constructionText {
     // If this building is under construction
-    if (buildingConstruction != null && buildingConstruction.buildingId == building.id) {
-      var duration = _buildingConstruction.endTime.difference(DateTime.now().toUtc());
+    if (buildingConstruction != null &&
+        buildingConstruction.buildingId == building.id) {
+      var duration =
+          _buildingConstruction.endTime.difference(DateTime.now().toUtc());
 
       if (duration < Duration()) {
         duration = Duration();
@@ -135,12 +139,15 @@ class BuildingViewModel extends FutureViewModel {
     }
 
     if (building is LevelableBuilding) {
-      return (builtBuilding == null) ? 'Build' : 'Upgrade ${builtBuilding.level + 1}';
+      return (finishedTechnology == null)
+          ? 'Build'
+          : 'Upgrade ${finishedTechnology.level + 1}';
     } else if (building is FixedBuilding) {
-      return (builtBuilding == null) ? 'Build' : 'Already built';
+      return (finishedTechnology == null) ? 'Build' : 'Already built';
     }
 
-    throw Exception('Building type ${building.runtimeType} is not implemented yet');
+    throw Exception(
+        'Building type ${building.runtimeType} is not implemented yet');
   }
 
   Future buildAsync() async {
@@ -152,7 +159,7 @@ class BuildingViewModel extends FutureViewModel {
   void showBuildingDetails() {
     _navigationWrapper.navigateSubTo(
       RoutePaths.BuildingDetailsRoute,
-      arguments: new BuildingDetailBag(building, builtBuilding),
+      arguments: new BuildingDetailBag(building, finishedTechnology),
     );
   }
 
@@ -166,18 +173,21 @@ class BuildingViewModel extends FutureViewModel {
   Future futureToRun() => updateAsync();
 
   Future updateAsync() async {
-    builtBuilding = await _fetchBuiltBuildingAsync(building.id);
+    finishedTechnology = await _fetchBuiltBuildingAsync(building.id);
     buildingConstruction = await _fetchActiveConstruction();
     storedResources = await _fetchStoredResourcesAsync();
     buildingImage = await _fetchImageAsync(building.assetName);
   }
 
-  Future<BuiltBuilding> _fetchBuiltBuildingAsync(Guid buildingId) async {
+  Future<FinishedTechnology> _fetchBuiltBuildingAsync(Guid buildingId) async {
     return await _constructedBuildingsProvider.getByBuildingAsync(buildingId);
   }
 
   Future<BuildingConstruction> _fetchActiveConstruction() async {
-    return await _buildingChainProvider.getByStellarObject(_selectedColonizedStellarObjectProvider.getSelectedObject().stellarObjectId);
+    return await _buildingChainProvider.getByStellarObject(
+        _selectedColonizedStellarObjectProvider
+            .getSelectedObject()
+            .stellarObjectId);
   }
 
   Future<List<StoredResource>> _fetchStoredResourcesAsync() async {

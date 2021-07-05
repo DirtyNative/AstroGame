@@ -1,5 +1,5 @@
-import 'package:astrogame_app/communications/repositories/built_building_repository.dart';
-import 'package:astrogame_app/models/buildings/built_building.dart';
+import 'package:astrogame_app/communications/repositories/finished_technology_repository.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
@@ -10,11 +10,11 @@ class ConstructedBuildingsProvider {
   MemoryCache _memoryCache = MemoryCache();
   Lock _lock = new Lock();
 
-  BuiltBuildingRepository _builtBuildingRepository;
+  FinishedTechnologyRepository _finishedTechnologyRepository;
 
-  ConstructedBuildingsProvider(this._builtBuildingRepository);
+  ConstructedBuildingsProvider(this._finishedTechnologyRepository);
 
-  Future<List<BuiltBuilding>> get() async {
+  Future<List<FinishedTechnology>> get() async {
     return await _lock.synchronized(() async {
       var values = _memoryCache.get('all');
 
@@ -22,30 +22,34 @@ class ConstructedBuildingsProvider {
         return values;
       }
 
-      var response = await _builtBuildingRepository.getAsync();
+      var response =
+          await _finishedTechnologyRepository.getByCurrentStellarObjectAsync();
 
       _memoryCache.put('all', response.data);
       return response.data;
     });
   }
 
-  Future<BuiltBuilding> getByBuildingAsync(Guid buildingId) async {
+  Future<FinishedTechnology> getByBuildingAsync(Guid technologyId) async {
     var buildings = await get();
 
     if (buildings == null || buildings.length == 0) {
       return null;
     }
 
-    if (buildings.any((element) => element.buildingId == buildingId) == false) {
+    if (buildings.any((element) => element.technologyId == technologyId) ==
+        false) {
       return null;
     }
 
-    return buildings.firstWhere((element) => element.buildingId == buildingId);
+    return buildings
+        .firstWhere((element) => element.technologyId == technologyId);
   }
 
   Future updateAsync() async {
     return await _lock.synchronized(() async {
-      var response = await _builtBuildingRepository.getAsync();
+      var response =
+          await _finishedTechnologyRepository.getByCurrentStellarObjectAsync();
 
       _memoryCache.put('all', response.data);
     });

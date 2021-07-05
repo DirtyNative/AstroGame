@@ -22,7 +22,7 @@ namespace AstroGame.Storage.Repositories.Researches
         {
             return await _context.Researches
                 // Research costs
-                .Include(e => e.ResearchCosts)
+                .Include(e => e.TechnologyCosts)
 
                 // Conditions
                 .Include(e => e.NeededConditions)
@@ -39,7 +39,7 @@ namespace AstroGame.Storage.Repositories.Researches
         {
             return await _context.Researches
                 // Research costs
-                .Include(e => e.ResearchCosts)
+                .Include(e => e.TechnologyCosts)
 
                 // Conditions
                 .Include(e => e.NeededConditions)

@@ -22,7 +22,7 @@ namespace AstroGame.Storage.Repositories.Stellar
         public async Task<ColonizedStellarObject> GetAsync(Guid id)
         {
             return await _context.ColonizedStellarObjects
-                .Include(e => e.BuiltBuildings)
+                .Include(e => e.FinishedTechnologies)
                 .Include(e => e.ColonizableStellarObject)
                 .Include(e => e.Player)
                 .FirstOrDefaultAsync(e => e.Id == id);
@@ -31,7 +31,7 @@ namespace AstroGame.Storage.Repositories.Stellar
         public async Task<ColonizedStellarObject> GetByStellarObjectAsync(Guid stellarObjectId)
         {
             return await _context.ColonizedStellarObjects
-                .Include(e => e.BuiltBuildings)
+                .Include(e => e.FinishedTechnologies)
                 .Include(e => e.ColonizableStellarObject)
                 .Include(e => e.Player)
                 .FirstOrDefaultAsync(e => e.StellarObjectId == stellarObjectId);
@@ -40,7 +40,7 @@ namespace AstroGame.Storage.Repositories.Stellar
         public async Task<List<ColonizedStellarObject>> GetByPlayerAsync(Guid playerId)
         {
             return await _context.ColonizedStellarObjects
-                .Include(e => e.BuiltBuildings)
+                .Include(e => e.FinishedTechnologies)
                 .Include(e => e.ColonizableStellarObject)
                 .Include(e => e.Player)
                 .Where(e => e.PlayerId == playerId)

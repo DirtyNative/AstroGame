@@ -24,9 +24,9 @@ namespace AstroGame.Storage.Repositories.Buildings
         {
             return await _context.Buildings
                 // Costs
-                .Include(e => (e as LevelableBuilding).BuildingCosts)
+                .Include(e => (e as LevelableBuilding).TechnologyCosts)
                 .ThenInclude(e => e.Resource)
-                .Include(e => (e as FixedBuilding).BuildingCosts)
+                .Include(e => (e as FixedBuilding).TechnologyCosts)
                 .ThenInclude(e => e.Resource)
 
                 // Consumption
@@ -53,9 +53,9 @@ namespace AstroGame.Storage.Repositories.Buildings
         {
             return await _context.Buildings
                 // Costs
-                .Include(e => (e as LevelableBuilding).BuildingCosts)
+                .Include(e => (e as LevelableBuilding).TechnologyCosts)
                 .ThenInclude(e => e.Resource)
-                .Include(e => (e as FixedBuilding).BuildingCosts)
+                .Include(e => (e as FixedBuilding).TechnologyCosts)
                 .ThenInclude(e => e.Resource)
 
                 // Consumption
@@ -83,9 +83,9 @@ namespace AstroGame.Storage.Repositories.Buildings
         {
             return await _context.Buildings
                 // Costs
-                .Include(e => (e as LevelableBuilding).BuildingCosts)
+                .Include(e => (e as LevelableBuilding).TechnologyCosts)
                 .ThenInclude(e => e.Resource)
-                .Include(e => (e as FixedBuilding).BuildingCosts)
+                .Include(e => (e as FixedBuilding).TechnologyCosts)
                 .ThenInclude(e => e.Resource)
 
                 // Consumption

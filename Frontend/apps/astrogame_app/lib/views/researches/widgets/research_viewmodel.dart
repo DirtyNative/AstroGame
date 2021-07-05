@@ -6,8 +6,8 @@ import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/one_time_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/researches/research_study.dart';
-import 'package:astrogame_app/models/researches/studied_research.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/research_study_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
@@ -65,10 +65,10 @@ class ResearchViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  StudiedResearch _studiedResearch;
-  StudiedResearch get studiedResearch => _studiedResearch;
-  set studiedResearch(StudiedResearch val) {
-    _studiedResearch = val;
+  FinishedTechnology _finishedTechnology;
+  FinishedTechnology get finishedTechnology => _finishedTechnology;
+  set finishedTechnology(FinishedTechnology val) {
+    _finishedTechnology = val;
     notifyListeners();
   }
 
@@ -101,12 +101,12 @@ class ResearchViewModel extends FutureViewModel {
 
     var level = 0;
 
-    if (studiedResearch != null) {
-      level = studiedResearch.level;
+    if (finishedTechnology != null) {
+      level = finishedTechnology.level;
     }
 
     // If this is a FixedBuilding and it's already built
-    if (research is OneTimeResearch && studiedResearch != null) {
+    if (research is OneTimeResearch && finishedTechnology != null) {
       return false;
     }
 
@@ -127,11 +127,11 @@ class ResearchViewModel extends FutureViewModel {
     }
 
     if (research is LevelableResearch) {
-      return (studiedResearch == null)
+      return (finishedTechnology == null)
           ? 'Study'
-          : 'Upgrade ${studiedResearch.level + 1}';
+          : 'Upgrade ${finishedTechnology.level + 1}';
     } else if (research is OneTimeResearch) {
-      return (studiedResearch == null) ? 'Study' : 'Already studied';
+      return (finishedTechnology == null) ? 'Study' : 'Already studied';
     }
 
     throw Exception(
@@ -141,7 +141,7 @@ class ResearchViewModel extends FutureViewModel {
   void showResearchDetails() {
     _navigationWrapper.navigateSubTo(
       RoutePaths.ResearchDetailsRoute,
-      arguments: new ResearchDetailBag(research, studiedResearch),
+      arguments: new ResearchDetailBag(research, finishedTechnology),
     );
   }
 
@@ -155,13 +155,13 @@ class ResearchViewModel extends FutureViewModel {
   Future futureToRun() => updateAsync();
 
   Future updateAsync() async {
-    studiedResearch = await _fetchStudiedResearchAsync(research.id);
+    finishedTechnology = await _fetchStudiedResearchAsync(research.id);
     researchStudy = await _fetchActiveResearchStudy();
     storedResources = await _fetchStoredResourcesAsync();
     researchImage = await _fetchImageAsync(research.assetName);
   }
 
-  Future<StudiedResearch> _fetchStudiedResearchAsync(Guid researchId) async {
+  Future<FinishedTechnology> _fetchStudiedResearchAsync(Guid researchId) async {
     return await _studiedResearchesProvider.getByResearchAsync(researchId);
   }
 

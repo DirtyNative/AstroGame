@@ -17,6 +17,11 @@ LevelableResearch _$LevelableResearchFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
         ?.toList()
+    ..technologyCosts = (json['technologyCosts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TechnologyCost.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..name = json['name'] as String
     ..description = json['description'] as String
     ..order = json['order'] as int
@@ -42,11 +47,7 @@ LevelableResearch _$LevelableResearchFromJson(Map<String, dynamic> json) {
     ..interstellarSpeedMultiplier =
         (json['interstellarSpeedMultiplier'] as num)?.toDouble()
     ..fuelConsumptionMultiplier =
-        (json['fuelConsumptionMultiplier'] as num)?.toDouble()
-    ..researchCosts = (json['researchCosts'] as List)
-        ?.map((e) =>
-            e == null ? null : ResearchCost.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+        (json['fuelConsumptionMultiplier'] as num)?.toDouble();
 }
 
 Map<String, dynamic> _$LevelableResearchToJson(LevelableResearch instance) =>
@@ -54,6 +55,7 @@ Map<String, dynamic> _$LevelableResearchToJson(LevelableResearch instance) =>
       'id': const GuidConverter().toJson(instance.id),
       'neededConditions': instance.neededConditions,
       'conditionFor': instance.conditionFor,
+      'technologyCosts': instance.technologyCosts,
       'name': instance.name,
       'description': instance.description,
       'order': instance.order,
@@ -70,7 +72,6 @@ Map<String, dynamic> _$LevelableResearchToJson(LevelableResearch instance) =>
       'stellarSpeedMultiplier': instance.stellarSpeedMultiplier,
       'interstellarSpeedMultiplier': instance.interstellarSpeedMultiplier,
       'fuelConsumptionMultiplier': instance.fuelConsumptionMultiplier,
-      'researchCosts': instance.researchCosts,
     };
 
 T _$enumDecode<T>(

@@ -39,11 +39,12 @@ class BuildingView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(model.building.name, style: Theme.of(context).textTheme.headline2),
+                        Text(model.building.name,
+                            style: Theme.of(context).textTheme.headline2),
 
                         // Show the level only if it's a levelable building
                         if (model.building is LevelableBuilding)
-                          Text('Level ${model.builtBuilding?.level ?? 0}')
+                          Text('Level ${model.finishedTechnology?.level ?? 0}')
                         else if (model.building is FixedBuilding)
                           SizedBox.shrink(),
                       ],
@@ -55,9 +56,12 @@ class BuildingView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextButton(onPressed: model.showBuildingDetails, child: Text('Details')),
+                        TextButton(
+                            onPressed: model.showBuildingDetails,
+                            child: Text('Details')),
                         ElevatedButton(
-                          onPressed: (model.isConstructable) ? model.buildAsync : null,
+                          onPressed:
+                              (model.isConstructable) ? model.buildAsync : null,
                           child: Text(model.constructionText),
                         ),
                       ],

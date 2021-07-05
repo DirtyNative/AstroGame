@@ -1,7 +1,7 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/helpers/number_formatter.dart';
-import 'package:astrogame_app/models/buildings/building_cost.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
+import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -12,11 +12,11 @@ import 'resource_viewmodel.dart';
 
 class ResourceView extends StatelessWidget {
   final Resource _resource;
-  final BuildingCost _buildingCost;
+  final TechnologyCost _technologyCost;
 
   ResourceView(
     this._resource,
-    this._buildingCost,
+    this._technologyCost,
   );
 
   @override
@@ -45,11 +45,13 @@ class ResourceView extends StatelessWidget {
                   Text(model.resource.name),
                   Row(
                     children: [
-                      Text(NumberFormatter.format(model.storedAmount, 2, fullNumbers: true, roundDown: true)),
+                      Text(NumberFormatter.format(model.storedAmount, 2,
+                          fullNumbers: true, roundDown: true)),
                       SizedBox(width: 8),
                       Text('/'),
                       SizedBox(width: 8),
-                      Text(NumberFormatter.format(model.neededAmount, 2, fullNumbers: true, roundDown: true)),
+                      Text(NumberFormatter.format(model.neededAmount, 2,
+                          fullNumbers: true, roundDown: true)),
                     ],
                   ),
                 ],
@@ -58,7 +60,8 @@ class ResourceView extends StatelessWidget {
           ),
         );
       },
-      viewModelBuilder: () => ServiceLocator.get(param1: _resource, param2: _buildingCost),
+      viewModelBuilder: () =>
+          ServiceLocator.get(param1: _resource, param2: _technologyCost),
     );
   }
 
@@ -87,7 +90,8 @@ class ResourceView extends StatelessWidget {
     );
   }
 
-  Widget _materialIconWidget(BuildContext context, resources.Material material) {
+  Widget _materialIconWidget(
+      BuildContext context, resources.Material material) {
     return Container(
       height: 50,
       width: 50,

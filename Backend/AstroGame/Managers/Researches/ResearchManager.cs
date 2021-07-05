@@ -61,7 +61,7 @@ namespace AstroGame.Api.Managers.Researches
                 };
                 
                 // Costs
-                foreach (var cost in research.ResearchCosts)
+                foreach (var cost in research.TechnologyCosts)
                 {
                     var amount = cost switch
                     {
@@ -71,7 +71,7 @@ namespace AstroGame.Api.Managers.Researches
                         _ => 0
                     };
 
-                    item.ResearchCosts.Add(new ResourceAmountResponse()
+                    item.TechnologyCosts.Add(new ResourceAmountResponse()
                     {
                         ResourceId = cost.Resource.Id,
                         Amount = amount

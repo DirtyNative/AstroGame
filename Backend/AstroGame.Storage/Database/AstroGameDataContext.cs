@@ -9,6 +9,7 @@ using AstroGame.Shared.Models.Resources;
 using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
+using AstroGame.Shared.Models.Technologies;
 using AstroGame.Storage.Converters;
 using AstroGame.Storage.Extensions;
 using AstroGame.Storage.TypeConfigurations.Objects;
@@ -55,14 +56,14 @@ namespace AstroGame.Storage.Database
         public DbSet<Building> Buildings { get; set; }
         public DbSet<LevelableBuilding> LevelableBuildings { get; set; }
         public DbSet<FixedBuilding> FixedBuildings { get; set; }
-
-        public DbSet<BuiltBuilding> BuiltBuildings { get; set; }
         public DbSet<BuildingChain> BuildingChains { get; set; }
 
         public DbSet<Research> Researches { get; set; }
         public DbSet<ResearchStudy> ResearchStudies { get; set; }
-        public DbSet<StudiedResearch> StudiedResearches { get; set; }
 
+        public DbSet<FinishedTechnology> FinishedTechnologies { get; set; }
+        public DbSet<PlayerDependentFinishedTechnology> PlayerDependentFinishedTechnologies { get; set; }
+        public DbSet<StellarObjectDependentFinishedTechnology> StellarObjectDependentFinishedTechnologies { get; set; }
        
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<LevelableCondition> LevelableConditions { get; set; }

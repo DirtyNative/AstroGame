@@ -1,8 +1,9 @@
 ﻿using System;
+using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public class DynamicBuildingCost : BuildingCost
+    public class DynamicBuildingCost : TechnologyCost
     {
         /// <summary>
         /// The base value for the calculation
@@ -13,7 +14,5 @@ namespace AstroGame.Shared.Models.Buildings
         /// The multiplier for the calculation
         /// </summary>
         public double Multiplier { get; set; }
-        
-        public virtual LevelableBuilding Building { get; set; }
     }
 }

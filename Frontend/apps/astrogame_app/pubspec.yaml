@@ -66,6 +66,9 @@ dependencies:
 
   signalr_core:
 
+  # Used to draw the techtree
+  graphview: 0.7.0
+
   
 
   # Many extension methods

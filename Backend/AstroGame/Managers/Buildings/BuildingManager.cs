@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroGame.Storage.Repositories.Technologies;
 
 namespace AstroGame.Api.Managers.Buildings
 {
@@ -25,7 +26,7 @@ namespace AstroGame.Api.Managers.Buildings
         private readonly ConstructionService _constructionService;
 
         private readonly BuildingRepository _buildingRepository;
-        private readonly BuiltBuildingRepository _builtBuildingRepository;
+        private readonly StellarObjectDependentFinishedTechnologyRepository _stellarObjectDependentFinishedTechnologyRepository;
         private readonly ImageRepository _imageRepository;
 
         private readonly PlayerRepository _playerRepository;
@@ -34,7 +35,7 @@ namespace AstroGame.Api.Managers.Buildings
 
         public BuildingManager(BuildingRepository buildingRepository, ImageRepository imageRepository,
             PlayerRepository playerRepository, ColonizedStellarObjectRepository colonizedStellarObjectRepository,
-            BuiltBuildingRepository builtBuildingRepository,
+            StellarObjectDependentFinishedTechnologyRepository stellarObjectDependentFinishedTechnologyRepository,
             ConstructionService constructionService, StellarObjectRepository stellarObjectRepository,
             IResourceCalculator resourceCalculator)
         {
@@ -42,7 +43,7 @@ namespace AstroGame.Api.Managers.Buildings
             _imageRepository = imageRepository;
             _playerRepository = playerRepository;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
-            _builtBuildingRepository = builtBuildingRepository;
+            _stellarObjectDependentFinishedTechnologyRepository = stellarObjectDependentFinishedTechnologyRepository;
             _constructionService = constructionService;
             _stellarObjectRepository = stellarObjectRepository;
             _resourceCalculator = resourceCalculator;
@@ -127,7 +128,7 @@ namespace AstroGame.Api.Managers.Buildings
             }
 
             // Get the builtBuilding
-            var builtBuilding = await _builtBuildingRepository.GetByBuildingAsync(stellarObjectId, buildingId);
+            var builtBuilding = await _stellarObjectDependentFinishedTechnologyRepository.GetByBuildingAsync(stellarObjectId, buildingId);
 
             // Get the stellar object
             var stellarObject = await _stellarObjectRepository.GetAsync(stellarObjectId);
@@ -197,7 +198,7 @@ namespace AstroGame.Api.Managers.Buildings
                 }
 
                 // Costs
-                foreach (var cost in building.BuildingCosts)
+                foreach (var cost in building.TechnologyCosts)
                 {
                     var amount = cost switch
                     {
@@ -207,7 +208,7 @@ namespace AstroGame.Api.Managers.Buildings
                         _ => 0
                     };
 
-                    item.BuildingCosts.Add(new ResourceAmountResponse()
+                    item.TechnologyCosts.Add(new ResourceAmountResponse()
                     {
                         ResourceId = cost.Resource.Id,
                         Amount = amount

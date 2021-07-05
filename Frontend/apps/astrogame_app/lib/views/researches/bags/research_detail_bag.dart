@@ -1,9 +1,9 @@
 import 'package:astrogame_app/models/researches/research.dart';
-import 'package:astrogame_app/models/researches/studied_research.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 
 class ResearchDetailBag {
   Research research;
-  StudiedResearch studiedResearch;
+  FinishedTechnology finishedTechnology;
 
-  ResearchDetailBag(this.research, this.studiedResearch);
+  ResearchDetailBag(this.research, this.finishedTechnology);
 }

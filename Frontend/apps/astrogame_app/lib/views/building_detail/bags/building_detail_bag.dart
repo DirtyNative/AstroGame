@@ -1,9 +1,9 @@
 import 'package:astrogame_app/models/buildings/building.dart';
-import 'package:astrogame_app/models/buildings/built_building.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
 
 class BuildingDetailBag {
   Building building;
-  BuiltBuilding builtBuilding;
+  FinishedTechnology finishedTechnology;
 
-  BuildingDetailBag(this.building, this.builtBuilding);
+  BuildingDetailBag(this.building, this.finishedTechnology);
 }

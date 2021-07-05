@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:astrogame_app/events/view_events/resources_updated_event.dart';
 import 'package:astrogame_app/models/researches/one_time_research_cost.dart';
-import 'package:astrogame_app/models/researches/research_cost.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/models/resources/resource_snapshot.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
+import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:astrogame_app/providers/resource_snapshot_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
@@ -28,7 +28,7 @@ class ResourceViewModel extends FutureViewModel {
     this._resourceSnapshotProvider,
     this._selectedColonizedStellarObjectProvider,
     @factoryParam this._resource,
-    @factoryParam this._researchCost,
+    @factoryParam this._technologyCost,
   ) {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       notifyListeners();
@@ -46,10 +46,10 @@ class ResourceViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  ResearchCost _researchCost;
-  ResearchCost get researchCost => _researchCost;
-  set researchCost(ResearchCost val) {
-    _researchCost = val;
+  TechnologyCost _technologyCost;
+  TechnologyCost get technologyCost => _technologyCost;
+  set technologyCost(TechnologyCost val) {
+    _technologyCost = val;
     notifyListeners();
   }
 
@@ -72,7 +72,7 @@ class ResourceViewModel extends FutureViewModel {
   }
 
   double get neededAmount {
-    return (_researchCost as OneTimeResearchCost).amount;
+    return (_technologyCost as OneTimeResearchCost).amount;
   }
 
   StoredResource get storedResource {

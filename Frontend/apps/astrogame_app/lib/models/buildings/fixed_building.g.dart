@@ -17,6 +17,11 @@ FixedBuilding _$FixedBuildingFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
         ?.toList()
+    ..technologyCosts = (json['technologyCosts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TechnologyCost.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..name = json['name'] as String
     ..description = json['description'] as String
     ..assetName = json['assetName'] as String
@@ -25,10 +30,6 @@ FixedBuilding _$FixedBuildingFromJson(Map<String, dynamic> json) {
     ..order = json['order'] as int
     ..buildableOn =
         _$enumDecodeNullable(_$StellarObjectTypeEnumMap, json['buildableOn'])
-    ..buildingCosts = (json['buildingCosts'] as List)
-        ?.map((e) =>
-            e == null ? null : BuildingCost.fromJson(e as Map<String, dynamic>))
-        ?.toList()
     ..inputResources = (json['inputResources'] as List)
         ?.map((e) => e == null
             ? null
@@ -46,13 +47,13 @@ Map<String, dynamic> _$FixedBuildingToJson(FixedBuilding instance) =>
       'id': const GuidConverter().toJson(instance.id),
       'neededConditions': instance.neededConditions,
       'conditionFor': instance.conditionFor,
+      'technologyCosts': instance.technologyCosts,
       'name': instance.name,
       'description': instance.description,
       'assetName': instance.assetName,
       'buildingType': _$BuildingTypeEnumMap[instance.buildingType],
       'order': instance.order,
       'buildableOn': _$StellarObjectTypeEnumMap[instance.buildableOn],
-      'buildingCosts': instance.buildingCosts,
       'inputResources': instance.inputResources,
       'outputResource': instance.outputResource,
     };

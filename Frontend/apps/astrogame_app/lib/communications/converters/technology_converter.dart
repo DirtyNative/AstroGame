@@ -1,8 +1,8 @@
-import 'package:astrogame_app/models/base_types/technology.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/one_time_research.dart';
+import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class TechnologyConverter

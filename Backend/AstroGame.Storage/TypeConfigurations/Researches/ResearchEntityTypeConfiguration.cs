@@ -1,5 +1,6 @@
 ﻿using AstroGame.Shared.Models;
 using AstroGame.Shared.Models.Researches;
+using AstroGame.Shared.Models.Technologies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

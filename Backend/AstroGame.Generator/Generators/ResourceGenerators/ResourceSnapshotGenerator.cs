@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroGame.Shared.Models.Technologies;
+using AstroGame.Storage.Repositories.Technologies;
 
 namespace AstroGame.Generator.Generators.ResourceGenerators
 {
@@ -19,20 +21,26 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
         private readonly IResourceCalculator _resourceCalculator;
 
         private readonly ResourceSnapshotRepository _resourceSnapshotRepository;
-        private readonly BuiltBuildingRepository _builtBuildingRepository;
+
+        private readonly StellarObjectDependentFinishedTechnologyRepository
+            _stellarObjectDependentFinishedTechnologyRepository;
+
+        private readonly BuildingRepository _buildingRepository;
         private readonly StoredResourceRepository _storedResourceRepository;
         private readonly ColonizedStellarObjectRepository _colonizedStellarObjectRepository;
 
         public ResourceSnapshotGenerator(ResourceSnapshotRepository resourceSnapshotRepository,
-            BuiltBuildingRepository builtBuildingRepository,
+            StellarObjectDependentFinishedTechnologyRepository stellarObjectDependentFinishedTechnologyRepository,
             StoredResourceRepository storedResourceRepository,
-            ColonizedStellarObjectRepository colonizedStellarObjectRepository, IResourceCalculator resourceCalculator)
+            ColonizedStellarObjectRepository colonizedStellarObjectRepository, IResourceCalculator resourceCalculator,
+            BuildingRepository buildingRepository)
         {
             _resourceSnapshotRepository = resourceSnapshotRepository;
-            _builtBuildingRepository = builtBuildingRepository;
+            _stellarObjectDependentFinishedTechnologyRepository = stellarObjectDependentFinishedTechnologyRepository;
             _storedResourceRepository = storedResourceRepository;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
             _resourceCalculator = resourceCalculator;
+            _buildingRepository = buildingRepository;
         }
 
         public async Task<ResourceSnapshot> CreateSnapshot(Guid stellarObjectId)
@@ -67,7 +75,9 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             }
 
             // Get all built producing buildings
-            var builtBuildings = await _builtBuildingRepository.GetOnColonizedStellarObjectAsync(colonizedStellarObject.Id);
+            var builtBuildings =
+                await _stellarObjectDependentFinishedTechnologyRepository.GetOnColonizedStellarObjectAsync(
+                    colonizedStellarObject.Id);
 
             // We need to order the built buildings so that we can calculate the consumption more easily
             //builtBuildings = builtBuildings.OrderBy(e => e.Building.Order).ToList();
@@ -89,7 +99,9 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
 
             foreach (var builtBuilding in builtBuildings)
             {
-                CalculateBuiltBuildingsProduction(snapshot, builtBuilding, passedTime);
+                var building = await _buildingRepository.GetAsync(builtBuilding.TechnologyId);
+
+                CalculateBuiltBuildingsProduction(snapshot, builtBuilding, building, passedTime);
             }
 
             return snapshot;
@@ -109,57 +121,57 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             }
         }
 
-        private void CalculateBuiltBuildingsProduction(ResourceSnapshot snapshot, BuiltBuilding builtBuilding,
+        private void CalculateBuiltBuildingsProduction(ResourceSnapshot snapshot, FinishedTechnology finishedTechnology,
+            Building building,
             TimeSpan passedTime)
         {
             var lowestPower = 1.0;
 
-           
-                // Iterate over the passed full hours
-                for (var i = 0; i < passedTime.Hours; i++)
-                {
-                    // Iterate over the inputResources
-                    // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                    foreach (var inputResource in builtBuilding.Building.InputResources)
-                    {
-                        var calculatedPower = SubtractConsumption(snapshot, inputResource, builtBuilding.Level, 1);
-
-                        if (calculatedPower < lowestPower)
-                        {
-                            lowestPower = calculatedPower;
-                        }
-                    }
-                    
-
-                    // Generate the output
-                    foreach (var outputResource in builtBuilding.Building.OutputResources)
-                    {
-                        AddProduction(snapshot, outputResource, builtBuilding.Level, 1, lowestPower);
-                    }
-                }
-            
-
-            // Calculate the remaining time
-            var remainingHour = passedTime.TotalHours - passedTime.Hours;
-
-           
+            // Iterate over the passed full hours
+            for (var i = 0; i < passedTime.Hours; i++)
+            {
                 // Iterate over the inputResources
                 // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                foreach (var inputResource in builtBuilding.Building.InputResources)
+                foreach (var inputResource in building.InputResources)
                 {
-                    var calculatedPower =
-                        SubtractConsumption(snapshot, inputResource, builtBuilding.Level, remainingHour);
+                    var calculatedPower = SubtractConsumption(snapshot, inputResource, finishedTechnology.Level, 1);
 
                     if (calculatedPower < lowestPower)
                     {
                         lowestPower = calculatedPower;
                     }
                 }
-            
-            // Generate the output
-            foreach (var outputResource in builtBuilding.Building.OutputResources)
+
+
+                // Generate the output
+                foreach (var outputResource in building.OutputResources)
+                {
+                    AddProduction(snapshot, outputResource, finishedTechnology.Level, 1, lowestPower);
+                }
+            }
+
+
+            // Calculate the remaining time
+            var remainingHour = passedTime.TotalHours - passedTime.Hours;
+
+
+            // Iterate over the inputResources
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var inputResource in building.InputResources)
             {
-                AddProduction(snapshot, outputResource, builtBuilding.Level, remainingHour, lowestPower);
+                var calculatedPower =
+                    SubtractConsumption(snapshot, inputResource, finishedTechnology.Level, remainingHour);
+
+                if (calculatedPower < lowestPower)
+                {
+                    lowestPower = calculatedPower;
+                }
+            }
+
+            // Generate the output
+            foreach (var outputResource in building.OutputResources)
+            {
+                AddProduction(snapshot, outputResource, finishedTechnology.Level, remainingHour, lowestPower);
             }
         }
 

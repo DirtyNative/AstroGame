@@ -1,7 +1,7 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/helpers/number_formatter.dart';
-import 'package:astrogame_app/models/researches/research_cost.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
+import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -12,11 +12,11 @@ import 'resource_viewmodel.dart';
 
 class ResourceView extends StatelessWidget {
   final Resource _resource;
-  final ResearchCost _buildingCost;
+  final TechnologyCost _technologyCost;
 
   ResourceView(
     this._resource,
-    this._buildingCost,
+    this._technologyCost,
   );
 
   @override
@@ -61,7 +61,7 @@ class ResourceView extends StatelessWidget {
         );
       },
       viewModelBuilder: () =>
-          ServiceLocator.get(param1: _resource, param2: _buildingCost),
+          ServiceLocator.get(param1: _resource, param2: _technologyCost),
     );
   }
 

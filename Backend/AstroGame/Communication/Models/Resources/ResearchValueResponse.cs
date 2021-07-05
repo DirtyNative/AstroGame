@@ -7,6 +7,6 @@ namespace AstroGame.Api.Communication.Models.Resources
     {
         public Guid ResearchId { get; set; }
         public uint Level { get; set; }
-        public List<ResourceAmountResponse> ResearchCosts { get; set; } = new();
+        public List<ResourceAmountResponse> TechnologyCosts { get; set; } = new();
     }
 }

@@ -39,11 +39,12 @@ class ResearchView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(model.research.name, style: Theme.of(context).textTheme.headline2),
+                        Text(model.research.name,
+                            style: Theme.of(context).textTheme.headline2),
 
                         // Show the level only if it's a levelable research
                         if (model.research is LevelableResearch)
-                          Text('Level ${model.studiedResearch?.level ?? 0}')
+                          Text('Level ${model.finishedTechnology?.level ?? 0}')
                         else if (model.research is OneTimeResearch)
                           SizedBox.shrink(),
                       ],
@@ -55,7 +56,9 @@ class ResearchView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextButton(onPressed: model.showResearchDetails, child: Text('Details')),
+                        TextButton(
+                            onPressed: model.showResearchDetails,
+                            child: Text('Details')),
                         ElevatedButton(
                           //onPressed: (model.isConstructable) ? model.buildAsync : null,
                           onPressed: () {},

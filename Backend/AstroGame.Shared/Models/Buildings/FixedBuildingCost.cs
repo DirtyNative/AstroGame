@@ -1,11 +1,10 @@
 ﻿using System;
+using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public class FixedBuildingCost : BuildingCost
+    public class FixedBuildingCost : TechnologyCost
     {
         public double Amount { get; set; }
-        
-        public virtual FixedBuilding Building { get; set; }
     }
 }

@@ -62,7 +62,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case RoutePaths.BuildingDetailsRoute:
       var bag = settings.arguments as BuildingDetailBag;
       return MaterialPageRoute(
-          builder: (_) => BuildingDetailView(bag.building, bag.builtBuilding));
+          builder: (_) =>
+              BuildingDetailView(bag.building, bag.finishedTechnology));
 
     case RoutePaths.ResearchesRoute:
       return MaterialPageRoute(builder: (_) => ResearchesView());
@@ -71,7 +72,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       var bag = settings.arguments as ResearchDetailBag;
       return MaterialPageRoute(
           builder: (_) =>
-              ResearchDetailView(bag.research, bag.studiedResearch));
+              ResearchDetailView(bag.research, bag.finishedTechnology));
 
     case RoutePaths.PlanetViewRoute:
       var bag = settings.arguments as ShowPlanetViewBag;

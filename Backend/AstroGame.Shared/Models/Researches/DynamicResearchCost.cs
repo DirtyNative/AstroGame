@@ -1,6 +1,8 @@
-﻿namespace AstroGame.Shared.Models.Researches
+﻿using AstroGame.Shared.Models.Technologies;
+
+namespace AstroGame.Shared.Models.Researches
 {
-    public class DynamicResearchCost : ResearchCost
+    public class DynamicResearchCost : TechnologyCost
     {
         /// <summary>
         /// The base value for the calculation

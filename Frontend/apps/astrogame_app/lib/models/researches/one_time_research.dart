@@ -2,7 +2,7 @@ import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/models/conditions/condition.dart';
 import 'package:astrogame_app/models/enums/research_type.dart';
 import 'package:astrogame_app/models/researches/research.dart';
-import 'package:astrogame_app/models/researches/research_cost.dart';
+import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'one_time_research.g.dart';

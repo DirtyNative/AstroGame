@@ -1,9 +1,7 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/communications/converters/research_converter.dart';
-import 'package:astrogame_app/models/base_types/technology.dart';
 import 'package:astrogame_app/models/enums/research_type.dart';
-
-import 'research_cost.dart';
+import 'package:astrogame_app/models/technologies/technology.dart';
 
 @GuidConverter()
 abstract class Research extends Technology {
@@ -25,8 +23,6 @@ abstract class Research extends Technology {
   double stellarSpeedMultiplier;
   double interstellarSpeedMultiplier;
   double fuelConsumptionMultiplier;
-
-  List<ResearchCost> researchCosts;
 
   Research();
 

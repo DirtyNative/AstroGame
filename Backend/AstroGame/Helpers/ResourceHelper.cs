@@ -1,9 +1,10 @@
-﻿using AstroGame.Generator.Generators.ResourceGenerators;
+﻿using AspNetCore.ServiceRegistration.Dynamic;
+using AstroGame.Generator.Generators.ResourceGenerators;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Shared.Models.Resources;
+using AstroGame.Shared.Models.Technologies;
 using System.Collections.Generic;
 using System.Linq;
-using AspNetCore.ServiceRegistration.Dynamic;
 
 namespace AstroGame.Api.Helpers
 {
@@ -17,11 +18,10 @@ namespace AstroGame.Api.Helpers
             _resourceCalculator = resourceCalculator;
         }
 
-
-        public bool HasNeededResources(List<StoredResource> storedResources, List<BuildingCost> buildingCosts,
+        public bool HasNeededResources(List<StoredResource> storedResources, List<TechnologyCost> technologyCosts,
             uint level)
         {
-            foreach (var buildingCost in buildingCosts)
+            foreach (var buildingCost in technologyCosts)
             {
                 var storedResource = storedResources.FirstOrDefault(e => e.ResourceId == buildingCost.ResourceId);
 
@@ -41,18 +41,18 @@ namespace AstroGame.Api.Helpers
             return true;
         }
 
-        public bool HasNeededResource(StoredResource storedResource, BuildingCost buildingCost, uint level)
+        public bool HasNeededResource(StoredResource storedResource, TechnologyCost technologyCost, uint level)
         {
             double neededAmount = 0;
 
-            if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
+            if (technologyCost is DynamicBuildingCost dynamicBuildingCost)
             {
                 neededAmount =
                     _resourceCalculator.CalculateTechnologyCostAmount(dynamicBuildingCost.BaseValue,
                         dynamicBuildingCost.Multiplier,
                         level);
             }
-            else if (buildingCost is FixedBuildingCost fixedBuildingCost)
+            else if (technologyCost is FixedBuildingCost fixedBuildingCost)
             {
                 neededAmount = fixedBuildingCost.Amount;
             }
@@ -66,9 +66,9 @@ namespace AstroGame.Api.Helpers
         }
 
         public List<StoredResource> SubtractBuildingCosts(List<StoredResource> storedResources,
-            List<BuildingCost> buildingCosts, uint level)
+            List<TechnologyCost> technologyCosts, uint level)
         {
-            foreach (var buildingCost in buildingCosts)
+            foreach (var buildingCost in technologyCosts)
             {
                 var storedResource = storedResources.First(e => e.ResourceId == buildingCost.ResourceId);
 
@@ -92,11 +92,11 @@ namespace AstroGame.Api.Helpers
             return storedResources;
         }
 
-        public double SumBuildingCosts(List<BuildingCost> buildingCosts, uint level)
+        public double SumBuildingCosts(List<TechnologyCost> technologyCosts, uint level)
         {
             var amount = 0d;
 
-            foreach (var buildingCost in buildingCosts)
+            foreach (var buildingCost in technologyCosts)
             {
                 if (buildingCost is DynamicBuildingCost dynamicBuildingCost)
                 {

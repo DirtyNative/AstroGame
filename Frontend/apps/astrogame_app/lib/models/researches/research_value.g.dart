@@ -8,18 +8,18 @@ part of 'research_value.dart';
 
 ResearchValue _$ResearchValueFromJson(Map<String, dynamic> json) {
   return ResearchValue()
-    ..researchId = const GuidConverter().fromJson(json['researchId'] as String)
     ..level = json['level'] as int
-    ..researchCosts = (json['researchCosts'] as List)
+    ..technologyCosts = (json['technologyCosts'] as List)
         ?.map((e) => e == null
             ? null
             : ResourceAmount.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+        ?.toList()
+    ..researchId = const GuidConverter().fromJson(json['researchId'] as String);
 }
 
 Map<String, dynamic> _$ResearchValueToJson(ResearchValue instance) =>
     <String, dynamic>{
-      'researchId': const GuidConverter().toJson(instance.researchId),
       'level': instance.level,
-      'researchCosts': instance.researchCosts,
+      'technologyCosts': instance.technologyCosts,
+      'researchId': const GuidConverter().toJson(instance.researchId),
     };

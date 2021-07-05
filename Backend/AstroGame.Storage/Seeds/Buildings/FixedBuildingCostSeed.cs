@@ -19,7 +19,7 @@ namespace AstroGame.Storage.Seeds.Buildings
                 {
                     Id = Guid.Parse("BD87AFE1-192E-4618-A34C-7A6E8ED7EB0B"),
                     ResourceId = Guid.Parse("00000000-1111-0000-0000-000000000016"),
-                    BuildingId = Guid.Parse("75021A39-C0C1-46F0-B155-F1CDFB9FBC00"),
+                    TechnologyId = Guid.Parse("75021A39-C0C1-46F0-B155-F1CDFB9FBC00"),
                     Amount = 2000,
                 });
         }
