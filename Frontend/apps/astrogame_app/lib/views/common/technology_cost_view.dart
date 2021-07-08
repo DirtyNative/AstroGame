@@ -1,7 +1,12 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
+import 'package:astrogame_app/models/buildings/building.dart';
+import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/buildings/resource_amount.dart';
 import 'package:astrogame_app/models/researches/levelable_research.dart';
+import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
+import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -12,27 +17,35 @@ import 'resource_view.dart';
 import 'technology_cost_viewmodel.dart';
 
 class TechnologyCostView extends StatelessWidget {
+  final Technology _technology;
+  final FinishedTechnology _finishedTechnology;
+
+  TechnologyCostView(this._technology, this._finishedTechnology);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TechnologyCostViewModel>.reactive(
-      builder: (context, model, _) => (model.research is LevelableResearch)
+      builder: (context, model, _) => (model.technology is LevelableResearch ||
+              model.technology is LevelableBuilding)
           ? _dynamicResearchCostsWidget(context, model)
           : _oneTimeResearchCostsWidget(context, model),
-      viewModelBuilder: () => ServiceLocator.get(),
+      viewModelBuilder: () => ServiceLocator.get(
+        param1: _technology,
+        param2: _finishedTechnology,
+      ),
     );
   }
 
   Widget _oneTimeResearchCostsWidget(
       BuildContext context, TechnologyCostViewModel model) {
-    if (model.researchValues == null ||
-        model.researchValues.length == 0 ||
+    if (model.technologyValues == null ||
+        model.technologyValues.length == 0 ||
         model.resources == null ||
         model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
     return Container(
-      //height: 512,
       margin: EdgeInsets.only(bottom: 32),
       child: Column(
         children: [
@@ -43,18 +56,15 @@ class TechnologyCostView extends StatelessWidget {
               color: AstroGameColors.lightGrey,
             ),
             child: Center(
-              child: Text(
-                'Research costs',
-                style: Theme.of(context).textTheme.headline2,
-              ),
+              child: _titleText(context, model),
             ),
           ),
           SizedBox(height: 16),
           GridView.builder(
             shrinkWrap: true,
-            itemCount: model.research.technologyCosts.length,
+            itemCount: model.technology.technologyCosts.length,
             itemBuilder: (context, index) {
-              var researchCost = model.research.technologyCosts[index];
+              var researchCost = model.technology.technologyCosts[index];
               var resource = model.resources.firstWhere(
                   (element) => element.id == researchCost.resourceId);
 
@@ -71,19 +81,38 @@ class TechnologyCostView extends StatelessWidget {
     );
   }
 
+  Widget _titleText(BuildContext context, TechnologyCostViewModel model) {
+    if (model.technology is Building) {
+      return Text(
+        'Building costs',
+        style: Theme.of(context).textTheme.headline2,
+      );
+    } else if (model.technology is Research) {
+      return Text(
+        'Research costs',
+        style: Theme.of(context).textTheme.headline2,
+      );
+    }
+
+    return Text(
+      'Costs',
+      style: Theme.of(context).textTheme.headline2,
+    );
+  }
+
   Widget _dynamicResearchCostsWidget(
       BuildContext context, TechnologyCostViewModel model) {
-    if (model.researchValues == null ||
-        model.researchValues.length == 0 ||
+    if (model.technologyValues == null ||
+        model.technologyValues.length == 0 ||
         model.resources == null ||
         model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
     List<Resource> usedResources = calculateUsedResources(
-        model, model.researchValues.first.technologyCosts);
+        model, model.technologyValues.first.technologyCosts);
     double minValue = 0;
-    double maxValue = calculateMax(model.researchValues.last.technologyCosts);
+    double maxValue = calculateMax(model.technologyValues.last.technologyCosts);
 
     var step = (maxValue - minValue) / 10;
 
@@ -98,10 +127,7 @@ class TechnologyCostView extends StatelessWidget {
       child: Column(
         children: [
           Center(
-            child: Text(
-              'Research costs',
-              style: Theme.of(context).textTheme.headline2,
-            ),
+            child: _titleText(context, model),
           ),
           SizedBox(height: 32),
           Expanded(
@@ -153,7 +179,7 @@ class TechnologyCostView extends StatelessWidget {
       TechnologyCostViewModel model, Guid resourceId, int index) {
     List<FlSpot> spots = [];
 
-    model.researchValues.forEach((element) {
+    model.technologyValues.forEach((element) {
       var costs = element.technologyCosts
           .firstWhere((costs) => costs.resourceId == resourceId);
       var spot = new FlSpot(

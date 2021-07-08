@@ -1,6 +1,6 @@
-﻿using System;
-using AstroGame.Api.Managers.Researches;
+﻿using AstroGame.Api.Managers.Researches;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Researches
@@ -29,16 +29,6 @@ namespace AstroGame.Api.Controllers.Researches
             var image = await _researchManager.GetImageAsync(researchId);
 
             return File(image, "image/png");
-        }
-
-        [HttpGet("values/research/{researchId}/level/{startLevel}")]
-        public async Task<IActionResult> GetBuildingValuesAsync([FromRoute] Guid researchId,
-            [FromRoute] uint startLevel,
-            [FromQuery] uint countLevels = 1)
-        {
-            var response = await _researchManager.GetResearchValuesAsync(researchId, startLevel, countLevels);
-
-            return Ok(response);
         }
     }
 }

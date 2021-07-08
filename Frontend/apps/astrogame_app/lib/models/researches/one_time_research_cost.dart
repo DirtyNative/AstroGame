@@ -1,4 +1,5 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/resources/one_time_cost.dart';
 import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,7 +7,7 @@ part 'one_time_research_cost.g.dart';
 
 @GuidConverter()
 @JsonSerializable()
-class OneTimeResearchCost extends TechnologyCost {
+class OneTimeResearchCost extends TechnologyCost with OneTimeCost {
   double amount;
 
   OneTimeResearchCost();

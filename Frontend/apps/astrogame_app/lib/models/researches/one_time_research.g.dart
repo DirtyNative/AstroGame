@@ -9,6 +9,10 @@ part of 'one_time_research.dart';
 OneTimeResearch _$OneTimeResearchFromJson(Map<String, dynamic> json) {
   return OneTimeResearch()
     ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..description = json['description'] as String
+    ..assetName = json['assetName'] as String
+    ..order = json['order'] as int
     ..neededConditions = (json['neededConditions'] as List)
         ?.map((e) =>
             e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
@@ -22,12 +26,8 @@ OneTimeResearch _$OneTimeResearchFromJson(Map<String, dynamic> json) {
             ? null
             : TechnologyCost.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..name = json['name'] as String
-    ..description = json['description'] as String
-    ..order = json['order'] as int
     ..researchType =
         _$enumDecodeNullable(_$ResearchTypeEnumMap, json['researchType'])
-    ..assetName = json['assetName'] as String
     ..buildingTimeMultiplier =
         (json['buildingTimeMultiplier'] as num)?.toDouble()
     ..buildingCostMultiplier =
@@ -53,14 +53,14 @@ OneTimeResearch _$OneTimeResearchFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$OneTimeResearchToJson(OneTimeResearch instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
+      'name': instance.name,
+      'description': instance.description,
+      'assetName': instance.assetName,
+      'order': instance.order,
       'neededConditions': instance.neededConditions,
       'conditionFor': instance.conditionFor,
       'technologyCosts': instance.technologyCosts,
-      'name': instance.name,
-      'description': instance.description,
-      'order': instance.order,
       'researchType': _$ResearchTypeEnumMap[instance.researchType],
-      'assetName': instance.assetName,
       'buildingTimeMultiplier': instance.buildingTimeMultiplier,
       'buildingCostMultiplier': instance.buildingCostMultiplier,
       'buildingProductionMultiplier': instance.buildingProductionMultiplier,

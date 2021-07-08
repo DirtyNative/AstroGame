@@ -1,4 +1,5 @@
 import 'package:astrogame_app/bags/show_planet_view_bag.dart';
+import 'package:astrogame_app/bags/show_tech_tree_view_bag.dart';
 import 'package:astrogame_app/communications/dtos/add_player_species_request.dart';
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
@@ -20,6 +21,7 @@ import 'package:astrogame_app/views/shells/main_shell.dart';
 import 'package:astrogame_app/views/species_selection/species_selection_view.dart';
 import 'package:astrogame_app/views/splash/splash_view.dart';
 import 'package:astrogame_app/views/start/start_view.dart';
+import 'package:astrogame_app/views/tech_tree/tech_tree_view.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -85,6 +87,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => MarketView());
 
     // Common
+
+    case RoutePaths.TechTreeRoute:
+      var bag = settings.arguments as ShowTechTreeViewBag;
+      return MaterialPageRoute(
+          builder: (_) => TechTreeView(bag.technology, bag.finishedTechnology));
   }
 
   return MaterialPageRoute(

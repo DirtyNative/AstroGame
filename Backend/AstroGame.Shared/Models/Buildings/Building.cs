@@ -14,10 +14,10 @@ namespace AstroGame.Shared.Models.Buildings
         /// <summary>
         /// Sets the StellarObject types where this building can be built on
         /// </summary>
-        public StellarObjectType BuildableOn { get; set; }
-        
+        public StellarObjectType BuildableOn { get; set; } = new();
+
         //public virtual List<BuiltBuilding> BuiltBuildings { get; set; } = new();
-        public List<InputResource> InputResources { get; set; }
-        public List<OutputResource> OutputResources { get; set; }
+        public List<InputResource> InputResources { get; set; } = new();
+        public List<OutputResource> OutputResources { get; set; } = new();
     }
 }

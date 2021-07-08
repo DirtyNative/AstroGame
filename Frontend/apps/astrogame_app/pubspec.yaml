@@ -78,7 +78,7 @@ dependencies:
   fl_chart: ^0.35.0
 
   # Used to save data in storage
-  localstorage: 3.0.1+4
+  localstorage: ^3.0.1+4
 
 dev_dependencies:
   flutter_test:

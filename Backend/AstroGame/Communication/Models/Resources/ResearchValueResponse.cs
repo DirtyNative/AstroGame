@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AstroGame.Api.Communication.Models.Resources
+﻿namespace AstroGame.Api.Communication.Models.Resources
 {
-    public class ResearchValueResponse
+    public class ResearchValueResponse : TechnologyValueResponse
     {
-        public Guid ResearchId { get; set; }
-        public uint Level { get; set; }
-        public List<ResourceAmountResponse> TechnologyCosts { get; set; } = new();
     }
 }

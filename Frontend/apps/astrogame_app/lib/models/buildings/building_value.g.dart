@@ -8,19 +8,20 @@ part of 'building_value.dart';
 
 BuildingValue _$BuildingValueFromJson(Map<String, dynamic> json) {
   return BuildingValue()
+    ..technologyId =
+        const GuidConverter().fromJson(json['technologyId'] as String)
     ..level = json['level'] as int
     ..technologyCosts = (json['technologyCosts'] as List)
         ?.map((e) => e == null
             ? null
             : ResourceAmount.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..buildingId = const GuidConverter().fromJson(json['buildingId'] as String)
-    ..buildingConsumptions = (json['buildingConsumptions'] as List)
+    ..consumptions = (json['consumptions'] as List)
         ?.map((e) => e == null
             ? null
             : ResourceAmount.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..buildingProductions = (json['buildingProductions'] as List)
+    ..productions = (json['productions'] as List)
         ?.map((e) => e == null
             ? null
             : ResourceAmount.fromJson(e as Map<String, dynamic>))
@@ -29,9 +30,9 @@ BuildingValue _$BuildingValueFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$BuildingValueToJson(BuildingValue instance) =>
     <String, dynamic>{
+      'technologyId': const GuidConverter().toJson(instance.technologyId),
       'level': instance.level,
       'technologyCosts': instance.technologyCosts,
-      'buildingId': const GuidConverter().toJson(instance.buildingId),
-      'buildingConsumptions': instance.buildingConsumptions,
-      'buildingProductions': instance.buildingProductions,
+      'consumptions': instance.consumptions,
+      'productions': instance.productions,
     };

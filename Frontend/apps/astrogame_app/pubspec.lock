@@ -512,7 +512,7 @@ packages:
       name: localstorage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1+4"
+    version: "3.0.6+9"
   logger:
     dependency: "direct main"
     description:
@@ -860,7 +860,7 @@ packages:
       name: stacked_services
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.8"
+    version: "0.8.10"
   stacked_themes:
     dependency: "direct main"
     description:
@@ -993,7 +993,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.4"
+    version: "2.2.5"
   xdg_directories:
     dependency: transitive
     description:

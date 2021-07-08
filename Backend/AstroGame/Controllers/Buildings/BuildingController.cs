@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using AstroGame.Api.Managers.Buildings;
+﻿using AstroGame.Api.Managers.Buildings;
 using AstroGame.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AstroGame.Api.Controllers.Buildings
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/building")]
     public class BuildingController : ControllerBase
     {
         private readonly BuildingManager _buildingManager;
@@ -67,16 +67,6 @@ namespace AstroGame.Api.Controllers.Buildings
             await _buildingManager.BuildAsync(playerId, selectedStellarObjectId, buildingId);
             
             return Ok();
-        }
-
-        [HttpGet("values/building/{buildingId}/level/{startLevel}")]
-        public async Task<IActionResult> GetBuildingValuesAsync([FromRoute] Guid buildingId,
-            [FromRoute] uint startLevel,
-            [FromQuery] uint countLevels = 1)
-        {
-            var response = await _buildingManager.GetBuildingValuesAsync(buildingId, startLevel, countLevels);
-
-            return Ok(response);
         }
     }
 }

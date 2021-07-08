@@ -9,6 +9,10 @@ part of 'levelable_building.dart';
 LevelableBuilding _$LevelableBuildingFromJson(Map<String, dynamic> json) {
   return LevelableBuilding()
     ..id = const GuidConverter().fromJson(json['id'] as String)
+    ..name = json['name'] as String
+    ..description = json['description'] as String
+    ..assetName = json['assetName'] as String
+    ..order = json['order'] as int
     ..neededConditions = (json['neededConditions'] as List)
         ?.map((e) =>
             e == null ? null : Condition.fromJson(e as Map<String, dynamic>))
@@ -22,12 +26,8 @@ LevelableBuilding _$LevelableBuildingFromJson(Map<String, dynamic> json) {
             ? null
             : TechnologyCost.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..name = json['name'] as String
-    ..description = json['description'] as String
-    ..assetName = json['assetName'] as String
     ..buildingType =
         _$enumDecodeNullable(_$BuildingTypeEnumMap, json['buildingType'])
-    ..order = json['order'] as int
     ..buildableOn =
         _$enumDecodeNullable(_$StellarObjectTypeEnumMap, json['buildableOn'])
     ..inputResources = (json['inputResources'] as List)
@@ -45,14 +45,14 @@ LevelableBuilding _$LevelableBuildingFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$LevelableBuildingToJson(LevelableBuilding instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
-      'neededConditions': instance.neededConditions,
-      'conditionFor': instance.conditionFor,
-      'technologyCosts': instance.technologyCosts,
       'name': instance.name,
       'description': instance.description,
       'assetName': instance.assetName,
-      'buildingType': _$BuildingTypeEnumMap[instance.buildingType],
       'order': instance.order,
+      'neededConditions': instance.neededConditions,
+      'conditionFor': instance.conditionFor,
+      'technologyCosts': instance.technologyCosts,
+      'buildingType': _$BuildingTypeEnumMap[instance.buildingType],
       'buildableOn': _$StellarObjectTypeEnumMap[instance.buildableOn],
       'inputResources': instance.inputResources,
       'outputResource': instance.outputResource,

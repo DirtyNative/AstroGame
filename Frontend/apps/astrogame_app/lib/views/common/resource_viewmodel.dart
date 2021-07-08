@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:astrogame_app/events/view_events/resources_updated_event.dart';
-import 'package:astrogame_app/models/researches/one_time_research_cost.dart';
+import 'package:astrogame_app/models/resources/one_time_cost.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/models/resources/resource_snapshot.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
@@ -72,7 +72,7 @@ class ResourceViewModel extends FutureViewModel {
   }
 
   double get neededAmount {
-    return (_technologyCost as OneTimeResearchCost).amount;
+    return (_technologyCost as OneTimeCost).amount;
   }
 
   StoredResource get storedResource {

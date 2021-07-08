@@ -238,6 +238,7 @@ class PlanetView extends StatelessWidget {
             iconColor: Colors.white,
             headerAlignment: ExpandablePanelHeaderAlignment.center,
           ),
+          collapsed: null,
         ),
         borderRadius: BorderRadius.circular(8),
         sigmaX: 5,

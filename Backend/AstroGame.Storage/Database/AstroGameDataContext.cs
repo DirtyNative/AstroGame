@@ -61,6 +61,7 @@ namespace AstroGame.Storage.Database
         public DbSet<Research> Researches { get; set; }
         public DbSet<ResearchStudy> ResearchStudies { get; set; }
 
+        public DbSet<Technology> Technologies { get; set; }
         public DbSet<FinishedTechnology> FinishedTechnologies { get; set; }
         public DbSet<PlayerDependentFinishedTechnology> PlayerDependentFinishedTechnologies { get; set; }
         public DbSet<StellarObjectDependentFinishedTechnology> StellarObjectDependentFinishedTechnologies { get; set; }

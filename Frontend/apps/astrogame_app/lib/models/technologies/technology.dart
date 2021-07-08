@@ -11,6 +11,18 @@ abstract class Technology {
   Guid id;
 
   @JsonKey()
+  String name;
+
+  @JsonKey()
+  String description;
+
+  @JsonKey()
+  String assetName;
+
+  @JsonKey()
+  int order;
+
+  @JsonKey()
   List<Condition> neededConditions;
 
   @JsonKey()

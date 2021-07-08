@@ -3,7 +3,7 @@ import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/one_time_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/technologies/finished_technology.dart';
-import 'package:astrogame_app/views/research_detail/widgets/technology_cost_view.dart';
+import 'package:astrogame_app/views/common/technology_cost_view.dart';
 import 'package:astrogame_app/widgets/scaffold_base.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -25,7 +25,7 @@ class ResearchDetailView extends StatelessWidget {
           child: ListView(
             children: [
               _headerWidget(context, model),
-              TechnologyCostView(),
+              TechnologyCostView(_research, _finishedTechnology),
             ],
           ),
         ),
@@ -79,6 +79,10 @@ class ResearchDetailView extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline1),
                     _levelText(context, model),
                     Text(model.research.description),
+                    ElevatedButton(
+                      onPressed: model.showTechTreeView,
+                      child: Text('Tech tree'),
+                    ),
                   ],
                 ),
               ),

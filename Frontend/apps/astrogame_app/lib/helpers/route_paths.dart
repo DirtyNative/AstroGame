@@ -25,5 +25,7 @@ class RoutePaths {
   static const String ResourcesRoute = 'ResourcesView';
   static const String MarketRoute = 'MarketView';
 
+  static const String TechTreeRoute = 'TechTree';
+
   static const String NotImplementedRoute = "NotImplementedView";
 }

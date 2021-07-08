@@ -1,28 +1,24 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Api.Communication.Models.Resources;
 using AstroGame.Api.Services;
 using AstroGame.Core.Exceptions;
-using AstroGame.Generator.Generators.ResourceGenerators;
 using AstroGame.Shared.Enums;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Storage.Configurations;
 using AstroGame.Storage.Repositories.Buildings;
 using AstroGame.Storage.Repositories.Players;
 using AstroGame.Storage.Repositories.Stellar;
+using AstroGame.Storage.Repositories.Technologies;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AstroGame.Storage.Repositories.Technologies;
 
 namespace AstroGame.Api.Managers.Buildings
 {
     [ScopedService]
     public class BuildingManager
     {
-        private readonly IResourceCalculator _resourceCalculator;
-
         private readonly ConstructionService _constructionService;
 
         private readonly BuildingRepository _buildingRepository;
@@ -36,8 +32,7 @@ namespace AstroGame.Api.Managers.Buildings
         public BuildingManager(BuildingRepository buildingRepository, ImageRepository imageRepository,
             PlayerRepository playerRepository, ColonizedStellarObjectRepository colonizedStellarObjectRepository,
             StellarObjectDependentFinishedTechnologyRepository stellarObjectDependentFinishedTechnologyRepository,
-            ConstructionService constructionService, StellarObjectRepository stellarObjectRepository,
-            IResourceCalculator resourceCalculator)
+            ConstructionService constructionService, StellarObjectRepository stellarObjectRepository)
         {
             _buildingRepository = buildingRepository;
             _imageRepository = imageRepository;
@@ -46,7 +41,6 @@ namespace AstroGame.Api.Managers.Buildings
             _stellarObjectDependentFinishedTechnologyRepository = stellarObjectDependentFinishedTechnologyRepository;
             _constructionService = constructionService;
             _stellarObjectRepository = stellarObjectRepository;
-            _resourceCalculator = resourceCalculator;
         }
 
         public async Task<List<Building>> GetAsync()
@@ -154,72 +148,6 @@ namespace AstroGame.Api.Managers.Buildings
             }
 
             await _constructionService.BuildAsync(player, building, stellarObject, builtBuilding);
-        }
-
-        public async Task<List<BuildingValueResponse>> GetBuildingValuesAsync(Guid buildingId, uint startLevel,
-            uint countLevels)
-        {
-            var list = new List<BuildingValueResponse>();
-
-            var building = await _buildingRepository.GetAsync(buildingId);
-
-            for (var index = startLevel; index < startLevel + countLevels; index++)
-            {
-                var item = new BuildingValueResponse()
-                {
-                    BuildingId = buildingId,
-                    Level = index,
-                };
-
-                // Consumption
-                foreach (var inputResource in building.InputResources)
-                {
-                    var val = _resourceCalculator.CalculateConsumedAmount(inputResource.BaseValue,
-                        inputResource.Multiplier, index);
-
-                    item.BuildingConsumptions.Add(new ResourceAmountResponse()
-                    {
-                        ResourceId = inputResource.Resource.Id,
-                        Amount = val
-                    });
-                }
-
-                // Production
-                foreach (var outputResource in building.OutputResources)
-                {
-                    var val = _resourceCalculator.CalculateConsumedAmount(outputResource.BaseValue,
-                        outputResource.Multiplier, index);
-
-                    item.BuildingProductions.Add(new ResourceAmountResponse()
-                    {
-                        ResourceId = outputResource.Resource.Id,
-                        Amount = val
-                    });
-                }
-
-                // Costs
-                foreach (var cost in building.TechnologyCosts)
-                {
-                    var amount = cost switch
-                    {
-                        DynamicBuildingCost dynamicBuildingCost => _resourceCalculator.CalculateTechnologyCostAmount(
-                            dynamicBuildingCost.BaseValue, dynamicBuildingCost.Multiplier, index),
-                        FixedBuildingCost fixedBuildingCost => fixedBuildingCost.Amount,
-                        _ => 0
-                    };
-
-                    item.TechnologyCosts.Add(new ResourceAmountResponse()
-                    {
-                        ResourceId = cost.Resource.Id,
-                        Amount = amount
-                    });
-                }
-
-                list.Add(item);
-            }
-
-
-            return list;
         }
     }
 }

@@ -1,5 +1,4 @@
 import 'package:astrogame_app/models/buildings/building.dart';
-import 'package:astrogame_app/models/buildings/building_value.dart';
 import 'package:astrogame_app/models/enums/stellar_object_type.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_guid/flutter_guid.dart';
@@ -25,12 +24,5 @@ abstract class BuildingApi {
   @PUT('/build/{buildingId}')
   Future buildAsync(
     @Path('buildingId') Guid buildingId,
-  );
-
-  @GET('/values/building/{buildingId}/level/{startLevel}')
-  Future<List<BuildingValue>> getValuesAsync(
-    @Path('buildingId') Guid buildingId,
-    @Path('startLevel') int startLevel,
-    @Query('countLevels') int countLevels,
   );
 }
