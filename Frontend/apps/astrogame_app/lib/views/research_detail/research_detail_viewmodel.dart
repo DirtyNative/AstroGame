@@ -1,7 +1,7 @@
 import 'package:astrogame_app/bags/show_tech_tree_view_bag.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
 import 'package:astrogame_app/models/researches/research.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:flutter/widgets.dart';

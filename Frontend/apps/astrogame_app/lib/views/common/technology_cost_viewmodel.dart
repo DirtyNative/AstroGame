@@ -1,6 +1,6 @@
 import 'package:astrogame_app/communications/repositories/technology_repository.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/models/technologies/technology_value.dart';
 import 'package:astrogame_app/providers/resource_provider.dart';

@@ -1,5 +1,5 @@
 import 'package:astrogame_app/communications/repositories/finished_technology_repository.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';

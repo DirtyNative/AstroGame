@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Api.Managers.Buildings
 {
@@ -22,7 +23,10 @@ namespace AstroGame.Api.Managers.Buildings
         private readonly ConstructionService _constructionService;
 
         private readonly BuildingRepository _buildingRepository;
-        private readonly StellarObjectDependentFinishedTechnologyRepository _stellarObjectDependentFinishedTechnologyRepository;
+
+        private readonly StellarObjectDependentFinishedTechnologyRepository
+            _stellarObjectDependentFinishedTechnologyRepository;
+
         private readonly ImageRepository _imageRepository;
 
         private readonly PlayerRepository _playerRepository;
@@ -122,7 +126,14 @@ namespace AstroGame.Api.Managers.Buildings
             }
 
             // Get the builtBuilding
-            var builtBuilding = await _stellarObjectDependentFinishedTechnologyRepository.GetByBuildingAsync(stellarObjectId, buildingId);
+            var builtBuilding =
+                await _stellarObjectDependentFinishedTechnologyRepository.GetByBuildingAsync(stellarObjectId,
+                    buildingId);
+
+            if (builtBuilding != null && building is IOneTimeTechnology)
+            {
+                throw new ConflictException($"Building is already built");
+            }
 
             // Get the stellar object
             var stellarObject = await _stellarObjectRepository.GetAsync(stellarObjectId);

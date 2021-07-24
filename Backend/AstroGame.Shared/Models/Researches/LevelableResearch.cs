@@ -1,6 +1,8 @@
-﻿namespace AstroGame.Shared.Models.Researches
+﻿using AstroGame.Shared.Models.Technologies;
+
+namespace AstroGame.Shared.Models.Researches
 {
-    public class LevelableResearch : Research
+    public class LevelableResearch : Research, ILevelableTechnology
     {
     }
 }

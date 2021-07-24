@@ -9,11 +9,6 @@ namespace AstroGame.Storage.TypeConfigurations.Researches
         public void Configure(EntityTypeBuilder<ResearchStudy> builder)
         {
             builder.ToTable("ResearchStudies");
-            builder.Property(e => e.Id).IsRequired().HasDefaultValueSql("(newid())");
-
-            builder.HasOne(e => e.Research)
-                .WithMany()
-                .HasForeignKey(e => e.ResearchId);
 
             builder.HasOne(e => e.Player)
                 .WithOne()

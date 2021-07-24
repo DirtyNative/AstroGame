@@ -1,6 +1,8 @@
-﻿namespace AstroGame.Shared.Models.Researches
+﻿using AstroGame.Shared.Models.Technologies;
+
+namespace AstroGame.Shared.Models.Researches
 {
-    public class OneTimeResearch : Research
+    public class OneTimeResearch : Research, IOneTimeTechnology
     {
     }
 }

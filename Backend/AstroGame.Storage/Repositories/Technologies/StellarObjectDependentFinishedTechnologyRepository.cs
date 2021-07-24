@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 
 namespace AstroGame.Storage.Repositories.Technologies
 {

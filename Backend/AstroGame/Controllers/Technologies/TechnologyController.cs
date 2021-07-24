@@ -32,5 +32,13 @@ namespace AstroGame.Api.Controllers.Technologies
 
             return Ok(response);
         }
+
+        [HttpGet("conditions/fulfilled/technology/{technologyId}")]
+        public async Task<IActionResult> HasConditionsFulfilledAsync([FromRoute] Guid technologyId)
+        {
+            var response = await _technologyManager.HasConditionsFulfilledRecursiveAsync(technologyId);
+
+            return Ok(response);
+        }
     }
 }

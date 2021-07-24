@@ -58,4 +58,23 @@ class _TechnologyApi implements TechnologyApi {
         .toList();
     return value;
   }
+
+  @override
+  Future<bool> hasConditionsFulfilledAsync(technologyId) async {
+    ArgumentError.checkNotNull(technologyId, 'technologyId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<bool>(
+        '/conditions/fulfilled/technology/$technologyId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
 }

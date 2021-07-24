@@ -40,42 +40,6 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("BuildingChains");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingConstruction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid>("BuildingChainId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BuildingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("HangfireJobId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("StellarObjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuildingChainId");
-
-                    b.HasIndex("BuildingId");
-
-                    b.HasIndex("StellarObjectId");
-
-                    b.ToTable("BuildingConstructions");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.InputResource", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1758,38 +1722,6 @@ namespace AstroGame.Storage.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("HangfireJobId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResearchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId")
-                        .IsUnique();
-
-                    b.HasIndex("ResearchId");
-
-                    b.ToTable("ResearchStudies");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.Resource", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2024,15 +1956,12 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("StellarSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.FinishedTechnology", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<long>("Level")
-                        .HasColumnType("bigint");
 
                     b.Property<Guid>("TechnologyId")
                         .HasColumnType("uniqueidentifier");
@@ -2050,6 +1979,15 @@ namespace AstroGame.Storage.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
+
+                    b.Property<string>("AssetName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -2079,6 +2017,32 @@ namespace AstroGame.Storage.Migrations
                     b.HasIndex("TechnologyId");
 
                     b.ToTable("TechnologyCosts");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.TechnologyUpgrade", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HangfireJobId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("TechnologyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TechnologyId");
+
+                    b.ToTable("TechnologyUpgrades");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Conditions.LevelableCondition", b =>
@@ -2593,9 +2557,9 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("SolarSystems");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.PlayerDependentFinishedTechnology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnology");
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnologies.FinishedTechnology");
 
                     b.Property<Guid>("PlayerId")
                         .HasColumnType("uniqueidentifier");
@@ -2605,9 +2569,9 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("PlayerDependentFinishedTechnologies");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.StellarObjectDependentFinishedTechnology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology", b =>
                 {
-                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnology");
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnologies.FinishedTechnology");
 
                     b.Property<Guid>("ColonizedStellarObjectId")
                         .HasColumnType("uniqueidentifier");
@@ -2621,20 +2585,11 @@ namespace AstroGame.Storage.Migrations
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Technologies.Technology");
 
-                    b.Property<string>("AssetName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("BuildableOn")
                         .HasColumnType("int");
 
                     b.Property<int>("BuildingType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Buildings");
                 });
@@ -2642,9 +2597,6 @@ namespace AstroGame.Storage.Migrations
             modelBuilder.Entity("AstroGame.Shared.Models.Researches.Research", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Technologies.Technology");
-
-                    b.Property<string>("AssetName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("BuildingConsumptionMultiplier")
                         .HasColumnType("float");
@@ -2661,17 +2613,11 @@ namespace AstroGame.Storage.Migrations
                     b.Property<double>("CargoCapacityMultiplier")
                         .HasColumnType("float");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("FuelConsumptionMultiplier")
                         .HasColumnType("float");
 
                     b.Property<double>("InterstellarSpeedMultiplier")
                         .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ResearchType")
                         .HasColumnType("int");
@@ -3030,6 +2976,37 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("OneTimeResearchCosts");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingConstruction", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.TechnologyUpgrade");
+
+                    b.Property<Guid>("BuildingChainId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StellarObjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("BuildingChainId");
+
+                    b.HasIndex("StellarObjectId");
+
+                    b.ToTable("BuildingConstructions");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.TechnologyUpgrade");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique()
+                        .HasFilter("[PlayerId] IS NOT NULL");
+
+                    b.ToTable("ResearchStudies");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject");
@@ -3049,6 +3026,40 @@ namespace AstroGame.Storage.Migrations
                     b.ToTable("Planets");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.LevelablePlayerDependentFinishedTechnology", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology");
+
+                    b.Property<long>("Level")
+                        .HasColumnType("bigint");
+
+                    b.ToTable("LevelablePlayerDependentFinishedTechnologies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.OneTimePlayerDependentFinishedTechnology", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology");
+
+                    b.ToTable("OneTimePlayerDependentFinishedTechnologies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.LevelableStellarObjectDependentFinishedTechnology", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology");
+
+                    b.Property<long>("Level")
+                        .HasColumnType("bigint");
+
+                    b.ToTable("LevelableStellarObjectDependentFinishedTechnologies");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.OneTimeStellarObjectDependentFinishedTechnology", b =>
+                {
+                    b.HasBaseType("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology");
+
+                    b.ToTable("OneTimeStellarObjectDependentFinishedTechnologies");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.FixedBuilding", b =>
                 {
                     b.HasBaseType("AstroGame.Shared.Models.Buildings.Building");
@@ -3059,12 +3070,12 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("75021a39-c0c1-46f0-b155-f1cdfb9fbc00"),
-                            Order = 1,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 0,
                             Description = "TODO",
-                            Name = "Small Shipyard"
+                            Name = "Small Shipyard",
+                            Order = 1,
+                            BuildableOn = 2,
+                            BuildingType = 0
                         });
                 });
 
@@ -3078,312 +3089,312 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("8a0a5dab-f877-4714-8e6b-1b578f480268"),
-                            Order = 1,
                             AssetName = "6.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "Extracts Hydrogen molecules from within the atmosphere to produce an industrial product.",
-                            Name = "Hydrogen Extractor"
+                            Name = "Hydrogen Extractor",
+                            Order = 1,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("8dde001b-a19d-43a1-b151-cde09a85c214"),
-                            Order = 2,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "Helium is one of the most important parts to generate fuels.",
-                            Name = "Helium Extractor"
+                            Name = "Helium Extractor",
+                            Order = 2,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("20ef5beb-8d80-4ea1-980a-1b77649b4249"),
-                            Order = 3,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Lithium Extractor"
+                            Name = "Lithium Extractor",
+                            Order = 3,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("81b33a6b-c9a6-446c-bf61-441931a9f2ab"),
-                            Order = 4,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Beryllium Reductor"
+                            Name = "Beryllium Reductor",
+                            Order = 4,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("7d3b17d6-3084-4725-a259-cff46fc3a554"),
-                            Order = 5,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Boron Reductor"
+                            Name = "Boron Reductor",
+                            Order = 5,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("08f6708b-dd2a-427a-9e49-e24810452421"),
-                            Order = 6,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Carbon Extractor"
+                            Name = "Carbon Extractor",
+                            Order = 6,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("35c9d3c1-bb03-4c2a-b6dd-eb34c0bfcf0d"),
-                            Order = 7,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Nitrogen Destillator"
+                            Name = "Nitrogen Destillator",
+                            Order = 7,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("adab9b7c-53e7-4f89-aa62-61b8a6d8b60f"),
-                            Order = 8,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Oxygen Extractor"
+                            Name = "Oxygen Extractor",
+                            Order = 8,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("bdcae1cc-d8e2-4dd5-97b6-8cde1162f6ee"),
-                            Order = 9,
                             AssetName = "9.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Magnesium Reductor"
+                            Name = "Magnesium Reductor",
+                            Order = 9,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("44517245-cb20-4324-a275-4d8642207ad4"),
-                            Order = 10,
                             AssetName = "11.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Aluminum smelting plant"
+                            Name = "Aluminum smelting plant",
+                            Order = 10,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("e200ef94-6eb9-46c8-ba08-3dd86ac3b373"),
-                            Order = 11,
                             AssetName = "7.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "We need silicon to produce electronics which we need for quiet all of our constructs.",
-                            Name = "Silicon Mine"
+                            Name = "Silicon Mine",
+                            Order = 11,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("e5c2c36b-3393-4599-b054-77458c7e74e8"),
-                            Order = 12,
                             AssetName = "7.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Phosphorus Miner"
+                            Name = "Phosphorus Miner",
+                            Order = 12,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("6d519575-bcfb-49f7-aef9-15a4b8364b32"),
-                            Order = 13,
                             AssetName = "7.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Sulfur Mine"
+                            Name = "Sulfur Mine",
+                            Order = 13,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("89b6448b-ca4e-43d4-a8bb-69b6f5c55211"),
-                            Order = 14,
                             AssetName = "7.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Chlorine Dissolver"
+                            Name = "Chlorine Dissolver",
+                            Order = 14,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("b8063d0e-d06e-4b2e-a7e6-4812d7dd5a3e"),
-                            Order = 15,
                             AssetName = "17.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Titanium Mine"
+                            Name = "Titanium Mine",
+                            Order = 15,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("5b2aa6bc-9754-42eb-b519-39edd989f9bb"),
-                            Order = 16,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "Produces the most basic building material ever seen in space.. But we all need it everywhere.",
-                            Name = "Iron Mine"
+                            Name = "Iron Mine",
+                            Order = 16,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("b8d93f41-d6c2-4ce8-9763-840ecb53bf44"),
-                            Order = 17,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Cobalt Melting Plant"
+                            Name = "Cobalt Melting Plant",
+                            Order = 17,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("a0500eb9-8f5c-4fd0-90af-4be209939464"),
-                            Order = 18,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Nickel Melting Plant"
+                            Name = "Nickel Melting Plant",
+                            Order = 18,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("c8d6228c-4c68-444d-bdf9-bb16279a5eb8"),
-                            Order = 19,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Copper Melting Plant"
+                            Name = "Copper Melting Plant",
+                            Order = 19,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("4df104b3-64b6-4843-ba43-4b5b98f08c2b"),
-                            Order = 20,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Zinc Mine"
+                            Name = "Zinc Mine",
+                            Order = 20,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("626d4d9b-f90e-4e24-8f84-054e709afa2a"),
-                            Order = 21,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Gallium smelting plant"
+                            Name = "Gallium smelting plant",
+                            Order = 21,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("0998d19e-c02f-41e2-b2fd-ba5c6fc7def1"),
-                            Order = 22,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Germanium Dissolver"
+                            Name = "Germanium Dissolver",
+                            Order = 22,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("405a352f-943d-40f7-9e8a-359872d25e84"),
-                            Order = 23,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Palladium Mine"
+                            Name = "Palladium Mine",
+                            Order = 23,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("428801f4-4777-4589-9a64-cb97bcef71cb"),
-                            Order = 24,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Silver Mine"
+                            Name = "Silver Mine",
+                            Order = 24,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("45168d04-86cb-499c-aec9-a8255580071e"),
-                            Order = 25,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Tin Mine"
+                            Name = "Tin Mine",
+                            Order = 25,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("9b09d3f5-fbca-4148-b6a3-355ce7b75240"),
-                            Order = 26,
                             AssetName = "18.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Iridium Mine"
+                            Name = "Iridium Mine",
+                            Order = 26,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("31b2747d-ff1b-49b1-bf97-782bdb28cba2"),
-                            Order = 27,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Platinum Mine"
+                            Name = "Platinum Mine",
+                            Order = 27,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("a6a8f230-dde3-464d-9edd-76cfc9882cbb"),
-                            Order = 28,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Gold Mine"
+                            Name = "Gold Mine",
+                            Order = 28,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("357f7740-3ca7-4ff8-81c6-9cf22289a709"),
-                            Order = 29,
                             AssetName = "2.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 1,
                             Description = "TODO",
-                            Name = "Plutonium Reactor"
+                            Name = "Plutonium Reactor",
+                            Order = 29,
+                            BuildableOn = 2,
+                            BuildingType = 1
                         },
                         new
                         {
                             Id = new Guid("f09e72d5-28d8-4390-bdf5-3b589b61fc15"),
-                            Order = 1,
                             AssetName = "19.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 5,
                             Description = "TODO",
-                            Name = "Iron Store"
+                            Name = "Iron Store",
+                            Order = 1,
+                            BuildableOn = 2,
+                            BuildingType = 5
                         },
                         new
                         {
                             Id = new Guid("0233326e-2b2a-4170-993e-835417e293c6"),
-                            Order = 1,
                             AssetName = "19.jpg",
-                            BuildableOn = 2,
-                            BuildingType = 0,
                             Description = "TODO",
-                            Name = "Building Grounds"
+                            Name = "Building Grounds",
+                            Order = 1,
+                            BuildableOn = 2,
+                            BuildingType = 0
                         });
                 });
 
@@ -3397,17 +3408,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("4f692196-4c30-4af0-9813-03cfe4c35e15"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Quantum Theory",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Quantum Theory",
                             ResearchType = 0,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3417,17 +3428,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("73488326-4f47-418c-a5bd-7d31095fb539"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Espionage Technology",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Espionage Technology",
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3437,17 +3448,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("233c1c99-cda1-4d90-ad8b-834903b455f3"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Weapon Engineering",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Weapon Engineering",
                             ResearchType = 6,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3457,17 +3468,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("12f1450b-5ad5-4799-98c4-8a63c0f79da2"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Shield Engineering",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Shield Engineering",
                             ResearchType = 6,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3477,17 +3488,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("e193ba9c-4b8c-4e21-8c5c-e15421de26f4"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Armor Engineering",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Armor Engineering",
                             ResearchType = 6,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3497,17 +3508,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("113dc4ed-4272-4577-8b55-92780e0751ff"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Impulse Thruster",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Impulse Thruster",
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3517,17 +3528,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("f19fc99c-2db1-4877-9ac3-32974174f970"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Ion Thruster",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Ion Thruster",
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3537,17 +3548,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("5966224b-f201-4a6a-8b86-d7cf36856e06"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Plasma Thruster",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Plasma Thruster",
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3557,17 +3568,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("9b4d8661-7811-4324-a6bf-ee30cd83c3cd"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Dark Matter Thruster",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Dark Matter Thruster",
                             ResearchType = 1,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3577,17 +3588,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("08b9feac-851b-4f76-87ca-b97d1a9f1a78"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Dark Matter Thruster",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Dark Matter Thruster",
                             ResearchType = 3,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3597,17 +3608,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("a3058710-e6fe-4db1-98d2-f7d93874ff5a"),
-                            Order = 1,
                             AssetName = "2.jpg",
+                            Description = "TODO",
+                            Name = "Efficient living places",
+                            Order = 1,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Efficient living places",
                             ResearchType = 3,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3617,17 +3628,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("8efb2b99-2132-4510-8d24-ff80b86223db"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Efficient Workplaces",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Efficient Workplaces",
                             ResearchType = 5,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3646,17 +3657,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("4139a914-6958-482a-9fab-6291426e075f"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Planet colonization",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Planet colonization",
                             ResearchType = 7,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3666,17 +3677,17 @@ namespace AstroGame.Storage.Migrations
                         new
                         {
                             Id = new Guid("fcc5c51a-5705-4517-9890-f5fa8d8bde25"),
-                            Order = 0,
                             AssetName = "1.jpg",
+                            Description = "TODO",
+                            Name = "Moon colonization",
+                            Order = 0,
                             BuildingConsumptionMultiplier = 0.0,
                             BuildingCostMultiplier = 0.0,
                             BuildingProductionMultiplier = 0.0,
                             BuildingTimeMultiplier = 0.0,
                             CargoCapacityMultiplier = 0.0,
-                            Description = "TODO",
                             FuelConsumptionMultiplier = 0.0,
                             InterstellarSpeedMultiplier = 0.0,
-                            Name = "Moon colonization",
                             ResearchType = 7,
                             ShieldPowerMultiplier = 0.0,
                             StellarSpeedMultiplier = 0.0,
@@ -3694,33 +3705,6 @@ namespace AstroGame.Storage.Migrations
                         .IsRequired();
 
                     b.Navigation("Player");
-                });
-
-            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingConstruction", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Buildings.BuildingChain", "BuildingChain")
-                        .WithMany("BuildingUpgrades")
-                        .HasForeignKey("BuildingChainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Buildings.Building", "Building")
-                        .WithMany()
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "StellarObject")
-                        .WithMany()
-                        .HasForeignKey("StellarObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Building");
-
-                    b.Navigation("BuildingChain");
-
-                    b.Navigation("StellarObject");
                 });
 
             modelBuilder.Entity("AstroGame.Shared.Models.Buildings.InputResource", b =>
@@ -3876,25 +3860,6 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("PlayerSpecies");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
-                {
-                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
-                        .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Researches.ResearchStudy", "PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AstroGame.Shared.Models.Researches.Research", "Research")
-                        .WithMany()
-                        .HasForeignKey("ResearchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Player");
-
-                    b.Navigation("Research");
-                });
-
             modelBuilder.Entity("AstroGame.Shared.Models.Resources.ResourceSnapshot", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "StellarObject")
@@ -3996,7 +3961,7 @@ namespace AstroGame.Storage.Migrations
                         .HasForeignKey("StellarSystemId");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.FinishedTechnology", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Technologies.Technology", "Technology")
                         .WithMany()
@@ -4022,6 +3987,17 @@ namespace AstroGame.Storage.Migrations
                         .IsRequired();
 
                     b.Navigation("Resource");
+
+                    b.Navigation("Technology");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.TechnologyUpgrade", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.Technology", "Technology")
+                        .WithMany()
+                        .HasForeignKey("TechnologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Technology");
                 });
@@ -4147,11 +4123,11 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.PlayerDependentFinishedTechnology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology", b =>
                 {
-                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnology", null)
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnologies.FinishedTechnology", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Technologies.PlayerDependentFinishedTechnology", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
@@ -4164,7 +4140,7 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.StellarObjectDependentFinishedTechnology", b =>
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Players.ColonizedStellarObject", "ColonizedStellarObject")
                         .WithMany("FinishedTechnologies")
@@ -4172,9 +4148,9 @@ namespace AstroGame.Storage.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnology", null)
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnologies.FinishedTechnology", null)
                         .WithOne()
-                        .HasForeignKey("AstroGame.Shared.Models.Technologies.StellarObjectDependentFinishedTechnology", "Id")
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
@@ -4247,11 +4223,89 @@ namespace AstroGame.Storage.Migrations
                     b.Navigation("OneTimeResearch");
                 });
 
+            modelBuilder.Entity("AstroGame.Shared.Models.Buildings.BuildingConstruction", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Buildings.BuildingChain", "BuildingChain")
+                        .WithMany("BuildingUpgrades")
+                        .HasForeignKey("BuildingChainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Technologies.TechnologyUpgrade", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Buildings.BuildingConstruction", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.StellarObject", "StellarObject")
+                        .WithMany()
+                        .HasForeignKey("StellarObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BuildingChain");
+
+                    b.Navigation("StellarObject");
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Researches.ResearchStudy", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.TechnologyUpgrade", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.ResearchStudy", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("AstroGame.Shared.Models.Players.Player", "Player")
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Researches.ResearchStudy", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
             modelBuilder.Entity("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", b =>
                 {
                     b.HasOne("AstroGame.Shared.Models.Stellar.BaseTypes.ColonizableStellarObject", null)
                         .WithOne()
                         .HasForeignKey("AstroGame.Shared.Models.Stellar.StellarObjects.Planet", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.LevelablePlayerDependentFinishedTechnology", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.FinishedTechnologies.LevelablePlayerDependentFinishedTechnology", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.OneTimePlayerDependentFinishedTechnology", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnologies.PlayerDependentFinishedTechnology", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.FinishedTechnologies.OneTimePlayerDependentFinishedTechnology", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.LevelableStellarObjectDependentFinishedTechnology", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.FinishedTechnologies.LevelableStellarObjectDependentFinishedTechnology", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AstroGame.Shared.Models.Technologies.FinishedTechnologies.OneTimeStellarObjectDependentFinishedTechnology", b =>
+                {
+                    b.HasOne("AstroGame.Shared.Models.Technologies.FinishedTechnologies.StellarObjectDependentFinishedTechnology", null)
+                        .WithOne()
+                        .HasForeignKey("AstroGame.Shared.Models.Technologies.FinishedTechnologies.OneTimeStellarObjectDependentFinishedTechnology", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });

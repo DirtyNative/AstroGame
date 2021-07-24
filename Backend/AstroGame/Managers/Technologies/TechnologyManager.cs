@@ -7,6 +7,7 @@ using AstroGame.Storage.Repositories.Technologies;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AstroGame.Core.Exceptions;
 using AstroGame.Storage.Repositories.Buildings;
 
 namespace AstroGame.Api.Managers.Technologies
@@ -115,6 +116,32 @@ namespace AstroGame.Api.Managers.Technologies
             }
 
             return list;
+        }
+
+        public async Task<bool> HasConditionsFulfilledRecursiveAsync(Guid technologyId)
+        {
+            var technology = await _technologyRepository.GetAsync(technologyId);
+            if (technology == null)
+            {
+                throw new NotFoundException($"Technology {technologyId} not found");
+            }
+
+            if (technology.NeededConditions == null)
+            {
+                return true;
+            }
+
+            foreach (var condition in technology.NeededConditions)
+            {
+                var conditionFulfilled = await HasConditionsFulfilledRecursiveAsync(condition.NeededTechnologyId);
+
+                if (conditionFulfilled == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

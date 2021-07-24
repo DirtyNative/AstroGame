@@ -3,15 +3,15 @@ using AstroGame.Core.Exceptions;
 using AstroGame.Shared.Models.Buildings;
 using AstroGame.Shared.Models.Players;
 using AstroGame.Shared.Models.Resources;
+using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 using AstroGame.Storage.Repositories.Buildings;
 using AstroGame.Storage.Repositories.Resources;
 using AstroGame.Storage.Repositories.Stellar;
+using AstroGame.Storage.Repositories.Technologies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AstroGame.Shared.Models.Technologies;
-using AstroGame.Storage.Repositories.Technologies;
 
 namespace AstroGame.Generator.Generators.ResourceGenerators
 {
@@ -134,7 +134,14 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                 // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
                 foreach (var inputResource in building.InputResources)
                 {
-                    var calculatedPower = SubtractConsumption(snapshot, inputResource, finishedTechnology.Level, 1);
+                    var calculatedPower = finishedTechnology switch
+                    {
+                        ILevelableFinishedTechnology levelableFinishedTechnology => SubtractConsumption(snapshot,
+                            inputResource, levelableFinishedTechnology.Level, 1),
+                        IOneTimeFinishedTechnology => SubtractConsumption(snapshot, inputResource, 1, 1),
+                        _ => throw new NotImplementedException(
+                            $"Technology type {finishedTechnology.GetType()} is not implemented yet")
+                    };
 
                     if (calculatedPower < lowestPower)
                     {
@@ -146,10 +153,20 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
                 // Generate the output
                 foreach (var outputResource in building.OutputResources)
                 {
-                    AddProduction(snapshot, outputResource, finishedTechnology.Level, 1, lowestPower);
+                    switch (finishedTechnology)
+                    {
+                        case ILevelableFinishedTechnology levelableFinishedTechnology:
+                            AddProduction(snapshot, outputResource, levelableFinishedTechnology.Level, 1, lowestPower);
+                            break;
+                        case IOneTimeFinishedTechnology:
+                            AddProduction(snapshot, outputResource, 1, 1, lowestPower);
+                            break;
+                        default:
+                            throw new NotImplementedException(
+                                $"Technology type {finishedTechnology.GetType()} is not implemented yet");
+                    }
                 }
             }
-
 
             // Calculate the remaining time
             var remainingHour = passedTime.TotalHours - passedTime.Hours;
@@ -159,8 +176,14 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
             foreach (var inputResource in building.InputResources)
             {
-                var calculatedPower =
-                    SubtractConsumption(snapshot, inputResource, finishedTechnology.Level, remainingHour);
+                var calculatedPower = finishedTechnology switch
+                {
+                    ILevelableFinishedTechnology levelableFinishedTechnology => SubtractConsumption(snapshot,
+                        inputResource, levelableFinishedTechnology.Level, remainingHour),
+                    IOneTimeFinishedTechnology => SubtractConsumption(snapshot, inputResource, 1, remainingHour),
+                    _ => throw new NotImplementedException(
+                        $"Technology type {finishedTechnology.GetType()} is not implemented yet")
+                };
 
                 if (calculatedPower < lowestPower)
                 {
@@ -171,7 +194,19 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             // Generate the output
             foreach (var outputResource in building.OutputResources)
             {
-                AddProduction(snapshot, outputResource, finishedTechnology.Level, remainingHour, lowestPower);
+                switch (finishedTechnology)
+                {
+                    case ILevelableFinishedTechnology levelableFinishedTechnology:
+                        AddProduction(snapshot, outputResource, levelableFinishedTechnology.Level, remainingHour,
+                            lowestPower);
+                        break;
+                    case IOneTimeFinishedTechnology:
+                        AddProduction(snapshot, outputResource, 1, remainingHour, lowestPower);
+                        break;
+                    default:
+                        throw new NotImplementedException(
+                            $"Technology type {finishedTechnology.GetType()} is not implemented yet");
+                }
             }
         }
 

@@ -3,7 +3,7 @@ import 'package:astrogame_app/models/conditions/levelable_condition.dart';
 import 'package:astrogame_app/models/conditions/one_time_condition.dart';
 import 'package:astrogame_app/models/tech_tree/tech_tree_condition_node.dart';
 import 'package:astrogame_app/models/tech_tree/tech_tree_technology_node.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/providers/technologies_provider.dart';
 import 'package:graphview/GraphView.dart';
@@ -18,7 +18,7 @@ class TechTreeViewModel extends FutureViewModel {
   FinishedTechnology _finishedTechnology;
 
   Graph graph;
-  BuchheimWalkerConfiguration builder;
+  SugiyamaConfiguration builder;
 
   TechTreeViewModel(
     this._technologiesProvider,
@@ -26,7 +26,7 @@ class TechTreeViewModel extends FutureViewModel {
     @factoryParam this._finishedTechnology,
   ) {
     graph = Graph()..isTree = true;
-    builder = new BuchheimWalkerConfiguration();
+    builder = new SugiyamaConfiguration();
   }
 
   List<Technology> _technologies;
@@ -43,9 +43,9 @@ class TechTreeViewModel extends FutureViewModel {
     generateRootNode(_technology);
 
     builder
-      ..siblingSeparation = (100)
+      // ..siblingSeparation = (100)
       ..levelSeparation = (150)
-      ..subtreeSeparation = (150)
+      //..subtreeSeparation = (150)
       ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT);
   }
 

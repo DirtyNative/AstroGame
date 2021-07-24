@@ -7,7 +7,7 @@ import 'package:astrogame_app/models/researches/one_time_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/researches/research_study.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/research_study_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
@@ -116,7 +116,7 @@ class ResearchViewModel extends FutureViewModel {
 
   String get studyText {
     // If this research is under construction
-    if (researchStudy != null && researchStudy.researchId == research.id) {
+    if (researchStudy != null && researchStudy.technologyId == research.id) {
       var duration = researchStudy.endTime.difference(DateTime.now().toUtc());
 
       if (duration < Duration()) {

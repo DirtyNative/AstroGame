@@ -2,7 +2,7 @@ import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/one_time_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/views/common/technology_cost_view.dart';
 import 'package:astrogame_app/widgets/scaffold_base.dart';
 import 'package:flutter/material.dart';

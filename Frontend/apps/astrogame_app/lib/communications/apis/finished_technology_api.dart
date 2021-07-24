@@ -1,4 +1,4 @@
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:retrofit/retrofit.dart';

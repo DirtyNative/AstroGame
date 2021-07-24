@@ -1,4 +1,5 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/technologies/technology_upgrade.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,15 +7,9 @@ part 'building_construction.g.dart';
 
 @GuidConverter()
 @JsonSerializable()
-class BuildingConstruction {
-  Guid id;
+class BuildingConstruction extends TechnologyUpgrade {
   Guid buildingChainId;
-  Guid buildingId;
   Guid stellarObjectId;
-  DateTime startTime;
-  DateTime endTime;
-
-  String hangdireJobId;
 
   BuildingConstruction();
 

@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/models/conditions/condition.dart';
+import 'package:astrogame_app/models/technologies/levelable_technology.dart';
 import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'building.dart';
@@ -12,7 +13,7 @@ part 'levelable_building.g.dart';
 
 @GuidConverter()
 @JsonSerializable()
-class LevelableBuilding extends Building {
+class LevelableBuilding extends Building with LevelableTechnology {
   LevelableBuilding();
 
   factory LevelableBuilding.fromJson(Map<String, dynamic> json) =>

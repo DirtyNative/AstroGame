@@ -1,4 +1,4 @@
-﻿using AstroGame.Shared.Models.Technologies;
+﻿using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

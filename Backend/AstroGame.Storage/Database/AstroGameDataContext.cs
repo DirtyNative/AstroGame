@@ -10,6 +10,7 @@ using AstroGame.Shared.Models.Stellar.BaseTypes;
 using AstroGame.Shared.Models.Stellar.StellarObjects;
 using AstroGame.Shared.Models.Stellar.StellarSystems;
 using AstroGame.Shared.Models.Technologies;
+using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 using AstroGame.Storage.Converters;
 using AstroGame.Storage.Extensions;
 using AstroGame.Storage.TypeConfigurations.Objects;

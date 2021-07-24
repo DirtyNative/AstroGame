@@ -13,6 +13,10 @@ namespace AstroGame.Shared.Models.Technologies
         /// </summary>
         public int Order { get; set; }
 
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string AssetName { get; set; }
+
         public IEnumerable<Condition> NeededConditions { get; set; }
         public IEnumerable<Condition> ConditionFor { get; set; }
 

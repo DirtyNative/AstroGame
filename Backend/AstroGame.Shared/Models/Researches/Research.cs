@@ -6,9 +6,6 @@ namespace AstroGame.Shared.Models.Researches
 {
     public abstract class Research : Technology
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string AssetName { get; set; }
         public ResearchType ResearchType { get; set; }
 
         [DefaultValue(1)] public double BuildingTimeMultiplier { get; set; }

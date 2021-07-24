@@ -10,9 +10,10 @@ import 'package:astrogame_app/models/buildings/building_construction.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
+import 'package:astrogame_app/providers/fulfilled_conditions_provider.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
@@ -35,6 +36,7 @@ class BuildingViewModel extends FutureViewModel {
       _selectedColonizedStellarObjectProvider;
   StoredResourceProvider _storedResourceProvider;
   BuildingImageProvider _buildingImageProvider;
+  FulfilledConditionsProvider _fulfilledConditionsProvider;
 
   BuildBuildingExecuter _buildBuildingExecuter;
 
@@ -50,6 +52,7 @@ class BuildingViewModel extends FutureViewModel {
     this._selectedColonizedStellarObjectProvider,
     this._buildingImageProvider,
     this._storedResourceProvider,
+    this._fulfilledConditionsProvider,
     this._buildBuildingExecuter,
     this._eventService,
     this._resourceHelper,
@@ -103,9 +106,21 @@ class BuildingViewModel extends FutureViewModel {
     notifyListeners();
   }
 
+  bool _hasFulfilledConditions;
+  bool get hasFulfilledConditions => _hasFulfilledConditions;
+  set hasFulfilledConditions(bool val) {
+    _hasFulfilledConditions = val;
+    notifyListeners();
+  }
+
   bool get isConstructable {
     // If there is a construction running on this StellarObject
     if (this.buildingConstruction != null) {
+      return false;
+    }
+
+    // If the conditions are not fulfilled
+    if (hasFulfilledConditions == false) {
       return false;
     }
 
@@ -127,7 +142,7 @@ class BuildingViewModel extends FutureViewModel {
   String get constructionText {
     // If this building is under construction
     if (buildingConstruction != null &&
-        buildingConstruction.buildingId == building.id) {
+        buildingConstruction.technologyId == building.id) {
       var duration =
           _buildingConstruction.endTime.difference(DateTime.now().toUtc());
 
@@ -177,6 +192,7 @@ class BuildingViewModel extends FutureViewModel {
     buildingConstruction = await _fetchActiveConstruction();
     storedResources = await _fetchStoredResourcesAsync();
     buildingImage = await _fetchImageAsync(building.assetName);
+    hasFulfilledConditions = await _fetchHasFulfilledConditions(building.id);
   }
 
   Future<FinishedTechnology> _fetchBuiltBuildingAsync(Guid buildingId) async {
@@ -196,5 +212,9 @@ class BuildingViewModel extends FutureViewModel {
 
   Future<ImageProvider> _fetchImageAsync(String assetName) async {
     return await _buildingImageProvider.get(assetName);
+  }
+
+  Future<bool> _fetchHasFulfilledConditions(Guid technologyId) async {
+    return await _fulfilledConditionsProvider.get(technologyId);
   }
 }

@@ -43,4 +43,17 @@ class TechnologyRepository {
       return ServerResponseT()..error = ServerError.withError(error: error);
     }
   }
+
+  Future<ServerResponseT<bool>> hasConditionsFulfilledAsync(
+    Guid technologyId,
+  ) async {
+    try {
+      _logger.d('Does technology has fulfilled conditions');
+      var response =
+          await _technologyApi.hasConditionsFulfilledAsync(technologyId);
+      return ServerResponseT()..data = response;
+    } catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error: error);
+    }
+  }
 }

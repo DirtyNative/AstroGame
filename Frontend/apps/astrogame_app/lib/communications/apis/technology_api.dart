@@ -19,4 +19,9 @@ abstract class TechnologyApi {
     @Path('startLevel') int startLevel,
     @Query('countLevels') int countLevels,
   );
+
+  @GET('/conditions/fulfilled/technology/{technologyId}')
+  Future<bool> hasConditionsFulfilledAsync(
+    @Path('technologyId') Guid technologyId,
+  );
 }

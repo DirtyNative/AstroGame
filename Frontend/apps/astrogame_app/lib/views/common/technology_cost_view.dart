@@ -5,7 +5,7 @@ import 'package:astrogame_app/models/buildings/resource_amount.dart';
 import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
-import 'package:astrogame_app/models/technologies/finished_technology.dart';
+import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:fl_chart/fl_chart.dart';

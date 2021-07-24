@@ -1,5 +1,5 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Shared.Models.Technologies;
+using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 using AstroGame.Storage.Repositories.Technologies;
 using System;
 using System.Collections.Generic;

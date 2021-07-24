@@ -1,5 +1,5 @@
 ﻿using AstroGame.Shared.Models.Stellar.BaseTypes;
-using AstroGame.Shared.Models.Technologies;
+using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
