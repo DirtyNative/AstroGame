@@ -10,15 +10,17 @@ class StartViewModel extends BaseViewModel {
   FetchSolarSystemExecuter _fetchSolarSystemExecuter;
   EventService _eventService;
 
-  TextEditingController solarSystemNumberController;
+  late TextEditingController solarSystemNumberController;
 
-  StartViewModel(this._fetchSolarSystemExecuter, this._eventService) {
+  StartViewModel(
+    this._fetchSolarSystemExecuter,
+    this._eventService,
+  ) {
     solarSystemNumberController = new TextEditingController();
   }
 
   Future loadSolarSystemAsync() async {
-    if (solarSystemNumberController.text == null ||
-        solarSystemNumberController.text.isEmpty) {
+    if (solarSystemNumberController.text.isEmpty) {
       return null;
     }
 
@@ -31,7 +33,7 @@ class StartViewModel extends BaseViewModel {
       return;
     }
 
-    _eventService.fire(new SolarSystemLoadedEvent(response.data));
+    _eventService.fire(new SolarSystemLoadedEvent(response.data!));
   }
 
   Future decrement() async {
@@ -45,8 +47,7 @@ class StartViewModel extends BaseViewModel {
   Future changeSystemNumber(int step) async {
     int number = 1;
 
-    if (solarSystemNumberController.text == null ||
-        solarSystemNumberController.text.isEmpty) {
+    if (solarSystemNumberController.text.isEmpty) {
     } else {
       number = int.parse(solarSystemNumberController.text);
       number += step;

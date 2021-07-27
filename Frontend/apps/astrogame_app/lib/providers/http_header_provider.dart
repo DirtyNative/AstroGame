@@ -28,7 +28,7 @@ class HttpHeaderProvider {
 
       customHeaders.addAll({
         HttpHeaders.authorizationHeader:
-            '${token.tokenType} ${token.accessToken}'
+            '${token?.tokenType} ${token?.accessToken}'
       });
     }
 
@@ -36,7 +36,8 @@ class HttpHeaderProvider {
       var selectedObject = _selectedStellarObjectProvider.getSelectedObject();
 
       customHeaders.addAll({
-        'selected-stellar-object': selectedObject.stellarObjectId.toString()
+        'selected-stellar-object':
+            selectedObject?.stellarObjectId.toString() ?? ''
       });
     }
 

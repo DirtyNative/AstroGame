@@ -17,11 +17,11 @@ class ServiceLocator {
   /// than one instance of one type. Its highly not recommended
   /// If [signalsReady] is set to `true` it means that the future you can get from `allReady()`
   /// cannot complete until this this instance was signalled ready by calling [signalsReady(instance)].
-  static void registerSingleton<T>(
+  static void registerSingleton<T extends Object>(
     T instance, {
-    String instanceName,
-    bool signalsReady,
-    DisposingFunc<T> dispose,
+    String? instanceName,
+    bool? signalsReady,
+    DisposingFunc<T>? dispose,
   }) {
     _getIt.registerSingleton<T>(
       instance,
@@ -43,12 +43,12 @@ class ServiceLocator {
   /// [func] is called
   /// If [signalsReady] is set to `true` it means that the future you can get from `allReady()`
   /// cannot complete until this this instance was signalled ready by calling [signalsReady(instance)].
-  static void registerSingletonWithDependencies<T>(
+  static void registerSingletonWithDependencies<T extends Object>(
     FactoryFunc<T> factoryFunc, {
-    String instanceName,
-    Iterable<Type> dependsOn,
-    bool signalsReady,
-    DisposingFunc<T> dispose,
+    String? instanceName,
+    Iterable<Type>? dependsOn,
+    bool? signalsReady,
+    DisposingFunc<T>? dispose,
   }) {
     _getIt.registerSingletonWithDependencies(
       factoryFunc,
@@ -75,12 +75,12 @@ class ServiceLocator {
   /// If [signalsReady] is set to `true` it means that the future you can get from `allReady()`  cannot complete until this
   /// this instance was signalled ready by calling [signalsReady(instance)]. In that case no automatic ready signal
   /// is made after completion of [factoryfunc]
-  static void registerSingletonAsync<T>(
+  static void registerSingletonAsync<T extends Object>(
     FactoryFuncAsync<T> factoryfunc, {
-    String instanceName,
-    Iterable<Type> dependsOn,
-    bool signalsReady,
-    DisposingFunc<T> dispose,
+    String? instanceName,
+    Iterable<Type>? dependsOn,
+    bool? signalsReady,
+    DisposingFunc<T>? dispose,
   }) {
     _getIt.registerSingletonAsync<T>(
       factoryfunc,
@@ -97,8 +97,8 @@ class ServiceLocator {
   /// [instanceName] if you provide a value here your factory gets registered with that
   /// name instead of a type. This should only be necessary if you need to register more
   /// than one instance of one type. Its highly not recommended
-  static void registerFactory<T>(FactoryFunc<T> factoryfunc,
-      {String instanceName}) {
+  static void registerFactory<T extends Object>(FactoryFunc<T> factoryfunc,
+      {String? instanceName}) {
     _getIt.registerFactory<T>(factoryfunc, instanceName: instanceName);
   }
 
@@ -121,9 +121,9 @@ class ServiceLocator {
   ///
   ///    getIt.registerFactoryParam<TestClassParam,String,void>((s,_)
   ///        => TestClassParam(param1:s);
-  static void registerFactoryParam<T, P1, P2>(
+  static void registerFactoryParam<T extends Object, P1, P2>(
     FactoryFuncParam<T, P1, P2> factoryfunc, {
-    String instanceName,
+    String? instanceName,
   }) {
     _getIt.registerFactoryParam<T, P1, P2>(factoryfunc,
         instanceName: instanceName);
@@ -136,9 +136,9 @@ class ServiceLocator {
   /// [instanceName] if you provide a value here your factory gets registered with that
   /// name instead of a type. This should only be necessary if you need to register more
   /// than one instance of one type. Its highly not recommended
-  static void registerFactoryAsync<T>(
+  static void registerFactoryAsync<T extends Object>(
     FactoryFuncAsync<T> factoryfunc, {
-    String instanceName,
+    String? instanceName,
   }) {
     _getIt.registerFactoryAsync<T>(factoryfunc, instanceName: instanceName);
   }
@@ -147,7 +147,11 @@ class ServiceLocator {
   /// function used for this type or based on a name.
   /// for factories you can pass up to 2 parameters [param1,param2] they have to match the types
   /// given at registration with [registerFactoryParam()]
-  static T get<T>({String instanceName, dynamic param1, dynamic param2}) {
+  static T get<T extends Object>({
+    String? instanceName,
+    dynamic param1,
+    dynamic param2,
+  }) {
     return _getIt.get<T>(
         instanceName: instanceName, param1: param1, param2: param2);
   }
@@ -156,8 +160,11 @@ class ServiceLocator {
   /// not ready with its initialization.
   /// for async factories you can pass up to 2 parameters [param1,param2] they have to match the types
   /// given at registration with [registerFactoryParamAsync()]
-  static Future<T> getAsync<T>(
-      {String instanceName, dynamic param1, dynamic param2}) {
+  static Future<T> getAsync<T extends Object>({
+    String? instanceName,
+    dynamic param1,
+    dynamic param2,
+  }) {
     return _getIt.getAsync<T>(
         instanceName: instanceName, param1: param1, param2: param2);
   }
@@ -166,10 +173,11 @@ class ServiceLocator {
   /// if you need to dispose any resources you can do it using [disposingFunction] function
   /// that provides a instance of your class to be disposed. This function overrides the disposing
   /// you might have provided when registering.
-  static void unregister<T>(
-      {Object instance,
-      String instanceName,
-      void Function(T) disposingFunction}) {
+  static void unregister<T extends Object>({
+    Object? instance,
+    String? instanceName,
+    void Function(T)? disposingFunction,
+  }) {
     _getIt.unregister<T>(
       instance: instance,
       instanceName: instanceName,
@@ -185,8 +193,10 @@ class ServiceLocator {
   /// were ready in the given time. The Exception contains details on which Singletons are not ready yet.
   /// if [allReady] should not wait for the completion of async Signletons set
   /// [ignorePendingAsyncCreation==true]
-  static Future<void> allReady(
-      {Duration timeout, bool ignorePendingAsyncCreation = false}) {
+  static Future<void> allReady({
+    Duration? timeout,
+    bool ignorePendingAsyncCreation = false,
+  }) {
     return _getIt.allReady(
         timeout: timeout,
         ignorePendingAsyncCreation: ignorePendingAsyncCreation);

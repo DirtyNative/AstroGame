@@ -24,7 +24,7 @@ class ResourceProvider {
       var response = await _resourceRepository.getAllAsync();
 
       _memoryCache.put('all', response.data);
-      return response.data;
+      return response.data ?? [];
     });
   }
 
@@ -34,7 +34,7 @@ class ResourceProvider {
 
       _memoryCache.put('all', response.data);
 
-      return response.data;
+      return response.data ?? [];
     });
   }
 }

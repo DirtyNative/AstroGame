@@ -1,5 +1,6 @@
 ﻿using System;
 using AstroGame.Shared.Models.Technologies;
+using Newtonsoft.Json;
 
 namespace AstroGame.Shared.Models.Conditions
 {
@@ -17,8 +18,8 @@ namespace AstroGame.Shared.Models.Conditions
         /// </summary>
         public Guid NeededTechnologyId { get; set; }
 
-        public virtual Technology Technology { get; set; }
-        public virtual Technology NeededTechnology { get; set; }
+        [JsonIgnore] public virtual Technology Technology { get; set; }
+        [JsonIgnore] public virtual Technology NeededTechnology { get; set; }
 
         //public List<BuildingCondition> BuildingConditions { get; set; }
         //public List<ResearchCondition> ResearchConditions { get; set; }

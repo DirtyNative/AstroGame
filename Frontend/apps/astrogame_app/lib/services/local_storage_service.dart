@@ -8,8 +8,9 @@ import 'package:path_provider/path_provider.dart';
 class LocalStorageService {
   static const String _fileName = 'storage.json';
 
-  LocalStorage _localStorage;
+  late LocalStorage _localStorage;
 
+// TODO: Set as init method for getIt
   Future initAsync() async {
     var file = await _localFile;
 

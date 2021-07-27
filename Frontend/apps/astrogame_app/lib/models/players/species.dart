@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/enums/species_type.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'species.g.dart';
@@ -8,9 +9,9 @@ part 'species.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class Species {
-  Guid id;
-  SpeciesType speciesType;
-  String assetName;
+  late Guid id;
+  late SpeciesType speciesType;
+  late String assetName;
 
   Species();
 

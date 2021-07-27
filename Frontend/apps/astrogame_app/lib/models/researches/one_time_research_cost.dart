@@ -8,7 +8,7 @@ part 'one_time_research_cost.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class OneTimeResearchCost extends TechnologyCost with OneTimeCost {
-  double amount;
+  late double amount;
 
   OneTimeResearchCost();
 

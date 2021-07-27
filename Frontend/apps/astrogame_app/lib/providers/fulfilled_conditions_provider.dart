@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/repositories/technology_repository.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
+
 import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
@@ -25,7 +26,7 @@ class FulfilledConditionsProvider {
           await _technologyRepository.hasConditionsFulfilledAsync(technologyId);
 
       _memoryCache.put(technologyId.value, response.data);
-      return response.data;
+      return response.data ?? false;
     });
   }
 }

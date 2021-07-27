@@ -9,10 +9,6 @@ class StellarSystemConverter
 
   @override
   fromJson(json) {
-    if (json == null) {
-      return null;
-    }
-
     var type = json.entries.firstWhere((element) => element.key == '\$type');
 
     if (type.value == 'MultiObjectSystem') {
@@ -20,7 +16,8 @@ class StellarSystemConverter
     } else if (type.value == 'SolarSystem') {
       return SolarSystem.fromJson(json);
     }
-    return null;
+
+    throw new UnimplementedError('Stellar System is not yet implemented');
   }
 
   @override

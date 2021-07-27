@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'add_player_species_perk_request.g.dart';
@@ -9,7 +10,7 @@ part 'add_player_species_perk_request.g.dart';
 class AddPlayerSpeciesPerkRequest {
   Guid perkId;
 
-  AddPlayerSpeciesPerkRequest();
+  AddPlayerSpeciesPerkRequest(this.perkId);
 
   factory AddPlayerSpeciesPerkRequest.fromJson(Map<String, dynamic> json) =>
       _$AddPlayerSpeciesPerkRequestFromJson(json);

@@ -11,16 +11,16 @@ import 'output_resource.dart';
 @GuidConverter()
 abstract class Building extends Technology {
   @JsonKey()
-  BuildingType buildingType;
+  late BuildingType buildingType;
 
   @JsonKey()
-  StellarObjectType buildableOn;
+  late StellarObjectType buildableOn;
 
   @JsonKey()
-  List<InputResource> inputResources;
+  List<InputResource>? inputResources = [];
 
   @JsonKey()
-  List<OutputResource> outputResource;
+  List<OutputResource>? outputResource = [];
 
   Building();
 

@@ -108,7 +108,7 @@ class ResearchesView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: ListView.builder(
-        itemCount: researches?.length ?? 0,
+        itemCount: researches.length,
         itemBuilder: (context, index) => ResearchView(researches[index]),
       ),
     );

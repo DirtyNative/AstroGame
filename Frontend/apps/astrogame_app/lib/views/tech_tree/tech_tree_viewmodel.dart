@@ -9,27 +9,28 @@ import 'package:astrogame_app/providers/technologies_provider.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
+import 'package:collection/collection.dart';
 
 @injectable
 class TechTreeViewModel extends FutureViewModel {
   TechnologiesProvider _technologiesProvider;
 
-  Technology _technology;
-  FinishedTechnology _finishedTechnology;
+  Technology? _technology;
+  FinishedTechnology? _finishedTechnology;
 
-  Graph graph;
-  SugiyamaConfiguration builder;
+  late Graph graph;
+  late SugiyamaConfiguration builder;
 
   TechTreeViewModel(
     this._technologiesProvider,
     @factoryParam this._technology,
     @factoryParam this._finishedTechnology,
-  ) {
+  ) : assert(_technology != null) {
     graph = Graph()..isTree = true;
     builder = new SugiyamaConfiguration();
   }
 
-  List<Technology> _technologies;
+  late List<Technology> _technologies;
   List<Technology> get technologies => _technologies;
   set technologies(List<Technology> val) {
     _technologies = val;
@@ -40,7 +41,7 @@ class TechTreeViewModel extends FutureViewModel {
   Future futureToRun() async {
     technologies = await _fetchTechnologiesAsync();
 
-    generateRootNode(_technology);
+    generateRootNode(_technology!);
 
     builder
       // ..siblingSeparation = (100)
@@ -55,7 +56,7 @@ class TechTreeViewModel extends FutureViewModel {
 
   static bool isConditionFulfilled(
     Condition condition,
-    FinishedTechnology finishedTechnology,
+    FinishedTechnology? finishedTechnology,
   ) {
     if (finishedTechnology == null) {
       return false;
@@ -64,6 +65,7 @@ class TechTreeViewModel extends FutureViewModel {
     if (condition is LevelableCondition) {
       return finishedTechnology.level >= (condition).neededLevel;
     } else if (condition is OneTimeCondition) {
+      // TODO: fix
       return finishedTechnology != null;
     }
 
@@ -78,8 +80,8 @@ class TechTreeViewModel extends FutureViewModel {
     graph.addNode(node);
 
     technology.neededConditions?.forEach((condition) {
-      var subTechnology =
-          technologies.firstWhere((e) => e.id == condition.neededTechnologyId);
+      Technology? subTechnology = technologies
+          .firstWhereOrNull((e) => e.id == condition.neededTechnologyId);
 
       if (subTechnology == null) {
         return;
@@ -92,7 +94,7 @@ class TechTreeViewModel extends FutureViewModel {
   void generateSubNode(
     Node parentNode,
     Technology technology,
-    FinishedTechnology finishedTechnology,
+    FinishedTechnology? finishedTechnology,
     Condition condition,
   ) {
     var nodeModel =
@@ -102,8 +104,8 @@ class TechTreeViewModel extends FutureViewModel {
     graph.addEdge(node, parentNode);
 
     technology.neededConditions?.forEach((condition) {
-      var subTechnology =
-          technologies.firstWhere((e) => e.id == condition.neededTechnologyId);
+      var subTechnology = technologies
+          .firstWhereOrNull((e) => e.id == condition.neededTechnologyId);
 
       if (subTechnology == null) {
         return;

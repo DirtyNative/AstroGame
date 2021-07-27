@@ -9,21 +9,24 @@
             "cwd": "astrogame_app",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_dev.dart"
+            "program": "lib/main_dev.dart",
+            "args": ["--no-sound-null-safety"]
         },
         {
             "name": "Stage",
             "cwd": "astrogame_app",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_stage.dart"
+            "program": "lib/main_stage.dart",
+            "args": ["--no-sound-null-safety"]
         },
         {
             "name": "Prod",
             "cwd": "astrogame_app",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_prod.dart"
+            "program": "lib/main_prod.dart",
+            "args": ["--no-sound-null-safety"]
         },
     ]
 }

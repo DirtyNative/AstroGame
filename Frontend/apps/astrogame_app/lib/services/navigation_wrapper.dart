@@ -6,12 +6,12 @@ import 'package:stacked_services/stacked_services.dart';
 
 @singleton
 class NavigationWrapper {
-  NavigationService _navigationService;
+  late NavigationService _navigationService;
 
   final GlobalKey subWidgetNavigationKey = new GlobalKey();
 
-  String _currentRoute;
-  String _previousRoute;
+  String _currentRoute = '';
+  String _previousRoute = '';
 
   String _currentSubRoute = RoutePaths.HomeRoute;
 
@@ -25,7 +25,7 @@ class NavigationWrapper {
   String get currentSubRoute => _currentSubRoute;
 
   /// Pushes [routeName] onto the navigation stack
-  Future<dynamic> navigateTo(String routeName, {dynamic arguments, int id}) {
+  Future<dynamic>? navigateTo(String routeName, {dynamic arguments, int? id}) {
     _previousRoute = _currentRoute;
     _currentRoute = routeName;
     return _navigationService.navigateTo(routeName,
@@ -35,13 +35,13 @@ class NavigationWrapper {
   dynamic navigateSubTo(String routeName, {dynamic arguments}) {
     _currentSubRoute = routeName;
 
-    return Navigator.of(subWidgetNavigationKey.currentContext)
+    return Navigator.of(subWidgetNavigationKey.currentContext!)
         .pushNamed(routeName, arguments: arguments);
   }
 
   /// Clears the entire back stack and shows [routeName]
-  Future<dynamic> clearStackAndShow(String routeName,
-      {dynamic arguments, int id}) {
+  Future<dynamic>? clearStackAndShow(String routeName,
+      {dynamic arguments, int? id}) {
     _previousRoute = _currentRoute;
     _currentRoute = routeName;
     return _navigationService.clearStackAndShow(routeName,
@@ -49,7 +49,7 @@ class NavigationWrapper {
   }
 
   /// Pops the current scope and indicates if you can pop again
-  bool back({dynamic result, int id}) {
+  bool back({dynamic result, int? id}) {
     return _navigationService.back(result: result, id: id);
   }
 }

@@ -1,6 +1,5 @@
 import 'package:astrogame_app/communications/repositories/authorization_repository.dart';
 import 'package:astrogame_app/communications/repositories/player_repository.dart';
-import 'package:astrogame_app/communications/server_response.dart';
 import 'package:astrogame_app/consts/storage_keys.dart';
 import 'package:astrogame_app/helpers/dialog_helper.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
@@ -13,7 +12,6 @@ import 'package:astrogame_app/services/hub_service.dart';
 import 'package:astrogame_app/services/local_storage_service.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tuple/tuple.dart';
 
 @injectable
 class LoginExecuter {
@@ -39,23 +37,25 @@ class LoginExecuter {
     this._localStorageService,
   );
 
-  Future<bool> loginAsync(String email, String password, bool stayLoggedIn) async {
+  Future<bool> loginAsync(
+      String email, String password, bool stayLoggedIn) async {
     _dialogHelper.showLoadingIndicator();
 
     var loginResponse = await _fetchToken(email, password);
-    if (loginResponse.item1 == false) {
+    if (loginResponse == null) {
       return false;
     }
 
     // fetch the player
-    var playerResponse = await _fetchPlayerAsync();
-    if (playerResponse.item1 == false) {
+    var player = await _fetchPlayerAsync();
+    if (player == null) {
       return false;
     }
 
     // Save the token
     if (stayLoggedIn == true) {
-      await _localStorageService.writeAsync(StorageKeys.tokenKey, loginResponse.item2.data);
+      await _localStorageService.writeAsync(
+          StorageKeys.tokenKey, loginResponse);
     } else {
       await _localStorageService.deleteAsync(StorageKeys.tokenKey);
     }
@@ -66,7 +66,7 @@ class LoginExecuter {
     _dialogHelper.dismissDialog();
 
     // If the user hasn't selected his species, show him a view
-    if (playerResponse.item2.data.playerSpecies == null) {
+    if (player.playerSpecies == null) {
       _navigationService.clearStackAndShow(RoutePaths.SpeciesSelectionRoute);
       return true;
     }
@@ -79,34 +79,35 @@ class LoginExecuter {
     return true;
   }
 
-  Future<Tuple2<bool, ServerResponseT<AuthorizationToken>>> _fetchToken(String email, String password) async {
+  Future<AuthorizationToken?> _fetchToken(String email, String password) async {
     var request = new LoginRequest(email, password);
-    var authorizationResponse = await _authorizationRepository.loginAsync(request: request);
+    var authorizationResponse =
+        await _authorizationRepository.loginAsync(request);
 
     // If there happened an error
-    if (authorizationResponse.hasError) {
+    if (authorizationResponse.hasError || authorizationResponse.data == null) {
       _dialogHelper.dismissDialog();
       // TODO: show error dialog;
-      return Tuple2(false, null);
+      return null;
     }
 
     // Store the token
-    _authorizationTokenProvider.setToken(authorizationResponse.data);
+    _authorizationTokenProvider.setToken(authorizationResponse.data!);
 
-    return Tuple2(true, authorizationResponse);
+    return authorizationResponse.data;
   }
 
-  Future<Tuple2<bool, ServerResponseT<Player>>> _fetchPlayerAsync() async {
+  Future<Player?> _fetchPlayerAsync() async {
     var playerResponse = await _playerRepository.getCurrentAsync();
 
-    if (playerResponse.hasError) {
+    if (playerResponse.hasError || playerResponse.data == null) {
       _dialogHelper.dismissDialog();
       // TODO: show error dialog;
-      return Tuple2(false, null);
+      return null;
     }
 
-    _playerProvider.setPlayer(playerResponse.data);
+    _playerProvider.setPlayer(playerResponse.data!);
 
-    return Tuple2(true, playerResponse);
+    return playerResponse.data;
   }
 }

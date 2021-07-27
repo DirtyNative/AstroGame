@@ -1,3 +1,3 @@
 abstract class OneTimeCost {
-  double amount;
+  late double amount;
 }

@@ -1,10 +1,11 @@
 import 'package:astrogame_app/communications/apis/building_api.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/enums/stellar_object_type.dart';
 import 'package:astrogame_app/providers/http_header_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
@@ -19,7 +20,7 @@ class BuildingRepository {
   HttpHeaderProvider _httpHeaderProvider;
   ServerConnection _serverConnection;
 
-  BuildingApi _buildingApi;
+  late BuildingApi _buildingApi;
 
   BuildingRepository(
       Dio dio, this._logger, this._serverConnection, this._httpHeaderProvider) {
@@ -31,8 +32,8 @@ class BuildingRepository {
       _logger.d('Get all buildings');
       var response = await _buildingApi.getAllAsync();
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
@@ -42,8 +43,10 @@ class BuildingRepository {
       _logger.d('Get all buildings');
       var response = await _buildingApi.getForCurrentStellarObjectAsync();
       return ServerResponseT()..data = response;
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+      throw Exception(error);
     }
   }
 
@@ -54,22 +57,22 @@ class BuildingRepository {
       _logger.d('Get all buildings by type');
       var response = await _buildingApi.getAllByTypeAsync(type);
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
-  Future<ServerResponseT<ImageProvider>> getImageAsync({
-    @required Guid buildingId,
-  }) async {
+  Future<ServerResponseT<ImageProvider>> getImageAsync(
+    Guid buildingId,
+  ) async {
     try {
       _logger.d('Get building image');
       return ServerResponseT()
         ..data = NetworkImage(
             _serverConnection.baseAdress + '/api/v1/building/image/$buildingId',
             headers: _httpHeaderProvider.getHeaders());
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
@@ -80,8 +83,8 @@ class BuildingRepository {
       _logger.d('Build building');
       await _buildingApi.buildAsync(buildingId);
       return ServerResponse();
-    } catch (error) {
-      return ServerResponse()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponse()..error = ServerError.withError(error);
     }
   }
 }

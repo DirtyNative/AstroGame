@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/dtos/add_player_species_request.dart';
 import 'package:astrogame_app/communications/repositories/species_repository.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
+import 'package:astrogame_app/models/enums/planet_type.dart';
 import 'package:astrogame_app/models/players/species.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
@@ -9,49 +10,53 @@ import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
-class SpeciesSelectionViewModel extends FutureViewModel<List<Species>> {
+class SpeciesSelectionViewModel extends FutureViewModel {
   NavigationWrapper _navigationService;
 
   SpeciesRepository _speciesRepository;
-  SpeciesImageProvider _speciesImageProvider;
+  AssetImageProvider _assetImageProvider;
+
+  late TextEditingController empireNameController;
 
   SpeciesSelectionViewModel(
     this._navigationService,
     this._speciesRepository,
-    this._speciesImageProvider,
+    this._assetImageProvider,
   ) {
     empireNameController = new TextEditingController();
     empireNameController.addListener(() {
-      _playerSpecies.empireName = empireNameController.text;
+      empireName = empireNameController.text;
       notifyListeners();
     });
-
-    _playerSpecies = new AddPlayerSpeciesRequest();
   }
 
-  List<Species> _species;
+  late List<Species> _species;
   List<Species> get species => _species;
   set species(List<Species> val) {
     _species = val;
     notifyListeners();
   }
 
-  Species _selectedSpecies;
-  Species get selectedSpecies => _selectedSpecies;
-  set selectedSpecies(Species val) {
+  Species? _selectedSpecies;
+  Species? get selectedSpecies => _selectedSpecies;
+  set selectedSpecies(Species? val) {
     _selectedSpecies = val;
-    _playerSpecies.speciesId = val?.id;
     notifyListeners();
   }
 
-  bool get isNextButtonEnabled => _playerSpecies.empireName != null && _playerSpecies.empireName != '' && _playerSpecies.speciesId != null;
+  String _empireName = '';
+  String get empireName => _empireName;
+  set empireName(String val) {
+    _empireName = val;
+    notifyListeners();
+  }
 
-  AddPlayerSpeciesRequest _playerSpecies;
-
-  TextEditingController empireNameController;
+  bool get isNextButtonEnabled => empireName != '';
 
   @override
-  Future<List<Species>> futureToRun() => _getAllSpeciesAsync();
+  Future futureToRun() async {
+    species = await _getAllSpeciesAsync();
+  }
 
   Future<List<Species>> _getAllSpeciesAsync() async {
     var response = await _speciesRepository.getAllAsync();
@@ -60,16 +65,22 @@ class SpeciesSelectionViewModel extends FutureViewModel<List<Species>> {
       throw Exception('There happened an error');
     }
 
-    species = response.data;
-
-    return response.data;
+    return response.data ?? [];
   }
 
   Future<ImageProvider> getImageAsync(String assetName) async {
-    return await _speciesImageProvider.get(assetName);
+    return await _assetImageProvider.get(assetName, ImageScope.species);
   }
 
   void showPerkSelectionView() {
-    _navigationService.navigateTo(RoutePaths.PerkSelectionRoute, arguments: _playerSpecies);
+    if (selectedSpecies == null) {
+      return;
+    }
+
+    var playerSpecies = new AddPlayerSpeciesRequest(selectedSpecies!.id,
+        empireNameController.text, PlanetType.continental, []);
+
+    _navigationService.navigateTo(RoutePaths.PerkSelectionRoute,
+        arguments: playerSpecies);
   }
 }

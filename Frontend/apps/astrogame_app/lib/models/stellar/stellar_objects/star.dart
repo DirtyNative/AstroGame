@@ -11,19 +11,19 @@ part 'star.g.dart';
 @JsonSerializable()
 class Star extends StellarObject {
   @JsonKey()
-  StarType starType;
+  late StarType starType;
 
   @JsonKey()
-  double scale;
+  late double scale;
 
   @JsonKey()
-  double axialTilt;
+  late double axialTilt;
 
   @JsonKey()
-  List<StellarObjectResource> resources;
+  List<StellarObjectResource> resources = [];
 
   @JsonKey()
-  int order;
+  late int order;
 
   Star();
 

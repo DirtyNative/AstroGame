@@ -2,6 +2,7 @@ import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/buildings/resource_amount.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/researches/levelable_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
@@ -10,7 +11,7 @@ import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:stacked/stacked.dart';
 
 import 'resource_view.dart';
@@ -18,7 +19,7 @@ import 'technology_cost_viewmodel.dart';
 
 class TechnologyCostView extends StatelessWidget {
   final Technology _technology;
-  final FinishedTechnology _finishedTechnology;
+  final FinishedTechnology? _finishedTechnology;
 
   TechnologyCostView(this._technology, this._finishedTechnology);
 
@@ -38,10 +39,7 @@ class TechnologyCostView extends StatelessWidget {
 
   Widget _oneTimeResearchCostsWidget(
       BuildContext context, TechnologyCostViewModel model) {
-    if (model.technologyValues == null ||
-        model.technologyValues.length == 0 ||
-        model.resources == null ||
-        model.resources.length == 0) {
+    if (model.technologyValues.length == 0 || model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -62,9 +60,9 @@ class TechnologyCostView extends StatelessWidget {
           SizedBox(height: 16),
           GridView.builder(
             shrinkWrap: true,
-            itemCount: model.technology.technologyCosts.length,
+            itemCount: model.technology!.technologyCosts?.length,
             itemBuilder: (context, index) {
-              var researchCost = model.technology.technologyCosts[index];
+              var researchCost = model.technology!.technologyCosts![index];
               var resource = model.resources.firstWhere(
                   (element) => element.id == researchCost.resourceId);
 
@@ -102,10 +100,7 @@ class TechnologyCostView extends StatelessWidget {
 
   Widget _dynamicResearchCostsWidget(
       BuildContext context, TechnologyCostViewModel model) {
-    if (model.technologyValues == null ||
-        model.technologyValues.length == 0 ||
-        model.resources == null ||
-        model.resources.length == 0) {
+    if (model.technologyValues.length == 0 || model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -182,8 +177,8 @@ class TechnologyCostView extends StatelessWidget {
     model.technologyValues.forEach((element) {
       var costs = element.technologyCosts
           .firstWhere((costs) => costs.resourceId == resourceId);
-      var spot = new FlSpot(
-          element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
+      var spot =
+          new FlSpot(element.level.toDouble(), costs.amount.roundToDouble());
       spots.add(spot);
     });
 
@@ -226,7 +221,7 @@ class TechnologyCostView extends StatelessWidget {
           return touchedSpots.map((e) {
             return LineTooltipItem(
               '${e.y.toInt()} ${usedResources[e.barIndex].name}',
-              Theme.of(context).textTheme.bodyText1,
+              Theme.of(context).textTheme.bodyText1!,
             );
           }).toList();
         },
@@ -247,12 +242,12 @@ class TechnologyCostView extends StatelessWidget {
       leftTitles: SideTitles(
         showTitles: true,
         interval: (step == 0) ? 1000 : step,
-        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1,
+        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1!,
         margin: 30,
       ),
       bottomTitles: SideTitles(
         showTitles: true,
-        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1,
+        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1!,
         margin: 20,
       ),
     );

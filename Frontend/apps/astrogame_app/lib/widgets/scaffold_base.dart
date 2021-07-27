@@ -2,7 +2,7 @@ import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:flutter/material.dart';
 
 class ScaffoldBase extends StatefulWidget {
-  final Widget body;
+  final Widget? body;
 
   ScaffoldBase({@required this.body});
 

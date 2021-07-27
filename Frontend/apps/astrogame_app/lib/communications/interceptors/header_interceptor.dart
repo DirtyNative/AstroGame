@@ -5,18 +5,19 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class HeaderInterceptor extends Interceptor {
-  HttpHeaderProvider _httpHeaderProvider;
+  late HttpHeaderProvider _httpHeaderProvider;
 
   HeaderInterceptor() {
+    // TODO: Check why this cant be injected
     _httpHeaderProvider = ServiceLocator.get<HttpHeaderProvider>();
   }
 
   @override
-  Future onRequest(RequestOptions options) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var headers = _httpHeaderProvider.getHeaders();
 
     options.headers.addAll(headers);
 
-    return super.onRequest(options);
+    return super.onRequest(options, handler);
   }
 }

@@ -11,7 +11,7 @@ import '../server_response.dart';
 class SpeciesRepository {
   Logger _logger;
 
-  SpeciesApi _speciesApi;
+  late SpeciesApi _speciesApi;
 
   SpeciesRepository(Dio dio, this._logger) {
     _speciesApi = new SpeciesApi(dio);
@@ -22,8 +22,8 @@ class SpeciesRepository {
       _logger.d('Get all species');
       var response = await _speciesApi.getAllAsync();
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

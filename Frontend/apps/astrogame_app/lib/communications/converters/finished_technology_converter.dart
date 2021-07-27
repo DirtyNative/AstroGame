@@ -29,7 +29,7 @@ class FinishedTechnologyConverter
       return OneTimeStellarObjectDependentFinishedTechnology.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Finished Technology is not yet implemented');
   }
 
   @override

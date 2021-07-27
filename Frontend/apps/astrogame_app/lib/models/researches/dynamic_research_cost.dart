@@ -8,8 +8,8 @@ part 'dynamic_research_cost.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class DynamicResearchCost extends TechnologyCost with DynamicCost {
-  double baseValue;
-  double multiplier;
+  late double baseValue;
+  late double multiplier;
 
   DynamicResearchCost();
 

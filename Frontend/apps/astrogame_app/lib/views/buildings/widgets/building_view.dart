@@ -15,64 +15,68 @@ class BuildingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<BuildingViewModel>.reactive(
-      builder: (context, model, _) => Container(
-        margin: EdgeInsets.only(bottom: 16),
-        height: 150,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: AstroGameColors.lightGrey,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image
-            _buildingImageWidget(model),
+      builder: (context, model, _) => model.isBusy
+          ? CircularProgressIndicator()
+          : Container(
+              margin: EdgeInsets.only(bottom: 16),
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: AstroGameColors.lightGrey,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Image
+                  _buildingImageWidget(model),
 
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(model.building.name,
-                            style: Theme.of(context).textTheme.headline2),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(model.building!.name,
+                                  style: Theme.of(context).textTheme.headline2),
 
-                        // Show the level only if it's a levelable building
-                        if (model.building is LevelableBuilding)
-                          Text('Level ${model.finishedTechnology?.level ?? 0}')
-                        else if (model.building is FixedBuilding)
-                          SizedBox.shrink(),
-                      ],
+                              // Show the level only if it's a levelable building
+                              if (model.building is LevelableBuilding)
+                                Text(
+                                    'Level ${model.finishedTechnology?.level ?? 0}')
+                              else if (model.building is FixedBuilding)
+                                SizedBox.shrink(),
+                            ],
+                          ),
+                          Text(
+                            model.building!.description,
+                          ),
+                          Expanded(child: Container()),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                  onPressed: model.showBuildingDetails,
+                                  child: Text('Details')),
+                              ElevatedButton(
+                                onPressed: (model.isConstructable)
+                                    ? model.buildAsync
+                                    : null,
+                                child: Text(model.constructionText),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      model.building.description,
-                    ),
-                    Expanded(child: Container()),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                            onPressed: model.showBuildingDetails,
-                            child: Text('Details')),
-                        ElevatedButton(
-                          onPressed:
-                              (model.isConstructable) ? model.buildAsync : null,
-                          child: Text(model.constructionText),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
       viewModelBuilder: () => ServiceLocator.get(param1: _building),
     );
   }
@@ -86,13 +90,11 @@ class BuildingView extends StatelessWidget {
           bottomLeft: Radius.circular(16),
           bottomRight: Radius.circular(32),
         ),
-        child: (model.buildingImage == null)
-            ? Container()
-            : Image(
-                image: model.buildingImage,
-                height: 150,
-                fit: BoxFit.fitHeight,
-              ),
+        child: Image(
+          image: model.buildingImage,
+          height: 150,
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:astrogame_app/communications/apis/resource_api.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
@@ -12,7 +13,7 @@ import '../server_response.dart';
 class ResourceRepository {
   Logger _logger;
 
-  ResourceApi _resourceApi;
+  late ResourceApi _resourceApi;
 
   ResourceRepository(Dio dio, this._logger) {
     _resourceApi = new ResourceApi(dio);
@@ -25,8 +26,10 @@ class ResourceRepository {
       var resources = await _resourceApi.getAllAsync();
 
       return ServerResponseT()..data = resources;
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+      throw Exception(error);
     }
   }
 
@@ -37,8 +40,8 @@ class ResourceRepository {
       var resource = await _resourceApi.getAsync(id);
 
       return ServerResponseT()..data = resource;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

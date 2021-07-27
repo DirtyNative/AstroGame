@@ -5,14 +5,14 @@ class MenuItem extends StatelessWidget {
   final bool isSelected;
   final IconData icon;
   final String label;
-  final Function onTap;
+  final Function() onTap;
 
-  MenuItem({
-    @required this.icon,
-    @required this.label,
-    @required this.isSelected,
-    @required this.onTap,
-  });
+  MenuItem(
+    this.icon,
+    this.label,
+    this.isSelected,
+    this.onTap,
+  );
 
   final _gradient = LinearGradient(
       begin: Alignment.centerLeft,

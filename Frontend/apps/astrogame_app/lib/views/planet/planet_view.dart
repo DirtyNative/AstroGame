@@ -219,7 +219,10 @@ class PlanetView extends StatelessWidget {
               right: 24,
               bottom: 16,
             ),
-            child: Column(
+            child:
+
+                // TODO: Check why these resources are here
+                Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Helium (He)'),
@@ -238,7 +241,7 @@ class PlanetView extends StatelessWidget {
             iconColor: Colors.white,
             headerAlignment: ExpandablePanelHeaderAlignment.center,
           ),
-          collapsed: null,
+          collapsed: SizedBox.shrink(),
         ),
         borderRadius: BorderRadius.circular(8),
         sigmaX: 5,

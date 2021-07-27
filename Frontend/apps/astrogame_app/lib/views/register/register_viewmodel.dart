@@ -4,10 +4,10 @@ import 'package:stacked/stacked.dart';
 
 @injectable
 class RegisterViewModel extends BaseViewModel {
-  TextEditingController emailController;
-  TextEditingController usernameController;
-  TextEditingController passwordController;
-  TextEditingController passwordConfirmationController;
+  late TextEditingController emailController;
+  late TextEditingController usernameController;
+  late TextEditingController passwordController;
+  late TextEditingController passwordConfirmationController;
 
   bool get isRegisterButtonEnabled =>
       isValidEmail && isUsernameValid && isPasswordValid && arePasswordsEqual;

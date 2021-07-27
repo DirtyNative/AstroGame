@@ -26,7 +26,7 @@ class TechnologiesProvider {
       var response = await _technologyRepository.getAllAsync();
 
       _memoryCache.put('all', response.data);
-      return response.data;
+      return response.data ?? [];
     });
   }
 

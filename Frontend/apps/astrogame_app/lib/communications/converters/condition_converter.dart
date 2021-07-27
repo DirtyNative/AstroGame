@@ -21,7 +21,7 @@ class ConditionConverter
       return LevelableCondition.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Condition is not yet implemented');
   }
 
   @override

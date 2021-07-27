@@ -42,13 +42,13 @@ class SetPlayersSpeciesExecuter {
     var playerResponse = await _playerRepository.getCurrentAsync();
 
     // If there happened an error
-    if (playerResponse.hasError) {
+    if (playerResponse.hasError || playerResponse.data == null) {
       _dialogHelper.dismissDialog();
       // TODO: show error dialog;
       return false;
     }
 
-    _playerProvider.setPlayer(playerResponse.data);
+    _playerProvider.setPlayer(playerResponse.data!);
 
     _dialogHelper.dismissDialog();
 

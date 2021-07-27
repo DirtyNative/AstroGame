@@ -3,7 +3,8 @@ import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class BuildingConverter implements JsonConverter<Building, Map<String, dynamic>> {
+class BuildingConverter
+    implements JsonConverter<Building, Map<String, dynamic>> {
   const BuildingConverter();
 
   @override
@@ -21,7 +22,7 @@ class BuildingConverter implements JsonConverter<Building, Map<String, dynamic>>
       return FixedBuilding.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Building is not yet implemented');
   }
 
   @override

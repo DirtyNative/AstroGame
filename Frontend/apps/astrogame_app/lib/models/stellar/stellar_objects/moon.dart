@@ -10,16 +10,16 @@ part 'moon.g.dart';
 @JsonSerializable()
 class Moon extends StellarObject {
   @JsonKey()
-  double scale;
+  late double scale;
 
   @JsonKey()
-  double axialTilt;
+  late double axialTilt;
 
   @JsonKey()
-  List<StellarObjectResource> resources;
+  List<StellarObjectResource> resources = [];
 
   @JsonKey()
-  int order;
+  late int order;
 
   Moon();
 

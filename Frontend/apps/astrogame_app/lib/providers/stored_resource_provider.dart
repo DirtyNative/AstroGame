@@ -12,7 +12,8 @@ class StoredResourceProvider {
   EventService _eventService;
 
   ResourceSnapshotProvider _resourceSnapshotProvider;
-  SelectedColonizedStellarObjectProvider _selectedColonizedStellarObjectProvider;
+  SelectedColonizedStellarObjectProvider
+      _selectedColonizedStellarObjectProvider;
 
   StoredResourceProvider(
     this._eventService,
@@ -31,18 +32,22 @@ class StoredResourceProvider {
   }
 
   Future<List<StoredResource>> getAsync() async {
-    var currentStellarObjectId = _selectedColonizedStellarObjectProvider.getSelectedObject().stellarObjectId;
-
-    var snapshot = await _resourceSnapshotProvider.getAsync(currentStellarObjectId);
-
-    return snapshot.storedResources;
+    return await updateAsync();
   }
 
   Future<List<StoredResource>> updateAsync() async {
-    var currentStellarObjectId = _selectedColonizedStellarObjectProvider.getSelectedObject().stellarObjectId;
+    var selectedColonizedStellarObject =
+        _selectedColonizedStellarObjectProvider.getSelectedObject();
 
-    var snapshot = await _resourceSnapshotProvider.updateAsync(currentStellarObjectId);
+    if (selectedColonizedStellarObject == null) {
+      return [];
+    }
 
-    return snapshot.storedResources;
+    var currentStellarObjectId = selectedColonizedStellarObject.stellarObjectId;
+
+    var snapshot =
+        await _resourceSnapshotProvider.getAsync(currentStellarObjectId);
+
+    return snapshot?.storedResources ?? [];
   }
 }

@@ -10,7 +10,7 @@ part 'black_hole.g.dart';
 @JsonSerializable()
 class BlackHole extends StellarObject {
   @JsonKey()
-  List<StellarObjectResource> resources;
+  List<StellarObjectResource> resources = [];
 
   BlackHole();
 

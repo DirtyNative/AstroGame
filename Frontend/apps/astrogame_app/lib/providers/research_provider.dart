@@ -24,7 +24,7 @@ class ResearchProvider {
       var response = await _researchRepository.getAllAsync();
 
       _memoryCache.put('all', response.data);
-      return response.data;
+      return response.data ?? [];
     });
   }
 }

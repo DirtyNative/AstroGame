@@ -7,63 +7,63 @@ class MenuEntry {
   final IconData icon;
   final String route;
 
-  MenuEntry({@required this.label, @required this.icon, this.route});
+  MenuEntry(this.label, this.icon, this.route);
 }
 
 final menuEntries = <MenuEntry>[
   MenuEntry(
-    label: 'Home',
-    icon: Icons.home,
-    route: RoutePaths.HomeRoute,
+    'Home',
+    Icons.home,
+    RoutePaths.HomeRoute,
   ),
   MenuEntry(
-    label: 'Resources',
-    icon: Icons.restore_outlined,
-    route: RoutePaths.ResourcesRoute,
+    'Resources',
+    Icons.restore_outlined,
+    RoutePaths.ResourcesRoute,
   ),
   MenuEntry(
-    label: 'Buildings',
-    icon: Icons.home,
-    route: RoutePaths.BuildingsRoute,
+    'Buildings',
+    Icons.home,
+    RoutePaths.BuildingsRoute,
   ),
   MenuEntry(
-    label: 'Researches',
-    icon: Icons.home,
-    route: RoutePaths.ResearchesRoute,
+    'Researches',
+    Icons.home,
+    RoutePaths.ResearchesRoute,
   ),
   MenuEntry(
-    label: 'Systems',
-    icon: Icons.system_update,
-    route: RoutePaths.SystemViewRoute,
+    'Systems',
+    Icons.system_update,
+    RoutePaths.SystemViewRoute,
   ),
   MenuEntry(
-    label: 'Galaxy',
-    icon: Icons.system_update,
-    route: RoutePaths.GalaxyRoute,
+    'Galaxy',
+    Icons.system_update,
+    RoutePaths.GalaxyRoute,
   ),
   MenuEntry(
-    label: 'Market',
-    icon: Icons.money,
-    route: RoutePaths.MarketRoute,
+    'Market',
+    Icons.money,
+    RoutePaths.MarketRoute,
   ),
   MenuEntry(
-    label: 'Species',
-    icon: Icons.system_update,
-    route: RoutePaths.NotImplementedRoute,
+    'Species',
+    Icons.system_update,
+    RoutePaths.NotImplementedRoute,
   ),
   MenuEntry(
-    label: 'Empire',
-    icon: Icons.system_update,
-    route: RoutePaths.NotImplementedRoute,
+    'Empire',
+    Icons.system_update,
+    RoutePaths.NotImplementedRoute,
   ),
   MenuEntry(
-    label: 'Contacts',
-    icon: Icons.system_update,
-    route: RoutePaths.NotImplementedRoute,
+    'Contacts',
+    Icons.system_update,
+    RoutePaths.NotImplementedRoute,
   ),
   MenuEntry(
-    label: 'Alliance',
-    icon: Icons.system_update,
-    route: RoutePaths.NotImplementedRoute,
+    'Alliance',
+    Icons.system_update,
+    RoutePaths.NotImplementedRoute,
   ),
 ];

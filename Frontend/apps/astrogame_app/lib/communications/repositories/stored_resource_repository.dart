@@ -1,7 +1,8 @@
 import 'package:astrogame_app/communications/apis/stored_resource_api.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
@@ -12,7 +13,7 @@ import '../server_response.dart';
 class StoredResourceRepository {
   Logger _logger;
 
-  StoredResourceApi _storedResourceApi;
+  late StoredResourceApi _storedResourceApi;
 
   StoredResourceRepository(Dio dio, this._logger) {
     _storedResourceApi = new StoredResourceApi(dio);
@@ -27,8 +28,8 @@ class StoredResourceRepository {
           await _storedResourceApi.getOnCurrentStellarObjectAsync();
 
       return ServerResponseT()..data = storedResources;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
@@ -41,8 +42,8 @@ class StoredResourceRepository {
           await _storedResourceApi.getOnStellarObjectAsync(stellarObjectId);
 
       return ServerResponseT()..data = storedResources;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

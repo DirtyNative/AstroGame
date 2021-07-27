@@ -11,7 +11,7 @@ import '../server_response.dart';
 class BuildingChainRepository {
   Logger _logger;
 
-  BuildingChainApi _buildingChainApi;
+  late BuildingChainApi _buildingChainApi;
 
   BuildingChainRepository(
     Dio dio,
@@ -26,8 +26,8 @@ class BuildingChainRepository {
       var response = await _buildingChainApi.getByCurrentPlayerAsync();
 
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

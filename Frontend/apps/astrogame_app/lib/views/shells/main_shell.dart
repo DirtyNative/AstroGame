@@ -66,7 +66,7 @@ class _State extends State<MainShell> {
 
         if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
           return InnerDrawer(
-            scaffold: null,
+            scaffold: SizedBox.shrink(),
             leftChild: MenuView(),
           );
         }

@@ -13,34 +13,34 @@ import 'package:stacked/stacked.dart';
 class BuildingDetailViewModel extends FutureViewModel {
   TechnologyRepository _technologyRepository;
   ResourceProvider _resourceProvider;
-  BuildingImageProvider _buildingImageProvider;
+  AssetImageProvider _assetImageProvider;
 
-  Building building;
-  FinishedTechnology finishedTechnology;
+  Building? building;
+  FinishedTechnology? finishedTechnology;
 
   BuildingDetailViewModel(
     this._technologyRepository,
     this._resourceProvider,
-    this._buildingImageProvider,
+    this._assetImageProvider,
     @factoryParam this.building,
     @factoryParam this.finishedTechnology,
-  );
+  ) : assert(building != null);
 
-  List<TechnologyValue> _technologyValues;
+  late List<TechnologyValue> _technologyValues;
   List<TechnologyValue> get technologyValues => _technologyValues;
   set technologyValues(List<TechnologyValue> val) {
     _technologyValues = val;
     notifyListeners();
   }
 
-  List<Resource> _resources;
+  late List<Resource> _resources;
   List<Resource> get resources => _resources;
   set resources(List<Resource> val) {
     _resources = val;
     notifyListeners();
   }
 
-  ImageProvider _buildingImage;
+  late ImageProvider _buildingImage;
   ImageProvider get buildingImage => _buildingImage;
   set buildingImage(ImageProvider val) {
     _buildingImage = val;
@@ -49,7 +49,7 @@ class BuildingDetailViewModel extends FutureViewModel {
 
   @override
   Future futureToRun() async {
-    buildingImage = await _fetchImageAsync(building.assetName);
+    buildingImage = await _fetchImageAsync(building!.assetName);
     resources = await _fetchResourcesAsync();
     technologyValues = await _fetchBuildingValues();
   }
@@ -60,16 +60,16 @@ class BuildingDetailViewModel extends FutureViewModel {
 
   Future<List<TechnologyValue>> _fetchBuildingValues() async {
     var response = await _technologyRepository.getValuesAsync(
-        building.id, finishedTechnology?.level ?? 1, 10);
+        building!.id, finishedTechnology?.level ?? 1, 10);
 
     if (response.hasError) {
       throw Exception(response.error);
     }
 
-    return response.data;
+    return response.data ?? [];
   }
 
   Future<ImageProvider> _fetchImageAsync(String assetName) async {
-    return await _buildingImageProvider.get(assetName);
+    return await _assetImageProvider.get(assetName, ImageScope.building);
   }
 }

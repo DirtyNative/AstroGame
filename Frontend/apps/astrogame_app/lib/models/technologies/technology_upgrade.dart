@@ -1,9 +1,9 @@
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 
 abstract class TechnologyUpgrade {
-  Guid id;
-  Guid technologyId;
-  DateTime startTime;
-  DateTime endTime;
-  String hangfireJobId;
+  late Guid id;
+  late Guid technologyId;
+  late DateTime startTime;
+  late DateTime endTime;
+  late String hangfireJobId;
 }

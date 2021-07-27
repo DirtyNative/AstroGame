@@ -9,10 +9,10 @@ part 'dynamic_building_cost.g.dart';
 @JsonSerializable()
 class DynamicBuildingCost extends TechnologyCost with DynamicCost {
   @JsonKey()
-  double baseValue;
+  late double baseValue;
 
   @JsonKey()
-  double multiplier;
+  late double multiplier;
 
   DynamicBuildingCost();
 

@@ -1,3 +1,3 @@
 abstract class LevelableFinishedTechnology {
-  int level;
+  late int level;
 }

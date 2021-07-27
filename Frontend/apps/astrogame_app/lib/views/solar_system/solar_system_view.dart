@@ -29,7 +29,7 @@ class _State extends State<SolarSystemView> {
       createNewModelOnInsert: true,
       builder: (context, model, _) => Padding(
         padding: const EdgeInsets.all(16.0),
-        child: generateSolarSystemWidget(model, model.solarSystem),
+        child: generateSolarSystemWidget(model, model.solarSystem!),
       ),
       viewModelBuilder: () => getIt.get(),
     );
@@ -53,13 +53,13 @@ class _State extends State<SolarSystemView> {
     }
 
     if (stellarSystem.centerObjects == null ||
-        stellarSystem.centerObjects.length < 1) {
+        stellarSystem.centerObjects!.length < 1) {
       return SizedBox.shrink();
     }
 
     List<Widget> subSystemWidgets = <Widget>[];
 
-    for (int i = 0; i < stellarSystem.satellites.length; i++) {
+    for (int i = 0; i < stellarSystem.satellites!.length; i++) {
       if (vertical) {
         subSystemWidgets.add(
           CustomPaint(
@@ -77,7 +77,7 @@ class _State extends State<SolarSystemView> {
       }
 
       var widget =
-          _generateSubWidget(model, stellarSystem.satellites[i], !vertical);
+          _generateSubWidget(model, stellarSystem.satellites![i], !vertical);
       subSystemWidgets.add(widget);
     }
 
@@ -110,9 +110,9 @@ class _State extends State<SolarSystemView> {
   Widget _stellarSystemWidget(
       SolarSystemViewModel model, StellarSystem stellarSystem) {
     List<Widget> stellarObjects = List<Widget>.generate(
-        stellarSystem.centerObjects.length,
+        stellarSystem.centerObjects?.length ?? 0,
         (index) =>
-            _stellarObjectWidget(model, stellarSystem.centerObjects[index]));
+            _stellarObjectWidget(model, stellarSystem.centerObjects![index]));
 
     return GlassContainer(
         padding: EdgeInsets.all(16),

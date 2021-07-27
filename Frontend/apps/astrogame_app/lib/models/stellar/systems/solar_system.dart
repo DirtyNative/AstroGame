@@ -14,18 +14,19 @@ part 'solar_system.g.dart';
 @JsonSerializable()
 class SolarSystem extends StellarSystem {
   @JsonKey()
-  String name;
+  late String name;
 
   @JsonKey()
-  Coordinates coordinates;
+  late Coordinates coordinates;
 
   @JsonKey()
-  bool isGenerated;
+  late bool isGenerated;
 
-  Vector3 position;
+  late Vector3 position;
 
   SolarSystem();
 
-  factory SolarSystem.fromJson(Map<String, dynamic> json) => _$SolarSystemFromJson(json);
+  factory SolarSystem.fromJson(Map<String, dynamic> json) =>
+      _$SolarSystemFromJson(json);
   Map<String, dynamic> toJson() => _$SolarSystemToJson(this);
 }

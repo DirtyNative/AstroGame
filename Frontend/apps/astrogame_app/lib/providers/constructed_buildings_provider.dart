@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/repositories/finished_technology_repository.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
@@ -26,11 +27,11 @@ class ConstructedBuildingsProvider {
           await _finishedTechnologyRepository.getByCurrentStellarObjectAsync();
 
       _memoryCache.put('all', response.data);
-      return response.data;
+      return response.data ?? [];
     });
   }
 
-  Future<FinishedTechnology> getByBuildingAsync(Guid technologyId) async {
+  Future<FinishedTechnology?> getByBuildingAsync(Guid technologyId) async {
     var buildings = await get();
 
     if (buildings == null || buildings.length == 0) {

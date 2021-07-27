@@ -15,36 +15,47 @@ class ImageRepository {
   HttpHeaderProvider _httpHeaderProvider;
   ServerConnection _serverConnection;
 
-  ImageRepository(Dio dio, this._logger, this._serverConnection, this._httpHeaderProvider);
+  ImageRepository(
+      Dio dio, this._logger, this._serverConnection, this._httpHeaderProvider);
 
   Future<ServerResponseT<ImageProvider>> getImageAsync(
     String address,
   ) async {
     try {
       _logger.d('Get building image');
-      return ServerResponseT()..data = NetworkImage(address, headers: _httpHeaderProvider.getHeaders());
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+      return ServerResponseT()
+        ..data =
+            NetworkImage(address, headers: _httpHeaderProvider.getHeaders());
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
-  Future<ServerResponseT<ImageProvider>> getBuildingImageAsync(String assetName) async {
-    var address = _serverConnection.baseAdress + '/api/v1/image/building/$assetName';
+  Future<ServerResponseT<ImageProvider>> getBuildingImageAsync(
+      String assetName) async {
+    var address =
+        _serverConnection.baseAdress + '/api/v1/image/building/$assetName';
     return await getImageAsync(address);
   }
 
-  Future<ServerResponseT<ImageProvider>> getResearchImageAsync(String assetName) async {
-    var address = _serverConnection.baseAdress + '/api/v1/image/research/$assetName';
+  Future<ServerResponseT<ImageProvider>> getResearchImageAsync(
+      String assetName) async {
+    var address =
+        _serverConnection.baseAdress + '/api/v1/image/research/$assetName';
     return await getImageAsync(address);
   }
 
-  Future<ServerResponseT<ImageProvider>> getSpeciesImageAsync(String assetName) async {
-    var address = _serverConnection.baseAdress + '/api/v1/image/species/$assetName';
+  Future<ServerResponseT<ImageProvider>> getSpeciesImageAsync(
+      String assetName) async {
+    var address =
+        _serverConnection.baseAdress + '/api/v1/image/species/$assetName';
     return await getImageAsync(address);
   }
 
-  Future<ServerResponseT<ImageProvider>> getStellarObjectImageAsync(String assetName) async {
-    var address = _serverConnection.baseAdress + '/api/v1/image/stellar-object/$assetName';
+  Future<ServerResponseT<ImageProvider>> getStellarObjectImageAsync(
+      String assetName) async {
+    var address = _serverConnection.baseAdress +
+        '/api/v1/image/stellar-object/$assetName';
     return await getImageAsync(address);
   }
 }

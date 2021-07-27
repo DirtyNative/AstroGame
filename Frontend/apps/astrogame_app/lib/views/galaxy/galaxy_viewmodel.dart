@@ -9,7 +9,7 @@ class GalaxyViewModel extends FutureViewModel {
 
   GalaxyViewModel(this._solarSystemsProvider);
 
-  List<SolarSystem> _solarSystems;
+  late List<SolarSystem> _solarSystems;
   List<SolarSystem> get solarSystems => _solarSystems;
   set solarSystems(List<SolarSystem> val) {
     _solarSystems = val;

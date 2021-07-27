@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+//import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked_themes/stacked_themes.dart';
@@ -18,10 +18,10 @@ Future run() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     //await DesktopWindow.setMinWindowSize(Size(200, 400));
 
-    doWhenWindowReady(() {
+    /*doWhenWindowReady(() {
       appWindow.minSize = Size(200, 400);
       appWindow.show();
-    });
+    }); */
   }
 
   ResponsiveSizingConfig.instance.setCustomBreakpoints(

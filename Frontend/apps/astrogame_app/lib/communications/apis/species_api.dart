@@ -1,7 +1,7 @@
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/players/species.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:retrofit/retrofit.dart';
 
 part 'species_api.g.dart';
@@ -14,9 +14,9 @@ abstract class SpeciesApi {
   Future<List<Species>> getAllAsync();
 
   @GET('/{id}')
-  Future<Species> getAsync({
-    @required @Path('id') Guid id,
-  });
+  Future<Species> getAsync(
+    @Path('id') Guid id,
+  );
 
   //@GET('/image/{speciesId}/base64')
   //Future<String> getImageAsync({@required @Path('speciesId') Guid speciesId});

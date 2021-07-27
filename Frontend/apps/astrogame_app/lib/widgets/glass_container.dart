@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class GlassContainer extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final double width;
 
   final double sigmaX;
@@ -17,12 +17,12 @@ class GlassContainer extends StatelessWidget {
   final Color backgroundColor;
   final double backgroundOpacity;
 
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final double borderWidth;
   final Color borderColor;
   final double borderOpacity;
 
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
   GlassContainer({
     @required this.child,

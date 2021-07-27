@@ -12,11 +12,11 @@ class ConstructionsViewModel extends FutureViewModel {
 
   EventService _eventService;
 
-  Timer _timer;
+  late Timer _timer;
 
-  BuildingChain _buildingChain;
-  BuildingChain get buildingChain => _buildingChain;
-  set buildingChain(BuildingChain val) {
+  BuildingChain? _buildingChain;
+  BuildingChain? get buildingChain => _buildingChain;
+  set buildingChain(BuildingChain? val) {
     _buildingChain = val;
     notifyListeners();
   }
@@ -34,7 +34,7 @@ class ConstructionsViewModel extends FutureViewModel {
     });
   }
 
-  Future<BuildingChain> fetchBuildingChain() async {
+  Future<BuildingChain?> fetchBuildingChain() async {
     return await _buildingChainProvider.get();
   }
 

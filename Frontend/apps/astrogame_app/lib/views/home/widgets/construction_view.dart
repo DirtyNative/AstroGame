@@ -21,7 +21,7 @@ class ConstructionView extends StatelessWidget {
             EnhancedFutureBuilder(
               future: model.getCurrentStellarObjectImageAsync(),
               rememberFutureResult: true,
-              whenDone: (imageProvider) => Image(
+              whenDone: (ImageProvider imageProvider) => Image(
                 image: imageProvider,
                 height: 100,
               ),
@@ -34,7 +34,7 @@ class ConstructionView extends StatelessWidget {
                 Text(model.stellarObject.coordinates.toString()),
                 Text(
                   prettyDuration(
-                      model.buildingConstruction.startTime
+                      model.buildingConstruction!.startTime
                           .difference(DateTime.now()),
                       abbreviated: true,
                       delimiter: ' : '),

@@ -11,7 +11,7 @@ import '../server_response.dart';
 class ResearchStudyRepository {
   Logger _logger;
 
-  ResearchStudyApi _researchStudyApi;
+  late ResearchStudyApi _researchStudyApi;
 
   ResearchStudyRepository(
     Dio dio,
@@ -25,8 +25,8 @@ class ResearchStudyRepository {
       _logger.d('Get all researches');
       var response = await _researchStudyApi.getByCurrentPlayerAsync();
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

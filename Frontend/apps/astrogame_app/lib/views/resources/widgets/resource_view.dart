@@ -29,24 +29,37 @@ class ResourceView extends StatelessWidget {
               (model.resource is resources.Element)
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: _elementIconWidget(context, model.resource),
+                      child: _elementIconWidget(
+                          context, model.resource as resources.Element),
                     )
-                  : _materialIconWidget(context, model.resource),
+                  : _materialIconWidget(
+                      context, model.resource as resources.Material),
               SizedBox(width: 16),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.resource.name),
+                  Text(model.resource!.name),
                   Row(
                     children: [
-                      Text(NumberFormatter.format(model.storedAmount, 2, fullNumbers: true)),
+                      Text(NumberFormatter.format(model.storedAmount, 2,
+                          fullNumbers: true)),
                       SizedBox(width: 16),
                       (model.storedResource == null)
                           ? SizedBox.shrink()
                           : Text(
-                              NumberFormatter.format(model.storedResource?.hourlyAmount ?? 0, 2, fullNumbers: true),
-                              style: Theme.of(context).textTheme.bodyText2.copyWith(color: (model.storedResource.hourlyAmount > 0) ? Colors.green : Colors.red),
+                              NumberFormatter.format(
+                                  model.storedResource?.hourlyAmount ?? 0, 2,
+                                  fullNumbers: true),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                      color:
+                                          (model.storedResource!.hourlyAmount >
+                                                  0)
+                                              ? Colors.green
+                                              : Colors.red),
                             ),
                     ],
                   ),
@@ -85,7 +98,8 @@ class ResourceView extends StatelessWidget {
     );
   }
 
-  Widget _materialIconWidget(BuildContext context, resources.Material material) {
+  Widget _materialIconWidget(
+      BuildContext context, resources.Material material) {
     return Container(
       height: 50,
       width: 50,

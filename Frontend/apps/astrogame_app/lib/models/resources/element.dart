@@ -10,10 +10,10 @@ part 'element.g.dart';
 @JsonSerializable()
 class Element extends Resource {
   @JsonKey()
-  String symbol;
+  late String symbol;
 
   @JsonKey()
-  ElementType type;
+  late ElementType type;
 
   Element();
 

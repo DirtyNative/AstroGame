@@ -3,7 +3,7 @@ import 'package:astrogame_app/models/finished_technologies/finished_technology.d
 
 class BuildingDetailBag {
   Building building;
-  FinishedTechnology finishedTechnology;
+  FinishedTechnology? finishedTechnology;
 
   BuildingDetailBag(this.building, this.finishedTechnology);
 }

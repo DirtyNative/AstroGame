@@ -15,7 +15,7 @@ class ResearchStudyProvider {
     this._researchStudyRepository,
   );
 
-  Future<ResearchStudy> get() async {
+  Future<ResearchStudy?> get() async {
     return await _lock.synchronized(() async {
       var values = _memoryCache.get('all');
 

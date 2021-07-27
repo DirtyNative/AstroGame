@@ -31,7 +31,7 @@ class TechnologyConverter
       return OneTimeResearch.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Technology is not yet implemented');
   }
 
   @override

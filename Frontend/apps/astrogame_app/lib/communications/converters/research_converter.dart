@@ -3,7 +3,8 @@ import 'package:astrogame_app/models/researches/one_time_research.dart';
 import 'package:astrogame_app/models/researches/research.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class ResearchConverter implements JsonConverter<Research, Map<String, dynamic>> {
+class ResearchConverter
+    implements JsonConverter<Research, Map<String, dynamic>> {
   const ResearchConverter();
 
   @override
@@ -21,7 +22,7 @@ class ResearchConverter implements JsonConverter<Research, Map<String, dynamic>>
       return OneTimeResearch.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Research is not yet implemented');
   }
 
   @override

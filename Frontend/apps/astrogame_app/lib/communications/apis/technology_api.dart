@@ -1,7 +1,8 @@
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/models/technologies/technology_value.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:retrofit/retrofit.dart';
 
 part 'technology_api.g.dart';

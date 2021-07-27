@@ -8,7 +8,7 @@ part 'levelable_condition.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class LevelableCondition extends Condition {
-  int neededLevel;
+  late int neededLevel;
 
   LevelableCondition();
 

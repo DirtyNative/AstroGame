@@ -1,8 +1,9 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/communications/converters/stellar_object_converter.dart';
 import 'package:astrogame_app/communications/converters/stellar_system_converter.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_system.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'multi_object_system.g.dart';
@@ -13,13 +14,13 @@ part 'multi_object_system.g.dart';
 @JsonSerializable()
 class MultiObjectSystem extends StellarSystem {
   @JsonKey()
-  Guid parentId;
+  late Guid parentId;
 
   @JsonKey()
-  StellarSystem parent;
+  late StellarSystem parent;
 
   @JsonKey()
-  int order;
+  late int order;
 
   MultiObjectSystem();
 

@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/models/common/coordinates.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/enums/planet_type.dart';
 import 'package:astrogame_app/models/players/colonized_stellar_object.dart';
 import 'package:astrogame_app/models/resources/stellar_object_resource.dart';
@@ -12,19 +13,19 @@ part 'planet.g.dart';
 @JsonSerializable()
 class Planet extends ColonizableStellarObject {
   @JsonKey()
-  PlanetType planetType;
+  late PlanetType planetType;
 
   @JsonKey()
-  double scale;
+  late double scale;
 
   @JsonKey()
-  double axialTilt;
+  late double axialTilt;
 
   @JsonKey()
-  List<StellarObjectResource> resources;
+  List<StellarObjectResource> resources = [];
 
   @JsonKey()
-  bool hasHabitableAtmosphere;
+  late bool hasHabitableAtmosphere;
 
   Planet();
 

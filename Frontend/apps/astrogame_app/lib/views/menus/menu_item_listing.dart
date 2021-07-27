@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 
 class MenuItemListing extends StatelessWidget {
   final ValueChanged<MenuEntry> itemSelectedCallback;
-  final MenuEntry selectedItem;
+  final MenuEntry? selectedItem;
 
   final NavigationWrapper navigationService;
 
-  MenuItemListing({
-    @required this.navigationService,
-    @required this.itemSelectedCallback,
+  MenuItemListing(
+    this.navigationService,
     this.selectedItem,
-  });
+    this.itemSelectedCallback,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class MenuItemListing extends StatelessWidget {
       children: menuEntries.map(
         (item) {
           return MenuItem(
-            icon: item.icon,
-            label: item.label,
-            isSelected: (navigationService.currentSubRoute == item.route),
-            onTap: () => itemSelectedCallback(item),
+            item.icon,
+            item.label,
+            (navigationService.currentSubRoute == item.route),
+            () => itemSelectedCallback(item),
           );
         },
       ).toList(),

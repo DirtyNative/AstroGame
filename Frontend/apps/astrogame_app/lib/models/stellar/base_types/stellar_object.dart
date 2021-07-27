@@ -1,8 +1,9 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/communications/converters/stellar_object_converter.dart';
 import 'package:astrogame_app/models/common/coordinates.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_thing.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 @GuidConverter()
@@ -11,22 +12,22 @@ abstract class StellarObject extends StellarThing {
   //SingleObjectSystem parentSystem;
 
   @JsonKey()
-  Guid parentSystemId;
+  late Guid parentSystemId;
 
   @JsonKey()
-  double averageDistanceToCenter;
+  double? averageDistanceToCenter;
 
   @JsonKey()
-  double rotationSpeed;
+  late double rotationSpeed;
 
   @JsonKey()
-  int averageTemperature;
+  late int averageTemperature;
 
   @JsonKey()
-  String assetName;
+  late String assetName;
 
   @JsonKey()
-  Coordinates coordinates;
+  late Coordinates coordinates;
 
   StellarObject();
 

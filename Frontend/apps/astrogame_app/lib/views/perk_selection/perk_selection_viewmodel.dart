@@ -8,39 +8,38 @@ import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
-class PerkSelectionViewModel extends FutureViewModel<List<Perk>> {
+class PerkSelectionViewModel extends FutureViewModel {
   PerkRepository _perkRepository;
   SetPlayersSpeciesExecuter _setPlayersSpeciesExecuter;
 
-  AddPlayerSpeciesRequest _playerSpecies;
+  AddPlayerSpeciesRequest? _playerSpecies;
   static const int countMaxPerks = 3;
 
   PerkSelectionViewModel(
     this._perkRepository,
     this._setPlayersSpeciesExecuter,
     @factoryParam this._playerSpecies,
-  );
+  ) : assert(_playerSpecies != null);
 
   List<Perk> _perks = [];
   List<Perk> get perks => _perks;
 
   int get countPerks => _perks.length;
 
-  int get countSelectedItems => _playerSpecies.perks?.length;
+  int get countSelectedItems => _playerSpecies!.perks.length;
 
-  PlanetType get selectedPlanetType => _playerSpecies.preferredPlanetType;
+  PlanetType get selectedPlanetType => _playerSpecies!.preferredPlanetType;
   set selectedPlanetType(PlanetType val) {
-    _playerSpecies.preferredPlanetType = val;
+    _playerSpecies!.preferredPlanetType = val;
     notifyListeners();
   }
 
-  bool get isButtonEnabled =>
-      _playerSpecies.preferredPlanetType != null &&
-      _playerSpecies.perks != null &&
-      _playerSpecies.perks.length != 0;
+  bool get isButtonEnabled => _playerSpecies!.perks.length != 0;
 
   @override
-  Future<List<Perk>> futureToRun() => _getAllPerksAsync();
+  Future futureToRun() async {
+    _perks = await _getAllPerksAsync();
+  }
 
   Future<List<Perk>> _getAllPerksAsync() async {
     var response = await _perkRepository.getAllAsync();
@@ -49,28 +48,23 @@ class PerkSelectionViewModel extends FutureViewModel<List<Perk>> {
       throw Exception('There happened an error');
     }
 
-    _perks = response.data;
-
-    return response.data;
+    return response.data ?? [];
   }
 
   bool isPerkSelected(int index) {
-    if (perks == null ||
-        perks.length == 0 ||
-        _playerSpecies.perks == null ||
-        _playerSpecies.perks.length == 0) {
+    if (perks.length == 0 || _playerSpecies!.perks.length == 0) {
       return false;
     }
 
-    return _playerSpecies.perks
-        ?.any((element) => element.perkId == _perks[index].id);
+    return _playerSpecies!.perks
+        .any((element) => element.perkId == _perks[index].id);
   }
 
   void trySetSelected(int index) {
     // If the item is already selected, just unselect it
-    if (_playerSpecies.perks
+    if (_playerSpecies!.perks
         .any((element) => element.perkId == _perks[index].id)) {
-      _playerSpecies.perks
+      _playerSpecies!.perks
           .removeWhere((element) => element.perkId == _perks[index].id);
 
       notifyListeners();
@@ -81,14 +75,14 @@ class PerkSelectionViewModel extends FutureViewModel<List<Perk>> {
       return;
     }
 
-    _playerSpecies.perks.add(
-      new AddPlayerSpeciesPerkRequest()..perkId = _perks[index].id,
+    _playerSpecies!.perks.add(
+      new AddPlayerSpeciesPerkRequest(_perks[index].id),
     );
 
     notifyListeners();
   }
 
   Future saveSpecies() async {
-    await _setPlayersSpeciesExecuter.addPlayerSpeciesAsync(_playerSpecies);
+    await _setPlayersSpeciesExecuter.addPlayerSpeciesAsync(_playerSpecies!);
   }
 }

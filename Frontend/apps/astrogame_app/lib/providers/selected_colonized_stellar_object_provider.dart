@@ -6,20 +6,18 @@ import 'package:injectable/injectable.dart';
 class SelectedColonizedStellarObjectProvider {
   PlayerProvider _playerProvider;
 
-  ColonizedStellarObject _selectedObject;
+  ColonizedStellarObject? _selectedObject;
 
   SelectedColonizedStellarObjectProvider(this._playerProvider);
 
-  ColonizedStellarObject getSelectedObject() {
+  ColonizedStellarObject? getSelectedObject() {
     var player = _playerProvider.getPlayer();
 
-    if (_selectedObject == null && player == null) {
+    if (player == null) {
       return null;
     }
 
-    if (_selectedObject == null &&
-        (player.colonizedObjects == null ||
-            player.colonizedObjects.length == 0)) {
+    if (_selectedObject == null && player.colonizedObjects.length == 0) {
       return null;
     }
 

@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/repositories/finished_technology_repository.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
@@ -28,11 +29,11 @@ class StudiedResearchesProvider {
           await _finishedTechnologyRepository.getByCurrentPlayerAsync();
 
       _memoryCache.put('all', response.data);
-      return response.data;
+      return response.data ?? [];
     });
   }
 
-  Future<FinishedTechnology> getByResearchAsync(Guid technologyId) async {
+  Future<FinishedTechnology?> getByResearchAsync(Guid technologyId) async {
     return await _lock.synchronized(() async {
       var values = _memoryCache.get(technologyId.toString());
 
@@ -55,7 +56,7 @@ class StudiedResearchesProvider {
 
       _memoryCache.put('all', response.data);
 
-      return response.data;
+      return response.data ?? [];
     });
   }
 }

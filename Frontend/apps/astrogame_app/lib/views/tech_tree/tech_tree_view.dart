@@ -16,7 +16,7 @@ import 'tech_tree_viewmodel.dart';
 
 class TechTreeView extends StatelessWidget {
   final Technology _technology;
-  final FinishedTechnology _finishedTechnology;
+  final FinishedTechnology? _finishedTechnology;
 
   TechTreeView(this._technology, this._finishedTechnology);
 
@@ -44,10 +44,10 @@ class TechTreeView extends StatelessWidget {
                 ..strokeWidth = 1
                 ..style = PaintingStyle.stroke,
               builder: (Node node) {
-                if (node.key.value is TechTreeConditionNode) {
-                  return conditionNode(node.key.value);
-                } else if (node.key.value is TechTreeTechnologyNode) {
-                  return rootNode(node.key.value);
+                if (node.key!.value is TechTreeConditionNode) {
+                  return conditionNode(node.key!.value);
+                } else if (node.key!.value is TechTreeTechnologyNode) {
+                  return rootNode(node.key!.value);
                 }
 
                 return Container(
@@ -65,11 +65,11 @@ class TechTreeView extends StatelessWidget {
   }
 
   Widget _conditionText(
-      Condition condition, FinishedTechnology finishedTechnology) {
+      Condition condition, FinishedTechnology? finishedTechnology) {
     if (condition is LevelableCondition) {
       if (TechTreeViewModel.isConditionFulfilled(
           condition, finishedTechnology)) {
-        return Text('${finishedTechnology.level}');
+        return Text('${finishedTechnology?.level ?? 0}');
       } else {
         return Text(
             '${finishedTechnology?.level ?? 0} / ${condition.neededLevel}');

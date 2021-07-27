@@ -1,7 +1,7 @@
 enum Environments { DEVELOPMENT, STAGING, PRODUCTION }
 
 class RunableEnvironment {
-  static Environments environment;
+  static Environments environment = Environments.DEVELOPMENT;
 
   static bool isDevelopment() => environment == Environments.DEVELOPMENT;
 

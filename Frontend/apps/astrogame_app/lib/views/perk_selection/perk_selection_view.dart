@@ -129,7 +129,7 @@ class PerkSelectionView extends StatelessWidget {
         child: Column(
           children: [
             Image.asset('assets/images/$imageName'),
-            Text(PlanetTypeName[planetType]),
+            Text(PlanetTypeName[planetType]!),
             //SizedBox(height: 16),
           ],
         ),

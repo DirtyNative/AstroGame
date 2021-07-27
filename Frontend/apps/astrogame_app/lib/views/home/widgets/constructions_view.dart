@@ -24,10 +24,10 @@ class ConstructionsView extends StatelessWidget {
           ViewModelBuilder<ConstructionsViewModel>.reactive(
             builder: (context, model, _) => ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (context, index) =>
-                  ConstructionView(model.buildingChain.buildingUpgrades[index]),
+              itemBuilder: (context, index) => ConstructionView(
+                  model.buildingChain!.buildingUpgrades[index]),
               separatorBuilder: (context, index) => SizedBox(height: 8),
-              itemCount: model.buildingChain?.buildingUpgrades?.length ?? 0,
+              itemCount: model.buildingChain?.buildingUpgrades.length ?? 0,
             ),
             viewModelBuilder: () => ServiceLocator.get(),
           ),

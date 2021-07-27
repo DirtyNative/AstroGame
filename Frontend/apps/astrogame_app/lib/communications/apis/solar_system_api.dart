@@ -1,6 +1,5 @@
 import 'package:astrogame_app/models/stellar/systems/solar_system.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'solar_system_api.g.dart';
@@ -10,9 +9,9 @@ abstract class SolarSystemApi {
   factory SolarSystemApi(Dio dio, {String baseUrl}) = _SolarSystemApi;
 
   @GET('/system-number/{systemNumber}/recursive')
-  Future<SolarSystem> getBySystemNumberRecursiveAsync({
-    @required @Path('systemNumber') int systemNumber,
-  });
+  Future<SolarSystem> getBySystemNumberRecursiveAsync(
+    @Path('systemNumber') int systemNumber,
+  );
 
   @GET('/range/{minX}/{maxX}/{minZ}/{maxZ}')
   Future<List<SolarSystem>> getInRangeAsync(

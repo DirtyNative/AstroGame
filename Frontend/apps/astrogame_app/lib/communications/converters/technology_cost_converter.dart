@@ -27,7 +27,7 @@ class TechnologyCostConverter
       return DynamicResearchCost.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Technology Cost is not yet implemented');
   }
 
   @override

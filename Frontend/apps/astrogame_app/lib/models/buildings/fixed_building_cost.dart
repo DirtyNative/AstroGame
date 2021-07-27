@@ -9,7 +9,7 @@ part 'fixed_building_cost.g.dart';
 @JsonSerializable()
 class FixedBuildingCost extends TechnologyCost with OneTimeCost {
   @JsonKey()
-  double amount;
+  late double amount;
 
   FixedBuildingCost();
 

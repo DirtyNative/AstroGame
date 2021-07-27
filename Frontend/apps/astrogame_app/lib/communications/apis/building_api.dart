@@ -1,7 +1,7 @@
 import 'package:astrogame_app/models/buildings/building.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/enums/stellar_object_type.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_guid/flutter_guid.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'building_api.g.dart';

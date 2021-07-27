@@ -15,7 +15,8 @@ class SolarSystemsProvider {
     this._solarSystemRepository,
   );
 
-  Future<List<SolarSystem>> get(double minX, double maxX, double minZ, double maxZ) async {
+  Future<List<SolarSystem>> get(
+      double minX, double maxX, double minZ, double maxZ) async {
     return await _lock.synchronized(() async {
       var values = _memoryCache.get('$minX/$maxX/$minZ/$maxZ');
 
@@ -23,10 +24,11 @@ class SolarSystemsProvider {
         return values;
       }
 
-      var response = await _solarSystemRepository.getInRangeAsync(minX, maxX, minZ, maxZ);
+      var response =
+          await _solarSystemRepository.getInRangeAsync(minX, maxX, minZ, maxZ);
 
       _memoryCache.put('$minX/$maxX/$minZ/$maxZ', response.data);
-      return response.data;
+      return response.data ?? [];
     });
   }
 }

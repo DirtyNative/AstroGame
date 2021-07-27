@@ -8,7 +8,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.9.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,7 +29,7 @@ dependencies:
 
   # Used for easier Api writing
   retrofit:
-  dio: ^3.0.10
+  dio: ^4.0.0
 
   # Used to get the devices information like manufacturer, version, or if it a physical device
   device_info: 
@@ -40,18 +40,18 @@ dependencies:
   google_fonts:
   expandable:
 
-  flutter_guid:
+  uuid:
+  validators:
 
   flutter_svg:
       
   desktop_window:
-  bitsdojo_window:
 
   flutter_inner_drawer:
   responsive_builder:
 
   google_nav_bar:
-  badges: ^1.2.0
+  badges:
 
   tuple:
 
@@ -69,13 +69,13 @@ dependencies:
   # Used to draw the techtree
   graphview: 1.0.0-nullsafety.1
 
-  
+  skeleton_loader:
 
   # Many extension methods
   dartx:
 
   # charts and graphs
-  fl_chart: ^0.35.0
+  fl_chart:
 
   # Used to save data in storage
   localstorage: ^4.0.0+1
@@ -97,6 +97,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/species/
+    - assets/images/buildings/
+    - assets/images/researches/
+    - assets/images/stellar_objects/
 
   fonts:
     - family: TTFirsNeue

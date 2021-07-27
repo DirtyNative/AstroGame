@@ -10,13 +10,13 @@ class LoginViewModel extends BaseViewModel {
   LoginExecuter _loginExecuter;
   NavigationWrapper _navigationService;
 
-  TextEditingController emailController;
-  TextEditingController passwordController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
 
   LoginViewModel(
     this._loginExecuter,
     this._navigationService,
-    @factoryParam String lastEmail,
+    @factoryParam String? lastEmail,
   ) {
     emailController = new TextEditingController(text: lastEmail);
     passwordController = new TextEditingController(text: 'Test1234!');

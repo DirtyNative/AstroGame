@@ -8,13 +8,14 @@ class Vector3 {
   double y;
   double z;
 
-  Vector3();
+  Vector3(this.x, this.y, this.z);
 
   @override
   String toString() {
     return '($x:$y:$z)';
   }
 
-  factory Vector3.fromJson(Map<String, dynamic> json) => _$Vector3FromJson(json);
+  factory Vector3.fromJson(Map<String, dynamic> json) =>
+      _$Vector3FromJson(json);
   Map<String, dynamic> toJson() => _$Vector3ToJson(this);
 }

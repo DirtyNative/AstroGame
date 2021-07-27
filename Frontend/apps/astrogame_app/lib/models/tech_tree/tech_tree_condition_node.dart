@@ -5,7 +5,7 @@ import 'package:astrogame_app/models/technologies/technology.dart';
 
 class TechTreeConditionNode {
   Technology technology;
-  FinishedTechnology finishedTechnology;
+  FinishedTechnology? finishedTechnology;
   Condition condition;
 
   TechTreeConditionNode(

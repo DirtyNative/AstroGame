@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/players/perk.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'player_species_perk.g.dart';
@@ -8,11 +9,11 @@ part 'player_species_perk.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class PlayerSpeciesPerk {
-  Guid id;
-  Guid playerSpeciesId;
-  Guid perkId;
+  late Guid id;
+  late Guid playerSpeciesId;
+  late Guid perkId;
 
-  Perk perk;
+  late Perk perk;
 
   PlayerSpeciesPerk();
 

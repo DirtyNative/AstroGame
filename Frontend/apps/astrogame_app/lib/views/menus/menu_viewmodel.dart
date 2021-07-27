@@ -8,26 +8,34 @@ import 'package:stacked/stacked.dart';
 import 'menu_entry.dart';
 
 @injectable
-class MenuViewModel extends BaseViewModel {
+class MenuViewModel extends FutureViewModel {
   NavigationWrapper _navigationService;
 
-  SpeciesImageProvider _speciesImageProvider;
+  AssetImageProvider _assetImageProvider;
   PlayerProvider _playerProvider;
 
-  MenuEntry _selectedItem;
-  MenuEntry get selectedItem => _selectedItem;
-  set selectedItem(MenuEntry val) {
-    _selectedItem = val;
-    notifyListeners();
-  }
-
-  String get playerName => _playerProvider.getPlayer().username;
+  String get playerName => _playerProvider.getPlayer()?.username ?? '';
 
   MenuViewModel(
     this._navigationService,
     this._playerProvider,
-    this._speciesImageProvider,
+    this._assetImageProvider,
   );
+
+  MenuEntry? _selectedItem;
+  MenuEntry? get selectedItem => _selectedItem;
+  set selectedItem(MenuEntry? val) {
+    _selectedItem = val;
+    notifyListeners();
+  }
+
+  ImageProvider _speciesImage =
+      AssetImage('assets/images/species/Alien_AI_red.png');
+  ImageProvider get speciesImage => _speciesImage;
+  set speciesImage(ImageProvider val) {
+    _speciesImage = val;
+    notifyListeners();
+  }
 
   Future navigate(MenuEntry item) async {
     // If already on this page, do nothing
@@ -39,9 +47,21 @@ class MenuViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<ImageProvider> getSpeciesImageAsync() async {
-    var assetName = _playerProvider.getPlayer().playerSpecies.species.assetName;
+  @override
+  Future futureToRun() async {
+    speciesImage = await getSpeciesImageAsync();
+  }
 
-    return await _speciesImageProvider.get(assetName);
+  Future<ImageProvider> getSpeciesImageAsync() async {
+    var player = _playerProvider.getPlayer();
+
+    if (player == null) {
+      // TODO: return generic image
+      return AssetImage('');
+    }
+
+    var assetName = player.playerSpecies!.species.assetName;
+
+    return await _assetImageProvider.get(assetName, ImageScope.species);
   }
 }

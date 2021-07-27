@@ -46,7 +46,12 @@ ThemeData darkTheme = new ThemeData(
         fontWeight: FontWeight.w400,
         color: Colors.white,
       ),
-      button: TextStyle(fontFamily: 'TTFirsNeue', fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white, letterSpacing: 0.7),
+      button: TextStyle(
+          fontFamily: 'TTFirsNeue',
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+          letterSpacing: 0.7),
       subtitle1: TextStyle(
         fontFamily: 'TTFirsNeue',
         fontSize: 14,
@@ -116,7 +121,8 @@ ThemeData darkTheme = new ThemeData(
         minimumSize: MaterialStateProperty.all(
           Size(100, 40),
         ),
-        padding: MaterialStateProperty.all(EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8)),
+        padding: MaterialStateProperty.all(
+            EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8)),
       ),
     ),
 
@@ -134,7 +140,7 @@ ThemeData darkTheme = new ThemeData(
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(
-          color: AstroGameColors.purple[400],
+          color: AstroGameColors.purple[400]!,
         ),
       ),
       hintStyle: TextStyle(

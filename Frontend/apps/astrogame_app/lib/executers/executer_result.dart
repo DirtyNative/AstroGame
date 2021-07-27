@@ -1,5 +1,5 @@
 class ExecuterResult {
-  bool success;
+  late bool success;
 
   ExecuterResult(this.success);
 
@@ -13,8 +13,8 @@ class ExecuterResult {
 }
 
 class ExecuterResultT1<T1> {
-  bool success;
-  T1 data;
+  late bool success;
+  T1? data;
 
   ExecuterResultT1(this.success, this.data);
 

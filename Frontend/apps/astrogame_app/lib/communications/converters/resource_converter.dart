@@ -22,7 +22,7 @@ class ResourceConverter
       return Element.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Resource is not yet implemented');
   }
 
   @override

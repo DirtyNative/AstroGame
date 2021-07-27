@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 import 'building_construction.dart';
@@ -9,11 +10,11 @@ part 'building_chain.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class BuildingChain {
-  Guid id;
-  Guid playerId;
-  int chainLength;
+  late Guid id;
+  late Guid playerId;
+  late int chainLength;
 
-  List<BuildingConstruction> buildingUpgrades;
+  List<BuildingConstruction> buildingUpgrades = [];
 
   BuildingChain();
 

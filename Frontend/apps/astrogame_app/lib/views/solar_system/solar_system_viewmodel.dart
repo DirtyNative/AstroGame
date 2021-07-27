@@ -13,18 +13,21 @@ class SolarSystemViewModel extends BaseViewModel {
   EventService _eventService;
   NavigationWrapper _navigationService;
 
-  SolarSystem _solarSystem;
-  SolarSystem get solarSystem => _solarSystem;
-  set solarSystem(SolarSystem val) {
-    _solarSystem = val;
-    notifyListeners();
-  }
-
-  SolarSystemViewModel(this._eventService, this._navigationService) {
+  SolarSystemViewModel(
+    this._eventService,
+    this._navigationService,
+  ) {
     _eventService.on<SolarSystemLoadedEvent>().listen((event) {
       solarSystem = null;
       solarSystem = event.solarSystem;
     });
+  }
+
+  SolarSystem? _solarSystem;
+  SolarSystem? get solarSystem => _solarSystem;
+  set solarSystem(SolarSystem? val) {
+    _solarSystem = val;
+    notifyListeners();
   }
 
   Future showPlanetView(Planet planet) async {

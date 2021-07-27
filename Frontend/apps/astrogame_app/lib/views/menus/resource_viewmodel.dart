@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:astrogame_app/events/view_events/resources_updated_event.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/resource_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
@@ -17,9 +18,9 @@ class ResourceViewModel extends FutureViewModel {
   ResourceProvider _resourceProvider;
   StoredResourceProvider _storedResourceProvider;
 
-  Timer _timer;
+  late Timer _timer;
 
-  List<Resource> _resources;
+  List<Resource> _resources = [];
   List<Resource> get resources => _resources;
   set resources(List<Resource> val) {
     _resources = val;
@@ -44,7 +45,8 @@ class ResourceViewModel extends FutureViewModel {
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       for (int index = 0; index < storedResources.length; index++) {
-        storedResources[index].amount += storedResources[index].hourlyAmount * (1 / 3600);
+        storedResources[index].amount +=
+            storedResources[index].hourlyAmount * (1 / 3600);
       }
 
       notifyListeners();
@@ -57,11 +59,12 @@ class ResourceViewModel extends FutureViewModel {
     storedResources = await _storedResourceProvider.getAsync();
   }
 
-  Resource getResource(Guid resourceId) => resources.firstWhere((element) => element.id == resourceId);
+  Resource getResource(Guid resourceId) =>
+      resources.firstWhere((element) => element.id == resourceId);
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer.cancel();
     super.dispose();
   }
 }

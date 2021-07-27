@@ -22,7 +22,7 @@ class ResourcesViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  List<Resource> _resources;
+  late List<Resource> _resources;
   List<Resource> get resources => _resources;
   set resources(List<Resource> val) {
     _resources = val;
@@ -30,26 +30,33 @@ class ResourcesViewModel extends FutureViewModel {
   }
 
   List<Element> get elements {
-    if (resources == null) {
-      return [];
-    }
-
     return resources.whereType<Element>().toList();
   }
 
   List<Material> get materials {
-    if (resources == null) {
-      return [];
-    }
-
     return resources.whereType<Material>().toList();
   }
 
-  List<Material> get buildingMaterials => materials.where((element) => element.type == MaterialType.building).sortedBy((element) => element.name).toList();
-  List<Material> get consumableMaterials => materials.where((element) => element.type == MaterialType.consumables).sortedBy((element) => element.name).toList();
-  List<Material> get componentMaterials => materials.where((element) => element.type == MaterialType.components).sortedBy((element) => element.name).toList();
-  List<Material> get alloyMaterials => materials.where((element) => element.type == MaterialType.alloys).sortedBy((element) => element.name).toList();
-  List<Material> get fuelMaterials => materials.where((element) => element.type == MaterialType.fuels).sortedBy((element) => element.name).toList();
+  List<Material> get buildingMaterials => materials
+      .where((element) => element.type == MaterialType.building)
+      .sortedBy((element) => element.name)
+      .toList();
+  List<Material> get consumableMaterials => materials
+      .where((element) => element.type == MaterialType.consumables)
+      .sortedBy((element) => element.name)
+      .toList();
+  List<Material> get componentMaterials => materials
+      .where((element) => element.type == MaterialType.components)
+      .sortedBy((element) => element.name)
+      .toList();
+  List<Material> get alloyMaterials => materials
+      .where((element) => element.type == MaterialType.alloys)
+      .sortedBy((element) => element.name)
+      .toList();
+  List<Material> get fuelMaterials => materials
+      .where((element) => element.type == MaterialType.fuels)
+      .sortedBy((element) => element.name)
+      .toList();
 
   @override
   Future futureToRun() async {

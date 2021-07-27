@@ -1,15 +1,12 @@
 import 'package:astrogame_app/communications/converters/condition_converter.dart';
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:astrogame_app/models/technologies/technology.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 
 @GuidConverter()
 abstract class Condition {
-  Guid id;
-  Guid technologyId;
-  Guid neededTechnologyId;
-  Technology technology;
-  Technology neededTechnology;
+  late Guid id;
+  late Guid technologyId;
+  late Guid neededTechnologyId;
 
   Condition();
 

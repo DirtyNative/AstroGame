@@ -13,7 +13,7 @@ class BuildingsViewModel extends FutureViewModel {
     this.buildingsProvider,
   );
 
-  List<Building> _buildings;
+  late List<Building> _buildings;
   List<Building> get buildings => _buildings;
   set buildings(List<Building> val) {
     _buildings = val;
@@ -27,31 +27,39 @@ class BuildingsViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  List<Building> get conveyorBuildings => (buildings == null)
-      ? null
-      : buildings.where((element) => element.buildingType == BuildingType.conveyorBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get civilBuildings => (buildings == null)
-      ? null
-      : buildings.where((element) => element.buildingType == BuildingType.civilBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get refineryBuildings => (buildings == null)
-      ? null
-      : buildings.where((element) => element.buildingType == BuildingType.refineryBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get manufacturingFacilityBuildings => (buildings == null)
-      ? null
-      : buildings.where((element) => element.buildingType == BuildingType.manufacturingFacilityBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get researchLaboratoryBuildings => (buildings == null)
-      ? null
-      : buildings.where((element) => element.buildingType == BuildingType.researchLaboratoryBuilding).sortedBy((element) => element.order).toList();
-  List<Building> get storageBuildings => (buildings == null)
-      ? null
-      : buildings.where((element) => element.buildingType == BuildingType.storageBuilding).sortedBy((element) => element.order).toList();
-
-  Future<List<Building>> _fetchBuildingsAsync() async {
-    return await buildingsProvider.get();
-  }
+  List<Building> get conveyorBuildings => buildings
+      .where((element) => element.buildingType == BuildingType.conveyorBuilding)
+      .sortedBy((element) => element.order)
+      .toList();
+  List<Building> get civilBuildings => buildings
+      .where((element) => element.buildingType == BuildingType.civilBuilding)
+      .sortedBy((element) => element.order)
+      .toList();
+  List<Building> get refineryBuildings => buildings
+      .where((element) => element.buildingType == BuildingType.refineryBuilding)
+      .sortedBy((element) => element.order)
+      .toList();
+  List<Building> get manufacturingFacilityBuildings => buildings
+      .where((element) =>
+          element.buildingType == BuildingType.manufacturingFacilityBuilding)
+      .sortedBy((element) => element.order)
+      .toList();
+  List<Building> get researchLaboratoryBuildings => buildings
+      .where((element) =>
+          element.buildingType == BuildingType.researchLaboratoryBuilding)
+      .sortedBy((element) => element.order)
+      .toList();
+  List<Building> get storageBuildings => buildings
+      .where((element) => element.buildingType == BuildingType.storageBuilding)
+      .sortedBy((element) => element.order)
+      .toList();
 
   @override
   Future futureToRun() async {
     buildings = await _fetchBuildingsAsync();
+  }
+
+  Future<List<Building>> _fetchBuildingsAsync() async {
+    return await buildingsProvider.get();
   }
 }

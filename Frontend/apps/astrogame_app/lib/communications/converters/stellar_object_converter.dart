@@ -28,7 +28,7 @@ class StellarObjectConverter
       return BlackHole.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Stellar Object is not yet implemented');
   }
 
   @override

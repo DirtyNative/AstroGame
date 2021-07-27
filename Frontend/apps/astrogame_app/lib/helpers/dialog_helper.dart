@@ -7,7 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 @singleton
 class DialogHelper {
-  DialogService _dialogService;
+  late DialogService _dialogService;
   NavigationWrapper _navigationService;
 
   DialogHelper(

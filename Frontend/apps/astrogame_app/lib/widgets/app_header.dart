@@ -1,9 +1,9 @@
 import 'package:astrogame_app/themes/astrogame_colors.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+//import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 
 class AppHeader extends StatelessWidget {
-  final buttonColors = WindowButtonColors(
+  /* final buttonColors = WindowButtonColors(
       iconNormal: Colors.white,
       mouseOver: AstroGameColors.purple,
       mouseDown: AstroGameColors.purple[800],
@@ -15,13 +15,13 @@ class AppHeader extends StatelessWidget {
     mouseDown: Color(0xFFB71C1C),
     iconNormal: Colors.white,
     iconMouseOver: Colors.white,
-  );
+  ); */
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AstroGameColors.darkGrey,
-      child: WindowTitleBarBox(
+      /*child: WindowTitleBarBox(
         child: Row(
           children: [
             Expanded(child: MoveWindow()),
@@ -30,7 +30,7 @@ class AppHeader extends StatelessWidget {
             CloseWindowButton(colors: closeButtonColors),
           ],
         ),
-      ),
+      ), */
     );
   }
 }

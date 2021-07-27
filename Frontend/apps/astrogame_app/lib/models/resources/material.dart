@@ -10,7 +10,7 @@ part 'material.g.dart';
 @JsonSerializable()
 class Material extends Resource {
   @JsonKey()
-  MaterialType type;
+  late MaterialType type;
 
   Material();
 

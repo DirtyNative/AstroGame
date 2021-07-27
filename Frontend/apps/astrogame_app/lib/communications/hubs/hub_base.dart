@@ -2,9 +2,9 @@ import 'package:signalr_core/signalr_core.dart';
 
 abstract class HubBase {
   String url;
-  HubConnection connection;
+  HubConnection? connection;
 
-  HubBase();
+  HubBase(this.url);
 
   Future connectAsync();
 }

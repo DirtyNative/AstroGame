@@ -15,34 +15,38 @@ class BuildingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<BuildingsViewModel>.reactive(
-      builder: (context, model, _) => ScaffoldBase(
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
-              child: _tabWidget(model),
-            ),
-            Divider(color: Colors.white),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0),
-                child: PageView(
-                  controller: controller,
-                  onPageChanged: (index) => model.selectedTabIndex = index,
-                  children: [
-                    _listView(model.conveyorBuildings),
-                    _listView(model.civilBuildings),
-                    _listView(model.refineryBuildings),
-                    _listView(model.manufacturingFacilityBuildings),
-                    _listView(model.researchLaboratoryBuildings),
-                    _listView(model.storageBuildings),
-                  ],
-                ),
+      builder: (context, model, _) => model.isBusy
+          ? CircularProgressIndicator()
+          : ScaffoldBase(
+              body: Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 32, right: 32, top: 32),
+                    child: _tabWidget(model),
+                  ),
+                  Divider(color: Colors.white),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 0, right: 0),
+                      child: PageView(
+                        controller: controller,
+                        onPageChanged: (index) =>
+                            model.selectedTabIndex = index,
+                        children: [
+                          _listView(model.conveyorBuildings),
+                          _listView(model.civilBuildings),
+                          _listView(model.refineryBuildings),
+                          _listView(model.manufacturingFacilityBuildings),
+                          _listView(model.researchLaboratoryBuildings),
+                          _listView(model.storageBuildings),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
       viewModelBuilder: () => ServiceLocator.get(),
     );
   }
@@ -99,7 +103,7 @@ class BuildingsView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: ListView.builder(
-        itemCount: buildings?.length ?? 0,
+        itemCount: buildings.length,
         itemBuilder: (context, index) => BuildingView(buildings[index]),
       ),
     );

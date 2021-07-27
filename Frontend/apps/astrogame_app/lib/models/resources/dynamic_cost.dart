@@ -1,4 +1,4 @@
 abstract class DynamicCost {
-  double baseValue;
-  double multiplier;
+  late double baseValue;
+  late double multiplier;
 }

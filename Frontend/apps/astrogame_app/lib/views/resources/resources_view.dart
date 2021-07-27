@@ -15,33 +15,37 @@ class ResourcesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ResourcesViewModel>.reactive(
-      builder: (context, model, _) => ScaffoldBase(
-        body: Container(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
-                child: _tabWidget(model),
-              ),
-              Divider(color: Colors.white),
-              Expanded(
-                child: PageView(
-                  controller: controller,
-                  onPageChanged: (index) => model.selectedTabIndex = index,
+      builder: (context, model, _) => model.isBusy
+          ? CircularProgressIndicator()
+          : ScaffoldBase(
+              body: Container(
+                child: Column(
                   children: [
-                    _gridView(context, model.elements),
-                    _gridView(context, model.buildingMaterials),
-                    _gridView(context, model.consumableMaterials),
-                    _gridView(context, model.componentMaterials),
-                    _gridView(context, model.alloyMaterials),
-                    _gridView(context, model.fuelMaterials),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 32, right: 32, top: 32),
+                      child: _tabWidget(model),
+                    ),
+                    Divider(color: Colors.white),
+                    Expanded(
+                      child: PageView(
+                        controller: controller,
+                        onPageChanged: (index) =>
+                            model.selectedTabIndex = index,
+                        children: [
+                          _gridView(context, model.elements),
+                          _gridView(context, model.buildingMaterials),
+                          _gridView(context, model.consumableMaterials),
+                          _gridView(context, model.componentMaterials),
+                          _gridView(context, model.alloyMaterials),
+                          _gridView(context, model.fuelMaterials),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
       viewModelBuilder: () => ServiceLocator.get(),
     );
   }
@@ -100,8 +104,12 @@ class ResourcesView extends StatelessWidget {
       child: Scrollbar(
         child: GridView.builder(
           itemBuilder: (context, index) => ResourceView(resourceList[index]),
-          itemCount: resourceList.length ?? 0,
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, childAspectRatio: 3 / 1, crossAxisSpacing: 20, mainAxisSpacing: 20),
+          itemCount: resourceList.length,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 300,
+              childAspectRatio: 3 / 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
         ),
       ),
     );

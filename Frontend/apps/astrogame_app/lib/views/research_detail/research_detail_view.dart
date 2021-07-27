@@ -12,7 +12,7 @@ import 'research_detail_viewmodel.dart';
 
 class ResearchDetailView extends StatelessWidget {
   final Research _research;
-  final FinishedTechnology _finishedTechnology;
+  final FinishedTechnology? _finishedTechnology;
 
   ResearchDetailView(this._research, this._finishedTechnology);
 
@@ -38,10 +38,6 @@ class ResearchDetailView extends StatelessWidget {
   }
 
   Widget _headerWidget(BuildContext context, ResearchDetailViewModel model) {
-    if (model.researchImage == null) {
-      return Container();
-    }
-
     return Container(
       padding: EdgeInsets.only(top: 32, bottom: 32),
       height: 500,
@@ -75,10 +71,10 @@ class ResearchDetailView extends StatelessWidget {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: [
-                    Text(model.research.name,
+                    Text(model.research!.name,
                         style: Theme.of(context).textTheme.headline1),
                     _levelText(context, model),
-                    Text(model.research.description),
+                    Text(model.research!.description),
                     ElevatedButton(
                       onPressed: model.showTechTreeView,
                       child: Text('Tech tree'),

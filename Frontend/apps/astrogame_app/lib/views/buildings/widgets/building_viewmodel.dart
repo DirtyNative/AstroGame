@@ -9,20 +9,20 @@ import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
 import 'package:astrogame_app/providers/fulfilled_conditions_provider.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
-import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:astrogame_app/views/building_detail/bags/building_detail_bag.dart';
 import 'package:duration/duration.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
@@ -32,10 +32,9 @@ class BuildingViewModel extends FutureViewModel {
 
   ConstructedBuildingsProvider _constructedBuildingsProvider;
   BuildingChainProvider _buildingChainProvider;
-  SelectedColonizedStellarObjectProvider
-      _selectedColonizedStellarObjectProvider;
+
   StoredResourceProvider _storedResourceProvider;
-  BuildingImageProvider _buildingImageProvider;
+  AssetImageProvider _assetImageProvider;
   FulfilledConditionsProvider _fulfilledConditionsProvider;
 
   BuildBuildingExecuter _buildBuildingExecuter;
@@ -43,21 +42,20 @@ class BuildingViewModel extends FutureViewModel {
   EventService _eventService;
   ResourceHelper _resourceHelper;
 
-  Timer _timer;
+  late Timer _timer;
 
   BuildingViewModel(
     this._navigationWrapper,
     this._buildingChainProvider,
     this._constructedBuildingsProvider,
-    this._selectedColonizedStellarObjectProvider,
-    this._buildingImageProvider,
+    this._assetImageProvider,
     this._storedResourceProvider,
     this._fulfilledConditionsProvider,
     this._buildBuildingExecuter,
     this._eventService,
     this._resourceHelper,
-    @factoryParam this._building,
-  ) {
+    @factoryParam this.building,
+  ) : assert(building != null) {
     _eventService.on<BuildingConstructionStartedEvent>().listen((event) async {
       await updateAsync();
     });
@@ -71,42 +69,37 @@ class BuildingViewModel extends FutureViewModel {
     });
   }
 
-  Building _building;
-  Building get building => _building;
-  set building(Building val) {
-    _building = val;
-    notifyListeners();
-  }
+  Building? building;
 
-  FinishedTechnology _finishedTechnology;
-  FinishedTechnology get finishedTechnology => _finishedTechnology;
-  set finishedTechnology(FinishedTechnology val) {
+  FinishedTechnology? _finishedTechnology;
+  FinishedTechnology? get finishedTechnology => _finishedTechnology;
+  set finishedTechnology(FinishedTechnology? val) {
     _finishedTechnology = val;
     notifyListeners();
   }
 
-  BuildingConstruction _buildingConstruction;
-  BuildingConstruction get buildingConstruction => _buildingConstruction;
-  set buildingConstruction(BuildingConstruction val) {
+  BuildingConstruction? _buildingConstruction;
+  BuildingConstruction? get buildingConstruction => _buildingConstruction;
+  set buildingConstruction(BuildingConstruction? val) {
     _buildingConstruction = val;
     notifyListeners();
   }
 
-  List<StoredResource> _storedResources;
+  List<StoredResource> _storedResources = [];
   List<StoredResource> get storedResources => _storedResources;
   set storedResources(List<StoredResource> val) {
     _storedResources = val;
     notifyListeners();
   }
 
-  ImageProvider _buildingImage;
+  late ImageProvider _buildingImage;
   ImageProvider get buildingImage => _buildingImage;
   set buildingImage(ImageProvider val) {
     _buildingImage = val;
     notifyListeners();
   }
 
-  bool _hasFulfilledConditions;
+  late bool _hasFulfilledConditions;
   bool get hasFulfilledConditions => _hasFulfilledConditions;
   set hasFulfilledConditions(bool val) {
     _hasFulfilledConditions = val;
@@ -127,7 +120,7 @@ class BuildingViewModel extends FutureViewModel {
     var level = 0;
 
     if (finishedTechnology != null) {
-      level = finishedTechnology.level;
+      level = finishedTechnology!.level;
     }
 
     // If this is a FixedBuilding and it's already built
@@ -136,15 +129,15 @@ class BuildingViewModel extends FutureViewModel {
     }
 
     return _resourceHelper.hasStoredResourcesToBuild(
-        storedResources, building, level);
+        storedResources, building!, level);
   }
 
   String get constructionText {
     // If this building is under construction
     if (buildingConstruction != null &&
-        buildingConstruction.technologyId == building.id) {
+        buildingConstruction!.technologyId == building!.id) {
       var duration =
-          _buildingConstruction.endTime.difference(DateTime.now().toUtc());
+          _buildingConstruction!.endTime.difference(DateTime.now().toUtc());
 
       if (duration < Duration()) {
         duration = Duration();
@@ -156,7 +149,7 @@ class BuildingViewModel extends FutureViewModel {
     if (building is LevelableBuilding) {
       return (finishedTechnology == null)
           ? 'Build'
-          : 'Upgrade ${finishedTechnology.level + 1}';
+          : 'Upgrade ${finishedTechnology!.level + 1}';
     } else if (building is FixedBuilding) {
       return (finishedTechnology == null) ? 'Build' : 'Already built';
     }
@@ -166,7 +159,7 @@ class BuildingViewModel extends FutureViewModel {
   }
 
   Future buildAsync() async {
-    await _buildBuildingExecuter.buildBuildingAsync(building.id);
+    await _buildBuildingExecuter.buildBuildingAsync(building!.id);
 
     await updateAsync();
   }
@@ -174,7 +167,7 @@ class BuildingViewModel extends FutureViewModel {
   void showBuildingDetails() {
     _navigationWrapper.navigateSubTo(
       RoutePaths.BuildingDetailsRoute,
-      arguments: new BuildingDetailBag(building, finishedTechnology),
+      arguments: new BuildingDetailBag(building!, finishedTechnology),
     );
   }
 
@@ -188,22 +181,19 @@ class BuildingViewModel extends FutureViewModel {
   Future futureToRun() => updateAsync();
 
   Future updateAsync() async {
-    finishedTechnology = await _fetchBuiltBuildingAsync(building.id);
+    finishedTechnology = await _fetchBuiltBuildingAsync(building!.id);
     buildingConstruction = await _fetchActiveConstruction();
     storedResources = await _fetchStoredResourcesAsync();
-    buildingImage = await _fetchImageAsync(building.assetName);
-    hasFulfilledConditions = await _fetchHasFulfilledConditions(building.id);
+    buildingImage = await _fetchImageAsync(building!.assetName);
+    hasFulfilledConditions = await _fetchHasFulfilledConditions(building!.id);
   }
 
-  Future<FinishedTechnology> _fetchBuiltBuildingAsync(Guid buildingId) async {
+  Future<FinishedTechnology?> _fetchBuiltBuildingAsync(Guid buildingId) async {
     return await _constructedBuildingsProvider.getByBuildingAsync(buildingId);
   }
 
-  Future<BuildingConstruction> _fetchActiveConstruction() async {
-    return await _buildingChainProvider.getByStellarObject(
-        _selectedColonizedStellarObjectProvider
-            .getSelectedObject()
-            .stellarObjectId);
+  Future<BuildingConstruction?> _fetchActiveConstruction() async {
+    return await _buildingChainProvider.getOnCurrentStellarObject();
   }
 
   Future<List<StoredResource>> _fetchStoredResourcesAsync() async {
@@ -211,7 +201,7 @@ class BuildingViewModel extends FutureViewModel {
   }
 
   Future<ImageProvider> _fetchImageAsync(String assetName) async {
-    return await _buildingImageProvider.get(assetName);
+    return await _assetImageProvider.get(assetName, ImageScope.building);
   }
 
   Future<bool> _fetchHasFulfilledConditions(Guid technologyId) async {

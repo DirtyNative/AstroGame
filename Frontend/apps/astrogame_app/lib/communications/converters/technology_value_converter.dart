@@ -21,7 +21,7 @@ class TechnologyValueConverter
       return BuildingValue.fromJson(json);
     }
 
-    return null;
+    throw new UnimplementedError('Technology Value is not yet implemented');
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/players/colonized_stellar_object.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'stellar_object.dart';
 
@@ -10,10 +11,10 @@ abstract class ColonizableStellarObject extends StellarObject {
   //SingleObjectSystem parentSystem;
 
   @JsonKey()
-  Guid colonizedStellarObjectId;
+  late Guid colonizedStellarObjectId;
 
   @JsonKey()
-  ColonizedStellarObject colonizedStellarObject;
+  late ColonizedStellarObject? colonizedStellarObject;
 
   ColonizableStellarObject();
 }

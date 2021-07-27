@@ -12,24 +12,24 @@ class TechnologyCostViewModel extends FutureViewModel {
   TechnologyRepository _technologyRepository;
   ResourceProvider _resourceProvider;
 
-  Technology technology;
-  FinishedTechnology finishedTechnology;
+  Technology? technology;
+  FinishedTechnology? finishedTechnology;
 
   TechnologyCostViewModel(
     this._technologyRepository,
     this._resourceProvider,
     @factoryParam this.technology,
     @factoryParam this.finishedTechnology,
-  );
+  ) : assert(technology != null);
 
-  List<TechnologyValue> _technologyValues;
+  late List<TechnologyValue> _technologyValues;
   List<TechnologyValue> get technologyValues => _technologyValues;
   set technologyValues(List<TechnologyValue> val) {
     _technologyValues = val;
     notifyListeners();
   }
 
-  List<Resource> _resources;
+  late List<Resource> _resources;
   List<Resource> get resources => _resources;
   set resources(List<Resource> val) {
     _resources = val;
@@ -48,12 +48,12 @@ class TechnologyCostViewModel extends FutureViewModel {
 
   Future<List<TechnologyValue>> _fetchResearchValues() async {
     var response = await _technologyRepository.getValuesAsync(
-        technology.id, finishedTechnology?.level ?? 1, 10);
+        technology!.id, finishedTechnology?.level ?? 1, 10);
 
     if (response.hasError) {
       throw Exception(response.error);
     }
 
-    return response.data;
+    return response.data ?? [];
   }
 }

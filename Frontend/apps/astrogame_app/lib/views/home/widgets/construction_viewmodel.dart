@@ -12,14 +12,14 @@ class ConstructionViewModel extends FutureViewModel {
   SelectedColonizedStellarObjectProvider
       _selectedColonizedStellarObjectProvider;
 
-  BuildingConstruction _buildingConstruction;
-  BuildingConstruction get buildingConstruction => _buildingConstruction;
-  set buildingConstruction(BuildingConstruction val) {
+  BuildingConstruction? _buildingConstruction;
+  BuildingConstruction? get buildingConstruction => _buildingConstruction;
+  set buildingConstruction(BuildingConstruction? val) {
     _buildingConstruction = val;
     notifyListeners();
   }
 
-  StellarObject _stellarObject;
+  late StellarObject _stellarObject;
   StellarObject get stellarObject => _stellarObject;
   set stellarObject(StellarObject val) {
     _stellarObject = val;
@@ -30,36 +30,37 @@ class ConstructionViewModel extends FutureViewModel {
     this._stellarObjectRepository,
     this._selectedColonizedStellarObjectProvider,
     @factoryParam this._buildingConstruction,
-  );
+  ) : assert(_buildingConstruction != null);
 
   Future<ImageProvider> getCurrentStellarObjectImageAsync() async {
-    var stellarObjectId = _selectedColonizedStellarObjectProvider
-        .getSelectedObject()
-        .stellarObjectId;
+    var selectedStellarObject =
+        _selectedColonizedStellarObjectProvider.getSelectedObject();
 
+// TODO: Get this from Provider
     var response = await _stellarObjectRepository.getImageAsync(
-      stellarObjectId: stellarObjectId,
+      selectedStellarObject!.stellarObjectId,
     );
 
     if (response.hasError) {
-      throw Exception('Failed to load stellar object image $stellarObjectId');
+      throw Exception(
+          'Failed to load stellar object image $selectedStellarObject.stellarObjectId');
     }
 
-    return response.data;
+    return response.data!;
   }
 
   Future<StellarObject> _fetchStellarObject() async {
-    var stellarObjectId = _selectedColonizedStellarObjectProvider
-        .getSelectedObject()
-        .stellarObjectId;
+    var selectedStellarObject =
+        _selectedColonizedStellarObjectProvider.getSelectedObject();
 
-    var response = await _stellarObjectRepository.getAsync(stellarObjectId);
+    var response = await _stellarObjectRepository
+        .getAsync(selectedStellarObject!.stellarObjectId);
 
     if (response.hasError) {
       throw new Exception(response.error);
     }
 
-    return response.data;
+    return response.data!;
   }
 
   @override

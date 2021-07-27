@@ -1,6 +1,7 @@
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/researches/research_study.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:retrofit/retrofit.dart';
 
 part 'research_study_api.g.dart';

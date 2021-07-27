@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class ServerConnection {
-  String baseAdress;
+  late String baseAdress;
 
   ServerConnection() {
     Environments environment = RunableEnvironment.environment;

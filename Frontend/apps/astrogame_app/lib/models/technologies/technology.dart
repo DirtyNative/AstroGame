@@ -1,35 +1,36 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
 import 'package:astrogame_app/communications/converters/technology_converter.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/conditions/condition.dart';
 import 'package:astrogame_app/models/technologies/technology_cost.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 @GuidConverter()
 abstract class Technology {
   @JsonKey()
-  Guid id;
+  late Guid id;
 
   @JsonKey()
-  String name;
+  late String name;
 
   @JsonKey()
-  String description;
+  late String description;
 
   @JsonKey()
-  String assetName;
+  late String assetName;
 
   @JsonKey()
-  int order;
+  late int order;
 
   @JsonKey()
-  List<Condition> neededConditions;
+  List<Condition>? neededConditions = [];
 
   @JsonKey()
-  List<Condition> conditionFor;
+  List<Condition>? conditionFor = [];
 
   @JsonKey()
-  List<TechnologyCost> technologyCosts;
+  List<TechnologyCost>? technologyCosts = [];
 
   Technology();
 

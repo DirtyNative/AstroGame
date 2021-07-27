@@ -3,9 +3,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class PlayerProvider {
-  Player _player;
+  Player? _player;
 
-  Player getPlayer() {
+  Player? getPlayer() {
     return _player;
   }
 

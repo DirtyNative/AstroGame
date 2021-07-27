@@ -6,8 +6,8 @@ import 'package:json_annotation/json_annotation.dart';
 @GuidConverter()
 abstract class StellarSystem extends StellarThing {
   @JsonKey()
-  List<StellarObject> centerObjects;
+  List<StellarObject>? centerObjects = [];
 
   @JsonKey()
-  List<StellarSystem> satellites;
+  List<StellarSystem>? satellites = [];
 }

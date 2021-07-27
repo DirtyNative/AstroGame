@@ -5,9 +5,11 @@ import 'package:astrogame_app/events/server_events/buildings/building_constructi
 import 'package:astrogame_app/executers/build_building_executer.dart';
 import 'package:astrogame_app/helpers/resource_helper.dart';
 import 'package:astrogame_app/helpers/route_paths.dart';
+import 'package:astrogame_app/models/buildings/building.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
-import 'package:astrogame_app/models/buildings/levelable_building.dart';
+import 'package:astrogame_app/models/common/guid.dart';
+import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/models/technologies/levelable_technology.dart';
@@ -18,14 +20,14 @@ import 'package:astrogame_app/providers/building_chain_provider.dart';
 import 'package:astrogame_app/providers/constructed_buildings_provider.dart';
 import 'package:astrogame_app/providers/fulfilled_conditions_provider.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
-import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:astrogame_app/providers/stored_resource_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:astrogame_app/views/building_detail/bags/building_detail_bag.dart';
+import 'package:astrogame_app/views/researches/bags/research_detail_bag.dart';
 import 'package:duration/duration.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
@@ -35,10 +37,9 @@ class TechnologyCardViewModel extends FutureViewModel {
 
   ConstructedBuildingsProvider _constructedBuildingsProvider;
   BuildingChainProvider _buildingChainProvider;
-  SelectedColonizedStellarObjectProvider
-      _selectedColonizedStellarObjectProvider;
+
   StoredResourceProvider _storedResourceProvider;
-  BuildingImageProvider _buildingImageProvider;
+  AssetImageProvider _assetImageProvider;
   FulfilledConditionsProvider _fulfilledConditionsProvider;
 
   BuildBuildingExecuter _buildBuildingExecuter;
@@ -46,21 +47,20 @@ class TechnologyCardViewModel extends FutureViewModel {
   EventService _eventService;
   ResourceHelper _resourceHelper;
 
-  Timer _timer;
+  late Timer _timer;
 
   TechnologyCardViewModel(
     this._navigationWrapper,
     this._buildingChainProvider,
     this._constructedBuildingsProvider,
-    this._selectedColonizedStellarObjectProvider,
-    this._buildingImageProvider,
+    this._assetImageProvider,
     this._storedResourceProvider,
     this._fulfilledConditionsProvider,
     this._buildBuildingExecuter,
     this._eventService,
     this._resourceHelper,
-    @factoryParam this._technology,
-  ) {
+    @factoryParam this.technology,
+  ) : assert(technology != null) {
     _eventService.on<BuildingConstructionStartedEvent>().listen((event) async {
       await updateAsync();
     });
@@ -74,42 +74,37 @@ class TechnologyCardViewModel extends FutureViewModel {
     });
   }
 
-  Technology _technology;
-  Technology get technology => _technology;
-  set technology(Technology val) {
-    _technology = val;
-    notifyListeners();
-  }
+  Technology? technology;
 
-  FinishedTechnology _finishedTechnology;
-  FinishedTechnology get finishedTechnology => _finishedTechnology;
-  set finishedTechnology(FinishedTechnology val) {
+  FinishedTechnology? _finishedTechnology;
+  FinishedTechnology? get finishedTechnology => _finishedTechnology;
+  set finishedTechnology(FinishedTechnology? val) {
     _finishedTechnology = val;
     notifyListeners();
   }
 
-  TechnologyUpgrade _technologyUpgrade;
-  TechnologyUpgrade get technologyUpgrade => _technologyUpgrade;
-  set technologyUpgrade(TechnologyUpgrade val) {
+  TechnologyUpgrade? _technologyUpgrade;
+  TechnologyUpgrade? get technologyUpgrade => _technologyUpgrade;
+  set technologyUpgrade(TechnologyUpgrade? val) {
     _technologyUpgrade = val;
     notifyListeners();
   }
 
-  List<StoredResource> _storedResources;
+  late List<StoredResource> _storedResources;
   List<StoredResource> get storedResources => _storedResources;
   set storedResources(List<StoredResource> val) {
     _storedResources = val;
     notifyListeners();
   }
 
-  ImageProvider _buildingImage;
+  late ImageProvider _buildingImage;
   ImageProvider get buildingImage => _buildingImage;
   set buildingImage(ImageProvider val) {
     _buildingImage = val;
     notifyListeners();
   }
 
-  bool _hasFulfilledConditions;
+  late bool _hasFulfilledConditions;
   bool get hasFulfilledConditions => _hasFulfilledConditions;
   set hasFulfilledConditions(bool val) {
     _hasFulfilledConditions = val;
@@ -130,7 +125,7 @@ class TechnologyCardViewModel extends FutureViewModel {
     var level = 0;
 
     if (finishedTechnology != null) {
-      level = finishedTechnology.level;
+      level = finishedTechnology!.level;
     }
 
     // If this is a FixedBuilding and it's already built
@@ -139,15 +134,15 @@ class TechnologyCardViewModel extends FutureViewModel {
     }
 
     return _resourceHelper.hasStoredResourcesToBuild(
-        storedResources, technology, level);
+        storedResources, technology!, level);
   }
 
   String get constructionText {
     // If this building is under construction
     if (technologyUpgrade != null &&
-        technologyUpgrade.technologyId == technology.id) {
+        technologyUpgrade!.technologyId == technology!.id) {
       var duration =
-          _technologyUpgrade.endTime.difference(DateTime.now().toUtc());
+          _technologyUpgrade!.endTime.difference(DateTime.now().toUtc());
 
       if (duration < Duration()) {
         duration = Duration();
@@ -159,7 +154,7 @@ class TechnologyCardViewModel extends FutureViewModel {
     if (technology is LevelableTechnology) {
       return (finishedTechnology == null)
           ? 'Build'
-          : 'Upgrade ${finishedTechnology.level + 1}';
+          : 'Upgrade ${finishedTechnology!.level + 1}';
     } else if (technology is OneTimeTechnology) {
       return (finishedTechnology == null) ? 'Build' : 'Already built';
     }
@@ -169,16 +164,32 @@ class TechnologyCardViewModel extends FutureViewModel {
   }
 
   Future buildAsync() async {
-    await _buildBuildingExecuter.buildBuildingAsync(technology.id);
+    await _buildBuildingExecuter.buildBuildingAsync(technology!.id);
 
     await updateAsync();
   }
 
   void showBuildingDetails() {
-    _navigationWrapper.navigateSubTo(
-      RoutePaths.BuildingDetailsRoute,
-      arguments: new BuildingDetailBag(technology, finishedTechnology),
-    );
+    if (technology is Building) {
+      _navigationWrapper.navigateSubTo(
+        RoutePaths.BuildingDetailsRoute,
+        arguments: new BuildingDetailBag(
+          technology as Building,
+          finishedTechnology,
+        ),
+      );
+    } else if (technology is Research) {
+      _navigationWrapper.navigateSubTo(
+        RoutePaths.ResearchDetailsRoute,
+        arguments: new ResearchDetailBag(
+          technology as Research,
+          finishedTechnology,
+        ),
+      );
+    } else {
+      throw Exception(
+          'Technology ${technology.runtimeType} is not implemented yet');
+    }
   }
 
   @override
@@ -191,22 +202,19 @@ class TechnologyCardViewModel extends FutureViewModel {
   Future futureToRun() => updateAsync();
 
   Future updateAsync() async {
-    finishedTechnology = await _fetchBuiltBuildingAsync(technology.id);
+    finishedTechnology = await _fetchBuiltBuildingAsync(technology!.id);
     technologyUpgrade = await _fetchActiveConstruction();
     storedResources = await _fetchStoredResourcesAsync();
-    buildingImage = await _fetchImageAsync(technology.assetName);
-    hasFulfilledConditions = await _fetchHasFulfilledConditions(technology.id);
+    buildingImage = await _fetchImageAsync(technology!.assetName);
+    hasFulfilledConditions = await _fetchHasFulfilledConditions(technology!.id);
   }
 
-  Future<FinishedTechnology> _fetchBuiltBuildingAsync(Guid buildingId) async {
+  Future<FinishedTechnology?> _fetchBuiltBuildingAsync(Guid buildingId) async {
     return await _constructedBuildingsProvider.getByBuildingAsync(buildingId);
   }
 
-  Future<BuildingConstruction> _fetchActiveConstruction() async {
-    return await _buildingChainProvider.getByStellarObject(
-        _selectedColonizedStellarObjectProvider
-            .getSelectedObject()
-            .stellarObjectId);
+  Future<BuildingConstruction?> _fetchActiveConstruction() async {
+    return await _buildingChainProvider.getOnCurrentStellarObject();
   }
 
   Future<List<StoredResource>> _fetchStoredResourcesAsync() async {
@@ -214,7 +222,14 @@ class TechnologyCardViewModel extends FutureViewModel {
   }
 
   Future<ImageProvider> _fetchImageAsync(String assetName) async {
-    return await _buildingImageProvider.get(assetName);
+    if (technology is Building) {
+      return await _assetImageProvider.get(assetName, ImageScope.building);
+    } else if (technology is Research) {
+      return await _assetImageProvider.get(assetName, ImageScope.research);
+    } else {
+      throw Exception(
+          'Technology ${technology.runtimeType} is not implemented yet');
+    }
   }
 
   Future<bool> _fetchHasFulfilledConditions(Guid technologyId) async {

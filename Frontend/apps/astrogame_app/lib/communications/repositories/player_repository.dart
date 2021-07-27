@@ -11,7 +11,7 @@ import '../server_response.dart';
 class PlayerRepository {
   Logger _logger;
 
-  PlayerApi _playerApi;
+  late PlayerApi _playerApi;
 
   PlayerRepository(Dio dio, this._logger) {
     _playerApi = new PlayerApi(dio);
@@ -22,8 +22,8 @@ class PlayerRepository {
       _logger.d('Get current player');
       var response = await _playerApi.getCurrentAsync();
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
@@ -32,10 +32,10 @@ class PlayerRepository {
   ) async {
     try {
       _logger.d('Get player by email');
-      var response = await _playerApi.getByEmailAsync(email: email);
+      var response = await _playerApi.getByEmailAsync(email);
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

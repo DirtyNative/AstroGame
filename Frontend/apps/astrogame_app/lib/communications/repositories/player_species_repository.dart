@@ -11,7 +11,7 @@ import '../server_response.dart';
 class PlayerSpeciesRepository {
   Logger _logger;
 
-  PlayerSpeciesApi _playerSpeciesApi;
+  late PlayerSpeciesApi _playerSpeciesApi;
 
   PlayerSpeciesRepository(Dio dio, this._logger) {
     _playerSpeciesApi = new PlayerSpeciesApi(dio);
@@ -20,10 +20,10 @@ class PlayerSpeciesRepository {
   Future<ServerResponse> addAsync(AddPlayerSpeciesRequest species) async {
     try {
       _logger.d('Add player species');
-      await _playerSpeciesApi.addAsync(species: species);
+      await _playerSpeciesApi.addAsync(species);
       return ServerResponse();
-    } catch (error) {
-      return ServerResponse()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponse()..error = ServerError.withError(error);
     }
   }
 }

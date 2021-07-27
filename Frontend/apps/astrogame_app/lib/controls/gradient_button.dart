@@ -2,9 +2,9 @@ import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:flutter/material.dart';
 
 class AstroGameGradientButton extends StatelessWidget {
-  final Widget child;
-  final Function() onPressed;
-  final Gradient gradient;
+  final Widget? child;
+  final Function()? onPressed;
+  final Gradient? gradient;
 
   AstroGameGradientButton({this.child, this.onPressed, this.gradient});
 

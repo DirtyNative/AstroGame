@@ -19,7 +19,9 @@ class LoginView extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: AstroGameColors.mediumGrey,
-              image: DecorationImage(image: AssetImage('assets/images/background_2.png'), fit: BoxFit.cover),
+              image: DecorationImage(
+                  image: AssetImage('assets/images/background_2.png'),
+                  fit: BoxFit.cover),
             ),
             child: Stack(
               children: [
@@ -27,7 +29,9 @@ class LoginView extends StatelessWidget {
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: model.isBusy ? 1 : 0,
-                  child: (model.isBusy) ? _loadingOverlay(context) : SizedBox.shrink(),
+                  child: (model.isBusy)
+                      ? _loadingOverlay(context)
+                      : SizedBox.shrink(),
                 ),
               ],
             ),
@@ -78,7 +82,10 @@ class LoginView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Checkbox(value: model.stayLoggedIn, onChanged: (checked) => model.stayLoggedIn = checked),
+                Checkbox(
+                    value: model.stayLoggedIn,
+                    onChanged: (checked) =>
+                        model.stayLoggedIn = checked ?? false),
                 Text('Stay logged in'),
               ],
             ),

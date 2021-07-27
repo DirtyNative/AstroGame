@@ -3,9 +3,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class AuthorizationTokenProvider {
-  AuthorizationToken _token;
+  AuthorizationToken? _token;
 
-  AuthorizationToken getToken() {
+  AuthorizationToken? getToken() {
     return _token;
   }
 

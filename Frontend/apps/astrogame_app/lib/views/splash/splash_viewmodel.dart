@@ -35,7 +35,8 @@ class SplashViewModel extends FutureViewModel {
     var token = await getAccessToken();
 
     if (token == null) {
-      var lastEmail = await _localStorageService.readAsync<String>(StorageKeys.lastEmailKey);
+      var lastEmail = await _localStorageService
+          .readAsync<String>(StorageKeys.lastEmailKey);
       showLoginView(lastEmail);
       return;
     } else {
@@ -46,7 +47,7 @@ class SplashViewModel extends FutureViewModel {
     var player = await _fetchPlayerAsync();
     if (player == null) {
       _localStorageService.deleteAsync(StorageKeys.tokenKey);
-      showLoginView(null);
+      showLoginView('');
       return;
     }
 
@@ -60,7 +61,7 @@ class SplashViewModel extends FutureViewModel {
     await showMainViewAsync();
   }
 
-  Future<AuthorizationToken> getAccessToken() async {
+  Future<AuthorizationToken?> getAccessToken() async {
     if (await _localStorageService.containsAsync(StorageKeys.tokenKey)) {
       print('exists');
     }
@@ -77,14 +78,14 @@ class SplashViewModel extends FutureViewModel {
     _navigationWrapper.navigateTo(RoutePaths.LoginRoute, arguments: lastEmail);
   }
 
-  Future<Player> _fetchPlayerAsync() async {
+  Future<Player?> _fetchPlayerAsync() async {
     var playerResponse = await _playerRepository.getCurrentAsync();
 
-    if (playerResponse.hasError) {
+    if (playerResponse.hasError || playerResponse.data == null) {
       return null;
     }
 
-    _playerProvider.setPlayer(playerResponse.data);
+    _playerProvider.setPlayer(playerResponse.data!);
 
     return playerResponse.data;
   }

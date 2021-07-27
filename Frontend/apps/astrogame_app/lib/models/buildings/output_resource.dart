@@ -1,5 +1,6 @@
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'output_resource.g.dart';
@@ -8,19 +9,19 @@ part 'output_resource.g.dart';
 @JsonSerializable()
 class OutputResource {
   @JsonKey()
-  Guid id;
+  late Guid id;
 
   @JsonKey()
-  Guid resourceId;
+  late Guid resourceId;
 
   @JsonKey()
-  Guid buildingId;
+  late Guid buildingId;
 
   @JsonKey()
-  double baseValue;
+  late double baseValue;
 
   @JsonKey()
-  double multiplier;
+  late double multiplier;
 
   OutputResource();
 

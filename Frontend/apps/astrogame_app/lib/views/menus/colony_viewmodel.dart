@@ -1,39 +1,60 @@
 import 'package:astrogame_app/communications/repositories/stellar_object_repository.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/players/colonized_stellar_object.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
+import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
-class ColonyViewModel extends BaseViewModel {
+class ColonyViewModel extends FutureViewModel {
   SelectedColonizedStellarObjectProvider _selectedStellarObjectProvider;
   StellarObjectRepository _stellarObjectRepository;
+  AssetImageProvider _assetImageProvider;
 
-  ColonizedStellarObject colonizedStellarObject;
+  ColonizedStellarObject? colonizedStellarObject;
 
   ColonyViewModel(
     this._selectedStellarObjectProvider,
     this._stellarObjectRepository,
+    this._assetImageProvider,
     @factoryParam this.colonizedStellarObject,
-  );
+  ) : assert(colonizedStellarObject != null) {
+    print(colonizedStellarObject);
+  }
 
   bool get isSelected =>
       _selectedStellarObjectProvider.getSelectedObject() ==
       colonizedStellarObject;
 
-  Future<ImageProvider> getStellarObjectImageAsync(Guid stellarObjectId) async {
-    var response = await _stellarObjectRepository.getImageAsync(
-      stellarObjectId: stellarObjectId,
-    );
+  StellarObject? _stellarObject;
+  StellarObject? get stellarObject => _stellarObject;
+  set stellarObject(StellarObject? val) {
+    _stellarObject = val;
+    notifyListeners();
+  }
 
-    if (response.hasError) {
-      throw Exception('Failed to load stellar object image $stellarObjectId');
-    }
+  ImageProvider _stellarObjectImage =
+      AssetImage('assets/images/stellar_objects/planet_continental_1.png');
+  ImageProvider get stellarObjectImage => _stellarObjectImage;
+  set stellarObjectImage(ImageProvider val) {
+    _stellarObjectImage = val;
+    notifyListeners();
+  }
 
-    return response.data;
+  @override
+  Future futureToRun() async {
+    stellarObject =
+        await fetchStellarObject(colonizedStellarObject!.stellarObjectId);
+    stellarObjectImage =
+        await getStellarObjectImageAsync(stellarObject!.assetName);
+  }
+
+  Future<ImageProvider> getStellarObjectImageAsync(String assetName) async {
+    return _assetImageProvider.get(assetName, ImageScope.stellarObject);
   }
 
   Future<StellarObject> fetchStellarObject(Guid id) async {
@@ -43,6 +64,10 @@ class ColonyViewModel extends BaseViewModel {
       throw new Exception(response.error);
     }
 
-    return response.data;
+    if (response.data == null) {
+      throw Exception('StellarObject cannot be null');
+    }
+
+    return response.data!;
   }
 }

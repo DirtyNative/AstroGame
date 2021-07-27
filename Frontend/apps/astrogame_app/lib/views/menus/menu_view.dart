@@ -1,9 +1,7 @@
-import 'package:astrogame_app/configurations/service_container.dart';
 import 'package:astrogame_app/configurations/service_locator.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/menus/menu_item_listing.dart';
 import 'package:astrogame_app/views/menus/menu_viewmodel.dart';
-import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -39,21 +37,12 @@ class MenuView extends StatelessWidget {
           ),
 
           // Species Image
-
-          EnhancedFutureBuilder<ImageProvider>(
-            future: model.getSpeciesImageAsync(),
-            rememberFutureResult: true,
-            whenDone: (data) => Positioned(
-              bottom: 0,
-              left: 20,
-              child: Image(
-                image: data,
-                height: 120,
-              ),
-            ),
-            whenNotDone: Container(
-              height: 100,
-              child: CircularProgressIndicator(),
+          Positioned(
+            bottom: 0,
+            left: 20,
+            child: Image(
+              image: model.speciesImage,
+              height: 120,
             ),
           ),
 
@@ -74,9 +63,9 @@ class MenuView extends StatelessWidget {
         padding: const EdgeInsets.only(left: 0, right: 16),
         child: Scrollbar(
           child: MenuItemListing(
-            navigationService: getIt.get(),
-            selectedItem: model.selectedItem,
-            itemSelectedCallback: (item) => {
+            ServiceLocator.get(),
+            model.selectedItem,
+            (item) => {
               model.navigate(item),
             },
           ),

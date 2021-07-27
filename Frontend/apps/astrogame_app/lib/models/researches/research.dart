@@ -7,40 +7,40 @@ import 'package:json_annotation/json_annotation.dart';
 @GuidConverter()
 abstract class Research extends Technology {
   @JsonKey()
-  ResearchType researchType;
+  late ResearchType researchType;
 
   @JsonKey()
-  double buildingTimeMultiplier;
+  late double buildingTimeMultiplier;
 
   @JsonKey()
-  double buildingCostMultiplier;
+  late double buildingCostMultiplier;
 
   @JsonKey()
-  double buildingProductionMultiplier;
+  late double buildingProductionMultiplier;
 
   @JsonKey()
-  double buildingConsumptionMultiplier;
+  late double buildingConsumptionMultiplier;
 
   @JsonKey()
-  double structuralIntegrityMultiplier;
+  late double structuralIntegrityMultiplier;
 
   @JsonKey()
-  double shieldPowerMultiplier;
+  late double shieldPowerMultiplier;
 
   @JsonKey()
-  double weaponPowerMultiplier;
+  late double weaponPowerMultiplier;
 
   @JsonKey()
-  double cargoCapacityMultiplier;
+  late double cargoCapacityMultiplier;
 
   @JsonKey()
-  double stellarSpeedMultiplier;
+  late double stellarSpeedMultiplier;
 
   @JsonKey()
-  double interstellarSpeedMultiplier;
+  late double interstellarSpeedMultiplier;
 
   @JsonKey()
-  double fuelConsumptionMultiplier;
+  late double fuelConsumptionMultiplier;
 
   Research();
 

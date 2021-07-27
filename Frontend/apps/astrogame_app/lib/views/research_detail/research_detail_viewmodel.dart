@@ -12,19 +12,19 @@ import 'package:stacked/stacked.dart';
 class ResearchDetailViewModel extends FutureViewModel {
   NavigationWrapper _navigationWrapper;
 
-  ResearchImageProvider _researchImageProvider;
+  AssetImageProvider _assetImageProvider;
 
-  Research research;
-  FinishedTechnology finishedTechnology;
+  Research? research;
+  FinishedTechnology? finishedTechnology;
 
   ResearchDetailViewModel(
     this._navigationWrapper,
-    this._researchImageProvider,
+    this._assetImageProvider,
     @factoryParam this.research,
     @factoryParam this.finishedTechnology,
-  );
+  ) : assert(research != null);
 
-  ImageProvider _researchImage;
+  late ImageProvider _researchImage;
   ImageProvider get researchImage => _researchImage;
   set researchImage(ImageProvider val) {
     _researchImage = val;
@@ -33,15 +33,15 @@ class ResearchDetailViewModel extends FutureViewModel {
 
   @override
   Future futureToRun() async {
-    researchImage = await _fetchImageAsync(research.assetName);
+    researchImage = await _fetchImageAsync(research!.assetName);
   }
 
   Future<ImageProvider> _fetchImageAsync(String assetName) async {
-    return await _researchImageProvider.get(assetName);
+    return await _assetImageProvider.get(assetName, ImageScope.research);
   }
 
   void showTechTreeView() {
-    var bag = ShowTechTreeViewBag(research, finishedTechnology);
+    var bag = ShowTechTreeViewBag(research!, finishedTechnology);
 
     _navigationWrapper.navigateSubTo(RoutePaths.TechTreeRoute, arguments: bag);
   }

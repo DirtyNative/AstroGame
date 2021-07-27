@@ -8,8 +8,8 @@ part 'building_value.g.dart';
 @GuidConverter()
 @JsonSerializable()
 class BuildingValue extends TechnologyValue {
-  List<ResourceAmount> consumptions;
-  List<ResourceAmount> productions;
+  List<ResourceAmount> consumptions = [];
+  List<ResourceAmount> productions = [];
 
   BuildingValue();
 

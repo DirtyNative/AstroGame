@@ -3,7 +3,7 @@ import 'package:astrogame_app/models/technologies/technology.dart';
 
 class ShowTechTreeViewBag {
   Technology technology;
-  FinishedTechnology finishedTechnology;
+  FinishedTechnology? finishedTechnology;
 
   ShowTechTreeViewBag(this.technology, this.finishedTechnology);
 }

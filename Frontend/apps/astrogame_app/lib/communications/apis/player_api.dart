@@ -1,6 +1,5 @@
 import 'package:astrogame_app/models/players/player.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'player_api.g.dart';
@@ -13,7 +12,7 @@ abstract class PlayerApi {
   Future<Player> getCurrentAsync();
 
   @GET('/{email}')
-  Future<Player> getByEmailAsync({
-    @required @Path('email') String email,
-  });
+  Future<Player> getByEmailAsync(
+    @Path('email') String email,
+  );
 }

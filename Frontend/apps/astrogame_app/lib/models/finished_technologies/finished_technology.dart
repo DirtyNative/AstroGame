@@ -1,21 +1,22 @@
 import 'package:astrogame_app/communications/converters/finished_technology_converter.dart';
 import 'package:astrogame_app/communications/converters/guid_converter.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:astrogame_app/models/common/guid.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 @GuidConverter()
 abstract class FinishedTechnology {
   @JsonKey()
-  Guid id;
+  late Guid id;
 
   @JsonKey()
-  Guid technologyId;
+  late Guid technologyId;
 
   @JsonKey()
-  Guid playerId;
+  late Guid playerId;
 
   @JsonKey()
-  int level;
+  late int level;
 
   FinishedTechnology();
 

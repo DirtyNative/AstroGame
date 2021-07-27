@@ -11,31 +11,35 @@ import '../server_response.dart';
 class SolarSystemRepository {
   Logger _logger;
 
-  SolarSystemApi _solarSystemApi;
+  late SolarSystemApi _solarSystemApi;
 
   SolarSystemRepository(Dio dio, this._logger) {
     _solarSystemApi = new SolarSystemApi(dio);
   }
 
-  Future<ServerResponseT<SolarSystem>> getBySystemNumberRecursiveAsync(int solarSystemNumber) async {
+  Future<ServerResponseT<SolarSystem>> getBySystemNumberRecursiveAsync(
+      int solarSystemNumber) async {
     try {
       _logger.d('Get SolarSystem by number');
-      var solarSystem = await _solarSystemApi.getBySystemNumberRecursiveAsync(systemNumber: solarSystemNumber);
+      var solarSystem = await _solarSystemApi
+          .getBySystemNumberRecursiveAsync(solarSystemNumber);
 
       return ServerResponseT()..data = solarSystem;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 
-  Future<ServerResponseT<List<SolarSystem>>> getInRangeAsync(double minX, double maxX, double minZ, double maxZ) async {
+  Future<ServerResponseT<List<SolarSystem>>> getInRangeAsync(
+      double minX, double maxX, double minZ, double maxZ) async {
     try {
       _logger.d('Get SolarSystem in range');
-      var solarSystems = await _solarSystemApi.getInRangeAsync(minX, maxX, minZ, maxZ);
+      var solarSystems =
+          await _solarSystemApi.getInRangeAsync(minX, maxX, minZ, maxZ);
 
       return ServerResponseT()..data = solarSystems;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

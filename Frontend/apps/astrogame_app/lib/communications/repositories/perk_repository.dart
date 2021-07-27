@@ -11,7 +11,7 @@ import '../server_response.dart';
 class PerkRepository {
   Logger _logger;
 
-  PerkApi _perkApi;
+  late PerkApi _perkApi;
 
   PerkRepository(Dio dio, this._logger) {
     _perkApi = new PerkApi(dio);
@@ -22,8 +22,8 @@ class PerkRepository {
       _logger.d('Get all perks');
       var response = await _perkApi.getAllAsync();
       return ServerResponseT()..data = response;
-    } catch (error) {
-      return ServerResponseT()..error = ServerError.withError(error: error);
+    } on DioError catch (error) {
+      return ServerResponseT()..error = ServerError.withError(error);
     }
   }
 }

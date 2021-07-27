@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class EventService {
-  EventBus _eventBus;
+  late EventBus _eventBus;
 
   EventService() {
     _eventBus = new EventBus();

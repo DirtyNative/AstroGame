@@ -39,7 +39,7 @@ class ResearchView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(model.research.name,
+                        Text(model.research!.name,
                             style: Theme.of(context).textTheme.headline2),
 
                         // Show the level only if it's a levelable research
@@ -50,7 +50,7 @@ class ResearchView extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      model.research.description,
+                      model.research!.description,
                     ),
                     Expanded(child: Container()),
                     Row(

@@ -12,33 +12,35 @@ class DeviceInfo {
   String model;
   String webViewUserAgent;
 
-  DeviceInfo({
+  DeviceInfo(
     this.isPhysicalDevice,
     this.model,
     this.webViewUserAgent,
-  });
+  );
 
   @factoryMethod
   static Future<DeviceInfo> instance() async {
-    var deviceInfo = new DeviceInfo();
+    bool isPhysicalDevice = false;
+    String model = '';
+    String webViewUserAgent = '';
 
     DeviceInfoPlugin plugin = DeviceInfoPlugin();
 
     if (Platform.isAndroid) {
       var androidInfo = await plugin.androidInfo;
 
-      deviceInfo.isPhysicalDevice = androidInfo.isPhysicalDevice;
-      deviceInfo.model = androidInfo.model;
+      isPhysicalDevice = androidInfo.isPhysicalDevice;
+      model = androidInfo.model;
     } else if (Platform.isIOS) {
       var iosDeviceInfo = await plugin.iosInfo;
 
-      deviceInfo.isPhysicalDevice = iosDeviceInfo.isPhysicalDevice;
-      deviceInfo.model = iosDeviceInfo.utsname.machine;
+      isPhysicalDevice = iosDeviceInfo.isPhysicalDevice;
+      model = iosDeviceInfo.utsname.machine;
     } else if (Platform.isWindows) {
     } else if (Platform.isMacOS) {
     } else if (kIsWeb) {
     } else {}
 
-    return deviceInfo;
+    return new DeviceInfo(isPhysicalDevice, model, webViewUserAgent);
   }
 }

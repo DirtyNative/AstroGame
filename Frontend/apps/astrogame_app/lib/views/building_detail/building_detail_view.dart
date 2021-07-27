@@ -4,6 +4,7 @@ import 'package:astrogame_app/models/buildings/building_value.dart';
 import 'package:astrogame_app/models/buildings/fixed_building.dart';
 import 'package:astrogame_app/models/buildings/levelable_building.dart';
 import 'package:astrogame_app/models/buildings/resource_amount.dart';
+import 'package:astrogame_app/models/common/guid.dart';
 import 'package:astrogame_app/models/resources/resource.dart';
 import 'package:astrogame_app/models/finished_technologies/finished_technology.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
@@ -12,12 +13,12 @@ import 'package:astrogame_app/views/common/technology_cost_view.dart';
 import 'package:astrogame_app/widgets/scaffold_base.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+
 import 'package:stacked/stacked.dart';
 
 class BuildingDetailView extends StatelessWidget {
   final Building _building;
-  final FinishedTechnology _finishedTechnology;
+  final FinishedTechnology? _finishedTechnology;
 
   BuildingDetailView(this._building, this._finishedTechnology);
 
@@ -45,10 +46,6 @@ class BuildingDetailView extends StatelessWidget {
   }
 
   Widget _headerWidget(BuildContext context, BuildingDetailViewModel model) {
-    if (model.buildingImage == null) {
-      return Container();
-    }
-
     return Container(
       padding: EdgeInsets.only(top: 32, bottom: 32),
       height: 500,
@@ -82,10 +79,10 @@ class BuildingDetailView extends StatelessWidget {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: [
-                    Text(model.building.name,
+                    Text(model.building!.name,
                         style: Theme.of(context).textTheme.headline1),
                     _levelText(context, model),
-                    Text(model.building.description),
+                    Text(model.building!.description),
                   ],
                 ),
               ),
@@ -110,17 +107,14 @@ class BuildingDetailView extends StatelessWidget {
 
   Widget _consumptionWidget(
       BuildContext context, BuildingDetailViewModel model) {
-    if (model.technologyValues == null ||
-        model.technologyValues.length == 0 ||
-        model.resources == null ||
-        model.resources.length == 0) {
+    if (model.technologyValues.length == 0 || model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
     List<Resource> usedResources = calculateUsedResources(
         model, (model.technologyValues.first as BuildingValue).consumptions);
 
-    if (usedResources == null || usedResources.length == 0) {
+    if (usedResources.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -170,10 +164,7 @@ class BuildingDetailView extends StatelessWidget {
 
   Widget _productionWidget(
       BuildContext context, BuildingDetailViewModel model) {
-    if (model.technologyValues == null ||
-        model.technologyValues.length == 0 ||
-        model.resources == null ||
-        model.resources.length == 0) {
+    if (model.technologyValues.length == 0 || model.resources.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -181,7 +172,7 @@ class BuildingDetailView extends StatelessWidget {
         model, (model.technologyValues.first as BuildingValue).productions);
 
     // If there are no resources to produce
-    if (usedResources == null || usedResources.length == 0) {
+    if (usedResources.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -232,10 +223,6 @@ class BuildingDetailView extends StatelessWidget {
   double calculateMax(List<ResourceAmount> amounts) {
     var maxValue = 0.0;
 
-    if (amounts == null) {
-      return maxValue;
-    }
-
     amounts.forEach((element) {
       if (maxValue < element.amount) {
         maxValue = element.amount;
@@ -248,10 +235,6 @@ class BuildingDetailView extends StatelessWidget {
   List<Resource> calculateUsedResources(
       BuildingDetailViewModel model, List<ResourceAmount> amounts) {
     List<Resource> usedResources = [];
-
-    if (amounts == null) {
-      return usedResources;
-    }
 
     amounts.forEach((element) {
       usedResources.add(model.resources
@@ -269,8 +252,8 @@ class BuildingDetailView extends StatelessWidget {
       var costs = (element as BuildingValue)
           .consumptions
           .firstWhere((costs) => costs.resourceId == resourceId);
-      var spot = new FlSpot(
-          element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
+      var spot =
+          new FlSpot(element.level.toDouble(), costs.amount.roundToDouble());
       spots.add(spot);
     });
 
@@ -285,8 +268,8 @@ class BuildingDetailView extends StatelessWidget {
       var costs = (element as BuildingValue)
           .productions
           .firstWhere((costs) => costs.resourceId == resourceId);
-      var spot = new FlSpot(
-          element.level.toDouble(), costs.amount?.roundToDouble() ?? 0);
+      var spot =
+          new FlSpot(element.level.toDouble(), costs.amount.roundToDouble());
       spots.add(spot);
     });
 
@@ -329,7 +312,7 @@ class BuildingDetailView extends StatelessWidget {
           return touchedSpots.map((e) {
             return LineTooltipItem(
               '${e.y.toInt()} ${usedResources[e.barIndex].name}',
-              Theme.of(context).textTheme.bodyText1,
+              Theme.of(context).textTheme.bodyText1!,
             );
           }).toList();
         },
@@ -350,12 +333,12 @@ class BuildingDetailView extends StatelessWidget {
       leftTitles: SideTitles(
         showTitles: true,
         interval: (step == 0) ? 1000 : step,
-        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1,
+        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1!,
         margin: 30,
       ),
       bottomTitles: SideTitles(
         showTitles: true,
-        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1,
+        getTextStyles: (value) => Theme.of(context).textTheme.bodyText1!,
         margin: 20,
       ),
     );
