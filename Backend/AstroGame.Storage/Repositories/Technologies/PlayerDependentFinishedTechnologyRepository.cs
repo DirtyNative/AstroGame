@@ -27,7 +27,7 @@ namespace AstroGame.Storage.Repositories.Technologies
                 .ToListAsync();
         }
 
-        public async Task<PlayerDependentFinishedTechnology> GetByResearchAndPlayerAsync(Guid technologyId, Guid playerId)
+        public async Task<PlayerDependentFinishedTechnology> GetByTechnologyAndPlayerAsync(Guid technologyId, Guid playerId)
         {
             return await _context.PlayerDependentFinishedTechnologies
                 .FirstOrDefaultAsync(e => e.TechnologyId == technologyId

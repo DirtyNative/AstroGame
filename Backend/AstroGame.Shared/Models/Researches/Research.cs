@@ -4,7 +4,7 @@ using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Shared.Models.Researches
 {
-    public abstract class Research : Technology
+    public abstract class Research : Technology, IPlayerDependent
     {
         public ResearchType ResearchType { get; set; }
 

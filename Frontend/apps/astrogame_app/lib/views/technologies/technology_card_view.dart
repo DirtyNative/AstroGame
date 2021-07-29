@@ -1,22 +1,23 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
-import 'package:astrogame_app/models/buildings/building.dart';
-import 'package:astrogame_app/models/buildings/fixed_building.dart';
-import 'package:astrogame_app/models/buildings/levelable_building.dart';
+import 'package:astrogame_app/models/technologies/levelable_technology.dart';
+import 'package:astrogame_app/models/technologies/one_time_technology.dart';
+import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
-import 'package:astrogame_app/views/buildings/widgets/building_viewmodel.dart';
+import 'package:astrogame_app/views/technologies/technology_card_placeholder_view.dart';
+import 'package:astrogame_app/views/technologies/technology_card_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class BuildingView extends StatelessWidget {
-  final Building _building;
+class TechnologyCardView extends StatelessWidget {
+  final Technology _technology;
 
-  BuildingView(this._building);
+  TechnologyCardView(this._technology);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<BuildingViewModel>.reactive(
+    return ViewModelBuilder<TechnologyCardViewModel>.reactive(
       builder: (context, model, _) => model.isBusy
-          ? CircularProgressIndicator()
+          ? TechnologyCardPlaceholderView()
           : Container(
               margin: EdgeInsets.only(bottom: 16),
               height: 150,
@@ -28,7 +29,7 @@ class BuildingView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Image
-                  _buildingImageWidget(model),
+                  _imageWidget(model),
 
                   Expanded(
                     child: Padding(
@@ -41,26 +42,26 @@ class BuildingView extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(model.building!.name,
+                              Text(model.technology!.name,
                                   style: Theme.of(context).textTheme.headline2),
 
                               // Show the level only if it's a levelable building
-                              if (model.building is LevelableBuilding)
+                              if (model.technology is LevelableTechnology)
                                 Text(
                                     'Level ${model.finishedTechnology?.level ?? 0}')
-                              else if (model.building is FixedBuilding)
+                              else if (model.technology is OneTimeTechnology)
                                 SizedBox.shrink(),
                             ],
                           ),
                           Text(
-                            model.building!.description,
+                            model.technology!.description,
                           ),
                           Expanded(child: Container()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                  onPressed: model.showBuildingDetails,
+                                  onPressed: model.showDetails,
                                   child: Text('Details')),
                               ElevatedButton(
                                 onPressed: (model.isConstructable)
@@ -77,13 +78,13 @@ class BuildingView extends StatelessWidget {
                 ],
               ),
             ),
-      viewModelBuilder: () => ServiceLocator.get(param1: _building),
+      viewModelBuilder: () => ServiceLocator.get(param1: _technology),
     );
   }
 
-  Widget _buildingImageWidget(BuildingViewModel model) {
+  Widget _imageWidget(TechnologyCardViewModel model) {
     return InkWell(
-      onTap: model.showBuildingDetails,
+      onTap: model.showDetails,
       child: ClipRRect(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),

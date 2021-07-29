@@ -16,7 +16,6 @@ class TechTreeViewModel extends FutureViewModel {
   TechnologiesProvider _technologiesProvider;
 
   Technology? _technology;
-  FinishedTechnology? _finishedTechnology;
 
   late Graph graph;
   late SugiyamaConfiguration builder;
@@ -24,7 +23,6 @@ class TechTreeViewModel extends FutureViewModel {
   TechTreeViewModel(
     this._technologiesProvider,
     @factoryParam this._technology,
-    @factoryParam this._finishedTechnology,
   ) : assert(_technology != null) {
     graph = Graph()..isTree = true;
     builder = new SugiyamaConfiguration();
@@ -65,8 +63,7 @@ class TechTreeViewModel extends FutureViewModel {
     if (condition is LevelableCondition) {
       return finishedTechnology.level >= (condition).neededLevel;
     } else if (condition is OneTimeCondition) {
-      // TODO: fix
-      return finishedTechnology != null;
+      return true;
     }
 
     return false;

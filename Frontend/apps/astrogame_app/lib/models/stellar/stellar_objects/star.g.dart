@@ -22,8 +22,8 @@ Star _$StarFromJson(Map<String, dynamic> json) {
     ..starType = _$enumDecode(_$StarTypeEnumMap, json['starType'])
     ..scale = (json['scale'] as num).toDouble()
     ..axialTilt = (json['axialTilt'] as num).toDouble()
-    ..resources = (json['resources'] as List<dynamic>)
-        .map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
+    ..resources = (json['resources'] as List<dynamic>?)
+        ?.map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
         .toList()
     ..order = json['order'] as int;
 }

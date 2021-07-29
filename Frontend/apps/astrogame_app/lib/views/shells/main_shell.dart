@@ -3,7 +3,6 @@ import 'package:astrogame_app/helpers/router.dart';
 import 'package:astrogame_app/services/navigation_wrapper.dart';
 import 'package:astrogame_app/views/menus/menu_view.dart';
 import 'package:astrogame_app/views/menus/player_colonies_view.dart';
-import 'package:astrogame_app/views/menus/resource_view.dart';
 import 'package:astrogame_app/widgets/app_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
@@ -37,8 +36,6 @@ class _State extends State<MainShell> {
                     // The header
                     AppHeader(),
 
-                    //
-                    ResourceView(),
                     Expanded(
                       child: Row(
                         children: [

@@ -21,8 +21,8 @@ Moon _$MoonFromJson(Map<String, dynamic> json) {
         Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
     ..scale = (json['scale'] as num).toDouble()
     ..axialTilt = (json['axialTilt'] as num).toDouble()
-    ..resources = (json['resources'] as List<dynamic>)
-        .map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
+    ..resources = (json['resources'] as List<dynamic>?)
+        ?.map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
         .toList()
     ..order = json['order'] as int;
 }

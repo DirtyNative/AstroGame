@@ -19,17 +19,7 @@ class StoredResourceProvider {
     this._eventService,
     this._resourceSnapshotProvider,
     this._selectedColonizedStellarObjectProvider,
-  ) {
-    _eventService.on<BuildingConstructionStartedEvent>().listen((event) async {
-      await updateAsync();
-      _eventService.fire(new ResourcesUpdatedEvent());
-    });
-
-    _eventService.on<BuildingConstructionFinishedEvent>().listen((event) async {
-      await updateAsync();
-      _eventService.fire(new ResourcesUpdatedEvent());
-    });
-  }
+  );
 
   Future<List<StoredResource>> getAsync() async {
     return await updateAsync();
@@ -47,6 +37,8 @@ class StoredResourceProvider {
 
     var snapshot =
         await _resourceSnapshotProvider.getAsync(currentStellarObjectId);
+
+    _eventService.fire(new ResourcesUpdatedEvent());
 
     return snapshot?.storedResources ?? [];
   }

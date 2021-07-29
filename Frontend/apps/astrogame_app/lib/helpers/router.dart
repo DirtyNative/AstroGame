@@ -90,8 +90,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case RoutePaths.TechTreeRoute:
       var bag = settings.arguments as ShowTechTreeViewBag;
-      return MaterialPageRoute(
-          builder: (_) => TechTreeView(bag.technology, bag.finishedTechnology));
+      return MaterialPageRoute(builder: (_) => TechTreeView(bag.technology));
   }
 
   return MaterialPageRoute(

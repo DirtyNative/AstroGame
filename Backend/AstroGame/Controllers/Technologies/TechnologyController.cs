@@ -40,5 +40,16 @@ namespace AstroGame.Api.Controllers.Technologies
 
             return Ok(response);
         }
+
+        [HttpPut("upgrade/{technologyId}")]
+        public async Task<IActionResult> BuildAsync(Guid technologyId)
+        {
+            var playerId = GetPlayerId();
+            var selectedStellarObjectId = GetSelectedStellarObject();
+
+            await _technologyManager.UpgradeAsync(playerId, selectedStellarObjectId, technologyId);
+
+            return Ok();
+        }
     }
 }

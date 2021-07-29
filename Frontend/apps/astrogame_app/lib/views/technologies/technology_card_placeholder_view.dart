@@ -1,6 +1,6 @@
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class TechnologyCardPlaceholderView extends StatelessWidget {
   TechnologyCardPlaceholderView();
@@ -32,24 +32,54 @@ class TechnologyCardPlaceholderView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Name
-                      SkeletonLoader(builder: Container()),
+                      Shimmer(
+                        child: Container(
+                          height: 20,
+                          width: 100,
+                        ),
+                        color: Colors.white,
+                      ),
 
                       // Level
-                      SkeletonLoader(builder: Container()),
+                      Shimmer(
+                        child: Container(
+                          height: 20,
+                          width: 100,
+                        ),
+                        color: Colors.white,
+                      ),
                     ],
                   ),
 
                   // Description
-                  SkeletonLoader(builder: Container()),
+                  Shimmer(
+                    child: Container(
+                      height: 20,
+                      width: 100,
+                    ),
+                    color: Colors.white,
+                  ),
                   Expanded(child: Container()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Button Details
-                      SkeletonLoader(builder: Container()),
+                      Shimmer(
+                        child: Container(
+                          height: 20,
+                          width: 100,
+                        ),
+                        color: Colors.white,
+                      ),
 
                       // Button Build
-                      SkeletonLoader(builder: Container()),
+                      Shimmer(
+                        child: Container(
+                          height: 20,
+                          width: 100,
+                        ),
+                        color: Colors.white,
+                      ),
                     ],
                   )
                 ],
@@ -68,7 +98,13 @@ class TechnologyCardPlaceholderView extends StatelessWidget {
         bottomLeft: Radius.circular(16),
         bottomRight: Radius.circular(32),
       ),
-      child: SkeletonLoader(builder: Container()),
+      child: Shimmer(
+        child: Container(
+          height: 150,
+          width: 266,
+        ),
+        color: Colors.white,
+      ),
     );
   }
 }

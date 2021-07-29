@@ -169,7 +169,7 @@ class TechnologyCardViewModel extends FutureViewModel {
     await updateAsync();
   }
 
-  void showBuildingDetails() {
+  void showDetails() {
     if (technology is Building) {
       _navigationWrapper.navigateSubTo(
         RoutePaths.BuildingDetailsRoute,

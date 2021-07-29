@@ -4,7 +4,7 @@ using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Shared.Models.Buildings
 {
-    public abstract class Building : Technology
+    public abstract class Building : Technology, IStellarObjectDependent
     {
         public BuildingType BuildingType { get; set; }
         

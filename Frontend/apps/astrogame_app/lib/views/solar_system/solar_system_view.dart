@@ -37,10 +37,6 @@ class _State extends State<SolarSystemView> {
 
   Widget generateSolarSystemWidget(
       SolarSystemViewModel model, SolarSystem solarSystem) {
-    if (solarSystem == null) {
-      return SizedBox.shrink();
-    }
-
     return Container(
       child: _generateSubWidget(model, solarSystem, true),
     );
@@ -48,10 +44,6 @@ class _State extends State<SolarSystemView> {
 
   Widget _generateSubWidget(
       SolarSystemViewModel model, StellarSystem stellarSystem, bool vertical) {
-    if (stellarSystem == null) {
-      return SizedBox.shrink();
-    }
-
     if (stellarSystem.centerObjects == null ||
         stellarSystem.centerObjects!.length < 1) {
       return SizedBox.shrink();

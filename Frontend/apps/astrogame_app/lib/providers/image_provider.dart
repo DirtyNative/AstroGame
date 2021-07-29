@@ -23,7 +23,7 @@ class AssetImageProvider {
     } else if (scope == ImageScope.species) {
       scopePath = 'species';
     } else if (scope == ImageScope.stellarObject) {
-      scopePath = 'stellarObjects';
+      scopePath = 'stellar_objects';
     } else {
       throw new UnimplementedError(
           'ImageScope ${scope} is not implemented yet');

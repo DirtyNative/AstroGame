@@ -16,9 +16,8 @@ import 'tech_tree_viewmodel.dart';
 
 class TechTreeView extends StatelessWidget {
   final Technology _technology;
-  final FinishedTechnology? _finishedTechnology;
 
-  TechTreeView(this._technology, this._finishedTechnology);
+  TechTreeView(this._technology);
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,7 @@ class TechTreeView extends StatelessWidget {
           ),
         ),
       ),
-      viewModelBuilder: () =>
-          ServiceLocator.get(param1: _technology, param2: _finishedTechnology),
+      viewModelBuilder: () => ServiceLocator.get(param1: _technology),
     );
   }
 

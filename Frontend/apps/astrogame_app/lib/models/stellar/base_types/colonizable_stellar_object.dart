@@ -11,7 +11,7 @@ abstract class ColonizableStellarObject extends StellarObject {
   //SingleObjectSystem parentSystem;
 
   @JsonKey()
-  late Guid colonizedStellarObjectId;
+  Guid? colonizedStellarObjectId;
 
   @JsonKey()
   late ColonizedStellarObject? colonizedStellarObject;

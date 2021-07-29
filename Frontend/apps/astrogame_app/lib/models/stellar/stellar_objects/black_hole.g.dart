@@ -19,8 +19,8 @@ BlackHole _$BlackHoleFromJson(Map<String, dynamic> json) {
     ..assetName = json['assetName'] as String
     ..coordinates =
         Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
-    ..resources = (json['resources'] as List<dynamic>)
-        .map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
+    ..resources = (json['resources'] as List<dynamic>?)
+        ?.map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
         .toList();
 }
 

@@ -19,6 +19,6 @@ namespace AstroGame.Shared.Models.Resources
 
         [JsonIgnore] public virtual StellarObject StellarObject { get; set; }
 
-        public virtual Resource Resource { get; set; }
+        [JsonIgnore] public virtual Resource Resource { get; set; }
     }
 }

@@ -8,12 +8,13 @@ import 'package:astrogame_app/models/technologies/technology.dart';
 import 'package:astrogame_app/models/technologies/technology_cost.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:math';
+import 'package:collection/collection.dart';
 
 @injectable
 class ResourceHelper {
   bool hasStoredResourcesToBuild(
       List<StoredResource> resources, Technology technology, int level) {
-    if (resources == null || resources.length == 0) {
+    if (resources.length == 0) {
       return false;
     }
 
@@ -33,7 +34,7 @@ class ResourceHelper {
         return false;
       }
 
-      var storedResource = resources.firstWhere(
+      var storedResource = resources.firstWhereOrNull(
           (element) => element.resourceId == buildingCost.resourceId);
 
       if (storedResource == null) {
@@ -50,7 +51,7 @@ class ResourceHelper {
 
   bool hasStoredResourcesToStudy(
       List<StoredResource> resources, Research research, int level) {
-    if (resources == null || resources.length == 0) {
+    if (resources.length == 0) {
       return false;
     }
 
@@ -70,7 +71,7 @@ class ResourceHelper {
         return false;
       }
 
-      var storedResource = resources.firstWhere(
+      var storedResource = resources.firstWhereOrNull(
           (element) => element.resourceId == researchCost.resourceId);
 
       if (storedResource == null) {

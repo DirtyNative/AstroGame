@@ -1,54 +1,31 @@
-import 'package:astrogame_app/configurations/service_locator.dart';
-import 'package:astrogame_app/models/researches/research.dart';
 import 'package:astrogame_app/themes/astrogame_colors.dart';
 import 'package:astrogame_app/views/researches/researches_viewmodel.dart';
-import 'package:astrogame_app/views/researches/widgets/research_view.dart';
-import 'package:astrogame_app/widgets/scaffold_base.dart';
+import 'package:astrogame_app/views/technologies/technologies_view.dart';
+import 'package:astrogame_app/views/technologies/technologies_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:stacked/stacked.dart';
 
-class ResearchesView extends StatelessWidget {
-  final PageController controller = PageController();
-
+class ResearchesView extends TechnologiesView<ResearchesViewModel> {
   @override
-  Widget build(BuildContext context) {
-    return ViewModelBuilder<ResearchesViewModel>.reactive(
-      builder: (context, model, _) => ScaffoldBase(
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
-              child: _tabWidget(model),
-            ),
-            Divider(color: Colors.white),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0),
-                child: PageView(
-                  controller: controller,
-                  onPageChanged: (index) => model.selectedTabIndex = index,
-                  children: [
-                    _listView(model.physicsResearches),
-                    _listView(model.engineeringResearches),
-                    _listView(model.biologyResearches),
-                    _listView(model.socialResearches),
-                    _listView(model.astronomyResearches),
-                    _listView(model.industryResearches),
-                    _listView(model.militaryResearches),
-                    _listView(model.newWorldsResearches),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      viewModelBuilder: () => ServiceLocator.get(),
+  Widget pageView(TechnologiesViewModel model) {
+    return PageView(
+      controller: controller,
+      onPageChanged: (index) => model.selectedTabIndex = index,
+      children: [
+        listView((model as ResearchesViewModel).physicsResearches),
+        listView(model.engineeringResearches),
+        listView(model.biologyResearches),
+        listView(model.socialResearches),
+        listView(model.astronomyResearches),
+        listView(model.industryResearches),
+        listView(model.militaryResearches),
+        listView(model.newWorldsResearches),
+      ],
     );
   }
 
-  Widget _tabWidget(ResearchesViewModel model) {
+  @override
+  Widget tabWidget(TechnologiesViewModel model) {
     return Container(
       child: GNav(
         selectedIndex: model.selectedTabIndex,
@@ -100,16 +77,6 @@ class ResearchesView extends StatelessWidget {
           model.selectedTabIndex = index;
           controller.jumpToPage(index);
         },
-      ),
-    );
-  }
-
-  Widget _listView(List<Research> researches) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: ListView.builder(
-        itemCount: researches.length,
-        itemBuilder: (context, index) => ResearchView(researches[index]),
       ),
     );
   }

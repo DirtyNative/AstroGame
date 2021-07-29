@@ -7,10 +7,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'black_hole.g.dart';
 
 @GuidConverter()
+@NullableGuidConverter()
 @JsonSerializable()
 class BlackHole extends StellarObject {
   @JsonKey()
-  List<StellarObjectResource> resources = [];
+  List<StellarObjectResource>? resources = [];
 
   BlackHole();
 

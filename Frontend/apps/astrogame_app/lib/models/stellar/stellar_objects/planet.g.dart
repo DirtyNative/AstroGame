@@ -19,7 +19,7 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) {
     ..assetName = json['assetName'] as String
     ..coordinates =
         Coordinates.fromJson(json['coordinates'] as Map<String, dynamic>)
-    ..colonizedStellarObjectId = const GuidConverter()
+    ..colonizedStellarObjectId = const NullableGuidConverter()
         .fromJson(json['colonizedStellarObjectId'] as String)
     ..colonizedStellarObject = json['colonizedStellarObject'] == null
         ? null
@@ -28,8 +28,8 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) {
     ..planetType = _$enumDecode(_$PlanetTypeEnumMap, json['planetType'])
     ..scale = (json['scale'] as num).toDouble()
     ..axialTilt = (json['axialTilt'] as num).toDouble()
-    ..resources = (json['resources'] as List<dynamic>)
-        .map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
+    ..resources = (json['resources'] as List<dynamic>?)
+        ?.map((e) => StellarObjectResource.fromJson(e as Map<String, dynamic>))
         .toList()
     ..hasHabitableAtmosphere = json['hasHabitableAtmosphere'] as bool;
 }
@@ -43,8 +43,8 @@ Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
       'averageTemperature': instance.averageTemperature,
       'assetName': instance.assetName,
       'coordinates': instance.coordinates,
-      'colonizedStellarObjectId':
-          const GuidConverter().toJson(instance.colonizedStellarObjectId),
+      'colonizedStellarObjectId': const NullableGuidConverter()
+          .toJson(instance.colonizedStellarObjectId),
       'colonizedStellarObject': instance.colonizedStellarObject,
       'planetType': _$PlanetTypeEnumMap[instance.planetType],
       'scale': instance.scale,

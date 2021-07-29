@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'moon.g.dart';
 
 @GuidConverter()
+@NullableGuidConverter()
 @JsonSerializable()
 class Moon extends StellarObject {
   @JsonKey()
@@ -16,7 +17,7 @@ class Moon extends StellarObject {
   late double axialTilt;
 
   @JsonKey()
-  List<StellarObjectResource> resources = [];
+  List<StellarObjectResource>? resources = [];
 
   @JsonKey()
   late int order;

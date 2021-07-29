@@ -34,7 +34,7 @@ class ConstructedBuildingsProvider {
   Future<FinishedTechnology?> getByBuildingAsync(Guid technologyId) async {
     var buildings = await get();
 
-    if (buildings == null || buildings.length == 0) {
+    if (buildings.length == 0) {
       return null;
     }
 

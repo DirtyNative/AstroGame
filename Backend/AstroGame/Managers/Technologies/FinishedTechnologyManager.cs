@@ -41,7 +41,7 @@ namespace AstroGame.Api.Managers.Technologies
 
         public async Task<FinishedTechnology> GetByPlayerAndResearchAsync(Guid playerId, Guid researchId)
         {
-            return await _playerDependentFinishedTechnologyRepository.GetByResearchAndPlayerAsync(researchId, playerId);
+            return await _playerDependentFinishedTechnologyRepository.GetByTechnologyAndPlayerAsync(researchId, playerId);
         }
     }
 }

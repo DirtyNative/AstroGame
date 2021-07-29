@@ -1,6 +1,7 @@
 import 'package:astrogame_app/communications/repositories/stellar_object_repository.dart';
 import 'package:astrogame_app/models/buildings/building_construction.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
+import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +12,14 @@ class ConstructionViewModel extends FutureViewModel {
   StellarObjectRepository _stellarObjectRepository;
   SelectedColonizedStellarObjectProvider
       _selectedColonizedStellarObjectProvider;
+  AssetImageProvider _assetImageProvider;
+
+  ConstructionViewModel(
+    this._stellarObjectRepository,
+    this._selectedColonizedStellarObjectProvider,
+    this._assetImageProvider,
+    @factoryParam this._buildingConstruction,
+  ) : assert(_buildingConstruction != null);
 
   BuildingConstruction? _buildingConstruction;
   BuildingConstruction? get buildingConstruction => _buildingConstruction;
@@ -26,27 +35,16 @@ class ConstructionViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  ConstructionViewModel(
-    this._stellarObjectRepository,
-    this._selectedColonizedStellarObjectProvider,
-    @factoryParam this._buildingConstruction,
-  ) : assert(_buildingConstruction != null);
+  late ImageProvider _stellarObjectImage;
+  ImageProvider get stellarObjectImage => _stellarObjectImage;
+  set stellarObjectImage(ImageProvider val) {
+    _stellarObjectImage = val;
+    notifyListeners();
+  }
 
-  Future<ImageProvider> getCurrentStellarObjectImageAsync() async {
-    var selectedStellarObject =
-        _selectedColonizedStellarObjectProvider.getSelectedObject();
-
-// TODO: Get this from Provider
-    var response = await _stellarObjectRepository.getImageAsync(
-      selectedStellarObject!.stellarObjectId,
-    );
-
-    if (response.hasError) {
-      throw Exception(
-          'Failed to load stellar object image $selectedStellarObject.stellarObjectId');
-    }
-
-    return response.data!;
+  Future<ImageProvider> _fetchStellarObjectImageAsync() async {
+    return await _assetImageProvider.get(
+        stellarObject.assetName, ImageScope.stellarObject);
   }
 
   Future<StellarObject> _fetchStellarObject() async {
@@ -66,5 +64,6 @@ class ConstructionViewModel extends FutureViewModel {
   @override
   Future futureToRun() async {
     stellarObject = await _fetchStellarObject();
+    stellarObjectImage = await _fetchStellarObjectImageAsync();
   }
 }

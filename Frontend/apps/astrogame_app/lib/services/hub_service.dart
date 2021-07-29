@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class HubService {
-  BuildingHub _buildingHub;
+  TechnologyHub _buildingHub;
 
   HubService(this._buildingHub);
 
