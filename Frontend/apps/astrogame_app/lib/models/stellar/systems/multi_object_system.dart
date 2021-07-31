@@ -10,6 +10,7 @@ part 'multi_object_system.g.dart';
 
 @StellarObjectConverter()
 @StellarSystemConverter()
+@NullableStellarSystemConverter()
 @GuidConverter()
 @JsonSerializable()
 class MultiObjectSystem extends StellarSystem {
@@ -17,7 +18,7 @@ class MultiObjectSystem extends StellarSystem {
   late Guid parentId;
 
   @JsonKey()
-  late StellarSystem parent;
+  StellarSystem? parent;
 
   @JsonKey()
   late int order;

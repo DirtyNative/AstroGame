@@ -25,3 +25,30 @@ class StellarSystemConverter
     throw UnimplementedError();
   }
 }
+
+class NullableStellarSystemConverter
+    implements JsonConverter<StellarSystem?, Map<String, dynamic>?> {
+  const NullableStellarSystemConverter();
+
+  @override
+  fromJson(json) {
+    if (json == null) {
+      return null;
+    }
+
+    var type = json.entries.firstWhere((element) => element.key == '\$type');
+
+    if (type.value == 'MultiObjectSystem') {
+      return MultiObjectSystem.fromJson(json);
+    } else if (type.value == 'SolarSystem') {
+      return SolarSystem.fromJson(json);
+    }
+
+    throw new UnimplementedError('Stellar System is not yet implemented');
+  }
+
+  @override
+  toJson(object) {
+    throw UnimplementedError();
+  }
+}
