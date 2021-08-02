@@ -1,14 +1,15 @@
 ﻿using AstroGame.Shared.Models.Resources;
 using System;
 using System.Collections.Generic;
+using AstroGame.Shared.Models.Technologies;
+using Newtonsoft.Json;
 
 namespace AstroGame.Shared.Models.Ships
 {
-    public class Ship
+    public class Ship : Technology, IProducibleTechnology
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+       
+        public ShipType ShipType { get; set; }
 
         public uint StructuralIntegrity { get; set; }
         public uint ShieldPower { get; set; }
@@ -25,10 +26,11 @@ namespace AstroGame.Shared.Models.Ships
         /// The ships speed in interstellar space
         /// </summary>
         public uint InterstellarSpeed { get; set; }
+
         public Guid FuelId { get; set; }
         public uint FuelConsumption { get; set; }
-        
+
         public List<ShipConstructionCost> ConstructionCosts { get; set; }
-        public virtual Resource Fuel { get; set; }
+        [JsonIgnore] public virtual Resource Fuel { get; set; }
     }
 }

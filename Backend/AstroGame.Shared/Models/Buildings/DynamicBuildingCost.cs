@@ -1,5 +1,4 @@
-﻿using System;
-using AstroGame.Shared.Models.Technologies;
+﻿using AstroGame.Shared.Models.Technologies;
 
 namespace AstroGame.Shared.Models.Buildings
 {
