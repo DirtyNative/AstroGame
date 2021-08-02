@@ -25,4 +25,9 @@ abstract class TechnologyApi {
   Future<bool> hasConditionsFulfilledAsync(
     @Path('technologyId') Guid technologyId,
   );
+
+  @POST('/upgrade/{technologyId}')
+  Future upgradeAsync(
+    @Path('technologyId') Guid technologyId,
+  );
 }

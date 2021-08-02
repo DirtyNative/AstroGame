@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 
 enum ImageScope {

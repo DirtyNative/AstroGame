@@ -57,16 +57,17 @@ namespace AstroGame.Storage.Database
         public DbSet<Building> Buildings { get; set; }
         public DbSet<LevelableBuilding> LevelableBuildings { get; set; }
         public DbSet<FixedBuilding> FixedBuildings { get; set; }
-        public DbSet<BuildingChain> BuildingChains { get; set; }
 
         public DbSet<Research> Researches { get; set; }
-        public DbSet<ResearchStudy> ResearchStudies { get; set; }
+        public DbSet<TechnologyUpgrade> TechnologyUpgrades { get; set; }
+        public DbSet<PlayerDependentTechnologyUpgrade> PlayerDependentTechnologyUpgrades { get; set; }
+        public DbSet<StellarObjectDependentTechnologyUpgrade> StellarObjectDependentTechnologyUpgrades { get; set; }
 
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<FinishedTechnology> FinishedTechnologies { get; set; }
         public DbSet<PlayerDependentFinishedTechnology> PlayerDependentFinishedTechnologies { get; set; }
         public DbSet<StellarObjectDependentFinishedTechnology> StellarObjectDependentFinishedTechnologies { get; set; }
-       
+
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<LevelableCondition> LevelableConditions { get; set; }
         public DbSet<LevelableCondition> LevelableResearchConditions { get; set; }

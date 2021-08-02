@@ -1,6 +1,5 @@
 import 'package:astrogame_app/communications/repositories/technology_repository.dart';
 import 'package:astrogame_app/models/common/guid.dart';
-
 import 'package:flutter_memory_cache/flutter_memory_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
@@ -22,11 +21,19 @@ class FulfilledConditionsProvider {
         return values;
       }
 
-      var response =
-          await _technologyRepository.hasConditionsFulfilledAsync(technologyId);
-
-      _memoryCache.put(technologyId.value, response.data);
-      return response.data ?? false;
+      return updateAsync(technologyId);
     });
+  }
+
+  Future<bool> updateAsync(Guid technologyId) async {
+    var response =
+        await _technologyRepository.hasConditionsFulfilledAsync(technologyId);
+
+    _memoryCache.put(technologyId.value, response.data);
+    return response.data ?? false;
+  }
+
+  void reset() {
+    _memoryCache = new MemoryCache(ttl: 60 * 60);
   }
 }

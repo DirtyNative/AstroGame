@@ -1,5 +1,5 @@
 import 'package:astrogame_app/configurations/service_locator.dart';
-import 'package:astrogame_app/models/buildings/building_construction.dart';
+import 'package:astrogame_app/models/technologies/stellar_object_dependent_technology_upgrade.dart';
 import 'package:astrogame_app/views/home/widgets/construction_placeholder_view.dart';
 import 'package:astrogame_app/views/home/widgets/construction_viewmodel.dart';
 import 'package:duration/duration.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class ConstructionView extends StatelessWidget {
-  final BuildingConstruction _construction;
+  final StellarObjectDependentTechnologyUpgrade _construction;
 
   ConstructionView(this._construction);
 

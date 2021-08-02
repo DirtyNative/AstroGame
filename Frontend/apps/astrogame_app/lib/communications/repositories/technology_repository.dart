@@ -57,4 +57,16 @@ class TechnologyRepository {
       return ServerResponseT()..error = ServerError.withError(error);
     }
   }
+
+  Future<ServerResponse> upgradeAsync(
+    Guid technologyId,
+  ) async {
+    try {
+      _logger.d('Upgrading technology');
+      await _technologyApi.upgradeAsync(technologyId);
+      return ServerResponse();
+    } on DioError catch (error) {
+      return ServerResponse()..error = ServerError.withError(error);
+    }
+  }
 }

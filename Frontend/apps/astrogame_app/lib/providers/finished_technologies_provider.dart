@@ -7,13 +7,13 @@ import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart';
 
 @singleton
-class ConstructedBuildingsProvider {
+class FinishedTechnologiesProvider {
   MemoryCache _memoryCache = MemoryCache();
   Lock _lock = new Lock();
 
   FinishedTechnologyRepository _finishedTechnologyRepository;
 
-  ConstructedBuildingsProvider(this._finishedTechnologyRepository);
+  FinishedTechnologiesProvider(this._finishedTechnologyRepository);
 
   Future<List<FinishedTechnology>> get() async {
     return await _lock.synchronized(() async {
@@ -31,19 +31,19 @@ class ConstructedBuildingsProvider {
     });
   }
 
-  Future<FinishedTechnology?> getByBuildingAsync(Guid technologyId) async {
-    var buildings = await get();
+  Future<FinishedTechnology?> getByTechnologyAsync(Guid technologyId) async {
+    var technologies = await get();
 
-    if (buildings.length == 0) {
+    if (technologies.length == 0) {
       return null;
     }
 
-    if (buildings.any((element) => element.technologyId == technologyId) ==
+    if (technologies.any((element) => element.technologyId == technologyId) ==
         false) {
       return null;
     }
 
-    return buildings
+    return technologies
         .firstWhere((element) => element.technologyId == technologyId);
   }
 

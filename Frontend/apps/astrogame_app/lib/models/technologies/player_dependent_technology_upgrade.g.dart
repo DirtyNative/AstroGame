@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'research_study.dart';
+part of 'player_dependent_technology_upgrade.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ResearchStudy _$ResearchStudyFromJson(Map<String, dynamic> json) {
-  return ResearchStudy()
+PlayerDependentTechnologyUpgrade _$PlayerDependentTechnologyUpgradeFromJson(
+    Map<String, dynamic> json) {
+  return PlayerDependentTechnologyUpgrade()
     ..id = const GuidConverter().fromJson(json['id'] as String)
     ..technologyId =
         const GuidConverter().fromJson(json['technologyId'] as String)
@@ -17,7 +18,8 @@ ResearchStudy _$ResearchStudyFromJson(Map<String, dynamic> json) {
     ..playerId = const GuidConverter().fromJson(json['playerId'] as String);
 }
 
-Map<String, dynamic> _$ResearchStudyToJson(ResearchStudy instance) =>
+Map<String, dynamic> _$PlayerDependentTechnologyUpgradeToJson(
+        PlayerDependentTechnologyUpgrade instance) =>
     <String, dynamic>{
       'id': const GuidConverter().toJson(instance.id),
       'technologyId': const GuidConverter().toJson(instance.technologyId),

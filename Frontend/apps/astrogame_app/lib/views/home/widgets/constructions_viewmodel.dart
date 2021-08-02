@@ -1,32 +1,36 @@
 import 'dart:async';
-import 'package:astrogame_app/events/server_events/buildings/building_construction_finished_event.dart';
-import 'package:astrogame_app/models/buildings/building_chain.dart';
-import 'package:astrogame_app/providers/building_chain_provider.dart';
+import 'package:astrogame_app/events/server_events/buildings/technology_upgrade_finished_event.dart';
+import 'package:astrogame_app/events/server_events/buildings/technology_upgrade_started_event.dart';
+import 'package:astrogame_app/models/technologies/technology_upgrade.dart';
+import 'package:astrogame_app/providers/technology_upgrades_provider.dart';
 import 'package:astrogame_app/services/event_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
 class ConstructionsViewModel extends FutureViewModel {
-  BuildingChainProvider _buildingChainProvider;
+  TechnologyUpgradesProvider _technologyUpgradesProvider;
 
   EventService _eventService;
 
   late Timer _timer;
 
-  BuildingChain? _buildingChain;
-  BuildingChain? get buildingChain => _buildingChain;
-  set buildingChain(BuildingChain? val) {
-    _buildingChain = val;
+  late List<TechnologyUpgrade> _technologyUpgrades = [];
+  List<TechnologyUpgrade> get technologyUpgrades => _technologyUpgrades;
+  set technologyUpgrades(List<TechnologyUpgrade> val) {
+    _technologyUpgrades = val;
     notifyListeners();
   }
 
   ConstructionsViewModel(
-    this._buildingChainProvider,
+    this._technologyUpgradesProvider,
     this._eventService,
   ) {
-    _eventService.on<BuildingConstructionFinishedEvent>().listen((event) {
-      notifyListeners();
+    _eventService.on<TechnologyUpgradeStartedEvent>().listen((event) async {
+      await futureToRun();
+    });
+    _eventService.on<TechnologyUpgradeFinishedEvent>().listen((event) async {
+      await futureToRun();
     });
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -34,18 +38,18 @@ class ConstructionsViewModel extends FutureViewModel {
     });
   }
 
-  Future<BuildingChain?> fetchBuildingChain() async {
-    return await _buildingChainProvider.get();
+  @override
+  Future futureToRun() async {
+    technologyUpgrades = await fetchTechnologyUpgradesAsync();
+  }
+
+  Future<List<TechnologyUpgrade>> fetchTechnologyUpgradesAsync() async {
+    return await _technologyUpgradesProvider.get();
   }
 
   @override
   void dispose() {
     _timer.cancel();
     super.dispose();
-  }
-
-  @override
-  Future futureToRun() async {
-    buildingChain = await fetchBuildingChain();
   }
 }

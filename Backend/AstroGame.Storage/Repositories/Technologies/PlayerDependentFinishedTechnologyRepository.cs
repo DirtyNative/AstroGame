@@ -1,12 +1,11 @@
 ﻿using AspNetCore.ServiceRegistration.Dynamic;
-using AstroGame.Shared.Models.Technologies;
+using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 using AstroGame.Storage.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AstroGame.Shared.Models.Technologies.FinishedTechnologies;
 
 namespace AstroGame.Storage.Repositories.Technologies
 {
@@ -32,6 +31,19 @@ namespace AstroGame.Storage.Repositories.Technologies
             return await _context.PlayerDependentFinishedTechnologies
                 .FirstOrDefaultAsync(e => e.TechnologyId == technologyId
                                           && e.PlayerId == playerId);
+        }
+
+        public async Task<Guid> AddAsync(PlayerDependentFinishedTechnology finishedTechnology)
+        {
+            await _context.PlayerDependentFinishedTechnologies.AddAsync(finishedTechnology);
+            await SaveChangesAsync();
+
+            return finishedTechnology.Id;
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

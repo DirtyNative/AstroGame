@@ -10,10 +10,10 @@ namespace AstroGame.Api.Hubs
     [SingletonService]
     public class BuildingHub : Hub
     {
-        public const string BuildingConstructionStartedKey =
-            "BuildingConstructionStarted";
-        public const string BuildingConstructionFinishedKey =
-            "BuildingConstructionStarted";
+        public const string TechnologyUpgradeStartedKey =
+            "TechnologyUpgradeStarted";
+        public const string TechnologyUpgradeFinishedKey =
+            "TechnologyUpgradeFinished";
 
         public override Task OnConnectedAsync()
         {

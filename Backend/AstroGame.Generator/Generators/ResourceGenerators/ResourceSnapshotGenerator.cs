@@ -101,6 +101,11 @@ namespace AstroGame.Generator.Generators.ResourceGenerators
             {
                 var building = await _buildingRepository.GetAsync(builtBuilding.TechnologyId);
 
+                if (building == null)
+                {
+                    continue;
+                }
+
                 CalculateBuiltBuildingsProduction(snapshot, builtBuilding, building, passedTime);
             }
 

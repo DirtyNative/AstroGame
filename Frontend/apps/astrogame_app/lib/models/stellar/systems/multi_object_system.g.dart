@@ -20,7 +20,7 @@ MultiObjectSystem _$MultiObjectSystemFromJson(Map<String, dynamic> json) {
         .toList()
     ..parentId = const GuidConverter().fromJson(json['parentId'] as String)
     ..parent = const NullableStellarSystemConverter()
-        .fromJson(json['parent'] as Map<String, dynamic>)
+        .fromJson(json['parent'] as Map<String, dynamic>?)
     ..order = json['order'] as int;
 }
 

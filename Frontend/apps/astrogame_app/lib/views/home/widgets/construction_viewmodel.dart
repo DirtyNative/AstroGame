@@ -1,5 +1,5 @@
 import 'package:astrogame_app/communications/repositories/stellar_object_repository.dart';
-import 'package:astrogame_app/models/buildings/building_construction.dart';
+import 'package:astrogame_app/models/technologies/stellar_object_dependent_technology_upgrade.dart';
 import 'package:astrogame_app/models/stellar/base_types/stellar_object.dart';
 import 'package:astrogame_app/providers/image_provider.dart';
 import 'package:astrogame_app/providers/selected_colonized_stellar_object_provider.dart';
@@ -21,9 +21,10 @@ class ConstructionViewModel extends FutureViewModel {
     @factoryParam this._buildingConstruction,
   ) : assert(_buildingConstruction != null);
 
-  BuildingConstruction? _buildingConstruction;
-  BuildingConstruction? get buildingConstruction => _buildingConstruction;
-  set buildingConstruction(BuildingConstruction? val) {
+  StellarObjectDependentTechnologyUpgrade? _buildingConstruction;
+  StellarObjectDependentTechnologyUpgrade? get buildingConstruction =>
+      _buildingConstruction;
+  set buildingConstruction(StellarObjectDependentTechnologyUpgrade? val) {
     _buildingConstruction = val;
     notifyListeners();
   }

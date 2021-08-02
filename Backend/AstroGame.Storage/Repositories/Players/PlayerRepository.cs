@@ -37,9 +37,7 @@ namespace AstroGame.Storage.Repositories.Players
 
                 // Colonies
                 .Include(e => e.ColonizedObjects)
-
-                // BuildingChain
-                .Include(e => e.BuildingChain)
+                
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
@@ -60,9 +58,7 @@ namespace AstroGame.Storage.Repositories.Players
 
                 // Colonies
                 .Include(e => e.ColonizedObjects)
-
-                // BuildingChain
-                .Include(e => e.BuildingChain)
+                
                 .ToListAsync();
         }
 
@@ -83,10 +79,7 @@ namespace AstroGame.Storage.Repositories.Players
 
                 // Colonies
                 .Include(e => e.ColonizedObjects)
-
-                // BuildingChain
-                .Include(e => e.BuildingChain)
-
+                
                 .FirstOrDefaultAsync(e => e.Credentials.Email == email);
         }
 

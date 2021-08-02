@@ -21,7 +21,7 @@ namespace AstroGame.Api.Managers.Technologies
     {
         private readonly IResourceCalculator _resourceCalculator;
 
-        private readonly ConstructionService _constructionService;
+        private readonly UpgradeService _upgradeService;
 
         private readonly TechnologyRepository _technologyRepository;
         private readonly BuildingRepository _buildingRepository;
@@ -38,7 +38,7 @@ namespace AstroGame.Api.Managers.Technologies
             BuildingRepository buildingRepository, PlayerRepository playerRepository,
             StellarObjectDependentFinishedTechnologyRepository stellarObjectDependentFinishedTechnologyRepository,
             PlayerDependentFinishedTechnologyRepository playerDependentFinishedTechnologyRepository,
-            StellarObjectRepository stellarObjectRepository, ColonizedStellarObjectRepository colonizedStellarObjectRepository, ConstructionService constructionService)
+            StellarObjectRepository stellarObjectRepository, ColonizedStellarObjectRepository colonizedStellarObjectRepository, UpgradeService upgradeService)
         {
             _technologyRepository = technologyRepository;
             _resourceCalculator = resourceCalculator;
@@ -48,7 +48,7 @@ namespace AstroGame.Api.Managers.Technologies
             _playerDependentFinishedTechnologyRepository = playerDependentFinishedTechnologyRepository;
             _stellarObjectRepository = stellarObjectRepository;
             _colonizedStellarObjectRepository = colonizedStellarObjectRepository;
-            _constructionService = constructionService;
+            _upgradeService = upgradeService;
         }
 
         public async Task<List<Technology>> GetAsync()
@@ -184,7 +184,7 @@ namespace AstroGame.Api.Managers.Technologies
 
             FinishedTechnology finishedTechnology = technology switch
             {
-                IStellarObjectDependent => await _stellarObjectDependentFinishedTechnologyRepository.GetByBuildingAsync(
+                IStellarObjectDependent => await _stellarObjectDependentFinishedTechnologyRepository.GetByTechnologyAsync(
                     stellarObjectId, technologyId),
                 IPlayerDependent => await _playerDependentFinishedTechnologyRepository.GetByTechnologyAndPlayerAsync(
                     technologyId, playerId),
@@ -197,15 +197,16 @@ namespace AstroGame.Api.Managers.Technologies
                 throw new ConflictException($"Technology is already upgraded");
             }
 
+            // Get the stellar object
+            var stellarObject = await _stellarObjectRepository.GetAsync(stellarObjectId);
+            if (stellarObject == null)
+            {
+                throw new NotFoundException($"StellarObject {stellarObjectId} not found");
+            }
+
+            // Do some extra checks if the technology is stellar object dependent
             if (technology is IStellarObjectDependent)
             {
-                // Get the stellar object
-                var stellarObject = await _stellarObjectRepository.GetAsync(stellarObjectId);
-                if (stellarObject == null)
-                {
-                    throw new NotFoundException($"StellarObject {stellarObjectId} not found");
-                }
-
                 // Get the colonized stellar object
                 var colonizedStellarObject =
                     await _colonizedStellarObjectRepository.GetByStellarObjectAsync(stellarObjectId);
@@ -221,11 +222,9 @@ namespace AstroGame.Api.Managers.Technologies
                 {
                     throw new ForbiddenException($"You cannot build on a StellarObject, which is not yours");
                 }
-
-                await _constructionService.BuildAsync(player, technology, stellarObject, finishedTechnology);
             }
 
-           
+            await _upgradeService.BuildAsync(player, technology, stellarObject, finishedTechnology);
         }
     }
 }

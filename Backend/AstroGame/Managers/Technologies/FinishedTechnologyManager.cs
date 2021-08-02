@@ -30,7 +30,7 @@ namespace AstroGame.Api.Managers.Technologies
 
         public async Task<FinishedTechnology> GetByStellarObjectAndTechnologyAsync(Guid stellarObjectId, Guid technologyId)
         {
-            return await _stellarObjectDependentFinishedTechnologyRepository.GetByBuildingAsync(stellarObjectId,
+            return await _stellarObjectDependentFinishedTechnologyRepository.GetByTechnologyAsync(stellarObjectId,
                 technologyId);
         }
 

@@ -75,16 +75,4 @@ class BuildingRepository {
       return ServerResponseT()..error = ServerError.withError(error);
     }
   }
-
-  Future<ServerResponse> buildAsync(
-    Guid buildingId,
-  ) async {
-    try {
-      _logger.d('Build building');
-      await _buildingApi.buildAsync(buildingId);
-      return ServerResponse();
-    } on DioError catch (error) {
-      return ServerResponse()..error = ServerError.withError(error);
-    }
-  }
 }

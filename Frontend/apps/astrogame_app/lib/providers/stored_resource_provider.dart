@@ -1,5 +1,3 @@
-import 'package:astrogame_app/events/server_events/buildings/building_construction_finished_event.dart';
-import 'package:astrogame_app/events/server_events/buildings/building_construction_started_event.dart';
 import 'package:astrogame_app/events/view_events/resources_updated_event.dart';
 import 'package:astrogame_app/models/resources/stored_resource.dart';
 import 'package:astrogame_app/providers/resource_snapshot_provider.dart';
@@ -36,7 +34,7 @@ class StoredResourceProvider {
     var currentStellarObjectId = selectedColonizedStellarObject.stellarObjectId;
 
     var snapshot =
-        await _resourceSnapshotProvider.getAsync(currentStellarObjectId);
+        await _resourceSnapshotProvider.updateAsync(currentStellarObjectId);
 
     _eventService.fire(new ResourcesUpdatedEvent());
 

@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'building_chain_api.dart';
+part of 'technology_upgrade_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-class _BuildingChainApi implements BuildingChainApi {
-  _BuildingChainApi(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://localhost:7555/api/v1/building-chain';
+class _TechnologyUpgradeApi implements TechnologyUpgradeApi {
+  _TechnologyUpgradeApi(this._dio, {this.baseUrl}) {
+    baseUrl ??= 'https://localhost:7555/api/v1/technology-upgrade';
   }
 
   final Dio _dio;
@@ -16,17 +16,20 @@ class _BuildingChainApi implements BuildingChainApi {
   String? baseUrl;
 
   @override
-  Future<BuildingChain> getByCurrentPlayerAsync() async {
+  Future<List<TechnologyUpgrade>> getAsync() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BuildingChain>(
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<TechnologyUpgrade>>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/current',
+                .compose(_dio.options, '/',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = BuildingChain.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) =>
+            TechnologyUpgrade.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

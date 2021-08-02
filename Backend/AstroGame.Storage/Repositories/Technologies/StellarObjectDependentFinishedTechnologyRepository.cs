@@ -36,7 +36,7 @@ namespace AstroGame.Storage.Repositories.Technologies
                 .ToListAsync();
         }
 
-        public async Task<StellarObjectDependentFinishedTechnology> GetByBuildingAsync(Guid stellarObjectId, Guid buildingId)
+        public async Task<StellarObjectDependentFinishedTechnology> GetByTechnologyAsync(Guid stellarObjectId, Guid technologyId)
         {
             return await _context.StellarObjectDependentFinishedTechnologies
                 .Include(e => e.ColonizedStellarObject)
@@ -46,7 +46,7 @@ namespace AstroGame.Storage.Repositories.Technologies
 
                 // Predict
                 .Where(e => e.ColonizedStellarObject.StellarObjectId == stellarObjectId
-                            && e.TechnologyId == buildingId)
+                            && e.TechnologyId == technologyId)
 
                 // Order
                 .OrderBy(e => e.Technology.Order)

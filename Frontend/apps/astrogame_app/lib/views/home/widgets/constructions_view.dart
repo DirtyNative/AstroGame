@@ -4,6 +4,7 @@ import 'package:astrogame_app/views/home/widgets/construction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'constructions_viewmodel.dart';
+import 'package:astrogame_app/models/technologies/stellar_object_dependent_technology_upgrade.dart';
 
 class ConstructionsView extends StatelessWidget {
   @override
@@ -24,10 +25,13 @@ class ConstructionsView extends StatelessWidget {
           ViewModelBuilder<ConstructionsViewModel>.reactive(
             builder: (context, model, _) => ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (context, index) => ConstructionView(
-                  model.buildingChain!.buildingUpgrades[index]),
+              itemBuilder: (context, index) => (model.technologyUpgrades[index]
+                      is StellarObjectDependentTechnologyUpgrade)
+                  ? ConstructionView(model.technologyUpgrades[index]
+                      as StellarObjectDependentTechnologyUpgrade)
+                  : SizedBox.shrink(),
               separatorBuilder: (context, index) => SizedBox(height: 8),
-              itemCount: model.buildingChain?.buildingUpgrades.length ?? 0,
+              itemCount: model.technologyUpgrades.length,
             ),
             viewModelBuilder: () => ServiceLocator.get(),
           ),

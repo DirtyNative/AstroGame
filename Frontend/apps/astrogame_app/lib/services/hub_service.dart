@@ -1,4 +1,4 @@
-import 'package:astrogame_app/communications/hubs/building_hub.dart';
+import 'package:astrogame_app/communications/hubs/technology_hub.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

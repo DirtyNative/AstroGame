@@ -31,6 +31,8 @@ abstract class HubBase {
         .build();
 
     await _connection?.start();
+
+    registerEvents(_connection!);
   }
 
   void registerEvents(HubConnection connection);

@@ -9,17 +9,17 @@ namespace AstroGame.Api.Controllers.Researches
     [ApiController]
     public class ResearchStudyController : ControllerBase
     {
-        private readonly ResearchStudyManager _researchStudyManager;
+        private readonly PlayerDependentTechnologyUpgradeManager _playerDependentTechnologyUpgradeManager;
 
-        public ResearchStudyController(ResearchStudyManager researchStudyManager)
+        public ResearchStudyController(PlayerDependentTechnologyUpgradeManager playerDependentTechnologyUpgradeManager)
         {
-            _researchStudyManager = researchStudyManager;
+            _playerDependentTechnologyUpgradeManager = playerDependentTechnologyUpgradeManager;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
-            var researchStudy = await _researchStudyManager.GetAsync(id);
+            var researchStudy = await _playerDependentTechnologyUpgradeManager.GetAsync(id);
 
             return Ok(researchStudy);
         }
@@ -27,7 +27,7 @@ namespace AstroGame.Api.Controllers.Researches
         [HttpGet("player/{playerId}")]
         public async Task<IActionResult> GetByPlayerAsync(Guid playerId)
         {
-            var researchStudy = await _researchStudyManager.GetByPlayerAsync(playerId);
+            var researchStudy = await _playerDependentTechnologyUpgradeManager.GetByPlayerAsync(playerId);
             return Ok(researchStudy);
         }
 
@@ -35,7 +35,7 @@ namespace AstroGame.Api.Controllers.Researches
         public async Task<IActionResult> GetByPlayerAsync()
         {
             var playerId = GetPlayerId();
-            var researchStudy = await _researchStudyManager.GetByPlayerAsync(playerId);
+            var researchStudy = await _playerDependentTechnologyUpgradeManager.GetByPlayerAsync(playerId);
             return Ok(researchStudy);
         }
     }
